@@ -1,12 +1,17 @@
 package com.novacart.store.config;
 
+import com.novacart.store.dto.ErrorResponse;
+import com.novacart.store.security.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import com.novacart.store.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -23,6 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import tools.jackson.databind.ObjectMapper;
 
 @Configuration
 public class SecurityConfig {
@@ -31,12 +37,29 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             JwtAuthenticationFilter jwtAuthenticationFilter,
-            AuthenticationProvider authenticationProvider
+            AuthenticationProvider authenticationProvider,
+            ObjectMapper objectMapper
     ) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, exception) -> writeSecurityError(
+                                objectMapper,
+                                response,
+                                request.getRequestURI(),
+                                HttpStatus.UNAUTHORIZED,
+                                "Authentication is required."
+                        ))
+                        .accessDeniedHandler((request, response, exception) -> writeSecurityError(
+                                objectMapper,
+                                response,
+                                request.getRequestURI(),
+                                HttpStatus.FORBIDDEN,
+                                "You do not have permission to perform this action."
+                        ))
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/admin/auth/login", "/api/public/**", "/actuator/health", "/actuator/info").permitAll()
@@ -89,5 +112,17 @@ public class SecurityConfig {
                 .map(String::trim)
                 .filter(origin -> !origin.isBlank())
                 .toList();
+    }
+
+    private void writeSecurityError(
+            ObjectMapper objectMapper,
+            HttpServletResponse response,
+            String path,
+            HttpStatus status,
+            String message
+    ) throws IOException {
+        response.setStatus(status.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        objectMapper.writeValue(response.getWriter(), ErrorResponse.of(message, status.value(), path));
     }
 }

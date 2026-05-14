@@ -1,9 +1,14 @@
 <template>
   <section class="admin-page">
-    <div class="admin-page-header">
-      <h1>Categories</h1>
-      <button class="secondary-button" type="button" @click="resetForm">New Category</button>
-    </div>
+    <PageHeader
+      eyebrow="Catalog"
+      title="Categories"
+      description="Keep category names, descriptions, and storefront visibility clear for customers."
+    >
+      <template #actions>
+        <button class="secondary-button" type="button" @click="resetForm">New Category</button>
+      </template>
+    </PageHeader>
     <div class="split-admin-layout">
       <form class="admin-form single-column" @submit.prevent="submitCategory">
         <h2>{{ editingId ? 'Edit Category' : 'New Category' }}</h2>
@@ -30,10 +35,14 @@
       </form>
 
       <div>
+        <label class="search-field category-search">
+          Search categories
+          <input v-model.trim="searchTerm" type="search" placeholder="Search by name or slug" />
+        </label>
         <LoadingState v-if="loading" message="Loading categories..." />
         <ErrorMessage v-else-if="listError" :message="listError" />
         <EmptyState
-          v-else-if="!categories.length"
+          v-else-if="!filteredCategories.length"
           title="No categories yet"
           message="Create categories to organize storefront products."
         />
@@ -48,16 +57,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="category in categories" :key="category.id">
+              <tr v-for="category in filteredCategories" :key="category.id">
                 <td>
                   <strong>{{ category.name }}</strong>
                   <span>{{ category.description || 'No description provided.' }}</span>
                 </td>
                 <td>{{ category.slug }}</td>
                 <td>
-                  <span class="status-pill" :class="{ muted: !category.active }">
-                    {{ category.active ? 'Active' : 'Inactive' }}
-                  </span>
+                  <StatusBadge :value="category.active ? 'active' : 'inactive'" :label="category.active ? 'Active' : 'Inactive'" />
                 </td>
                 <td>
                   <div class="table-actions">
@@ -71,11 +78,12 @@
         </div>
       </div>
     </div>
+    <ToastMessage :message="toastMessage" />
   </section>
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import {
   createAdminCategory,
   deleteAdminCategory,
@@ -86,6 +94,9 @@ import { getApiError } from '../../api/client'
 import EmptyState from '../../components/EmptyState.vue'
 import ErrorMessage from '../../components/ErrorMessage.vue'
 import LoadingState from '../../components/LoadingState.vue'
+import PageHeader from '../../components/PageHeader.vue'
+import StatusBadge from '../../components/StatusBadge.vue'
+import ToastMessage from '../../components/ToastMessage.vue'
 
 const categories = ref([])
 const loading = ref(true)
@@ -93,11 +104,21 @@ const submitting = ref(false)
 const listError = ref('')
 const formError = ref('')
 const editingId = ref(null)
+const searchTerm = ref('')
+const toastMessage = ref('')
+let toastTimer
 const form = reactive({
   name: '',
   slug: '',
   description: '',
   active: true
+})
+const filteredCategories = computed(() => {
+  const query = searchTerm.value.toLowerCase()
+  if (!query) return categories.value
+  return categories.value.filter((category) => {
+    return `${category.name} ${category.slug} ${category.description || ''}`.toLowerCase().includes(query)
+  })
 })
 
 onMounted(loadCategories)
@@ -149,6 +170,7 @@ async function submitCategory() {
     }
     resetForm()
     await loadCategories()
+    showToast('Category saved successfully.')
   } catch (requestError) {
     formError.value = getApiError(requestError, 'Category could not be saved.')
   } finally {
@@ -166,8 +188,17 @@ async function removeCategory(category) {
     if (editingId.value === category.id) {
       resetForm()
     }
+    showToast(`${category.name} deleted.`)
   } catch (requestError) {
     listError.value = getApiError(requestError, 'Category could not be deleted.')
   }
+}
+
+function showToast(message) {
+  toastMessage.value = message
+  window.clearTimeout(toastTimer)
+  toastTimer = window.setTimeout(() => {
+    toastMessage.value = ''
+  }, 2400)
 }
 </script>

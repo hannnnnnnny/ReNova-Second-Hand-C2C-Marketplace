@@ -1081,6 +1081,10 @@ textarea {
   margin-top: 1.5rem;
 }
 
+.category-search {
+  margin-bottom: 1rem;
+}
+
 .order-detail-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -1111,6 +1111,14 @@ textarea {
   max-width: 220px;
 }
 
+.inventory-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.9rem;
+  margin: -0.75rem 0 1.5rem;
+}
+
 .warning-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1132,6 +1140,23 @@ textarea {
 .warning-card strong {
   color: #8d4f19;
   font-size: 1.4rem;
+}
+
+.inventory-count {
+  display: grid;
+  justify-items: end;
+  min-width: 86px;
+}
+
+.inventory-count strong {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.inventory-count span {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-weight: 800;
 }
 
 .quantity-stepper {

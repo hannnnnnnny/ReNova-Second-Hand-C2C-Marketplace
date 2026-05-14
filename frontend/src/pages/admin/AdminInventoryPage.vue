@@ -1,11 +1,20 @@
 <template>
   <section class="admin-page">
-    <div class="admin-page-header">
-      <h1>Inventory</h1>
+    <PageHeader
+      eyebrow="Inventory"
+      title="Stock Watch"
+      description="Review products that need replenishment before customers hit checkout limits."
+    >
+      <template #actions>
+        <RouterLink class="secondary-button" to="/admin/products">Manage Products</RouterLink>
+      </template>
+    </PageHeader>
+    <div class="inventory-controls">
       <label class="threshold-control">
         Low-stock threshold
         <input v-model.number="threshold" min="0" type="number" @change="loadWarnings" />
       </label>
+      <button class="secondary-button" type="button" @click="loadWarnings">Refresh</button>
     </div>
     <LoadingState v-if="loading" message="Loading inventory warnings..." />
     <ErrorMessage v-else-if="error" :message="error" />
@@ -19,9 +28,12 @@
         <div>
           <p class="eyebrow">{{ warning.categoryName }}</p>
           <h2>{{ warning.productName }}</h2>
-          <p>{{ warning.active ? 'Active product' : 'Inactive product' }}</p>
+          <StatusBadge :value="warning.active ? 'active' : 'inactive'" :label="warning.active ? 'Active product' : 'Inactive product'" />
         </div>
-        <strong>{{ warning.stockQuantity }} left</strong>
+        <div class="inventory-count">
+          <strong>{{ warning.stockQuantity }}</strong>
+          <span>{{ warning.stockQuantity === 1 ? 'unit left' : 'units left' }}</span>
+        </div>
       </article>
     </div>
   </section>
@@ -34,6 +46,8 @@ import { getApiError } from '../../api/client'
 import EmptyState from '../../components/EmptyState.vue'
 import ErrorMessage from '../../components/ErrorMessage.vue'
 import LoadingState from '../../components/LoadingState.vue'
+import PageHeader from '../../components/PageHeader.vue'
+import StatusBadge from '../../components/StatusBadge.vue'
 
 const threshold = ref(5)
 const warnings = ref([])

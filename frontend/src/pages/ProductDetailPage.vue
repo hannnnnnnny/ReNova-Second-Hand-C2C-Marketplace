@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { fetchProduct, fetchProducts } from '../api/catalog'
 import { getApiError } from '../api/client'
@@ -94,9 +94,20 @@ const stockLabel = computed(() => {
   return 'In stock'
 })
 
-onMounted(async () => {
+watch(
+  () => route.params.id,
+  (productId) => loadProduct(productId),
+  { immediate: true }
+)
+
+async function loadProduct(productId) {
+  loading.value = true
+  error.value = ''
+  quantity.value = 1
+  relatedProducts.value = []
+
   try {
-    product.value = await fetchProduct(route.params.id)
+    product.value = await fetchProduct(productId)
     const categoryProducts = await fetchProducts(product.value.category?.id)
     relatedProducts.value = categoryProducts
       .filter((entry) => entry.id !== product.value.id)
@@ -106,7 +117,7 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
-})
+}
 
 function addToCart() {
   cartStore.addItem(product.value, quantity.value)

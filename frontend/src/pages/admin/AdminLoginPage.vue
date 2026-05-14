@@ -13,7 +13,7 @@
         <p class="eyebrow">Secure Access</p>
         <h2>Sign in</h2>
       </div>
-      <ErrorMessage v-if="error" :message="error" />
+      <ErrorMessage v-if="noticeMessage" :message="noticeMessage" />
       <label>Email<input v-model.trim="form.email" required type="email" placeholder="admin@novacart.local" /></label>
       <label>
         Password
@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { ShieldCheck } from 'lucide-vue-next'
 import { useRoute, useRouter } from 'vue-router'
 import { loginAdmin } from '../../api/admin'
@@ -53,6 +53,13 @@ const submitting = ref(false)
 const error = ref('')
 const showPassword = ref(false)
 const form = reactive({ email: '', password: '' })
+const noticeMessage = computed(() => {
+  if (error.value) return error.value
+  if (route.query.session === 'expired') {
+    return 'Your session expired. Please sign in again.'
+  }
+  return ''
+})
 
 async function submitLogin() {
   error.value = ''

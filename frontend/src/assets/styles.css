@@ -1092,6 +1092,10 @@ textarea {
   margin-top: 1.5rem;
 }
 
+.order-detail-grid .summary-panel {
+  box-shadow: var(--shadow-sm);
+}
+
 .compact-table {
   min-width: 0;
 }

@@ -1,9 +1,14 @@
 <template>
   <section class="admin-page">
-    <div class="admin-page-header">
-      <h1>Order #{{ route.params.id }}</h1>
-      <RouterLink class="secondary-button" to="/admin/orders">Back to Orders</RouterLink>
-    </div>
+    <PageHeader
+      eyebrow="Fulfillment"
+      :title="`Order #${route.params.id}`"
+      description="Review customer information, order items, totals, and fulfillment status."
+    >
+      <template #actions>
+        <RouterLink class="secondary-button" to="/admin/orders">Back to Orders</RouterLink>
+      </template>
+    </PageHeader>
     <LoadingState v-if="loading" message="Loading order..." />
     <ErrorMessage v-else-if="error" :message="error" />
     <div v-else class="order-detail-grid">
@@ -16,16 +21,20 @@
         <p>{{ order.country }}</p>
       </section>
       <section class="summary-panel">
-        <h2>Status</h2>
+        <div class="admin-page-header">
+          <h2>Status</h2>
+          <StatusBadge :value="order.status" />
+        </div>
         <label>
           Order Status
-          <select v-model="selectedStatus" @change="saveStatus">
+          <select v-model="selectedStatus" :disabled="savingStatus" @change="saveStatus">
             <option v-for="status in statuses" :key="status" :value="status">
               {{ formatStatus(status) }}
             </option>
           </select>
         </label>
         <p class="muted">Placed {{ formatDate(order.createdAt) }}</p>
+        <p v-if="savingStatus" class="muted">Updating status...</p>
       </section>
       <section class="summary-panel wide-field">
         <h2>Items</h2>
@@ -50,6 +59,7 @@
         <p class="order-total">Order Total: {{ formatCurrency(order.totalAmount) }}</p>
       </section>
     </div>
+    <ToastMessage :message="toastMessage" />
   </section>
 </template>
 
@@ -60,6 +70,9 @@ import { fetchAdminOrder, updateOrderStatus } from '../../api/admin'
 import { getApiError } from '../../api/client'
 import ErrorMessage from '../../components/ErrorMessage.vue'
 import LoadingState from '../../components/LoadingState.vue'
+import PageHeader from '../../components/PageHeader.vue'
+import StatusBadge from '../../components/StatusBadge.vue'
+import ToastMessage from '../../components/ToastMessage.vue'
 import { formatCurrency, formatDate, formatStatus } from '../../utils/format'
 
 const route = useRoute()
@@ -68,6 +81,9 @@ const loading = ref(true)
 const error = ref('')
 const order = ref(null)
 const selectedStatus = ref('')
+const savingStatus = ref(false)
+const toastMessage = ref('')
+let toastTimer
 
 onMounted(loadOrder)
 
@@ -83,10 +99,22 @@ async function loadOrder() {
 }
 
 async function saveStatus() {
+  savingStatus.value = true
   try {
     order.value = await updateOrderStatus(route.params.id, selectedStatus.value)
+    showToast('Order status updated.')
   } catch (requestError) {
     error.value = getApiError(requestError, 'Order status could not be updated.')
+  } finally {
+    savingStatus.value = false
   }
+}
+
+function showToast(message) {
+  toastMessage.value = message
+  window.clearTimeout(toastTimer)
+  toastTimer = window.setTimeout(() => {
+    toastMessage.value = ''
+  }, 2400)
 }
 </script>

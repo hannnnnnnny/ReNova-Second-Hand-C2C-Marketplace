@@ -56,6 +56,12 @@ onMounted(() => {
 
 async function submitOrder() {
   error.value = ''
+  const hasInvalidQuantity = cartStore.items.some((item) => item.quantity > item.stockQuantity)
+  if (hasInvalidQuantity) {
+    error.value = 'Adjust cart quantities before checkout.'
+    return
+  }
+
   submitting.value = true
   try {
     const order = await createOrder({

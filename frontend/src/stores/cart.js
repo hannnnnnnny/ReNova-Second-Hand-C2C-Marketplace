@@ -22,9 +22,11 @@ export const useCartStore = defineStore('cart', {
       }
     },
     addItem(product, quantity = 1) {
+      if (!product || product.stockQuantity < 1) return
+
       const existingItem = this.items.find((item) => item.productId === product.id)
       if (existingItem) {
-        existingItem.quantity += quantity
+        existingItem.quantity = Math.min(existingItem.quantity + quantity, product.stockQuantity)
       } else {
         this.items.push({
           productId: product.id,
@@ -38,14 +40,14 @@ export const useCartStore = defineStore('cart', {
       this.persist()
     },
     updateQuantity(productId, quantity) {
-      if (quantity < 1) {
+      if (!Number.isFinite(quantity) || quantity < 1) {
         this.removeItem(productId)
         return
       }
 
       const item = this.items.find((entry) => entry.productId === productId)
       if (item) {
-        item.quantity = quantity
+        item.quantity = Math.min(quantity, item.stockQuantity)
         this.persist()
       }
     },

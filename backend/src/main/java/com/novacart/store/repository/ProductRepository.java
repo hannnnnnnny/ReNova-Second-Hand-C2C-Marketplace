@@ -22,6 +22,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByActiveTrueAndCategoryIdOrderByNameAsc(Long categoryId);
 
     @EntityGraph(attributePaths = "category")
+    List<Product> findAllByStockQuantityLessThanEqualOrderByStockQuantityAsc(int threshold);
+
+    @EntityGraph(attributePaths = "category")
     Optional<Product> findByIdAndActiveTrue(Long id);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
@@ -35,4 +38,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     boolean existsBySlugAndIdNot(String slug, Long id);
 
     boolean existsByCategoryId(Long categoryId);
+
+    long countByActiveTrue();
+
+    long countByStockQuantityLessThanEqual(int threshold);
 }

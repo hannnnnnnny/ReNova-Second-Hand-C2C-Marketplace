@@ -608,6 +608,67 @@ nav a.router-link-active {
   gap: 1rem;
 }
 
+.checkout-progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: -0.75rem 0 1.5rem;
+  list-style: none;
+}
+
+.checkout-progress li {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.45rem 0.75rem;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-weight: 800;
+}
+
+.checkout-progress li.active {
+  border-color: rgba(50, 111, 140, 0.35);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.checkout-form-panel,
+.form-section {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-section {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-section h2 {
+  margin: 0;
+}
+
+.checkout-items {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--color-muted);
+}
+
 label {
   display: grid;
   gap: 0.4rem;
@@ -938,7 +999,8 @@ textarea {
   .form-grid,
   .admin-shell,
   .admin-form,
-  .split-admin-layout {
+  .split-admin-layout,
+  .checkout-layout {
     grid-template-columns: 1fr;
   }
 

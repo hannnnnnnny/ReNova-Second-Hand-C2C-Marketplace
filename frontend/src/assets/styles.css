@@ -436,6 +436,51 @@ textarea {
   margin-top: 1.5rem;
 }
 
+.order-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.compact-table {
+  min-width: 0;
+}
+
+.order-total {
+  margin: 1rem 0 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.threshold-control {
+  max-width: 220px;
+}
+
+.warning-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.warning-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e1c9a4;
+  border-radius: 8px;
+  background: #fff8ec;
+}
+
+.warning-card strong {
+  color: #8d4f19;
+  font-size: 1.4rem;
+}
+
 @media (max-width: 820px) {
   .app-header,
   .detail-layout,
@@ -444,6 +489,10 @@ textarea {
   .admin-shell,
   .admin-form,
   .split-admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .order-detail-grid {
     grid-template-columns: 1fr;
   }
 

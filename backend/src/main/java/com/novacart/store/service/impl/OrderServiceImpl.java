@@ -13,8 +13,10 @@ import com.novacart.store.exception.ResourceNotFoundException;
 import com.novacart.store.repository.CustomerOrderRepository;
 import com.novacart.store.repository.ProductRepository;
 import com.novacart.store.service.OrderService;
+import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
+
+    private static final Map<OrderStatus, List<OrderStatus>> ALLOWED_STATUS_TRANSITIONS = buildStatusTransitions();
 
     private final CustomerOrderRepository orderRepository;
     private final ProductRepository productRepository;
@@ -80,8 +84,41 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse updateStatus(Long id, OrderStatus status) {
         CustomerOrder order = findOrderWithItems(id);
+        validateStatusTransition(order.getStatus(), status);
         order.setStatus(status);
         return toResponse(order);
+    }
+
+    private static Map<OrderStatus, List<OrderStatus>> buildStatusTransitions() {
+        Map<OrderStatus, List<OrderStatus>> transitions = new EnumMap<>(OrderStatus.class);
+        transitions.put(OrderStatus.PENDING, List.of(OrderStatus.PAID, OrderStatus.PROCESSING, OrderStatus.CANCELLED));
+        transitions.put(OrderStatus.PAID, List.of(OrderStatus.PROCESSING, OrderStatus.CANCELLED));
+        transitions.put(OrderStatus.PROCESSING, List.of(OrderStatus.SHIPPED, OrderStatus.CANCELLED));
+        transitions.put(OrderStatus.SHIPPED, List.of(OrderStatus.COMPLETED));
+        transitions.put(OrderStatus.COMPLETED, List.of());
+        transitions.put(OrderStatus.CANCELLED, List.of());
+        return Map.copyOf(transitions);
+    }
+
+    private void validateStatusTransition(OrderStatus currentStatus, OrderStatus nextStatus) {
+        if (nextStatus == null) {
+            throw new BusinessRuleException("Order status is required.");
+        }
+
+        if (currentStatus == nextStatus) {
+            return;
+        }
+
+        List<OrderStatus> allowedStatuses = ALLOWED_STATUS_TRANSITIONS.getOrDefault(currentStatus, List.of());
+        if (!allowedStatuses.contains(nextStatus)) {
+            throw new BusinessRuleException("Order status cannot change from "
+                    + formatStatus(currentStatus) + " to " + formatStatus(nextStatus) + ".");
+        }
+    }
+
+    private String formatStatus(OrderStatus status) {
+        String label = status.name().toLowerCase(Locale.ROOT).replace('_', ' ');
+        return Character.toUpperCase(label.charAt(0)) + label.substring(1);
     }
 
     private Map<Long, Integer> aggregateQuantities(List<CheckoutItemRequest> items) {

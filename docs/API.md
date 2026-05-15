@@ -192,6 +192,19 @@ Allowed statuses:
 - `COMPLETED`
 - `CANCELLED`
 
+Status updates follow a fulfillment workflow:
+
+| Current status | Allowed next statuses |
+| --- | --- |
+| `PENDING` | `PAID`, `PROCESSING`, `CANCELLED` |
+| `PAID` | `PROCESSING`, `CANCELLED` |
+| `PROCESSING` | `SHIPPED`, `CANCELLED` |
+| `SHIPPED` | `COMPLETED` |
+| `COMPLETED` | None |
+| `CANCELLED` | None |
+
+Submitting the same status again is accepted as an idempotent update. Terminal orders cannot be moved back into active fulfillment.
+
 ## Security Responses
 
 - `401`: Missing, expired, or invalid bearer token.

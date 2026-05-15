@@ -407,6 +407,70 @@ nav a.router-link-active {
   margin-bottom: 1.4rem;
 }
 
+.catalog-browse-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.catalog-filter-panel {
+  position: sticky;
+  top: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.price-filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.filter-actions,
+.filter-chip-row,
+.pagination-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.filter-chip-row {
+  justify-content: flex-end;
+}
+
+.filter-chip {
+  border: 1px solid rgba(50, 111, 140, 0.18);
+  border-radius: 999px;
+  padding: 0.42rem 0.7rem;
+  background: #eef7f9;
+  color: #245a6f;
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.filter-chip::after {
+  content: " x";
+  color: var(--color-muted);
+}
+
+.pagination-bar {
+  justify-content: center;
+  margin-top: 1.5rem;
+  color: var(--color-muted);
+  font-weight: 800;
+}
+
 .admin-toolbar {
   margin-top: -0.75rem;
 }
@@ -561,8 +625,31 @@ nav a.router-link-active {
   font-size: 1.15rem;
 }
 
+.product-card-category {
+  margin: -0.25rem 0 0.55rem;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
 .product-card p:not(.eyebrow) {
   color: var(--color-muted);
+}
+
+.mini-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.85rem 0;
+}
+
+.mini-tag-row span {
+  border: 1px solid rgba(105, 116, 109, 0.18);
+  border-radius: 999px;
+  padding: 0.25rem 0.5rem;
+  background: #f6f3ec;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  font-weight: 800;
 }
 
 .card-row {
@@ -570,6 +657,17 @@ nav a.router-link-active {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.price-stack {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.price-stack span {
+  color: var(--color-muted);
+  font-size: 0.84rem;
+  text-decoration: line-through;
 }
 
 .card-actions {
@@ -1487,6 +1585,23 @@ textarea {
 
   .catalog-toolbar {
     grid-template-columns: 1fr;
+  }
+
+  .catalog-browse-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-filter-panel {
+    position: static;
+  }
+
+  .catalog-result-bar {
+    align-items: start;
+    display: grid;
+  }
+
+  .filter-chip-row {
+    justify-content: flex-start;
   }
 
   .toggle-control {

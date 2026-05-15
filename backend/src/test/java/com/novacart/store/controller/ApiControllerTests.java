@@ -90,9 +90,36 @@ class ApiControllerTests {
         mockMvc.perform(get("/api/public/products"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data.length()").value(greaterThanOrEqualTo(20)))
-                .andExpect(jsonPath("$.data[0].name", not(emptyString())));
+                .andExpect(jsonPath("$.data.content").isArray())
+                .andExpect(jsonPath("$.data.totalElements").value(greaterThanOrEqualTo(20)))
+                .andExpect(jsonPath("$.data.content[0].name", not(emptyString())));
+    }
+
+    @Test
+    void publicProductListingSupportsSearchFiltersAndPagination() throws Exception {
+        mockMvc.perform(get("/api/public/products")
+                        .param("search", "tray")
+                        .param("availableOnly", "true")
+                        .param("sort", "price-low")
+                        .param("page", "0")
+                        .param("size", "5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.content.length()").value(greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$.data.size").value(5))
+                .andExpect(jsonPath("$.data.totalElements").value(greaterThanOrEqualTo(1)));
+    }
+
+    @Test
+    void adminProductListingSupportsStatusFiltering() throws Exception {
+        mockMvc.perform(get("/api/admin/products")
+                        .header("Authorization", "Bearer " + adminToken())
+                        .param("status", "DRAFT")
+                        .param("size", "20"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.content.length()").value(greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$.data.content[0].status").value("DRAFT"));
     }
 
     @Test

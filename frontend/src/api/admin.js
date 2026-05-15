@@ -13,7 +13,24 @@ export async function fetchInventoryWarnings(threshold = 5) {
 }
 
 export async function fetchAdminProducts() {
-  return getApiData(await apiClient.get('/admin/products'))
+  return (await fetchAdminProductPage({ size: 100 })).content
+}
+
+export async function fetchAdminProductPage(params = {}) {
+  const data = getApiData(await apiClient.get('/admin/products', { params }))
+  if (Array.isArray(data)) {
+    return {
+      content: data,
+      page: 0,
+      size: data.length,
+      totalElements: data.length,
+      totalPages: data.length ? 1 : 0,
+      first: true,
+      last: true,
+      empty: data.length === 0
+    }
+  }
+  return data
 }
 
 export async function fetchAdminProduct(id) {

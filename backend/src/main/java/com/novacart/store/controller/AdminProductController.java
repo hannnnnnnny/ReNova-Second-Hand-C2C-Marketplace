@@ -1,11 +1,17 @@
 package com.novacart.store.controller;
 
 import com.novacart.store.dto.ApiResponse;
+import com.novacart.store.dto.PageResponse;
 import com.novacart.store.dto.ProductRequest;
 import com.novacart.store.dto.ProductResponse;
+import com.novacart.store.dto.ProductSearchRequest;
+import com.novacart.store.entity.ProductStatus;
 import com.novacart.store.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,8 +36,33 @@ public class AdminProductController {
     }
 
     @GetMapping
-    public ApiResponse<List<ProductResponse>> findProducts() {
-        return ApiResponse.success("Products loaded successfully.", productService.findAdminProducts());
+    public ApiResponse<PageResponse<ProductResponse>> findProducts(
+            @RequestParam(required = false) String search,
+            @Positive(message = "Category ID must be positive.")
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) ProductStatus status,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(defaultValue = "false") boolean availableOnly,
+            @RequestParam(defaultValue = "name") String sort,
+            @Min(value = 0, message = "Page index cannot be negative.")
+            @RequestParam(defaultValue = "0") int page,
+            @Min(value = 1, message = "Page size must be at least 1.")
+            @Max(value = 60, message = "Page size cannot be greater than 60.")
+            @RequestParam(defaultValue = "20") int size
+    ) {
+        ProductSearchRequest request = new ProductSearchRequest(
+                search,
+                categoryId,
+                status,
+                minPrice,
+                maxPrice,
+                availableOnly,
+                sort,
+                page,
+                size
+        );
+        return ApiResponse.success("Products loaded successfully.", productService.searchAdminProducts(request));
     }
 
     @GetMapping("/{id}")

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.emptyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -13,6 +14,7 @@ import com.novacart.store.entity.Category;
 import com.novacart.store.entity.Product;
 import com.novacart.store.repository.CategoryRepository;
 import com.novacart.store.repository.ProductRepository;
+import com.jayway.jsonpath.JsonPath;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.math.BigDecimal;
@@ -30,6 +32,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -198,6 +201,36 @@ class ApiControllerTests {
                 .andExpect(jsonPath("$.message").value("Authentication token has expired."));
     }
 
+    @Test
+    void adminOrderStatusEndpointRejectsInvalidWorkflowTransition() throws Exception {
+        Product product = saveProduct("Controller Status Tray", 4, "19.00", true);
+        Number orderId = createOrder(product).longValue();
+        String token = adminToken();
+
+        mockMvc.perform(patch("/api/admin/orders/{id}/status", orderId)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "status": "CANCELLED"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.status").value("CANCELLED"));
+
+        mockMvc.perform(patch("/api/admin/orders/{id}/status", orderId)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "status": "PROCESSING"
+                                }
+                                """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.message").value("Order status cannot change from Cancelled to Processing."));
+    }
+
     private Product saveProduct(String name, int stockQuantity, String price, boolean active) {
         String suffix = UUID.randomUUID().toString().substring(0, 8);
         Category category = categoryRepository.save(new Category(
@@ -217,6 +250,46 @@ class ApiControllerTests {
                 active,
                 category
         ));
+    }
+
+    private Number createOrder(Product product) throws Exception {
+        MvcResult result = mockMvc.perform(post("/api/public/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "customerName": "Morgan Lee",
+                                  "customerEmail": "morgan@example.com",
+                                  "shippingAddress": "12 Market Street",
+                                  "city": "Auckland",
+                                  "postalCode": "1010",
+                                  "country": "New Zealand",
+                                  "items": [
+                                    {
+                                      "productId": %d,
+                                      "quantity": 1
+                                    }
+                                  ]
+                                }
+                                """.formatted(product.getId())))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        return JsonPath.read(result.getResponse().getContentAsString(), "$.data.id");
+    }
+
+    private String adminToken() throws Exception {
+        MvcResult result = mockMvc.perform(post("/api/admin/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "email": "admin@novacart.local",
+                                  "password": "NovaCartAdmin123!"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        return JsonPath.read(result.getResponse().getContentAsString(), "$.data.token");
     }
 
     private String expiredToken() {

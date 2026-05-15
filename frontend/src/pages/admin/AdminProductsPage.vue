@@ -18,8 +18,9 @@
         Status
         <select v-model="statusFilter">
           <option value="all">All statuses</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
+          <option value="ACTIVE">Active</option>
+          <option value="DRAFT">Draft</option>
+          <option value="ARCHIVED">Archived</option>
           <option value="low-stock">Low stock</option>
           <option value="out-of-stock">Out of stock</option>
         </select>
@@ -48,13 +49,19 @@
           <tr v-for="product in filteredProducts" :key="product.id">
             <td>
               <strong>{{ product.name }}</strong>
-              <span>{{ product.slug }}</span>
+              <span>{{ product.brand || 'Unbranded' }} · {{ product.sku || product.slug }}</span>
             </td>
             <td>{{ product.category?.name }}</td>
-            <td>{{ formatCurrency(product.price) }}</td>
+            <td>
+              <strong>{{ formatCurrency(product.price) }}</strong>
+              <span v-if="product.compareAtPrice">{{ formatCurrency(product.compareAtPrice) }} compare-at</span>
+            </td>
             <td><StatusBadge :value="stockStatus(product)" :label="stockLabel(product)" /></td>
             <td>
-              <StatusBadge :value="product.active ? 'active' : 'inactive'" :label="product.active ? 'Active' : 'Inactive'" />
+              <div class="status-stack">
+                <StatusBadge :value="product.status" :label="formatStatus(product.status)" />
+                <span v-if="product.featured" class="featured-marker">Featured</span>
+              </div>
             </td>
             <td>
               <div class="table-actions">
@@ -78,7 +85,7 @@ import ErrorMessage from '../../components/ErrorMessage.vue'
 import LoadingState from '../../components/LoadingState.vue'
 import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
-import { formatCurrency } from '../../utils/format'
+import { formatCurrency, formatStatus } from '../../utils/format'
 
 const loading = ref(true)
 const error = ref('')
@@ -89,12 +96,11 @@ const filteredProducts = computed(() => {
   const query = searchTerm.value.toLowerCase()
   return products.value.filter((product) => {
     const matchesQuery = query
-      ? `${product.name} ${product.slug} ${product.category?.name || ''}`.toLowerCase().includes(query)
+      ? `${product.name} ${product.slug} ${product.sku || ''} ${product.brand || ''} ${product.category?.name || ''}`.toLowerCase().includes(query)
       : true
     const matchesStatus = statusFilter.value === 'all'
-      || (statusFilter.value === 'active' && product.active)
-      || (statusFilter.value === 'inactive' && !product.active)
-      || (statusFilter.value === 'low-stock' && product.stockQuantity > 0 && product.stockQuantity <= 5)
+      || (statusFilter.value === product.status)
+      || (statusFilter.value === 'low-stock' && product.stockQuantity > 0 && product.stockQuantity <= (product.lowStockThreshold ?? 5))
       || (statusFilter.value === 'out-of-stock' && product.stockQuantity === 0)
     return matchesQuery && matchesStatus
   })
@@ -128,13 +134,13 @@ async function removeProduct(product) {
 
 function stockStatus(product) {
   if (product.stockQuantity < 1) return 'out of stock'
-  if (product.stockQuantity <= 5) return 'low stock'
+  if (product.stockQuantity <= (product.lowStockThreshold ?? 5)) return 'low stock'
   return 'in stock'
 }
 
 function stockLabel(product) {
   if (product.stockQuantity < 1) return 'Out of stock'
-  if (product.stockQuantity <= 5) return `${product.stockQuantity} left`
+  if (product.stockQuantity <= (product.lowStockThreshold ?? 5)) return `${product.stockQuantity} left`
   return `${product.stockQuantity} in stock`
 }
 </script>

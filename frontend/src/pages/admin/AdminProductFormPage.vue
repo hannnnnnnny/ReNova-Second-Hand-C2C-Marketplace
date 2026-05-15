@@ -22,6 +22,14 @@
           <input v-model.trim="form.slug" maxlength="200" placeholder="optional-product-slug" />
         </label>
         <label>
+          SKU
+          <input v-model.trim="form.sku" maxlength="80" placeholder="NC-PRODUCT-SKU" />
+        </label>
+        <label>
+          Brand
+          <input v-model.trim="form.brand" maxlength="120" placeholder="Northline Goods" />
+        </label>
+        <label>
           Category
           <select v-model.number="form.categoryId" required>
             <option disabled value="">Select a category</option>
@@ -35,12 +43,28 @@
           <input v-model.number="form.price" required min="0.01" step="0.01" type="number" />
         </label>
         <label>
+          Compare-at Price
+          <input v-model.number="form.compareAtPrice" min="0.01" step="0.01" type="number" />
+        </label>
+        <label>
           Stock Quantity
           <input v-model.number="form.stockQuantity" required min="0" step="1" type="number" />
         </label>
         <label>
+          Low-stock Threshold
+          <input v-model.number="form.lowStockThreshold" required min="0" step="1" type="number" />
+        </label>
+        <label>
           Image URL
           <input v-model.trim="form.imageUrl" required placeholder="https://example.com/product.jpg" />
+        </label>
+        <label>
+          Gallery URLs
+          <textarea v-model.trim="form.imageGalleryText" rows="3" placeholder="Add one image URL per line."></textarea>
+        </label>
+        <label>
+          Tags
+          <input v-model.trim="form.tagsText" placeholder="workspace, bamboo, organization" />
         </label>
         <label class="wide-field">
           Description
@@ -49,10 +73,22 @@
       </div>
       <aside class="summary-panel product-publish-panel">
         <h2>Publishing</h2>
-        <p class="muted">Products marked active appear in the public storefront after saving.</p>
+        <p class="muted">Only active products with an Active status appear in the public storefront.</p>
+        <label>
+          Product Status
+          <select v-model="form.status">
+            <option value="ACTIVE">Active</option>
+            <option value="DRAFT">Draft</option>
+            <option value="ARCHIVED">Archived</option>
+          </select>
+        </label>
         <label class="checkbox-field">
           <input v-model="form.active" type="checkbox" />
           Active in storefront
+        </label>
+        <label class="checkbox-field">
+          <input v-model="form.featured" type="checkbox" />
+          Feature on storefront
         </label>
         <div class="summary-line">
           <span>Slug preview</span>
@@ -95,10 +131,18 @@ const isEditing = computed(() => Boolean(route.params.id))
 const form = reactive({
   name: '',
   slug: '',
+  sku: '',
+  brand: '',
   description: '',
   price: 0,
+  compareAtPrice: '',
   stockQuantity: 0,
+  lowStockThreshold: 5,
   imageUrl: '',
+  imageGalleryText: '',
+  tagsText: '',
+  featured: false,
+  status: 'ACTIVE',
   active: true,
   categoryId: ''
 })
@@ -106,7 +150,9 @@ const formIsValid = computed(() => {
   return form.name
     && form.description
     && Number(form.price) > 0
+    && (!form.compareAtPrice || Number(form.compareAtPrice) > Number(form.price))
     && Number(form.stockQuantity) >= 0
+    && Number(form.lowStockThreshold) >= 0
     && form.imageUrl
     && form.categoryId
 })
@@ -137,10 +183,18 @@ onMounted(async () => {
       const product = await fetchAdminProduct(route.params.id)
       form.name = product.name
       form.slug = product.slug
+      form.sku = product.sku || ''
+      form.brand = product.brand || ''
       form.description = product.description
       form.price = Number(product.price)
+      form.compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : ''
       form.stockQuantity = product.stockQuantity
+      form.lowStockThreshold = product.lowStockThreshold ?? 5
       form.imageUrl = product.imageUrl
+      form.imageGalleryText = (product.imageGallery || []).join('\n')
+      form.tagsText = (product.tags || []).join(', ')
+      form.featured = Boolean(product.featured)
+      form.status = product.status || 'ACTIVE'
       form.active = product.active
       form.categoryId = product.category.id
     }
@@ -158,9 +212,17 @@ async function submitProduct() {
   const payload = {
     ...form,
     price: Number(form.price),
+    compareAtPrice: form.compareAtPrice ? Number(form.compareAtPrice) : null,
     stockQuantity: Number(form.stockQuantity),
-    slug: form.slug || null
+    lowStockThreshold: Number(form.lowStockThreshold),
+    slug: form.slug || null,
+    sku: form.sku || null,
+    brand: form.brand || null,
+    imageGallery: splitLines(form.imageGalleryText),
+    tags: splitTags(form.tagsText)
   }
+  delete payload.imageGalleryText
+  delete payload.tagsText
 
   try {
     if (isEditing.value) {
@@ -174,5 +236,19 @@ async function submitProduct() {
   } finally {
     submitting.value = false
   }
+}
+
+function splitLines(value) {
+  return String(value || '')
+    .split('\n')
+    .map((entry) => entry.trim())
+    .filter(Boolean)
+}
+
+function splitTags(value) {
+  return String(value || '')
+    .split(',')
+    .map((entry) => entry.trim())
+    .filter(Boolean)
 }
 </script>

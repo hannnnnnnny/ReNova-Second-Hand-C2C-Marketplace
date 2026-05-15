@@ -27,12 +27,19 @@
         </div>
         <label>
           Order Status
-          <select v-model="selectedStatus" :disabled="savingStatus" @change="saveStatus">
-            <option v-for="status in statuses" :key="status" :value="status">
+          <select
+            v-model="selectedStatus"
+            :disabled="savingStatus || !canChangeStatus"
+            @change="saveStatus"
+          >
+            <option v-for="status in availableStatuses" :key="status" :value="status">
               {{ formatStatus(status) }}
             </option>
           </select>
         </label>
+        <p :class="['status-transition-note', { 'terminal-note': !canChangeStatus }]">
+          {{ statusTransitionMessage }}
+        </p>
         <p class="muted">Placed {{ formatDate(order.createdAt) }}</p>
         <p v-if="savingStatus" class="muted">Updating status...</p>
       </section>
@@ -64,7 +71,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { fetchAdminOrder, updateOrderStatus } from '../../api/admin'
 import { getApiError } from '../../api/client'
@@ -77,6 +84,14 @@ import { formatCurrency, formatDate, formatStatus } from '../../utils/format'
 
 const route = useRoute()
 const statuses = ['PENDING', 'PAID', 'PROCESSING', 'SHIPPED', 'COMPLETED', 'CANCELLED']
+const statusTransitions = {
+  PENDING: ['PAID', 'PROCESSING', 'CANCELLED'],
+  PAID: ['PROCESSING', 'CANCELLED'],
+  PROCESSING: ['SHIPPED', 'CANCELLED'],
+  SHIPPED: ['COMPLETED'],
+  COMPLETED: [],
+  CANCELLED: []
+}
 const loading = ref(true)
 const error = ref('')
 const order = ref(null)
@@ -84,6 +99,29 @@ const selectedStatus = ref('')
 const savingStatus = ref(false)
 const toastMessage = ref('')
 let toastTimer
+
+const availableStatuses = computed(() => {
+  if (!order.value?.status) return statuses
+
+  const nextStatuses = statusTransitions[order.value.status] || []
+  return [order.value.status, ...nextStatuses]
+})
+
+const canChangeStatus = computed(() => {
+  if (!order.value?.status) return false
+  return (statusTransitions[order.value.status] || []).length > 0
+})
+
+const statusTransitionMessage = computed(() => {
+  if (!order.value?.status) return 'Order status options will appear after the order loads.'
+
+  const nextStatuses = statusTransitions[order.value.status] || []
+  if (nextStatuses.length === 0) {
+    return 'This order is in a terminal state and cannot be changed.'
+  }
+
+  return `Next valid statuses: ${nextStatuses.map(formatStatus).join(', ')}.`
+})
 
 onMounted(loadOrder)
 

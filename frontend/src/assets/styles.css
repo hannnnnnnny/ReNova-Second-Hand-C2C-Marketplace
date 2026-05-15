@@ -1324,6 +1324,23 @@ textarea {
   text-align: right;
 }
 
+.status-transition-note {
+  margin: 0.65rem 0 0;
+  border: 1px solid rgba(50, 111, 140, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 0.85rem;
+  background: #eef7f9;
+  color: #245a6f;
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+
+.status-transition-note.terminal-note {
+  border-color: #e2d5c1;
+  background: #f7f2ea;
+  color: #79614a;
+}
+
 .threshold-control {
   max-width: 220px;
 }

@@ -188,6 +188,48 @@ novacart-ecommerce/
   docs/
 ```
 
+## Quick Start
+
+1. Create the MySQL database and user shown in the MySQL setup section.
+2. Configure backend environment variables from [backend/.env.example](backend/.env.example).
+3. Start the backend from `backend/`.
+4. Configure the frontend API URL from [frontend/.env.example](frontend/.env.example).
+5. Install frontend dependencies and start Vite from `frontend/`.
+
+Unix/macOS:
+
+```bash
+cd backend
+export DB_HOST=localhost
+export DB_PORT=3306
+export DB_NAME=novacart
+export DB_USERNAME=novacart_user
+export DB_PASSWORD=novacart_password
+export JWT_SECRET=replace-with-a-long-random-secret-for-local-development
+./mvnw spring-boot:run
+```
+
+Windows PowerShell:
+
+```powershell
+cd backend
+$env:DB_HOST="localhost"
+$env:DB_PORT="3306"
+$env:DB_NAME="novacart"
+$env:DB_USERNAME="novacart_user"
+$env:DB_PASSWORD="novacart_password"
+$env:JWT_SECRET="replace-with-a-long-random-secret-for-local-development"
+.\mvnw.cmd spring-boot:run
+```
+
+Frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
 ## Backend Setup
 
 The backend uses the Maven wrapper, so a global Maven install is not required.
@@ -296,6 +338,8 @@ Change the seeded password before using the project beyond local development.
 
 ## API Overview
 
+See [docs/API.md](docs/API.md) for request examples, response shapes, and security behavior.
+
 Public APIs:
 
 - `GET /api/public/categories`
@@ -395,3 +439,7 @@ npm run build
 - If browser requests are blocked by CORS, verify `CORS_ALLOWED_ORIGINS` includes the frontend origin.
 - If npm is blocked in PowerShell, use `npm.cmd` commands.
 - If frontend requests fail, confirm `VITE_API_BASE_URL` points to the backend API root.
+- If backend port `8080` is already in use, set `SERVER_PORT` to another port and update `VITE_API_BASE_URL`.
+- If frontend port `5173` is already in use, Vite will offer another port; update `CORS_ALLOWED_ORIGINS` if the origin changes.
+- If admin requests return `401`, sign in again and confirm the request includes the bearer token from `/api/admin/auth/login`.
+- If admin requests return `403`, confirm the authenticated account has the `ADMIN` role.

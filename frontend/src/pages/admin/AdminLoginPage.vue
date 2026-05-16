@@ -5,8 +5,8 @@
         <ShieldCheck aria-hidden="true" />
       </div>
       <p class="eyebrow">Merchant workspace</p>
-      <h1>Manage NovaCart with a focused admin console.</h1>
-      <p>Review catalog health, keep inventory visible, and move orders through fulfillment.</p>
+      <h1>Manage NovaCart fashion operations.</h1>
+      <p>Review catalog health, keep seasonal inventory visible, and move orders through fulfillment.</p>
     </section>
     <form class="login-panel" @submit.prevent="submitLogin">
       <div>

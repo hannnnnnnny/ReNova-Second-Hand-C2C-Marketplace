@@ -158,9 +158,9 @@ Category request body:
 
 ```json
 {
-  "name": "Home Goods",
-  "slug": "home-goods",
-  "description": "Well-made essentials for calm, practical living.",
+  "name": "Women",
+  "slug": "women",
+  "description": "Tailored separates, dresses, knitwear, and soft layers for everyday wardrobes.",
   "active": true
 }
 ```
@@ -179,18 +179,18 @@ Product request body:
 
 ```json
 {
-  "name": "Bamboo Desk Organizer",
-  "slug": "bamboo-desk-organizer",
-  "sku": "NC-BAMBOO-DESK-ORGANIZER",
-  "brand": "Northline Goods",
-  "description": "A compact organizer with layered compartments.",
-  "price": 39.00,
-  "compareAtPrice": 48.00,
+  "name": "Silk Wrap Blouse",
+  "slug": "silk-wrap-blouse",
+  "sku": "NC-SILK-WRAP-BLOUSE",
+  "brand": "Aster Row",
+  "description": "A fluid wrap blouse with a soft tie waist and subtle sheen.",
+  "price": 118.00,
+  "compareAtPrice": 148.00,
   "stockQuantity": 28,
   "lowStockThreshold": 6,
-  "imageUrl": "https://example.com/product.jpg",
-  "imageGallery": ["https://example.com/product.jpg"],
-  "tags": ["workspace", "bamboo", "organization"],
+  "imageUrl": "/catalog/women.svg",
+  "imageGallery": ["/catalog/women.svg"],
+  "tags": ["spring-edit", "silk", "workwear"],
   "featured": true,
   "status": "ACTIVE",
   "active": true,

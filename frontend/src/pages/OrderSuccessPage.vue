@@ -6,7 +6,7 @@
       <section class="success-panel">
         <p class="eyebrow">Order Confirmed</p>
         <h1>Thank you, {{ order.customerName }}</h1>
-        <p>Your order has been received and is ready for merchant review.</p>
+        <p>Your fashion order has been received and is ready for merchant review.</p>
         <div class="confirmation-number">
           <span>Order Number</span>
           <strong>{{ order.orderNumber || `#${order.id}` }}</strong>

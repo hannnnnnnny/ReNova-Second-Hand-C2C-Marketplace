@@ -2,8 +2,8 @@
   <section class="page-section">
     <PageHeader
       eyebrow="Checkout"
-      title="Shipping Details"
-      description="Confirm your contact information and shipping address before placing the order."
+      title="Secure Demo Checkout"
+      description="Confirm contact details, shipping, and demo-safe payment before placing the fashion order."
     />
     <ol class="checkout-progress" aria-label="Checkout progress">
       <li class="active">Cart</li>
@@ -12,7 +12,7 @@
       <li>Confirmation</li>
     </ol>
     <EmptyState v-if="!cartStore.items.length" title="Your cart is empty" message="Add products before checkout.">
-      <RouterLink class="primary-button" to="/products">Browse Products</RouterLink>
+      <RouterLink class="primary-button" to="/products">Browse Fashion</RouterLink>
     </EmptyState>
     <form v-else class="checkout-layout" novalidate @submit.prevent="submitOrder">
       <div class="checkout-form-panel">
@@ -162,19 +162,19 @@ const shippingOptions = [
   {
     value: 'STANDARD',
     label: 'Standard Delivery',
-    description: 'Prepared for routine merchant fulfillment.',
+    description: 'Reliable delivery for most fashion orders.',
     price: 6
   },
   {
     value: 'EXPRESS',
     label: 'Express Delivery',
-    description: 'Prioritized handling for urgent orders.',
+    description: 'Priority handling for event, travel, or campaign timing.',
     price: 14
   },
   {
     value: 'PICKUP',
     label: 'Store Pickup',
-    description: 'No shipping fee for demo pickup orders.',
+    description: 'No shipping fee for showroom pickup orders.',
     price: 0
   }
 ]

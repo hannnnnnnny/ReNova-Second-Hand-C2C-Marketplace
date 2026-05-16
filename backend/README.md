@@ -1,6 +1,6 @@
 # NovaCart Backend
 
-The backend module contains the Spring Boot REST API for NovaCart Ecommerce. It supports the public storefront, protected merchant administration, JWT authentication, MySQL persistence, checkout stock validation, order management, inventory warnings, seed data, and consistent JSON responses.
+The backend module contains the Spring Boot REST API for NovaCart Fashion Commerce Platform. It supports the public fashion storefront, protected merchant administration, JWT authentication, MySQL persistence, checkout stock validation, order management, inventory warnings, original fashion seed data, and consistent JSON responses.
 
 ## Current Implementation
 

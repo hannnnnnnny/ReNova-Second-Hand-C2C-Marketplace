@@ -37,12 +37,12 @@ describe('API error formatting', () => {
     const error = {
       response: {
         data: {
-          message: 'Insufficient stock for Bamboo Desk Organizer.'
+          message: 'Insufficient stock for Silk Wrap Blouse.'
         }
       }
     }
 
-    expect(getApiError(error, 'Order could not be placed.')).toBe('Insufficient stock for Bamboo Desk Organizer.')
+    expect(getApiError(error, 'Order could not be placed.')).toBe('Insufficient stock for Silk Wrap Blouse.')
   })
 
   it('uses a friendly fallback when the backend response has no message', () => {

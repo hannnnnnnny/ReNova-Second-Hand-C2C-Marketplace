@@ -107,7 +107,7 @@ public class Product {
                 name,
                 slug,
                 createFallbackSku(slug),
-                "NovaCart Supply",
+                "Nova Atelier",
                 description,
                 price,
                 null,

@@ -43,7 +43,7 @@
         <SectionHeader
           eyebrow="More to consider"
           title="Related Products"
-          description="Products from the same category that may fit the same workflow."
+          description="Fashion products from the same category that can complete the look or collection story."
         />
         <div class="product-grid">
           <ProductCard

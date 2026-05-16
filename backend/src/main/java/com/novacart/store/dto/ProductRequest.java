@@ -10,7 +10,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
-import org.hibernate.validator.constraints.URL;
 
 public record ProductRequest(
         @NotBlank(message = "Product name is required.")
@@ -56,11 +55,17 @@ public record ProductRequest(
 
         @NotBlank(message = "Product image URL is required.")
         @Size(max = 600, message = "Product image URL must be 600 characters or fewer.")
-        @URL(message = "Product image URL must be a valid URL.")
+        @Pattern(
+                regexp = "^(https?://|/).+",
+                message = "Product image URL must be an absolute HTTP URL or a local public asset path."
+        )
         String imageUrl,
 
         @Size(max = 6, message = "Product image gallery can include up to 6 images.")
-        List<@URL(message = "Gallery image URL must be a valid URL.") String> imageGallery,
+        List<@Pattern(
+                regexp = "^(https?://|/).+",
+                message = "Gallery image URL must be an absolute HTTP URL or a local public asset path."
+        ) String> imageGallery,
 
         @Size(max = 12, message = "Product tags can include up to 12 values.")
         List<@Size(max = 80, message = "Product tag must be 80 characters or fewer.") String> tags,

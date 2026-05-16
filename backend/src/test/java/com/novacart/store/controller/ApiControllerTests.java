@@ -98,7 +98,7 @@ class ApiControllerTests {
     @Test
     void publicProductListingSupportsSearchFiltersAndPagination() throws Exception {
         mockMvc.perform(get("/api/public/products")
-                        .param("search", "tray")
+                        .param("search", "jacket")
                         .param("availableOnly", "true")
                         .param("sort", "price-low")
                         .param("page", "0")
@@ -137,21 +137,21 @@ class ApiControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                  "name": "Controller Walnut Serving Tray",
-                                  "slug": "controller-walnut-serving-tray-%s",
-                                  "sku": "TEST-WALNUT-TRAY-%s",
-                                  "brand": "Northline Goods",
-                                  "description": "A test tray with realistic product metadata for admin catalog workflows.",
+                                  "name": "Controller Linen Field Jacket",
+                                  "slug": "controller-linen-field-jacket-%s",
+                                  "sku": "TEST-LINEN-JACKET-%s",
+                                  "brand": "Aster Row",
+                                  "description": "A test jacket with realistic fashion product metadata for admin catalog workflows.",
                                   "price": 44.00,
                                   "compareAtPrice": 52.00,
                                   "stockQuantity": 9,
                                   "lowStockThreshold": 3,
-                                  "imageUrl": "https://example.com/walnut-tray.jpg",
+                                  "imageUrl": "/catalog/new-arrivals.svg",
                                   "imageGallery": [
-                                    "https://example.com/walnut-tray.jpg",
-                                    "https://example.com/walnut-tray-detail.jpg"
+                                    "/catalog/new-arrivals.svg",
+                                    "/catalog/women.svg"
                                   ],
-                                  "tags": ["serving", "wood"],
+                                  "tags": ["linen", "workwear"],
                                   "featured": true,
                                   "status": "ACTIVE",
                                   "active": true,
@@ -160,19 +160,19 @@ class ApiControllerTests {
                                 """.formatted(suffix, suffix.toUpperCase(), category.getId())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.sku").value("TEST-WALNUT-TRAY-" + suffix.toUpperCase()))
-                .andExpect(jsonPath("$.data.brand").value("Northline Goods"))
+                .andExpect(jsonPath("$.data.sku").value("TEST-LINEN-JACKET-" + suffix.toUpperCase()))
+                .andExpect(jsonPath("$.data.brand").value("Aster Row"))
                 .andExpect(jsonPath("$.data.compareAtPrice").value(52.00))
                 .andExpect(jsonPath("$.data.lowStockThreshold").value(3))
                 .andExpect(jsonPath("$.data.imageGallery.length()").value(2))
-                .andExpect(jsonPath("$.data.tags[0]").value("serving"))
+                .andExpect(jsonPath("$.data.tags[0]").value("linen"))
                 .andExpect(jsonPath("$.data.featured").value(true))
                 .andExpect(jsonPath("$.data.status").value("ACTIVE"));
     }
 
     @Test
     void checkoutCreatesOrderAndDeductsStock() throws Exception {
-        Product product = saveProduct("Controller Checkout Tray", 5, "22.00", true);
+        Product product = saveProduct("Controller Checkout Jacket", 5, "22.00", true);
 
         mockMvc.perform(post("/api/public/orders")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -208,7 +208,7 @@ class ApiControllerTests {
 
     @Test
     void checkoutRejectsInsufficientStockWithoutDeductingInventory() throws Exception {
-        Product product = saveProduct("Controller Low Stock Tray", 1, "22.00", true);
+        Product product = saveProduct("Controller Low Stock Jacket", 1, "22.00", true);
 
         mockMvc.perform(post("/api/public/orders")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -230,7 +230,7 @@ class ApiControllerTests {
                                 """.formatted(product.getId())))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.message").value("Insufficient stock for Controller Low Stock Tray."));
+                .andExpect(jsonPath("$.message").value("Insufficient stock for Controller Low Stock Jacket."));
 
         Product unchangedProduct = productRepository.findById(product.getId()).orElseThrow();
         assertThat(unchangedProduct.getStockQuantity()).isEqualTo(1);
@@ -285,7 +285,7 @@ class ApiControllerTests {
 
     @Test
     void adminOrderStatusEndpointRejectsInvalidWorkflowTransition() throws Exception {
-        Product product = saveProduct("Controller Status Tray", 4, "19.00", true);
+        Product product = saveProduct("Controller Status Jacket", 4, "19.00", true);
         Number orderId = createOrder(product).longValue();
         String token = adminToken();
 
@@ -315,7 +315,7 @@ class ApiControllerTests {
 
     @Test
     void adminInventoryMovementsShowCheckoutStockDeduction() throws Exception {
-        Product product = saveProduct("Controller Movement Tray", 4, "19.00", true);
+        Product product = saveProduct("Controller Movement Jacket", 4, "19.00", true);
         createOrder(product);
 
         mockMvc.perform(get("/api/admin/inventory/movements")

@@ -3,7 +3,7 @@
     <PageHeader
       eyebrow="Catalog"
       title="Products"
-      description="Search products, review inventory levels, and manage storefront visibility."
+      description="Search fashion products, review inventory levels, and manage storefront visibility."
     >
       <template #actions>
         <RouterLink class="primary-button" to="/admin/products/new">New Product</RouterLink>
@@ -12,7 +12,7 @@
     <div class="catalog-toolbar admin-toolbar">
       <label class="search-field">
         Search products
-        <input v-model.trim="searchTerm" type="search" placeholder="Search by product or category" />
+        <input v-model.trim="searchTerm" type="search" placeholder="Search by product, label, SKU, or category" />
       </label>
       <label>
         Status

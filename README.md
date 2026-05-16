@@ -1,20 +1,20 @@
-# NovaCart Ecommerce
+# NovaCart Fashion Commerce Platform
 
-NovaCart Ecommerce is a full-stack online store system for small merchants. It includes a public storefront, a protected merchant administration workspace, MySQL persistence, JWT authentication, checkout with stock validation, order management, inventory warnings, and a RESTful JSON API.
+NovaCart Fashion Commerce Platform is a full-stack online store system for fashion and lifestyle merchants. It includes a customer storefront, a protected merchant operations workspace, MySQL persistence, JWT authentication, checkout with stock validation, order management, inventory warnings, and a RESTful JSON API.
 
 The project is intentionally original in naming, layout, and content. All visible text, seed data, API messages, comments, documentation, and commit messages are written in English.
 
 ## Project Status
 
-NovaCart is a production-style portfolio and demonstration ecommerce system. It is designed to show realistic full-stack architecture, merchant workflows, checkout stock protection, admin authentication, and polished UI behavior. It is not a live payment-processing store and should not be used for real customer transactions without additional production hardening, payment integration, observability, legal review, and operational security controls.
+NovaCart is a production-style fashion commerce system for clothing, bags, jewelry, accessories, shoes, sportswear, sports equipment, seasonal collections, sale edits, and lifestyle fashion products. It is not a live payment-processing store and should not be used for real customer transactions without additional production hardening, payment integration, observability, legal review, and operational security controls.
 
 ## Product Features
 
 ### Storefront Experience
 
-- Responsive storefront homepage with a polished hero section, category highlights, featured products, and trust/value cards.
-- Product catalog with server-side search, category filtering, price range filtering, availability filtering, sorting, pagination, stock badges, loading states, empty states, and friendly error states.
-- Product detail pages with large product imagery, category context, clear price hierarchy, quantity selection, stock status, related products, and add-to-cart feedback.
+- Responsive fashion storefront homepage with a seasonal hero, campaign links, category highlights, featured products, and retail value cards.
+- Product catalog with fashion categories, server-side search, category filtering, price range filtering, availability filtering, sorting, pagination, stock badges, loading states, empty states, and friendly error states.
+- Product detail pages with large fashion imagery, category context, clear price hierarchy, quantity selection, stock status, related products, and add-to-cart feedback.
 - Cart page with item summaries, quantity controls, stock-aware limits, remove actions, subtotal calculation, and a clear checkout path.
 - Checkout flow with customer information, shipping address fields, demo shipping method selection, demo payment approval or decline handling, order summary, basic validation, idempotency protection, and backend stock validation.
 - Order success page with confirmation messaging, order number, payment status, shipping method, item summary, totals breakdown, and clear next steps.
@@ -23,9 +23,9 @@ NovaCart is a production-style portfolio and demonstration ecommerce system. It 
 
 - Protected admin login with JWT authentication, persisted sessions, expired-session handling, and BCrypt password support on the backend.
 - Dashboard metrics for total products, active products, total orders, total revenue, low-stock products, and recent order activity.
-- Product management with searchable tables, status filters, inventory indicators, SKU, brand, compare-at price, tags, gallery, featured flag, create/edit forms, validation feedback, and delete confirmation.
-- Category management with create, edit, delete, empty-state, and feedback patterns for catalog organization.
-- Order management with search, status filtering, order detail views, customer information, item summaries, totals, and status updates.
+- Product management with searchable fashion tables, status filters, inventory indicators, SKU, private label, compare-at price, tags, gallery, featured flag, create/edit forms, validation feedback, and delete confirmation.
+- Category management for Women, Men, Bags, Jewelry, Shoes, Sportswear, Accessories, New Arrivals, Sale, and Seasonal Collection.
+- Order management with search, status filtering, order detail views, customer information, fashion item summaries, totals, and status updates.
 - Inventory warning screen with product thresholds, replenishment indicators, recent stock movement history, and fast navigation back to product management.
 
 ### Platform Capabilities
@@ -42,7 +42,7 @@ NovaCart is a production-style portfolio and demonstration ecommerce system. It 
 
 - Built as a full-stack production-style project rather than a single-page mockup.
 - Clear separation between controllers, services, repositories, DTOs, entities, security, and frontend API modules.
-- Original visual design and wording created specifically for NovaCart.
+- Original visual design, product names, descriptions, fictional labels, seed data, and local catalog artwork created specifically for NovaCart.
 - Responsive layouts for storefront and admin workflows across mobile, tablet, and desktop screens.
 - Practical merchant workflows covering catalog setup, checkout, fulfillment, and inventory monitoring.
 - Safer checkout behavior through backend stock checks and frontend quantity controls.
@@ -76,7 +76,7 @@ The screenshots below are generated from the current Vue interface with represen
 
 ### Storefront Screens
 
-| Home | Product Catalog |
+| Home | Fashion Catalog |
 | --- | --- |
 | ![NovaCart storefront home preview](docs/preview/storefront-home.png) | ![NovaCart product catalog preview](docs/preview/product-catalog.png) |
 | Premium landing page with hero messaging, category highlights, featured products, and trust/value cards. | Searchable catalog with category filters, price sorting, product cards, stock badges, and add-to-cart actions. |
@@ -112,8 +112,8 @@ The screenshots below are generated from the current Vue interface with represen
 
 | Area | Route | Preview Focus |
 | --- | --- | --- |
-| Storefront Home | `/` | Hero section, category highlights, featured products, trust/value cards, and responsive navigation. |
-| Product Catalog | `/products` | Search, filtering, sorting, product cards, stock indicators, and add-to-cart actions. |
+| Storefront Home | `/` | Fashion hero section, seasonal campaign links, category highlights, featured products, trust/value cards, and responsive navigation. |
+| Fashion Catalog | `/products` | Search, filtering, sorting, product cards, stock indicators, and add-to-cart actions. |
 | Product Detail | `/products/:id` | Product imagery, details, price, quantity selector, stock messaging, and related products. |
 | Cart | `/cart` | Cart items, quantity controls, subtotal summary, remove actions, and checkout call to action. |
 | Checkout | `/checkout` | Customer form, shipping address, order summary, validation states, and order creation flow. |
@@ -136,7 +136,7 @@ Suggested preview flow:
 
 ```mermaid
 flowchart LR
-  Home["Storefront Home"] --> Catalog["Product Catalog"]
+  Home["Storefront Home"] --> Catalog["Fashion Catalog"]
   Catalog --> Detail["Product Detail"]
   Detail --> Cart["Cart"]
   Cart --> Checkout["Checkout"]

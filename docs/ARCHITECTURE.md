@@ -1,6 +1,6 @@
 # NovaCart Architecture
 
-NovaCart is organized as a full-stack ecommerce application with a public storefront, a protected merchant administration workspace, and a Spring Boot API that owns validation, persistence, authentication, and checkout rules.
+NovaCart is organized as a full-stack fashion commerce application with a public storefront, a protected merchant administration workspace, and a Spring Boot API that owns validation, persistence, authentication, and checkout rules.
 
 ## System Overview
 

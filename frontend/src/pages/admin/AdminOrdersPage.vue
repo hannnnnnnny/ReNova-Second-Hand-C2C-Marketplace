@@ -3,7 +3,7 @@
     <PageHeader
       eyebrow="Fulfillment"
       title="Orders"
-      description="Track customer orders, payment state, and fulfillment progress."
+      description="Track customer fashion orders, payment state, and fulfillment progress."
     />
     <div class="catalog-toolbar admin-toolbar">
       <label class="search-field">

@@ -3,7 +3,7 @@
     <PageHeader
       eyebrow="Fulfillment"
       :title="`Order #${route.params.id}`"
-      description="Review customer information, order items, totals, and fulfillment status."
+      description="Review customer information, fashion items, totals, payment, and fulfillment status."
     >
       <template #actions>
         <RouterLink class="secondary-button" to="/admin/orders">Back to Orders</RouterLink>

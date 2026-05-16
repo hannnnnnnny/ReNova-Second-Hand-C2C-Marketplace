@@ -1,6 +1,6 @@
 # NovaCart Deployment Notes
 
-NovaCart is a portfolio ecommerce system. These notes describe safe deployment preparation without exposing real secrets or implying that the demo checkout is a real payment flow.
+NovaCart is a portfolio fashion commerce system. These notes describe safe deployment preparation without exposing real secrets or implying that the demo checkout is a real payment flow.
 
 ## Production Checklist
 

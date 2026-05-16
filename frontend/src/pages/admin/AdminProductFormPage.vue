@@ -3,7 +3,7 @@
     <PageHeader
       eyebrow="Catalog editor"
       :title="isEditing ? 'Edit Product' : 'New Product'"
-      description="Keep product details complete, clear, and ready for customers to scan."
+      description="Keep fashion product details complete, clear, and ready for customers to scan."
     >
       <template #actions>
         <RouterLink class="secondary-button" to="/admin/products">Back to Products</RouterLink>
@@ -23,11 +23,11 @@
         </label>
         <label>
           SKU
-          <input v-model.trim="form.sku" maxlength="80" placeholder="NC-PRODUCT-SKU" />
+          <input v-model.trim="form.sku" maxlength="80" placeholder="NC-FASHION-SKU" />
         </label>
         <label>
           Brand
-          <input v-model.trim="form.brand" maxlength="120" placeholder="Northline Goods" />
+          <input v-model.trim="form.brand" maxlength="120" placeholder="Aster Row" />
         </label>
         <label>
           Category
@@ -56,7 +56,7 @@
         </label>
         <label>
           Image URL
-          <input v-model.trim="form.imageUrl" required placeholder="https://example.com/product.jpg" />
+          <input v-model.trim="form.imageUrl" required placeholder="/catalog/women.svg or https://example.com/product.jpg" />
         </label>
         <label>
           Gallery URLs
@@ -64,7 +64,7 @@
         </label>
         <label>
           Tags
-          <input v-model.trim="form.tagsText" placeholder="workspace, bamboo, organization" />
+          <input v-model.trim="form.tagsText" placeholder="linen, capsule, workwear" />
         </label>
         <label class="wide-field">
           Description

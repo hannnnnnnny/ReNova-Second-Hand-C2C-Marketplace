@@ -3,7 +3,7 @@
     <PageHeader
       eyebrow="Operations"
       title="Dashboard"
-      description="Monitor catalog health, orders, revenue, and inventory warnings from one overview."
+      description="Monitor fashion catalog health, orders, revenue, and inventory warnings from one overview."
     />
     <LoadingState v-if="loading" message="Loading dashboard..." />
     <ErrorMessage v-else-if="error" :message="error" />
@@ -20,7 +20,7 @@
       <section class="operations-strip" aria-label="Admin shortcuts">
         <RouterLink to="/admin/products">
           <strong>Manage Catalog</strong>
-          <span>Create products, adjust stock, and control visibility.</span>
+          <span>Create fashion products, adjust stock, and control visibility.</span>
         </RouterLink>
         <RouterLink to="/admin/orders">
           <strong>Review Orders</strong>

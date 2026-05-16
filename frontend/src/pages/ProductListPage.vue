@@ -2,8 +2,8 @@
   <section class="page-section">
     <PageHeader
       eyebrow="Storefront"
-      title="Products"
-      description="Search the catalog with server-side filters, clear sorting, and paginated results."
+      title="Fashion Catalog"
+      description="Search clothing, bags, jewelry, shoes, sportswear, equipment, accessories, seasonal edits, and sale pieces."
     />
 
     <div class="catalog-browse-layout">
@@ -11,7 +11,7 @@
         <form class="filter-form" @submit.prevent="applyFilters">
           <label class="search-field">
             Search products
-            <input v-model.trim="searchTerm" type="search" placeholder="Search by name, brand, category, or SKU" />
+            <input v-model.trim="searchTerm" type="search" placeholder="Search by style, label, category, tag, or SKU" />
           </label>
           <label>
             Category
@@ -94,8 +94,8 @@
         </div>
         <EmptyState
           v-else
-          title="No matching products"
-          message="Try clearing filters, widening the price range, or searching with a broader term."
+          title="No matching fashion products"
+          message="Try clearing filters, widening the price range, or searching another category, color story, or collection tag."
         >
           <button class="secondary-button" type="button" @click="clearFilters">Clear Filters</button>
         </EmptyState>

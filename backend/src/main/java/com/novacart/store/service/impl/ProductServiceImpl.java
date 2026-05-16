@@ -128,7 +128,7 @@ public class ProductServiceImpl implements ProductService {
                 request.name().trim(),
                 slug,
                 sku,
-                normalizeText(request.brand(), "NovaCart Supply"),
+                normalizeText(request.brand(), "Nova Atelier"),
                 request.description().trim(),
                 request.price(),
                 request.compareAtPrice(),
@@ -167,7 +167,7 @@ public class ProductServiceImpl implements ProductService {
         product.setName(request.name().trim());
         product.setSlug(slug);
         product.setSku(sku);
-        product.setBrand(normalizeText(request.brand(), "NovaCart Supply"));
+        product.setBrand(normalizeText(request.brand(), "Nova Atelier"));
         product.setDescription(request.description().trim());
         product.setPrice(request.price());
         product.setCompareAtPrice(request.compareAtPrice());

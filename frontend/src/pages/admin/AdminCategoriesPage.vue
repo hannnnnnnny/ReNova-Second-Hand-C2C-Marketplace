@@ -3,7 +3,7 @@
     <PageHeader
       eyebrow="Catalog"
       title="Categories"
-      description="Keep category names, descriptions, and storefront visibility clear for customers."
+      description="Keep fashion category names, descriptions, and storefront visibility clear for customers."
     >
       <template #actions>
         <button class="secondary-button" type="button" @click="resetForm">New Category</button>

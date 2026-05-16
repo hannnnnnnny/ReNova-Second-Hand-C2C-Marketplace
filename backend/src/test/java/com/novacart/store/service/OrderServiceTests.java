@@ -35,7 +35,7 @@ class OrderServiceTests {
 
     @Test
     void createOrderDeductsStockAndCreatesOrderItems() {
-        Product product = saveProduct("Test Desk Tray", "test-desk-tray", 3, "15.00");
+        Product product = saveProduct("Test Cotton Jacket", "test-cotton-jacket", 3, "15.00");
 
         OrderResponse response = orderService.createOrder(new CheckoutRequest(
                 "Morgan Lee",
@@ -61,7 +61,7 @@ class OrderServiceTests {
 
     @Test
     void createOrderRejectsInsufficientStockWithoutChangingInventory() {
-        Product product = saveProduct("Test Low Stock Cloth", "test-low-stock-cloth", 1, "9.00");
+        Product product = saveProduct("Test Low Stock Tee", "test-low-stock-tee", 1, "9.00");
 
         CheckoutRequest request = new CheckoutRequest(
                 "Morgan Lee",
@@ -75,7 +75,7 @@ class OrderServiceTests {
 
         assertThatThrownBy(() -> orderService.createOrder(request))
                 .isInstanceOf(BusinessRuleException.class)
-                .hasMessage("Insufficient stock for Test Low Stock Cloth.");
+                .hasMessage("Insufficient stock for Test Low Stock Tee.");
 
         Product unchangedProduct = productRepository.findById(product.getId()).orElseThrow();
         assertThat(unchangedProduct.getStockQuantity()).isEqualTo(1);
@@ -83,7 +83,7 @@ class OrderServiceTests {
 
     @Test
     void createOrderReturnsExistingOrderForRepeatedIdempotencyKey() {
-        Product product = saveProduct("Test Idempotent Tray", "test-idempotent-tray", 3, "20.00");
+        Product product = saveProduct("Test Idempotent Shirt", "test-idempotent-shirt", 3, "20.00");
         CheckoutRequest request = new CheckoutRequest(
                 "Morgan Lee",
                 "morgan@example.com",
@@ -108,7 +108,7 @@ class OrderServiceTests {
 
     @Test
     void createOrderRejectsDemoPaymentFailureWithoutChangingInventory() {
-        Product product = saveProduct("Test Declined Payment Tray", "test-declined-payment-tray", 3, "20.00");
+        Product product = saveProduct("Test Declined Payment Sneaker", "test-declined-payment-sneaker", 3, "20.00");
         CheckoutRequest request = new CheckoutRequest(
                 "Morgan Lee",
                 "morgan@example.com",
@@ -133,7 +133,7 @@ class OrderServiceTests {
 
     @Test
     void updateStatusAllowsFulfillmentProgression() {
-        Product product = saveProduct("Test Status Lamp", "test-status-lamp", 4, "22.00");
+        Product product = saveProduct("Test Status Loafer", "test-status-loafer", 4, "22.00");
         OrderResponse order = createSingleItemOrder(product);
 
         OrderResponse paidOrder = orderService.updateStatus(order.id(), OrderStatus.PAID);
@@ -149,7 +149,7 @@ class OrderServiceTests {
 
     @Test
     void updateStatusAllowsCancellationBeforeShipment() {
-        Product product = saveProduct("Test Cancel Tray", "test-cancel-tray", 4, "18.00");
+        Product product = saveProduct("Test Cancel Tote", "test-cancel-tote", 4, "18.00");
         OrderResponse order = createSingleItemOrder(product);
 
         OrderResponse cancelledOrder = orderService.updateStatus(order.id(), OrderStatus.CANCELLED);
@@ -161,7 +161,7 @@ class OrderServiceTests {
 
     @Test
     void updateStatusRejectsTerminalStatusChanges() {
-        Product product = saveProduct("Test Terminal Bowl", "test-terminal-bowl", 4, "24.00");
+        Product product = saveProduct("Test Terminal Blazer", "test-terminal-blazer", 4, "24.00");
         OrderResponse order = createSingleItemOrder(product);
 
         orderService.updateStatus(order.id(), OrderStatus.CANCELLED);

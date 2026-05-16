@@ -32,9 +32,7 @@ body {
   margin: 0;
   min-width: 320px;
   color: var(--color-ink);
-  background:
-    radial-gradient(circle at top left, rgba(50, 111, 140, 0.09), transparent 32rem),
-    var(--color-subtle);
+  background: var(--color-subtle);
 }
 
 a {
@@ -217,8 +215,9 @@ nav a.router-link-active {
   align-items: center;
   padding: clamp(3rem, 8vw, 7rem) clamp(1rem, 6vw, 5rem);
   background:
-    linear-gradient(90deg, rgba(17, 28, 22, 0.82), rgba(28, 53, 65, 0.24)),
-    url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1800&q=80") center/cover;
+    linear-gradient(90deg, rgba(20, 24, 25, 0.92), rgba(47, 48, 48, 0.7), rgba(20, 24, 25, 0.18)),
+    url("/catalog/seasonal.svg") right center/contain no-repeat,
+    #24333b;
   color: #fffdf7;
 }
 
@@ -334,6 +333,52 @@ nav a.router-link-active {
   height: 2rem;
   margin-bottom: 1rem;
   color: var(--color-accent);
+}
+
+.campaign-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.campaign-card {
+  display: grid;
+  min-height: 180px;
+  align-content: end;
+  gap: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.2rem;
+  background:
+    linear-gradient(180deg, rgba(36, 51, 59, 0.1), rgba(36, 51, 59, 0.92)),
+    url("/catalog/new-arrivals.svg") center/cover;
+  color: #fffdf7;
+  box-shadow: var(--shadow-sm);
+}
+
+.campaign-card:nth-child(2) {
+  background:
+    linear-gradient(180deg, rgba(32, 65, 58, 0.1), rgba(32, 65, 58, 0.92)),
+    url("/catalog/sportswear.svg") center/cover;
+}
+
+.campaign-card:nth-child(3) {
+  background:
+    linear-gradient(180deg, rgba(47, 43, 58, 0.12), rgba(47, 43, 58, 0.92)),
+    url("/catalog/jewelry.svg") center/cover;
+}
+
+.campaign-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.campaign-card strong {
+  font-size: 1.35rem;
+}
+
+.campaign-card span {
+  color: rgba(255, 253, 247, 0.82);
 }
 
 .page-section,

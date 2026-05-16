@@ -25,7 +25,7 @@ describe('cart store', () => {
 
     cartStore.addItem({
       id: 1,
-      name: 'Bamboo Desk Organizer',
+      name: 'Silk Wrap Blouse',
       price: '39.00',
       imageUrl: 'https://example.com/product.jpg',
       stockQuantity: 2
@@ -41,7 +41,7 @@ describe('cart store', () => {
     const cartStore = useCartStore()
     cartStore.addItem({
       id: 1,
-      name: 'Bamboo Desk Organizer',
+      name: 'Silk Wrap Blouse',
       price: 39,
       imageUrl: '',
       stockQuantity: 5
@@ -56,7 +56,7 @@ describe('cart store', () => {
     storage.set(STORAGE_KEY, JSON.stringify([
       {
         productId: 1,
-        name: 'Bamboo Desk Organizer',
+        name: 'Silk Wrap Blouse',
         price: 39,
         imageUrl: '',
         stockQuantity: 3,

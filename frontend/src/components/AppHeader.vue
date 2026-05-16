@@ -6,7 +6,7 @@
     </RouterLink>
 
     <nav class="store-nav" aria-label="Storefront navigation">
-      <RouterLink to="/products">Products</RouterLink>
+      <RouterLink to="/products">Fashion</RouterLink>
       <RouterLink class="cart-link" to="/cart">
         <span>Cart</span>
         <span class="cart-count" aria-label="Cart item count">{{ cartStore.itemCount }}</span>

@@ -3,12 +3,12 @@
     <PageHeader
       eyebrow="Basket"
       title="Cart"
-      description="Review quantities, stock limits, and order totals before checkout."
+      description="Review selected fashion pieces, quantities, stock limits, and order totals before checkout."
     />
     <EmptyState
       v-if="!cartStore.items.length"
       title="Your cart is empty"
-      message="Browse the catalog, compare stock status, and add items when you are ready to build an order."
+      message="Browse the fashion catalog, compare stock status, and add pieces when you are ready to checkout."
     >
       <RouterLink class="primary-button" to="/products">Browse Products</RouterLink>
     </EmptyState>
@@ -45,7 +45,7 @@
           <span>Subtotal</span>
           <strong>{{ formatCurrency(cartStore.subtotal) }}</strong>
         </div>
-        <p class="muted">Taxes and shipping are finalized outside this sample checkout.</p>
+        <p class="muted">Taxes and shipping are estimated in the demo checkout.</p>
         <p class="checkout-note compact-note">
           <strong>Demo checkout</strong>
           <span>Payment is not captured. Inventory is reserved when the order is created.</span>

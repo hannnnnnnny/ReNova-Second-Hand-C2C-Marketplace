@@ -2,35 +2,35 @@
   <div>
     <section class="hero-section">
       <div class="hero-copy">
-        <p class="eyebrow">Useful goods, carefully organized</p>
-        <h1>NovaCart Ecommerce</h1>
-        <p>Shop considered home, studio, and daily essentials through a quiet storefront built for fast decisions and reliable checkout.</p>
+        <p class="eyebrow">NovaCart Fashion Commerce</p>
+        <h1>Seasonal style, ready to sell.</h1>
+        <p>Browse clothing, bags, jewelry, shoes, active pieces, and lifestyle accessories from a modern storefront built for fashion merchants.</p>
         <div class="hero-actions">
-          <RouterLink class="primary-button" to="/products">Shop Products</RouterLink>
-          <RouterLink class="secondary-button hero-secondary" to="/cart">View Cart</RouterLink>
+          <RouterLink class="primary-button" :to="{ name: 'products', query: { search: 'spring' } }">Shop Spring Edit</RouterLink>
+          <RouterLink class="secondary-button hero-secondary" :to="{ name: 'products', query: { search: 'sale' } }">Shop Sale</RouterLink>
         </div>
       </div>
       <div class="hero-stats" aria-label="Storefront highlights">
         <article>
-          <strong>{{ products.length || '6' }}</strong>
-          <span>Catalog items</span>
+          <strong>{{ products.length || '60' }}</strong>
+          <span>Fashion products</span>
         </article>
         <article>
-          <strong>{{ categories.length || '4' }}</strong>
-          <span>Curated categories</span>
+          <strong>{{ categories.length || '10' }}</strong>
+          <span>Retail categories</span>
         </article>
         <article>
-          <strong>24/7</strong>
-          <span>Online ordering</span>
+          <strong>Demo</strong>
+          <span>Safe payment flow</span>
         </article>
       </div>
     </section>
 
     <section class="page-section category-section">
       <SectionHeader
-        eyebrow="Shop by use"
-        title="Find the right fit faster"
-        description="Category highlights keep browsing clear, purposeful, and easy to scan."
+        eyebrow="Category navigation"
+        title="Shop the fashion floor"
+        description="Move quickly between wardrobe, accessory, footwear, sportswear, sale, and campaign edits."
       />
       <LoadingState v-if="loading" message="Loading categories..." />
       <ErrorMessage v-else-if="error" :message="error" />
@@ -49,14 +49,36 @@
 
     <section class="page-section featured-section">
       <SectionHeader
-        eyebrow="Fresh from the catalog"
-        title="Featured Products"
-        description="A few practical favorites from the current NovaCart sample inventory."
+        eyebrow="Featured collections"
+        title="New arrivals, best sellers, and seasonal edits"
+        description="A storefront preview of the products merchants can feature, mark down, and move through checkout."
       />
       <LoadingState v-if="loading" message="Loading featured products..." />
       <ErrorMessage v-else-if="error" :message="error" />
       <div v-else class="product-grid">
         <ProductCard v-for="product in featuredProducts" :key="product.id" :product="product" />
+      </div>
+    </section>
+
+    <section class="page-section campaign-section">
+      <SectionHeader
+        eyebrow="Seasonal campaign"
+        title="Spring Edit"
+        description="Soft tailoring, fresh color, and flexible pieces for a premium fashion storefront."
+      />
+      <div class="campaign-grid">
+        <RouterLink class="campaign-card" :to="{ name: 'products', query: { search: 'spring' } }">
+          <strong>Spring layers</strong>
+          <span>Trench coats, silk blouses, and lighter tailoring.</span>
+        </RouterLink>
+        <RouterLink class="campaign-card" :to="{ name: 'products', query: { search: 'active-weekend' } }">
+          <strong>Active weekend</strong>
+          <span>Sportswear and original equipment for studio, court, and travel.</span>
+        </RouterLink>
+        <RouterLink class="campaign-card" :to="{ name: 'products', query: { search: 'evening' } }">
+          <strong>Evening details</strong>
+          <span>Jewelry, satin, clutches, and finishers for occasion styling.</span>
+        </RouterLink>
       </div>
     </section>
 
@@ -89,18 +111,18 @@ const categories = ref([])
 const featuredProducts = computed(() => products.value.slice(0, 3))
 const valueCards = [
   {
-    title: 'Fast Checkout',
-    description: 'A short, focused checkout flow keeps orders moving without extra friction.',
+    title: 'Fashion Checkout',
+    description: 'Demo payment, order totals, stock checks, and customer details stay clear from cart to confirmation.',
     icon: Truck
   },
   {
-    title: 'Curated Products',
-    description: 'Categories are built around practical needs, not endless browsing noise.',
+    title: 'Curated Catalog',
+    description: 'Fashion categories, sale edits, new arrivals, and fictional private labels keep browsing focused.',
     icon: Sparkles
   },
   {
-    title: 'Secure Orders',
-    description: 'Admin access is protected and order data is handled through a consistent API.',
+    title: 'Merchant Workspace',
+    description: 'Admin operators can manage products, categories, orders, and inventory from protected screens.',
     icon: ShieldCheck
   }
 ]

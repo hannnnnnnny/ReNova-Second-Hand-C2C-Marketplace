@@ -3,7 +3,7 @@
     <PageHeader
       eyebrow="Inventory"
       title="Stock Watch"
-      description="Review products that need replenishment before customers hit checkout limits."
+      description="Review fashion products that need replenishment before customers hit checkout limits."
     >
       <template #actions>
         <RouterLink class="secondary-button" to="/admin/products">Manage Products</RouterLink>
@@ -17,7 +17,7 @@
       <button class="secondary-button" type="button" @click="loadWarnings">Refresh</button>
     </div>
     <p class="inventory-guidance">
-      Products at or below this threshold deserve attention before customers run into checkout limits.
+      Products at or below this threshold deserve attention before customers run into size, color, or checkout limits.
     </p>
     <LoadingState v-if="loading" message="Loading inventory warnings..." />
     <ErrorMessage v-else-if="error" :message="error" />

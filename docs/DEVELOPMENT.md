@@ -1,6 +1,6 @@
 # Development Guide
 
-This guide captures the working conventions for NovaCart Ecommerce.
+This guide captures the working conventions for NovaCart Fashion Commerce Platform.
 
 ## Language Standard
 

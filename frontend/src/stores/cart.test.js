@@ -52,6 +52,51 @@ describe('cart store', () => {
     expect(cartStore.items).toHaveLength(0)
   })
 
+  it('keeps size and color variants as separate cart lines', () => {
+    const cartStore = useCartStore()
+    const product = {
+      id: 7,
+      name: 'Tailored Travel Trouser',
+      price: 88,
+      effectivePrice: 70,
+      discountAmount: 18,
+      discountPercent: 20,
+      imageUrl: '',
+      stockQuantity: 4,
+      sizes: ['S', 'M'],
+      colors: ['Black', 'Stone']
+    }
+
+    cartStore.addItem(product, 1, { selectedSize: 'S', selectedColor: 'Black' })
+    cartStore.addItem(product, 2, { selectedSize: 'M', selectedColor: 'Stone' })
+
+    expect(cartStore.items).toHaveLength(2)
+    expect(cartStore.itemCount).toBe(3)
+    expect(cartStore.subtotal).toBe(210)
+    expect(cartStore.discountTotal).toBe(54)
+    expect(cartStore.items.map((item) => item.lineKey)).toEqual(['7|S|Black', '7|M|Stone'])
+  })
+
+  it('defaults to the first available size and color when adding from a product card', () => {
+    const cartStore = useCartStore()
+
+    cartStore.addItem({
+      id: 8,
+      name: 'Weekend Knit Polo',
+      price: 52,
+      imageUrl: '',
+      stockQuantity: 3,
+      sizes: ['M', 'L'],
+      colors: ['Navy', 'Cream']
+    })
+
+    expect(cartStore.items[0]).toMatchObject({
+      selectedSize: 'M',
+      selectedColor: 'Navy',
+      lineKey: '8|M|Navy'
+    })
+  })
+
   it('loads only valid persisted cart items', () => {
     storage.set(STORAGE_KEY, JSON.stringify([
       {

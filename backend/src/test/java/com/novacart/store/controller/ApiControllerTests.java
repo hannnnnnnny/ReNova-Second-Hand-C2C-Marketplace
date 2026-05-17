@@ -17,6 +17,7 @@ import com.novacart.store.entity.Product;
 import com.novacart.store.entity.PromotionDiscountType;
 import com.novacart.store.entity.PromotionTargetType;
 import com.novacart.store.repository.CategoryRepository;
+import com.novacart.store.repository.FashionCollectionRepository;
 import com.novacart.store.repository.ProductRepository;
 import com.novacart.store.service.PromotionService;
 import com.jayway.jsonpath.JsonPath;
@@ -54,6 +55,9 @@ class ApiControllerTests {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private FashionCollectionRepository collectionRepository;
 
     @Autowired
     private PromotionService promotionService;
@@ -102,6 +106,24 @@ class ApiControllerTests {
                 .andExpect(jsonPath("$.data.content").isArray())
                 .andExpect(jsonPath("$.data.totalElements").value(greaterThanOrEqualTo(20)))
                 .andExpect(jsonPath("$.data.content[0].name", not(emptyString())));
+    }
+
+    @Test
+    void seededFashionCatalogHasExpectedScaleAndCollections() {
+        assertThat(categoryRepository.count()).isGreaterThanOrEqualTo(10);
+        assertThat(collectionRepository.count()).isGreaterThanOrEqualTo(6);
+        assertThat(productRepository.count()).isGreaterThanOrEqualTo(60);
+        assertThat(collectionRepository.findAll().stream().map(collection -> collection.getName()).toList())
+                .contains(
+                        "Spring Edit",
+                        "Summer Essentials",
+                        "Workwear Capsule",
+                        "Evening Details",
+                        "Active Weekend",
+                        "End of Season Sale"
+                );
+        assertThat(productRepository.findAll().stream().map(product -> product.getName()).toList())
+                .doesNotContain("Oak Desk Organizer", "Linen Storage Basket", "Chrome Floor Set");
     }
 
     @Test

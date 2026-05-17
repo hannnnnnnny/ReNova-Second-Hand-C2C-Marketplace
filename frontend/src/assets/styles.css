@@ -2511,6 +2511,11 @@ body {
   font-size: clamp(1.6rem, 4vw, 2.5rem);
 }
 
+.command-hero-stats strong {
+  font-size: clamp(1.08rem, 1.45vw, 1.55rem);
+  white-space: nowrap;
+}
+
 .admin-visual-summary {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: -0.6rem 0 1.2rem;

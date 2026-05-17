@@ -35,13 +35,15 @@
           <div class="purchase-box">
             <label v-if="product.sizes?.length">
               Size
-              <select v-model="selectedSize">
+              <select v-model="selectedSize" :aria-invalid="requiresSizeSelection && !selectedSize">
+                <option v-if="requiresSizeSelection" disabled value="">Select a size</option>
                 <option v-for="size in product.sizes" :key="size" :value="size">{{ size }}</option>
               </select>
             </label>
             <label v-if="product.colors?.length">
               Color
-              <select v-model="selectedColor">
+              <select v-model="selectedColor" :aria-invalid="requiresColorSelection && !selectedColor">
+                <option v-if="requiresColorSelection" disabled value="">Select a color</option>
                 <option v-for="color in product.colors" :key="color" :value="color">{{ color }}</option>
               </select>
             </label>
@@ -49,10 +51,13 @@
               Quantity
               <QuantityStepper v-model="quantity" :max="Math.max(product.stockQuantity, 1)" />
             </label>
-            <button class="primary-button" type="button" :disabled="product.stockQuantity < 1" @click="addToCart">
+            <p v-if="purchaseValidationMessage" class="purchase-validation" role="status">
+              {{ purchaseValidationMessage }}
+            </p>
+            <button class="primary-button" type="button" :disabled="!canAddToCart" @click="addToCart">
               Add to Cart
             </button>
-            <button class="secondary-button" type="button" :disabled="product.stockQuantity < 1" @click="buyNow">
+            <button class="secondary-button" type="button" :disabled="!canAddToCart" @click="buyNow">
               Buy Now
             </button>
             <RouterLink class="secondary-button" to="/cart">View Cart</RouterLink>
@@ -141,6 +146,16 @@ const stockLabel = computed(() => {
   if (product.value.stockQuantity <= 5) return `${product.value.stockQuantity} left`
   return 'In stock'
 })
+const requiresSizeSelection = computed(() => (product.value?.sizes?.length || 0) > 1)
+const requiresColorSelection = computed(() => (product.value?.colors?.length || 0) > 1)
+const purchaseValidationMessage = computed(() => {
+  if (!product.value) return ''
+  if (product.value.stockQuantity < 1) return 'This product is currently unavailable.'
+  if (requiresSizeSelection.value && !selectedSize.value) return 'Choose a size before adding this product.'
+  if (requiresColorSelection.value && !selectedColor.value) return 'Choose a color before adding this product.'
+  return ''
+})
+const canAddToCart = computed(() => !purchaseValidationMessage.value)
 
 watch(
   () => route.params.id,
@@ -157,8 +172,8 @@ async function loadProduct(productId) {
   try {
     product.value = await fetchProduct(productId)
     selectedImage.value = product.value.imageGallery?.[0] || product.value.imageUrl
-    selectedSize.value = product.value.sizes?.[0] || ''
-    selectedColor.value = product.value.colors?.[0] || ''
+    selectedSize.value = product.value.sizes?.length === 1 ? product.value.sizes[0] : ''
+    selectedColor.value = product.value.colors?.length === 1 ? product.value.colors[0] : ''
     const categoryProducts = await fetchProducts(product.value.category?.id)
     relatedProducts.value = categoryProducts
       .filter((entry) => entry.id !== product.value.id)
@@ -171,6 +186,14 @@ async function loadProduct(productId) {
 }
 
 function addToCart() {
+  if (!canAddToCart.value) {
+    toastMessage.value = purchaseValidationMessage.value
+    window.clearTimeout(toastTimer)
+    toastTimer = window.setTimeout(() => {
+      toastMessage.value = ''
+    }, 2600)
+    return
+  }
   cartStore.addItem(product.value, quantity.value, {
     selectedSize: selectedSize.value,
     selectedColor: selectedColor.value

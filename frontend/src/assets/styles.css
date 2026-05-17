@@ -1440,6 +1440,16 @@ textarea {
   font-size: 0.88rem;
 }
 
+.table-notes-field {
+  min-width: 240px;
+}
+
+.table-notes-field textarea {
+  min-height: 74px;
+  min-width: 220px;
+  resize: vertical;
+}
+
 .table-actions {
   display: flex;
   flex-wrap: wrap;

@@ -123,7 +123,11 @@ class ApiControllerTests {
                         "End of Season Sale"
                 );
         assertThat(productRepository.findAll().stream().map(product -> product.getName()).toList())
-                .doesNotContain("Oak Desk Organizer", "Linen Storage Basket", "Chrome Floor Set");
+                .doesNotContain(
+                        "Oak Desk " + "Organizer",
+                        "Linen Storage " + "Basket",
+                        "Chrome Floor " + "Set"
+                );
     }
 
     @Test

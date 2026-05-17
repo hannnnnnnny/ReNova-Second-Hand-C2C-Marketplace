@@ -587,6 +587,30 @@ nav a.router-link-active {
   align-items: start;
 }
 
+.catalog-focus-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: -0.75rem 0 1.5rem;
+}
+
+.catalog-focus-strip a {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.58rem 0.85rem;
+  background: var(--color-surface);
+  color: #314239;
+  font-weight: 850;
+  box-shadow: var(--shadow-sm);
+}
+
+.catalog-focus-strip a:hover,
+.catalog-focus-strip a.router-link-active {
+  border-color: rgba(50, 111, 140, 0.28);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
 .catalog-filter-panel {
   position: sticky;
   top: 1rem;

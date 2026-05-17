@@ -10,6 +10,13 @@
       {{ filtersOpen ? 'Hide Filters' : 'Show Filters' }}
     </button>
 
+    <nav class="catalog-focus-strip" aria-label="Popular fashion filters">
+      <RouterLink :to="{ name: 'products', query: { tag: 'new-arrival', sort: 'newest' } }">New Arrivals</RouterLink>
+      <RouterLink :to="{ name: 'products', query: { search: 'workwear', sort: 'newest' } }">Workwear Capsule</RouterLink>
+      <RouterLink :to="{ name: 'products', query: { tag: 'active-weekend', sort: 'best-selling' } }">Active Weekend</RouterLink>
+      <RouterLink :to="{ name: 'products', query: { sale: 'true', sort: 'discount' } }">Sale Campaign</RouterLink>
+    </nav>
+
     <div class="catalog-browse-layout">
       <aside class="catalog-filter-panel" :class="{ open: filtersOpen }" aria-label="Catalog filters">
         <form class="filter-form" @submit.prevent="applyFilters">
@@ -76,6 +83,10 @@
               <option value="">All tags</option>
               <option v-for="tag in tagOptions" :key="tag" :value="tag">{{ tag }}</option>
             </select>
+          </label>
+          <label class="toggle-control">
+            <input v-model="newArrivalOnly" type="checkbox" @change="applyFilters" />
+            New arrivals only
           </label>
           <div class="price-filter-grid">
             <label>
@@ -198,6 +209,7 @@ const searchTerm = ref('')
 const sortMode = ref('name')
 const availableOnly = ref(false)
 const saleOnly = ref(false)
+const newArrivalOnly = ref(false)
 const filtersOpen = ref(false)
 const minPrice = ref('')
 const maxPrice = ref('')
@@ -224,7 +236,7 @@ const colorOptions = ['Black', 'Ivory', 'Taupe', 'Sand', 'Sky', 'Pearl', 'Wine',
 const materialOptions = ['Cotton blend', 'Linen', 'Silk blend', 'Leather', 'Satin', 'Performance blend', 'Wool blend']
 const brandOptions = ['Aster Row', 'Linden Vale', 'Rue Forme', 'Meridian Atelier', 'Harbor Finch', 'Northline Studio', 'Kinetic Loom', 'Solace Field', 'Vale & Thread']
 const seasonOptions = ['Spring 2026', 'Summer 2026', 'Fall Winter 2026', 'Active Weekend', 'Evening Edit', 'Last Season']
-const tagOptions = ['active-weekend', 'capsule', 'equipment', 'event', 'jewelry', 'linen', 'resort', 'sale', 'tailoring', 'workwear']
+const tagOptions = ['active-weekend', 'bestseller', 'capsule', 'equipment', 'event', 'jewelry', 'linen', 'new-arrival', 'resort', 'sale', 'tailoring', 'workwear']
 
 const hasActiveFilters = computed(() => {
   return Boolean(searchTerm.value)
@@ -239,6 +251,7 @@ const hasActiveFilters = computed(() => {
     || sortMode.value !== 'name'
     || availableOnly.value
     || saleOnly.value
+    || newArrivalOnly.value
     || hasPrice(minPrice.value)
     || hasPrice(maxPrice.value)
 })
@@ -253,7 +266,8 @@ const activeFilterChips = computed(() => {
   if (selectedMaterial.value) chips.push({ key: 'material', label: selectedMaterial.value })
   if (selectedBrand.value) chips.push({ key: 'brand', label: selectedBrand.value })
   if (selectedSeason.value) chips.push({ key: 'season', label: selectedSeason.value })
-  if (selectedTag.value) chips.push({ key: 'tag', label: `Tag: ${selectedTag.value}` })
+  if (newArrivalOnly.value) chips.push({ key: 'newArrival', label: 'New arrivals' })
+  if (selectedTag.value && !newArrivalOnly.value) chips.push({ key: 'tag', label: `Tag: ${selectedTag.value}` })
   if (availableOnly.value) chips.push({ key: 'available', label: 'Available only' })
   if (saleOnly.value) chips.push({ key: 'sale', label: 'Sale only' })
   if (hasPrice(minPrice.value)) chips.push({ key: 'minPrice', label: `From ${formatCurrency(minPrice.value)}` })
@@ -311,7 +325,7 @@ function buildQuery(page) {
     material: selectedMaterial.value || undefined,
     brand: selectedBrand.value || undefined,
     season: selectedSeason.value || undefined,
-    tag: selectedTag.value || undefined,
+    tag: newArrivalOnly.value ? 'new-arrival' : selectedTag.value || undefined,
     saleOnly: saleOnly.value || undefined,
     minPrice: hasPrice(minPrice.value) ? minPrice.value : undefined,
     maxPrice: hasPrice(maxPrice.value) ? maxPrice.value : undefined,
@@ -339,6 +353,7 @@ function clearFilters() {
   sortMode.value = 'name'
   availableOnly.value = false
   saleOnly.value = false
+  newArrivalOnly.value = false
   minPrice.value = ''
   maxPrice.value = ''
   loadProducts(0)
@@ -354,6 +369,7 @@ function removeFilter(key) {
   if (key === 'brand') selectedBrand.value = ''
   if (key === 'season') selectedSeason.value = ''
   if (key === 'tag') selectedTag.value = ''
+  if (key === 'newArrival') newArrivalOnly.value = false
   if (key === 'available') availableOnly.value = false
   if (key === 'sale') saleOnly.value = false
   if (key === 'minPrice') minPrice.value = ''
@@ -377,8 +393,14 @@ function syncFiltersFromQuery(query) {
   selectedCollectionId.value = Number.isFinite(collectionFromQuery) && collectionFromQuery > 0 ? String(collectionFromQuery) : ''
   searchTerm.value = query.search ? String(query.search) : ''
   selectedSeason.value = query.season ? String(query.season) : ''
-  selectedTag.value = query.tag ? String(query.tag) : ''
+  newArrivalOnly.value = query.tag === 'new-arrival'
+  selectedTag.value = query.tag && query.tag !== 'new-arrival' ? String(query.tag) : ''
   saleOnly.value = query.sale === 'true' || query.saleOnly === 'true'
+  sortMode.value = query.sort ? String(query.sort) : 'name'
+  selectedSize.value = query.sizeFilter ? String(query.sizeFilter) : ''
+  selectedColor.value = query.color ? String(query.color) : ''
+  selectedMaterial.value = query.material ? String(query.material) : ''
+  selectedBrand.value = query.brand ? String(query.brand) : ''
 }
 
 function showAddedMessage(product) {

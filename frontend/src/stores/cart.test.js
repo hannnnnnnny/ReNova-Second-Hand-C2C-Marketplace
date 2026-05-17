@@ -77,6 +77,42 @@ describe('cart store', () => {
     expect(cartStore.items.map((item) => item.lineKey)).toEqual(['7|S|Black', '7|M|Stone'])
   })
 
+  it('updates a specific fashion variant line by line key', () => {
+    const cartStore = useCartStore()
+    const product = {
+      id: 11,
+      name: 'Mesh Sling Bag',
+      price: 76,
+      imageUrl: '',
+      stockQuantity: 5,
+      sizes: ['One Size'],
+      colors: ['Black', 'Taupe']
+    }
+
+    cartStore.addItem(product, 1, { selectedSize: 'One Size', selectedColor: 'Black' })
+    cartStore.addItem(product, 2, { selectedSize: 'One Size', selectedColor: 'Taupe' })
+    cartStore.updateQuantity('11|One Size|Taupe', 4)
+
+    expect(cartStore.items).toHaveLength(2)
+    expect(cartStore.items.find((item) => item.selectedColor === 'Black').quantity).toBe(1)
+    expect(cartStore.items.find((item) => item.selectedColor === 'Taupe').quantity).toBe(4)
+    expect(cartStore.itemCount).toBe(5)
+  })
+
+  it('does not add unavailable fashion products', () => {
+    const cartStore = useCartStore()
+
+    cartStore.addItem({
+      id: 12,
+      name: 'Sold Out Satin Wrap',
+      price: 86,
+      imageUrl: '',
+      stockQuantity: 0
+    })
+
+    expect(cartStore.items).toHaveLength(0)
+  })
+
   it('defaults to the first available size and color when adding from a product card', () => {
     const cartStore = useCartStore()
 

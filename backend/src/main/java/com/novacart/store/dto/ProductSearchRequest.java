@@ -12,6 +12,7 @@ public record ProductSearchRequest(
         String material,
         String brand,
         String season,
+        String tag,
         Boolean saleOnly,
         ProductStatus status,
         BigDecimal minPrice,

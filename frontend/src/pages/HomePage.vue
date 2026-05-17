@@ -82,7 +82,7 @@
           <strong>Spring layers</strong>
           <span>Trench coats, silk blouses, and lighter tailoring.</span>
         </RouterLink>
-        <RouterLink class="campaign-card" :to="{ name: 'products', query: { search: 'active-weekend' } }">
+        <RouterLink class="campaign-card" :to="{ name: 'products', query: { tag: 'active-weekend' } }">
           <strong>Active weekend</strong>
           <span>Sportswear and original equipment for studio, court, and travel.</span>
         </RouterLink>

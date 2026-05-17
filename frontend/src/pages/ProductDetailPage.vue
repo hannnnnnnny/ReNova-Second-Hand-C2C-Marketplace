@@ -77,8 +77,9 @@
           </RouterLink>
         </article>
         <article class="summary-panel">
-          <h2>Customer Reviews</h2>
-          <p class="muted">Review capture is ready for a future customer account release. Merchants can use support tickets for current customer feedback.</p>
+          <h2>Customer Care</h2>
+          <p class="muted">Need help with sizing, delivery, or a completed order? The merchant support flow records customer requests for admin review.</p>
+          <RouterLink class="text-link" to="/support">Contact Support</RouterLink>
         </article>
       </section>
 

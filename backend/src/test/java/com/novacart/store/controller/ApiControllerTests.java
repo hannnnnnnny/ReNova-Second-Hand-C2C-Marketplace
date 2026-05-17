@@ -11,18 +11,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.novacart.store.config.DataInitializer;
+import com.novacart.store.dto.PromotionRequest;
 import com.novacart.store.entity.Category;
 import com.novacart.store.entity.Product;
+import com.novacart.store.entity.PromotionDiscountType;
+import com.novacart.store.entity.PromotionTargetType;
 import com.novacart.store.repository.CategoryRepository;
 import com.novacart.store.repository.ProductRepository;
+import com.novacart.store.service.PromotionService;
 import com.jayway.jsonpath.JsonPath;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import javax.crypto.SecretKey;
 import org.junit.jupiter.api.Test;
@@ -48,6 +54,9 @@ class ApiControllerTests {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private PromotionService promotionService;
 
     @Value("${novacart.security.jwt-secret}")
     private String jwtSecret;
@@ -108,6 +117,49 @@ class ApiControllerTests {
                 .andExpect(jsonPath("$.data.content.length()").value(greaterThanOrEqualTo(1)))
                 .andExpect(jsonPath("$.data.size").value(5))
                 .andExpect(jsonPath("$.data.totalElements").value(greaterThanOrEqualTo(1)));
+    }
+
+    @Test
+    void publicProductListingSearchesFashionTags() throws Exception {
+        Product product = saveProduct("Controller Active Weekend Pack", 6, "68.00", true);
+        String uniqueTag = "controller-active-weekend-" + UUID.randomUUID().toString().substring(0, 8);
+        product.setTags(List.of(uniqueTag, "equipment"));
+        productRepository.save(product);
+
+        mockMvc.perform(get("/api/public/products")
+                        .param("search", uniqueTag)
+                        .param("availableOnly", "true"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.totalElements").value(greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$.data.content[0].name").value("Controller Active Weekend Pack"));
+    }
+
+    @Test
+    void saleFilterIncludesProductsDiscountedByActivePromotions() throws Exception {
+        Product product = saveProduct("Controller Promotion Only Sneaker", 8, "90.00", true);
+        Category category = product.getCategory();
+        promotionService.createPromotion(new PromotionRequest(
+                "Controller category sale",
+                "API test promotion for sale filtering.",
+                PromotionDiscountType.PERCENTAGE,
+                new BigDecimal("15.00"),
+                LocalDate.now().minusDays(1),
+                LocalDate.now().plusDays(7),
+                true,
+                PromotionTargetType.CATEGORY,
+                List.of(category.getSlug())
+        ));
+
+        mockMvc.perform(get("/api/public/products")
+                        .param("search", "Promotion Only Sneaker")
+                        .param("saleOnly", "true"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.totalElements").value(greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$.data.content[0].name").value("Controller Promotion Only Sneaker"))
+                .andExpect(jsonPath("$.data.content[0].effectivePrice").value(76.50))
+                .andExpect(jsonPath("$.data.content[0].discountPercent").value(15));
     }
 
     @Test

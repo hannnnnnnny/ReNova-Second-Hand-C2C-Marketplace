@@ -11,22 +11,31 @@ import com.novacart.store.entity.FashionCollection;
 import com.novacart.store.entity.GenderTarget;
 import com.novacart.store.entity.Product;
 import com.novacart.store.entity.ProductStatus;
+import com.novacart.store.entity.Promotion;
+import com.novacart.store.entity.PromotionTargetType;
 import com.novacart.store.exception.BusinessRuleException;
 import com.novacart.store.exception.DuplicateResourceException;
 import com.novacart.store.exception.ResourceNotFoundException;
 import com.novacart.store.repository.CategoryRepository;
 import com.novacart.store.repository.FashionCollectionRepository;
 import com.novacart.store.repository.ProductRepository;
+import com.novacart.store.repository.PromotionRepository;
 import com.novacart.store.service.ProductService;
 import com.novacart.store.service.PromotionService;
 import com.novacart.store.service.SlugService;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +51,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final FashionCollectionRepository collectionRepository;
+    private final PromotionRepository promotionRepository;
     private final PromotionService promotionService;
     private final SlugService slugService;
 
@@ -49,12 +59,14 @@ public class ProductServiceImpl implements ProductService {
             ProductRepository productRepository,
             CategoryRepository categoryRepository,
             FashionCollectionRepository collectionRepository,
+            PromotionRepository promotionRepository,
             PromotionService promotionService,
             SlugService slugService
     ) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.collectionRepository = collectionRepository;
+        this.promotionRepository = promotionRepository;
         this.promotionService = promotionService;
         this.slugService = slugService;
     }
@@ -65,6 +77,7 @@ public class ProductServiceImpl implements ProductService {
         return searchPublicProducts(new ProductSearchRequest(
                 null,
                 categoryId,
+                null,
                 null,
                 null,
                 null,
@@ -100,6 +113,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(readOnly = true)
     public List<ProductResponse> findAdminProducts() {
         return searchAdminProducts(new ProductSearchRequest(
+                null,
                 null,
                 null,
                 null,
@@ -256,11 +270,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Specification<Product> productSpecification(ProductSearchRequest request, boolean publicOnly) {
+        List<Promotion> activePromotions = Boolean.TRUE.equals(request.saleOnly())
+                ? promotionRepository.findActiveOn(LocalDate.now())
+                : List.of();
+
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             query.distinct(true);
-            var categoryJoin = root.join("category", JoinType.LEFT);
-            var collectionJoin = root.join("collection", JoinType.LEFT);
+            Join<Product, Category> categoryJoin = root.join("category", JoinType.LEFT);
+            Join<Product, FashionCollection> collectionJoin = root.join("collection", JoinType.LEFT);
 
             if (publicOnly) {
                 predicates.add(criteriaBuilder.isTrue(root.get("active")));
@@ -299,16 +317,28 @@ public class ProductServiceImpl implements ProductService {
                 predicates.add(criteriaBuilder.equal(criteriaBuilder.lower(root.get("season")), normalize(request.season())));
             }
 
+            if (!isBlank(request.tag())) {
+                var tagJoin = root.join("tags", JoinType.LEFT);
+                predicates.add(criteriaBuilder.equal(criteriaBuilder.lower(tagJoin.as(String.class)), normalize(request.tag())));
+            }
+
             if (Boolean.TRUE.equals(request.saleOnly())) {
                 var saleTagJoin = root.join("tags", JoinType.LEFT);
-                predicates.add(criteriaBuilder.or(
-                        criteriaBuilder.and(
-                                criteriaBuilder.isNotNull(root.get("compareAtPrice")),
-                                criteriaBuilder.greaterThan(root.get("compareAtPrice"), root.get("price"))
-                        ),
-                        criteriaBuilder.equal(criteriaBuilder.lower(saleTagJoin.as(String.class)), "sale"),
-                        criteriaBuilder.equal(criteriaBuilder.lower(saleTagJoin.as(String.class)), "last-season")
+                List<Predicate> salePredicates = new ArrayList<>();
+                salePredicates.add(criteriaBuilder.and(
+                        criteriaBuilder.isNotNull(root.get("compareAtPrice")),
+                        criteriaBuilder.greaterThan(root.get("compareAtPrice"), root.get("price"))
                 ));
+                salePredicates.add(criteriaBuilder.equal(criteriaBuilder.lower(saleTagJoin.as(String.class)), "sale"));
+                salePredicates.add(criteriaBuilder.equal(criteriaBuilder.lower(saleTagJoin.as(String.class)), "last-season"));
+                salePredicates.addAll(activePromotionPredicates(
+                        activePromotions,
+                        root,
+                        categoryJoin,
+                        collectionJoin,
+                        criteriaBuilder
+                ));
+                predicates.add(criteriaBuilder.or(salePredicates.toArray(Predicate[]::new)));
             }
 
             if (request.minPrice() != null) {
@@ -326,18 +356,98 @@ public class ProductServiceImpl implements ProductService {
             String searchTerm = normalize(request.search());
             if (!searchTerm.isBlank()) {
                 String pattern = "%" + searchTerm + "%";
+                var searchTagJoin = root.join("tags", JoinType.LEFT);
                 predicates.add(criteriaBuilder.or(
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), pattern),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), pattern),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("brand")), pattern),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("sku")), pattern),
                         criteriaBuilder.like(criteriaBuilder.lower(categoryJoin.get("name")), pattern),
-                        criteriaBuilder.like(criteriaBuilder.lower(collectionJoin.get("name")), pattern)
+                        criteriaBuilder.like(criteriaBuilder.lower(collectionJoin.get("name")), pattern),
+                        criteriaBuilder.like(criteriaBuilder.lower(collectionJoin.get("slug")), pattern),
+                        criteriaBuilder.like(criteriaBuilder.lower(searchTagJoin.as(String.class)), pattern)
                 ));
             }
 
             return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
         };
+    }
+
+    private List<Predicate> activePromotionPredicates(
+            List<Promotion> activePromotions,
+            Root<Product> root,
+            Join<Product, Category> categoryJoin,
+            Join<Product, FashionCollection> collectionJoin,
+            CriteriaBuilder criteriaBuilder
+    ) {
+        List<Predicate> predicates = new ArrayList<>();
+
+        for (Promotion promotion : activePromotions) {
+            List<String> targets = promotion.getTargetValues()
+                    .stream()
+                    .map(this::normalize)
+                    .filter(value -> !value.isBlank())
+                    .toList();
+            if (targets.isEmpty()) {
+                continue;
+            }
+
+            PromotionTargetType targetType = promotion.getTargetType();
+            if (targetType == PromotionTargetType.SELECTED_PRODUCTS) {
+                Set<Long> productIds = parseIds(targets);
+                if (!productIds.isEmpty()) {
+                    predicates.add(root.get("id").in(productIds));
+                }
+            } else if (targetType == PromotionTargetType.CATEGORY) {
+                predicates.add(targetMatchPredicate(
+                        targets,
+                        parseIds(targets),
+                        categoryJoin,
+                        criteriaBuilder
+                ));
+            } else if (targetType == PromotionTargetType.COLLECTION) {
+                predicates.add(targetMatchPredicate(
+                        targets,
+                        parseIds(targets),
+                        collectionJoin,
+                        criteriaBuilder
+                ));
+            } else if (targetType == PromotionTargetType.SEASON) {
+                predicates.add(criteriaBuilder.lower(root.get("season")).in(targets));
+            } else if (targetType == PromotionTargetType.TAGS) {
+                var promotionTagJoin = root.join("tags", JoinType.LEFT);
+                predicates.add(criteriaBuilder.lower(promotionTagJoin.as(String.class)).in(targets));
+            }
+        }
+
+        return predicates;
+    }
+
+    private <T> Predicate targetMatchPredicate(
+            List<String> targets,
+            Set<Long> targetIds,
+            Join<Product, T> join,
+            CriteriaBuilder criteriaBuilder
+    ) {
+        List<Predicate> targetPredicates = new ArrayList<>();
+        if (!targetIds.isEmpty()) {
+            targetPredicates.add(join.get("id").in(targetIds));
+        }
+        targetPredicates.add(criteriaBuilder.lower(join.get("slug")).in(targets));
+        targetPredicates.add(criteriaBuilder.lower(join.get("name")).in(targets));
+        return criteriaBuilder.or(targetPredicates.toArray(Predicate[]::new));
+    }
+
+    private Set<Long> parseIds(List<String> values) {
+        Set<Long> ids = new HashSet<>();
+        for (String value : values) {
+            try {
+                ids.add(Long.parseLong(value));
+            } catch (NumberFormatException ignored) {
+                // Non-numeric targets can still match slugs, names, seasons, or tags.
+            }
+        }
+        return ids;
     }
 
     private Sort resolveSort(String sort) {

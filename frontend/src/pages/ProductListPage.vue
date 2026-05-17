@@ -70,6 +70,13 @@
               <option v-for="season in seasonOptions" :key="season" :value="season">{{ season }}</option>
             </select>
           </label>
+          <label>
+            Style Tag
+            <select v-model="selectedTag">
+              <option value="">All tags</option>
+              <option v-for="tag in tagOptions" :key="tag" :value="tag">{{ tag }}</option>
+            </select>
+          </label>
           <div class="price-filter-grid">
             <label>
               Min price
@@ -160,7 +167,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { fetchCategories, fetchCollections, fetchProductPage } from '../api/catalog'
 import EmptyState from '../components/EmptyState.vue'
@@ -186,6 +193,7 @@ const selectedColor = ref('')
 const selectedMaterial = ref('')
 const selectedBrand = ref('')
 const selectedSeason = ref('')
+const selectedTag = ref('')
 const searchTerm = ref('')
 const sortMode = ref('name')
 const availableOnly = ref(false)
@@ -216,6 +224,7 @@ const colorOptions = ['Black', 'Ivory', 'Taupe', 'Sand', 'Sky', 'Pearl', 'Wine',
 const materialOptions = ['Cotton blend', 'Linen', 'Silk blend', 'Leather', 'Satin', 'Performance blend', 'Wool blend']
 const brandOptions = ['Aster Row', 'Linden Vale', 'Rue Forme', 'Meridian Atelier', 'Harbor Finch', 'Northline Studio', 'Kinetic Loom', 'Solace Field', 'Vale & Thread']
 const seasonOptions = ['Spring 2026', 'Summer 2026', 'Fall Winter 2026', 'Active Weekend', 'Evening Edit', 'Last Season']
+const tagOptions = ['active-weekend', 'capsule', 'equipment', 'event', 'jewelry', 'linen', 'resort', 'sale', 'tailoring', 'workwear']
 
 const hasActiveFilters = computed(() => {
   return Boolean(searchTerm.value)
@@ -226,6 +235,7 @@ const hasActiveFilters = computed(() => {
     || Boolean(selectedMaterial.value)
     || Boolean(selectedBrand.value)
     || Boolean(selectedSeason.value)
+    || Boolean(selectedTag.value)
     || sortMode.value !== 'name'
     || availableOnly.value
     || saleOnly.value
@@ -243,6 +253,7 @@ const activeFilterChips = computed(() => {
   if (selectedMaterial.value) chips.push({ key: 'material', label: selectedMaterial.value })
   if (selectedBrand.value) chips.push({ key: 'brand', label: selectedBrand.value })
   if (selectedSeason.value) chips.push({ key: 'season', label: selectedSeason.value })
+  if (selectedTag.value) chips.push({ key: 'tag', label: `Tag: ${selectedTag.value}` })
   if (availableOnly.value) chips.push({ key: 'available', label: 'Available only' })
   if (saleOnly.value) chips.push({ key: 'sale', label: 'Sale only' })
   if (hasPrice(minPrice.value)) chips.push({ key: 'minPrice', label: `From ${formatCurrency(minPrice.value)}` })
@@ -262,15 +273,14 @@ const sortLabel = computed(() => {
   return labels[sortMode.value] || 'Name'
 })
 
-onMounted(async () => {
-  const categoryFromQuery = Number(route.query.category)
-  const collectionFromQuery = Number(route.query.collectionId)
-  selectedCategoryId.value = Number.isFinite(categoryFromQuery) && categoryFromQuery > 0 ? String(categoryFromQuery) : ''
-  selectedCollectionId.value = Number.isFinite(collectionFromQuery) && collectionFromQuery > 0 ? String(collectionFromQuery) : ''
-  searchTerm.value = route.query.search ? String(route.query.search) : ''
-  saleOnly.value = route.query.sale === 'true'
-  await loadProducts(0)
-})
+watch(
+  () => route.query,
+  async (query) => {
+    syncFiltersFromQuery(query)
+    await loadProducts(0)
+  },
+  { immediate: true }
+)
 
 async function loadProducts(page = 0) {
   loading.value = true
@@ -301,6 +311,7 @@ function buildQuery(page) {
     material: selectedMaterial.value || undefined,
     brand: selectedBrand.value || undefined,
     season: selectedSeason.value || undefined,
+    tag: selectedTag.value || undefined,
     saleOnly: saleOnly.value || undefined,
     minPrice: hasPrice(minPrice.value) ? minPrice.value : undefined,
     maxPrice: hasPrice(maxPrice.value) ? maxPrice.value : undefined,
@@ -323,6 +334,7 @@ function clearFilters() {
   selectedMaterial.value = ''
   selectedBrand.value = ''
   selectedSeason.value = ''
+  selectedTag.value = ''
   searchTerm.value = ''
   sortMode.value = 'name'
   availableOnly.value = false
@@ -341,6 +353,7 @@ function removeFilter(key) {
   if (key === 'material') selectedMaterial.value = ''
   if (key === 'brand') selectedBrand.value = ''
   if (key === 'season') selectedSeason.value = ''
+  if (key === 'tag') selectedTag.value = ''
   if (key === 'available') availableOnly.value = false
   if (key === 'sale') saleOnly.value = false
   if (key === 'minPrice') minPrice.value = ''
@@ -355,6 +368,17 @@ function goToPage(page) {
 
 function hasPrice(value) {
   return value !== '' && Number.isFinite(Number(value))
+}
+
+function syncFiltersFromQuery(query) {
+  const categoryFromQuery = Number(query.category ?? query.categoryId)
+  const collectionFromQuery = Number(query.collectionId)
+  selectedCategoryId.value = Number.isFinite(categoryFromQuery) && categoryFromQuery > 0 ? String(categoryFromQuery) : ''
+  selectedCollectionId.value = Number.isFinite(collectionFromQuery) && collectionFromQuery > 0 ? String(collectionFromQuery) : ''
+  searchTerm.value = query.search ? String(query.search) : ''
+  selectedSeason.value = query.season ? String(query.season) : ''
+  selectedTag.value = query.tag ? String(query.tag) : ''
+  saleOnly.value = query.sale === 'true' || query.saleOnly === 'true'
 }
 
 function showAddedMessage(product) {

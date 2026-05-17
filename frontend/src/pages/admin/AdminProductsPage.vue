@@ -119,7 +119,7 @@
                 <div>
                   <strong>{{ product.name }}</strong>
                   <span>{{ product.brand || 'Unbranded' }} / {{ product.sku || product.slug }}</span>
-                  <small v-if="product.sizes?.length || product.colors?.length">{{ (product.sizes || []).slice(0, 4).join(' / ') }} · {{ (product.colors || []).slice(0, 3).join(', ') }}</small>
+                  <small v-if="product.sizes?.length || product.colors?.length">{{ (product.sizes || []).slice(0, 4).join(' / ') }} / {{ (product.colors || []).slice(0, 3).join(', ') }}</small>
                 </div>
               </div>
             </td>

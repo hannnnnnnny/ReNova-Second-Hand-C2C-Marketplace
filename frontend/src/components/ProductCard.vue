@@ -36,25 +36,25 @@
       <div v-else-if="product.tags?.length" class="mini-tag-row">
         <span v-for="tag in product.tags.slice(0, 2)" :key="tag">{{ tag }}</span>
       </div>
-      <div class="card-row">
+      <div class="card-row retail-card-row">
         <div class="price-stack">
           <strong>{{ formatCurrency(product.effectivePrice ?? product.price) }}</strong>
           <span v-if="product.compareAtPrice || Number(product.discountAmount) > 0">
             {{ formatCurrency(product.compareAtPrice || product.price) }}
           </span>
         </div>
-        <div class="card-actions">
-          <RouterLink class="text-link" :to="`/products/${product.id}`">Details</RouterLink>
-          <button
-            v-if="showCartAction"
-            class="secondary-button compact-button"
-            type="button"
-            :disabled="product.stockQuantity < 1"
-            @click="addProduct"
-          >
-            {{ cartActionLabel }}
-          </button>
-        </div>
+      </div>
+      <div class="card-actions retail-card-actions">
+        <button
+          v-if="showCartAction"
+          class="primary-button product-card-cta"
+          type="button"
+          :disabled="product.stockQuantity < 1"
+          @click="addProduct"
+        >
+          {{ cartActionLabel }}
+        </button>
+        <RouterLink class="secondary-button product-card-secondary" :to="`/products/${product.id}`">View Details</RouterLink>
       </div>
     </div>
   </article>

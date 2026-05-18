@@ -1,214 +1,241 @@
 <template>
-  <section class="page-section">
-    <PageHeader
-      eyebrow="Storefront"
-      title="Fashion Catalog"
-      description="Search clothing, bags, jewelry, shoes, sportswear, equipment, accessories, seasonal edits, and sale pieces."
+  <div class="catalog-page retail-catalog-page">
+    <StorefrontHero
+      title="Classic, elegant, uniquely yours"
+      description="Shop timeless fashion and one-of-a-kind finds."
+      cta-label="Shop Now"
+      :cta-to="{ name: 'products', query: { tag: 'new-arrival', sort: 'newest' } }"
     />
 
-    <section class="catalog-story-panel" aria-label="Catalog merchandising overview">
-      <div>
-        <p class="eyebrow">Shop by intention</p>
-        <h2>Build a wardrobe edit from campaign stories, colors, sizes, and sale signals.</h2>
+    <section class="page-section quick-shop-section">
+      <div class="retail-section-heading">
+        <p class="eyebrow">Quick shop</p>
+        <h2>Start with the edit that fits your day</h2>
+        <p>Browse the storefront visually first, then refine by size, color, price, material, label, or collection when you need to.</p>
       </div>
-      <div class="catalog-story-links">
-        <RouterLink :to="{ name: 'products', query: { category: 5, sort: 'newest' } }">Shoes</RouterLink>
-        <RouterLink :to="{ name: 'products', query: { category: 4, sort: 'price-high' } }">Jewelry</RouterLink>
-        <RouterLink :to="{ name: 'products', query: { category: 6, tag: 'active-weekend' } }">Activewear</RouterLink>
-        <RouterLink :to="{ name: 'products', query: { sale: 'true', sort: 'discount' } }">Sale</RouterLink>
+      <div class="category-tile-grid">
+        <CategoryTile
+          v-for="tile in quickShopTiles"
+          :key="tile.title"
+          :title="tile.title"
+          :description="tile.description"
+          :image="tile.image"
+          :to="tile.to"
+        />
       </div>
     </section>
 
-    <button class="secondary-button mobile-filter-toggle" type="button" @click="filtersOpen = !filtersOpen">
-      {{ filtersOpen ? 'Hide Filters' : 'Show Filters' }}
-    </button>
-
-    <nav class="catalog-focus-strip" aria-label="Popular fashion filters">
-      <RouterLink :to="{ name: 'products', query: { tag: 'new-arrival', sort: 'newest' } }">New Arrivals</RouterLink>
-      <RouterLink :to="{ name: 'products', query: { search: 'workwear', sort: 'newest' } }">Workwear Capsule</RouterLink>
-      <RouterLink :to="{ name: 'products', query: { tag: 'active-weekend', sort: 'best-selling' } }">Active Weekend</RouterLink>
-      <RouterLink :to="{ name: 'products', query: { sale: 'true', sort: 'discount' } }">Sale Campaign</RouterLink>
-    </nav>
-
-    <div class="catalog-browse-layout">
-      <aside class="catalog-filter-panel" :class="{ open: filtersOpen }" aria-label="Catalog filters">
-        <form class="filter-form" @submit.prevent="applyFilters">
-          <div class="filter-panel-heading">
-            <strong>Refine fashion edit</strong>
-            <span>{{ pageInfo.totalElements }} results</span>
-          </div>
-          <label class="search-field">
-            Search products
-            <input v-model.trim="searchTerm" type="search" placeholder="Search by style, label, category, tag, or SKU" />
-          </label>
-          <label>
-            Category
-            <select v-model="selectedCategoryId">
-              <option value="">All categories</option>
-              <option v-for="category in categories" :key="category.id" :value="String(category.id)">
-                {{ category.name }}
-              </option>
-            </select>
-          </label>
-          <label>
-            Collection
-            <select v-model="selectedCollectionId">
-              <option value="">All collections</option>
-              <option v-for="collection in collections" :key="collection.id" :value="String(collection.id)">
-                {{ collection.name }}
-              </option>
-            </select>
-          </label>
-          <label>
-            Size
-            <select v-model="selectedSize">
-              <option value="">All sizes</option>
-              <option v-for="size in sizeOptions" :key="size" :value="size">{{ size }}</option>
-            </select>
-          </label>
-          <label>
-            Color
-            <select v-model="selectedColor">
-              <option value="">All colors</option>
-              <option v-for="color in colorOptions" :key="color" :value="color">{{ color }}</option>
-            </select>
-          </label>
-          <label>
-            Material
-            <select v-model="selectedMaterial">
-              <option value="">All materials</option>
-              <option v-for="material in materialOptions" :key="material" :value="material">{{ material }}</option>
-            </select>
-          </label>
-          <label>
-            Label
-            <select v-model="selectedBrand">
-              <option value="">All labels</option>
-              <option v-for="brand in brandOptions" :key="brand" :value="brand">{{ brand }}</option>
-            </select>
-          </label>
-          <label>
-            Season
-            <select v-model="selectedSeason">
-              <option value="">All seasons</option>
-              <option v-for="season in seasonOptions" :key="season" :value="season">{{ season }}</option>
-            </select>
-          </label>
-          <label>
-            Style Tag
-            <select v-model="selectedTag">
-              <option value="">All tags</option>
-              <option v-for="tag in tagOptions" :key="tag" :value="tag">{{ tag }}</option>
-            </select>
-          </label>
-          <label class="toggle-control">
-            <input v-model="newArrivalOnly" type="checkbox" @change="applyFilters" />
-            New arrivals only
-          </label>
-          <div class="price-filter-grid">
-            <label>
-              Min price
-              <input v-model.number="minPrice" min="0" step="1" type="number" placeholder="0" />
-            </label>
-            <label>
-              Max price
-              <input v-model.number="maxPrice" min="0" step="1" type="number" placeholder="200" />
-            </label>
-          </div>
-          <label>
-            Sort by
-            <select v-model="sortMode" @change="applyFilters">
-              <option value="name">Name</option>
-              <option value="newest">Newest</option>
-              <option value="price-low">Price: low to high</option>
-              <option value="price-high">Price: high to low</option>
-              <option value="best-selling">Best selling</option>
-              <option value="discount">Discount</option>
-            </select>
-          </label>
-          <label class="toggle-control">
-            <input v-model="availableOnly" type="checkbox" @change="applyFilters" />
-            Show available only
-          </label>
-          <label class="toggle-control">
-            <input v-model="saleOnly" type="checkbox" @change="applyFilters" />
-            Sale only
-          </label>
-          <div class="filter-actions">
-            <button class="primary-button" type="submit">Apply Filters</button>
-            <button v-if="hasActiveFilters" class="secondary-button" type="button" @click="clearFilters">Clear</button>
-          </div>
-        </form>
-      </aside>
-
-      <div class="catalog-results-panel">
-        <LoadingState v-if="loading" message="Loading products..." />
-        <ErrorMessage v-else-if="error" :message="error" />
-        <div v-else-if="products.length">
-          <div class="catalog-result-bar">
-            <p class="result-count">
-              {{ pageInfo.totalElements }} {{ pageInfo.totalElements === 1 ? 'product' : 'products' }} found
-              <span v-if="selectedCategoryLabel">in {{ selectedCategoryLabel }}</span>
-            </p>
-            <div v-if="activeFilterChips.length" class="filter-chip-row" aria-label="Active filters">
-              <button
-                v-for="chip in activeFilterChips"
-                :key="chip.key"
-                class="filter-chip"
-                type="button"
-                @click="removeFilter(chip.key)"
-              >
-                {{ chip.label }}
-              </button>
-            </div>
-          </div>
-          <div class="product-grid">
-            <ProductCard
-              v-for="product in products"
-              :key="product.id"
-              :product="product"
-              @added="showAddedMessage"
-            />
-          </div>
-          <nav v-if="pageInfo.totalPages > 1" class="pagination-bar" aria-label="Catalog pagination">
-            <button class="secondary-button" type="button" :disabled="pageInfo.first" @click="goToPage(pageInfo.page - 1)">
-              Previous
-            </button>
-            <span>Page {{ pageInfo.page + 1 }} of {{ pageInfo.totalPages }}</span>
-            <button class="secondary-button" type="button" :disabled="pageInfo.last" @click="goToPage(pageInfo.page + 1)">
-              Next
-            </button>
-          </nav>
+    <section class="page-section retail-path-section">
+      <div class="retail-path-card">
+        <div>
+          <p class="eyebrow">Shop departments</p>
+          <h2>Fashion, thrift finds, lifestyle extras, and playful pieces.</h2>
         </div>
-        <EmptyState
-          v-else
-          title="No matching fashion products"
-          message="Try clearing filters, widening the price range, or searching another category, color story, or collection tag."
-        >
-          <button class="secondary-button" type="button" @click="clearFilters">Clear Filters</button>
-        </EmptyState>
+        <nav class="retail-path-links" aria-label="Additional shopping departments">
+          <RouterLink v-for="path in retailPaths" :key="path.label" :to="path.to">
+            {{ path.label }}
+          </RouterLink>
+        </nav>
       </div>
-    </div>
+    </section>
+
+    <section class="page-section catalog-shopping-section">
+      <div class="catalog-shop-header">
+        <div>
+          <p class="eyebrow">Shop the catalog</p>
+          <h2>{{ selectedCategoryLabel || selectedCollectionLabel || 'All NovaCart finds' }}</h2>
+          <p>
+            {{ pageInfo.totalElements }} {{ pageInfo.totalElements === 1 ? 'item' : 'items' }}
+            <span v-if="hasActiveFilters">with active refinements</span>
+          </p>
+        </div>
+        <div class="catalog-shop-actions">
+          <SearchInput
+            v-model="searchTerm"
+            label="Search catalog"
+            placeholder="Search dresses, bags, vintage..."
+            @submit="applyFilters"
+          />
+          <button class="secondary-button filter-drawer-button" type="button" :aria-expanded="filtersOpen" @click="filtersOpen = !filtersOpen">
+            {{ filtersOpen ? 'Hide Filters' : 'Refine' }}
+          </button>
+        </div>
+      </div>
+
+      <div v-if="activeFilterChips.length" class="filter-chip-row visible-filter-row" aria-label="Active filters">
+        <button
+          v-for="chip in activeFilterChips"
+          :key="chip.key"
+          class="filter-chip"
+          type="button"
+          @click="removeFilter(chip.key)"
+        >
+          {{ chip.label }}
+        </button>
+        <button class="text-button" type="button" @click="clearFilters">Clear all</button>
+      </div>
+
+      <div class="retail-catalog-layout" :class="{ 'filters-open': filtersOpen }">
+        <aside v-if="filtersOpen" class="catalog-filter-panel catalog-filter-drawer" aria-label="Advanced catalog filters">
+          <form class="filter-form" @submit.prevent="applyFilters">
+            <div class="filter-panel-heading">
+              <strong>Advanced filters</strong>
+              <span>{{ pageInfo.totalElements }} results</span>
+            </div>
+            <label>
+              Category
+              <select v-model="selectedCategoryId">
+                <option value="">All categories</option>
+                <option v-for="category in categories" :key="category.id" :value="String(category.id)">
+                  {{ category.name }}
+                </option>
+              </select>
+            </label>
+            <label>
+              Collection
+              <select v-model="selectedCollectionId">
+                <option value="">All collections</option>
+                <option v-for="collection in collections" :key="collection.id" :value="String(collection.id)">
+                  {{ collection.name }}
+                </option>
+              </select>
+            </label>
+            <label>
+              Size
+              <select v-model="selectedSize">
+                <option value="">All sizes</option>
+                <option v-for="size in sizeOptions" :key="size" :value="size">{{ size }}</option>
+              </select>
+            </label>
+            <label>
+              Color
+              <select v-model="selectedColor">
+                <option value="">All colors</option>
+                <option v-for="color in colorOptions" :key="color" :value="color">{{ color }}</option>
+              </select>
+            </label>
+            <label>
+              Material
+              <select v-model="selectedMaterial">
+                <option value="">All materials</option>
+                <option v-for="material in materialOptions" :key="material" :value="material">{{ material }}</option>
+              </select>
+            </label>
+            <label>
+              Label
+              <select v-model="selectedBrand">
+                <option value="">All labels</option>
+                <option v-for="brand in brandOptions" :key="brand" :value="brand">{{ brand }}</option>
+              </select>
+            </label>
+            <label>
+              Season
+              <select v-model="selectedSeason">
+                <option value="">All seasons</option>
+                <option v-for="season in seasonOptions" :key="season" :value="season">{{ season }}</option>
+              </select>
+            </label>
+            <label>
+              Style Tag
+              <select v-model="selectedTag">
+                <option value="">All tags</option>
+                <option v-for="tag in tagOptions" :key="tag" :value="tag">{{ tag }}</option>
+              </select>
+            </label>
+            <div class="price-filter-grid">
+              <label>
+                Min price
+                <input v-model.number="minPrice" min="0" step="1" type="number" placeholder="0" />
+              </label>
+              <label>
+                Max price
+                <input v-model.number="maxPrice" min="0" step="1" type="number" placeholder="200" />
+              </label>
+            </div>
+            <label>
+              Sort by
+              <select v-model="sortMode" @change="applyFilters">
+                <option value="name">Name</option>
+                <option value="newest">Newest</option>
+                <option value="price-low">Price: low to high</option>
+                <option value="price-high">Price: high to low</option>
+                <option value="best-selling">Best selling</option>
+                <option value="discount">Discount</option>
+              </select>
+            </label>
+            <label class="toggle-control">
+              <input v-model="newArrivalOnly" type="checkbox" @change="applyFilters" />
+              New arrivals only
+            </label>
+            <label class="toggle-control">
+              <input v-model="availableOnly" type="checkbox" @change="applyFilters" />
+              Show available only
+            </label>
+            <label class="toggle-control">
+              <input v-model="saleOnly" type="checkbox" @change="applyFilters" />
+              Sale only
+            </label>
+            <div class="filter-actions">
+              <button class="primary-button" type="submit">Apply Filters</button>
+              <button v-if="hasActiveFilters" class="secondary-button" type="button" @click="clearFilters">Clear</button>
+            </div>
+          </form>
+        </aside>
+
+        <div class="catalog-results-panel">
+          <LoadingState v-if="loading" message="Loading products..." />
+          <ErrorMessage v-else-if="error" :message="error" />
+          <div v-else-if="products.length">
+            <div class="product-grid retail-product-grid">
+              <ProductCard
+                v-for="product in products"
+                :key="product.id"
+                :product="product"
+                @added="showAddedMessage"
+              />
+            </div>
+            <nav v-if="pageInfo.totalPages > 1" class="pagination-bar" aria-label="Catalog pagination">
+              <button class="secondary-button" type="button" :disabled="pageInfo.first" @click="goToPage(pageInfo.page - 1)">
+                Previous
+              </button>
+              <span>Page {{ pageInfo.page + 1 }} of {{ pageInfo.totalPages }}</span>
+              <button class="secondary-button" type="button" :disabled="pageInfo.last" @click="goToPage(pageInfo.page + 1)">
+                Next
+              </button>
+            </nav>
+          </div>
+          <EmptyState
+            v-else
+            title="No matching finds"
+            message="Try another department, clear filters, or search for a broader style cue."
+          >
+            <button class="secondary-button" type="button" @click="clearFilters">Clear Filters</button>
+          </EmptyState>
+        </div>
+      </div>
+    </section>
 
     <ToastMessage :message="toastMessage" />
-  </section>
+  </div>
 </template>
 
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { fetchCategories, fetchCollections, fetchProductPage } from '../api/catalog'
+import CategoryTile from '../components/CategoryTile.vue'
 import EmptyState from '../components/EmptyState.vue'
 import ErrorMessage from '../components/ErrorMessage.vue'
 import LoadingState from '../components/LoadingState.vue'
-import PageHeader from '../components/PageHeader.vue'
 import ProductCard from '../components/ProductCard.vue'
+import SearchInput from '../components/SearchInput.vue'
+import StorefrontHero from '../components/StorefrontHero.vue'
 import ToastMessage from '../components/ToastMessage.vue'
 import { getApiError } from '../api/client'
 import { formatCurrency } from '../utils/format'
 
 const route = useRoute()
-const pageSize = 9
+const pageSize = 12
 const loading = ref(true)
 const error = ref('')
 const products = ref([])
@@ -223,7 +250,7 @@ const selectedBrand = ref('')
 const selectedSeason = ref('')
 const selectedTag = ref('')
 const searchTerm = ref('')
-const sortMode = ref('name')
+const sortMode = ref('newest')
 const availableOnly = ref(false)
 const saleOnly = ref(false)
 const newArrivalOnly = ref(false)
@@ -248,6 +275,53 @@ const selectedCategoryLabel = computed(() => {
 const selectedCollectionLabel = computed(() => {
   return collections.value.find((collection) => String(collection.id) === selectedCollectionId.value)?.name || ''
 })
+const quickShopTiles = computed(() => [
+  {
+    title: "Women's Fashion",
+    description: 'Tailored separates, soft layers, and event-ready favorites.',
+    image: '/catalog/women.svg',
+    to: categoryRoute('Women', { search: 'women' })
+  },
+  {
+    title: "Men's Fashion",
+    description: 'Clean shirting, outerwear, trousers, and everyday essentials.',
+    image: '/catalog/men.svg',
+    to: categoryRoute('Men', { search: 'men' })
+  },
+  {
+    title: 'Shoes',
+    description: 'Loafers, sneakers, sandals, boots, and easy occasion pairs.',
+    image: '/catalog/shoes.svg',
+    to: categoryRoute('Shoes', { search: 'shoes' })
+  },
+  {
+    title: 'Jewelry',
+    description: 'Polished finishing pieces, gifts, and small statement details.',
+    image: '/catalog/jewelry.svg',
+    to: categoryRoute('Jewelry', { search: 'jewelry' })
+  },
+  {
+    title: 'Activewear',
+    description: 'Training layers, sportswear, bags, and movement-ready extras.',
+    image: '/catalog/sportswear.svg',
+    to: categoryRoute('Sportswear', { search: 'sportswear' })
+  },
+  {
+    title: 'Sale',
+    description: 'Markdowns, last-season favorites, and limited-size finds.',
+    image: '/catalog/sale.svg',
+    to: { name: 'products', query: { sale: 'true', sort: 'discount' } }
+  }
+])
+const retailPaths = [
+  { label: 'New Arrivals', to: { name: 'products', query: { tag: 'new-arrival', sort: 'newest' } } },
+  { label: 'Household', to: { name: 'products', query: { search: 'home' } } },
+  { label: 'Kids Collection', to: { name: 'products', query: { search: 'kids' } } },
+  { label: 'Vintage', to: { name: 'products', query: { search: 'vintage' } } },
+  { label: 'Sports', to: { name: 'products', query: { search: 'sportswear' } } },
+  { label: 'Games & Puzzles', to: { name: 'products', query: { search: 'games puzzles' } } },
+  { label: 'Special Interest', to: { name: 'products', query: { search: 'collectible' } } }
+]
 const sizeOptions = ['One Size', 'XS', 'S', 'M', 'L', 'XL', '5', '6', '7', '8', '9', '10', '11']
 const colorOptions = ['Black', 'Ivory', 'Taupe', 'Sand', 'Sky', 'Pearl', 'Wine', 'Slate', 'Pine', 'Gold', 'Silver']
 const materialOptions = ['Cotton blend', 'Linen', 'Silk blend', 'Leather', 'Satin', 'Performance blend', 'Wool blend']
@@ -265,7 +339,7 @@ const hasActiveFilters = computed(() => {
     || Boolean(selectedBrand.value)
     || Boolean(selectedSeason.value)
     || Boolean(selectedTag.value)
-    || sortMode.value !== 'name'
+    || sortMode.value !== 'newest'
     || availableOnly.value
     || saleOnly.value
     || newArrivalOnly.value
@@ -289,19 +363,20 @@ const activeFilterChips = computed(() => {
   if (saleOnly.value) chips.push({ key: 'sale', label: 'Sale only' })
   if (hasPrice(minPrice.value)) chips.push({ key: 'minPrice', label: `From ${formatCurrency(minPrice.value)}` })
   if (hasPrice(maxPrice.value)) chips.push({ key: 'maxPrice', label: `Up to ${formatCurrency(maxPrice.value)}` })
-  if (sortMode.value !== 'name') chips.push({ key: 'sort', label: sortLabel.value })
+  if (sortMode.value !== 'newest') chips.push({ key: 'sort', label: sortLabel.value })
   return chips
 })
 
 const sortLabel = computed(() => {
   const labels = {
+    name: 'Name',
     newest: 'Newest',
     'price-low': 'Price: low to high',
     'price-high': 'Price: high to low',
     'best-selling': 'Best selling',
     discount: 'Discount'
   }
-  return labels[sortMode.value] || 'Name'
+  return labels[sortMode.value] || 'Newest'
 })
 
 watch(
@@ -367,12 +442,13 @@ function clearFilters() {
   selectedSeason.value = ''
   selectedTag.value = ''
   searchTerm.value = ''
-  sortMode.value = 'name'
+  sortMode.value = 'newest'
   availableOnly.value = false
   saleOnly.value = false
   newArrivalOnly.value = false
   minPrice.value = ''
   maxPrice.value = ''
+  filtersOpen.value = false
   loadProducts(0)
 }
 
@@ -391,7 +467,7 @@ function removeFilter(key) {
   if (key === 'sale') saleOnly.value = false
   if (key === 'minPrice') minPrice.value = ''
   if (key === 'maxPrice') maxPrice.value = ''
-  if (key === 'sort') sortMode.value = 'name'
+  if (key === 'sort') sortMode.value = 'newest'
   loadProducts(0)
 }
 
@@ -401,6 +477,13 @@ function goToPage(page) {
 
 function hasPrice(value) {
   return value !== '' && Number.isFinite(Number(value))
+}
+
+function categoryRoute(name, fallbackQuery = {}) {
+  const category = categories.value.find((entry) => entry.name.toLowerCase() === name.toLowerCase())
+  return category
+    ? { name: 'products', query: { category: category.id, sort: 'newest' } }
+    : { name: 'products', query: fallbackQuery }
 }
 
 function syncFiltersFromQuery(query) {
@@ -413,7 +496,7 @@ function syncFiltersFromQuery(query) {
   newArrivalOnly.value = query.tag === 'new-arrival'
   selectedTag.value = query.tag && query.tag !== 'new-arrival' ? String(query.tag) : ''
   saleOnly.value = query.sale === 'true' || query.saleOnly === 'true'
-  sortMode.value = query.sort ? String(query.sort) : 'name'
+  sortMode.value = query.sort ? String(query.sort) : 'newest'
   selectedSize.value = query.sizeFilter ? String(query.sizeFilter) : ''
   selectedColor.value = query.color ? String(query.color) : ''
   selectedMaterial.value = query.material ? String(query.material) : ''

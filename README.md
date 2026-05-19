@@ -16,51 +16,37 @@ NovaCart is no longer positioned as one fashion store. It is a website builder a
 
 ## Visual Preview
 
-### Premium Storefront
+These images are regenerated from the current running Vue app and use cache-busting filenames so the GitHub preview reflects the latest UI.
 
-![NovaCart storefront home](docs/assets/screenshots/storefront-home.png)
+### Platform Builder Home
 
-### Fashion Catalog
+![NovaCart platform builder home](docs/assets/screenshots/platform-home-current.png)
 
-![NovaCart fashion catalog](docs/assets/screenshots/fashion-catalog.png)
+### Generated Merchant Storefront
 
-### Product Detail
+![NovaCart generated merchant storefront](docs/assets/screenshots/generated-storefront-current.png)
 
-![NovaCart product detail](docs/assets/screenshots/product-detail.png)
+### Store Catalog
 
-### Cart And Checkout
+![NovaCart generated storefront catalog](docs/assets/screenshots/generated-catalog-current.png)
 
-![NovaCart cart](docs/assets/screenshots/cart.png)
+### Variant-Aware Product Detail
 
-![NovaCart checkout](docs/assets/screenshots/checkout.png)
+![NovaCart generated product detail](docs/assets/screenshots/generated-product-detail-current.png)
 
-### Order Confirmation And Care
+### Cart, Checkout, And Care
 
-![NovaCart order success](docs/assets/screenshots/order-success.png)
+![NovaCart generated cart](docs/assets/screenshots/generated-cart-current.png)
 
-![NovaCart support and refund flow](docs/assets/screenshots/support-refund.png)
+![NovaCart generated checkout](docs/assets/screenshots/generated-checkout-current.png)
+
+![NovaCart generated order success](docs/assets/screenshots/generated-order-success-current.png)
+
+![NovaCart generated support and refund flow](docs/assets/screenshots/generated-support-refund-current.png)
 
 ### Merchant Operations Dashboard
 
-![NovaCart admin dashboard](docs/assets/screenshots/admin-dashboard.png)
-
-### Catalog Operations
-
-![NovaCart admin products](docs/assets/screenshots/admin-products.png)
-
-![NovaCart admin collections](docs/assets/screenshots/admin-collections.png)
-
-![NovaCart admin promotions](docs/assets/screenshots/admin-promotions.png)
-
-### Orders, Care, And Analytics
-
-![NovaCart admin orders](docs/assets/screenshots/admin-orders.png)
-
-![NovaCart admin refunds](docs/assets/screenshots/admin-refunds.png)
-
-![NovaCart admin support](docs/assets/screenshots/admin-support.png)
-
-![NovaCart admin analytics](docs/assets/screenshots/admin-analytics.png)
+![NovaCart merchant operations dashboard](docs/assets/screenshots/admin-dashboard-current.png)
 
 ## What NovaCart Is
 
@@ -103,7 +89,7 @@ The project demonstrates real ecommerce architecture: a Spring Boot REST API, My
 
 ```mermaid
 flowchart LR
-  Home["Storefront Home"] --> Catalog["Fashion Catalog"]
+  Home["Storefront Home"] --> Catalog["Store Catalog"]
   Catalog --> Detail["Product Detail"]
   Detail --> Cart["Cart"]
   Detail --> Checkout["Buy Now"]

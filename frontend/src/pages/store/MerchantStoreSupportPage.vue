@@ -121,6 +121,15 @@ const order = computed(() => {
 })
 
 watch(
+  () => route.query.mode,
+  (value) => {
+    if (value === 'refund') mode.value = 'refund'
+    if (value === 'support') mode.value = 'support'
+  },
+  { immediate: true }
+)
+
+watch(
   order,
   (value) => {
     if (!value) return

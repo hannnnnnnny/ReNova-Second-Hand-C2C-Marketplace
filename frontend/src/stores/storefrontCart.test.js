@@ -63,4 +63,52 @@ describe('storefront cart store', () => {
       options: { size: '9', color: 'Black' }
     })
   })
+
+  it('normalizes generated storefront cart data loaded from localStorage', () => {
+    storage.set('novacart_storefront_carts', JSON.stringify({
+      'demo-fashion': [
+        {
+          productId: 1001,
+          name: 'Ivory Collarless Blazer',
+          price: '128',
+          compareAtPrice: '168',
+          stockQuantity: '3',
+          quantity: '9',
+          imageUrl: '/demo-images/products/fashion-blazer.jpg',
+          options: { size: 'M', color: 'Ivory' }
+        },
+        {
+          productId: 0,
+          name: '',
+          price: -2,
+          stockQuantity: 0,
+          quantity: 1
+        }
+      ]
+    }))
+    const cartStore = useStorefrontCartStore()
+
+    cartStore.loadCarts()
+
+    const items = cartStore.itemsForStore('demo-fashion')
+    expect(items).toHaveLength(1)
+    expect(items[0]).toMatchObject({
+      itemId: '1001::M::Ivory',
+      productId: 1001,
+      price: 128,
+      quantity: 3
+    })
+  })
+
+  it('tracks saved products per generated storefront', () => {
+    const cartStore = useStorefrontCartStore()
+
+    expect(cartStore.toggleFavorite('demo-fashion', 1001)).toBe(true)
+    expect(cartStore.toggleFavorite('demo-fashion', 1002)).toBe(true)
+    expect(cartStore.favoriteCountForStore('demo-fashion')).toBe(2)
+    expect(cartStore.isFavoriteForStore('demo-fashion', 1001)).toBe(true)
+
+    expect(cartStore.toggleFavorite('demo-fashion', 1001)).toBe(false)
+    expect(cartStore.favoriteIdsForStore('demo-fashion')).toEqual([1002])
+  })
 })

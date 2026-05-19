@@ -12,7 +12,7 @@
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>novacart-backend</name>
-	<description>REST API for NovaCart Fashion Commerce Platform</description>
+	<description>REST API for NovaCart multi-merchant ecommerce website builder</description>
 	<url/>
 	<licenses>
 		<license/>

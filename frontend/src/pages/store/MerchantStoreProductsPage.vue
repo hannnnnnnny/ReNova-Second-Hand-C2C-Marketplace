@@ -11,6 +11,9 @@
         <button class="secondary-button filter-drawer-button" type="button" :aria-expanded="filtersOpen" @click="filtersOpen = !filtersOpen">
           {{ filtersOpen ? 'Hide filters' : 'Filters' }}
         </button>
+        <button class="secondary-button filter-drawer-button" type="button" :aria-pressed="savedOnly" @click="savedOnly = !savedOnly">
+          {{ savedOnly ? 'Showing saved' : 'Saved' }}
+        </button>
       </div>
     </div>
     <nav class="merchant-category-pills" aria-label="Product categories">
@@ -47,6 +50,7 @@
           </select>
         </label>
         <label class="toggle-control"><input v-model="saleOnly" type="checkbox" /> Sale only</label>
+        <label class="toggle-control"><input v-model="savedOnly" type="checkbox" /> Saved products</label>
         <button class="secondary-button" type="button" @click="clearFilters">Clear filters</button>
       </aside>
       <div class="catalog-results-panel">
@@ -80,6 +84,7 @@ const searchTerm = ref('')
 const selectedCategory = ref('')
 const sortMode = ref('featured')
 const saleOnly = ref(false)
+const savedOnly = ref(false)
 const filtersOpen = ref(false)
 const toastMessage = ref('')
 let toastTimer
@@ -92,6 +97,14 @@ watch(
   { immediate: true }
 )
 
+watch(
+  () => route.query.saved,
+  (saved) => {
+    savedOnly.value = saved === 'true'
+  },
+  { immediate: true }
+)
+
 const filteredProducts = computed(() => {
   const query = searchTerm.value.toLowerCase()
   const products = props.store.products.filter((product) => {
@@ -100,7 +113,8 @@ const filteredProducts = computed(() => {
       ? `${product.name} ${product.category} ${product.description}`.toLowerCase().includes(query)
       : true
     const matchesSale = !saleOnly.value || product.discountPercent
-    return matchesCategory && matchesSearch && matchesSale
+    const matchesSaved = !savedOnly.value || cartStore.isFavoriteForStore(props.store.slug, product.id)
+    return matchesCategory && matchesSearch && matchesSale && matchesSaved
   })
   return products.sort((a, b) => {
     if (sortMode.value === 'price-low') return a.price - b.price
@@ -115,6 +129,7 @@ function clearFilters() {
   selectedCategory.value = ''
   sortMode.value = 'featured'
   saleOnly.value = false
+  savedOnly.value = false
 }
 
 function addToCart(product) {

@@ -6519,6 +6519,67 @@ p {
   box-shadow: var(--shadow-hard), 0 24px 70px rgba(23, 21, 16, 0.22);
 }
 
+.generated-product-card {
+  position: relative;
+}
+
+.favorite-button {
+  display: inline-grid;
+  width: 2.35rem;
+  min-height: 2.35rem;
+  place-items: center;
+  border: 1px solid rgba(32, 26, 22, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.88);
+  color: #5b544b;
+  box-shadow: 0 10px 24px rgba(32, 26, 22, 0.1);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.favorite-button:hover,
+.favorite-button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--store-accent, #7c3f47) 48%, #201a16);
+  background: color-mix(in srgb, var(--store-accent, #7c3f47) 12%, #fffaf1);
+  color: var(--store-accent, #7c3f47);
+}
+
+.favorite-button[aria-pressed="true"] svg {
+  fill: currentColor;
+}
+
+.generated-favorite-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+}
+
+.favorite-detail-button {
+  gap: 0.42rem;
+}
+
+.favorite-detail-button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--store-accent, #7c3f47) 48%, #201a16);
+  color: var(--store-accent, #7c3f47);
+}
+
+.favorite-detail-button[aria-pressed="true"] svg {
+  fill: currentColor;
+}
+
+.delivery-choice-grid {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.not-found-page {
+  min-height: 64vh;
+}
+
 @media (max-width: 1180px) {
   .professional-sidebar {
     position: static;

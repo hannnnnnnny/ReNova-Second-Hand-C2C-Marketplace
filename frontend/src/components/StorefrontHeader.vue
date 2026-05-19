@@ -12,6 +12,11 @@
     <div class="generated-store-actions">
       <RouterLink :to="`/store/${store.slug}/products`">Shop</RouterLink>
       <RouterLink :to="`/store/${store.slug}/support`">Support</RouterLink>
+      <RouterLink class="cart-link generated-cart-link" :to="{ path: `/store/${store.slug}/products`, query: { saved: 'true' } }" aria-label="Saved products">
+        <Heart aria-hidden="true" />
+        <span>Saved</span>
+        <strong>{{ favoriteCount }}</strong>
+      </RouterLink>
       <RouterLink class="cart-link generated-cart-link" :to="`/store/${store.slug}/cart`">
         <ShoppingBag aria-hidden="true" />
         <span>Cart</span>
@@ -23,7 +28,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { ShoppingBag } from 'lucide-vue-next'
+import { Heart, ShoppingBag } from 'lucide-vue-next'
 import { useStorefrontCartStore } from '../stores/storefrontCart'
 
 const props = defineProps({
@@ -35,4 +40,5 @@ const props = defineProps({
 
 const cartStore = useStorefrontCartStore()
 const itemCount = computed(() => cartStore.itemCountForStore(props.store.slug))
+const favoriteCount = computed(() => cartStore.favoriteCountForStore(props.store.slug))
 </script>

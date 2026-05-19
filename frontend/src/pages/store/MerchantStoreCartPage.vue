@@ -11,7 +11,7 @@
     <div v-else class="cart-layout">
       <div class="cart-items">
         <article v-for="item in items" :key="item.itemId || item.productId" class="cart-item fashion-cart-item">
-          <img :src="item.imageUrl" :alt="item.name" />
+          <img :src="item.imageUrl" :alt="item.name" loading="lazy" decoding="async" />
           <div class="cart-item-body">
             <h2>{{ item.name }}</h2>
             <p v-if="selectedOptionsLabel(item)" class="cart-variant-line">{{ selectedOptionsLabel(item) }}</p>

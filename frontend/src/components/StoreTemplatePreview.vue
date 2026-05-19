@@ -11,7 +11,7 @@
         <h3>{{ store.heroTitle }}</h3>
         <p>{{ store.heroText }}</p>
       </div>
-      <img :src="store.heroImage || template.previewImage" :alt="`${template.name} storefront preview`" />
+      <img :src="store.heroImage || template.previewImage" :alt="`${template.name} storefront preview`" loading="lazy" decoding="async" />
     </section>
     <div class="preview-product-row">
       <span v-for="product in store.products.slice(0, 3)" :key="product.id">{{ product.name }}</span>

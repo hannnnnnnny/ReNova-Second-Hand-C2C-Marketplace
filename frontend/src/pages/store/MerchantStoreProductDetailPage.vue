@@ -8,7 +8,7 @@
     <div class="merchant-detail-layout">
       <div class="merchant-detail-media">
         <span v-if="product.discountPercent" class="product-image-badge detail-discount-badge">{{ product.discountPercent }}% off</span>
-        <img :src="product.imageUrl" :alt="product.name" />
+        <img :src="product.imageUrl" :alt="product.name" decoding="async" />
       </div>
       <div class="merchant-detail-buy-panel">
         <p class="eyebrow">{{ product.category }}</p>
@@ -52,6 +52,10 @@
         <div class="card-actions">
           <button class="primary-button" type="button" :disabled="!canAddToCart" @click="addToCart">Add to cart</button>
           <button class="secondary-button" type="button" :disabled="!canAddToCart" @click="buyNow">Buy now</button>
+          <button class="secondary-button favorite-detail-button" type="button" :aria-pressed="isFavorite" @click="toggleFavorite">
+            <Heart aria-hidden="true" />
+            {{ isFavorite ? 'Saved' : 'Save' }}
+          </button>
         </div>
         <div class="merchant-detail-notes">
           <span>{{ store.shippingMessage }}</span>
@@ -78,6 +82,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { Heart } from 'lucide-vue-next'
 import EmptyState from '../../components/EmptyState.vue'
 import ProductGrid from '../../components/ProductGrid.vue'
 import QuantityStepper from '../../components/QuantityStepper.vue'
@@ -105,6 +110,7 @@ const product = computed(() => props.store.products.find((entry) => String(entry
 const relatedProducts = computed(() => props.store.products.filter((entry) => entry.id !== product.value?.id).slice(0, 3))
 const requiresSize = computed(() => (product.value?.sizes?.length || 0) > 1)
 const requiresColor = computed(() => (product.value?.colors?.length || 0) > 1)
+const isFavorite = computed(() => product.value ? cartStore.isFavoriteForStore(props.store.slug, product.value.id) : false)
 const canAddToCart = computed(() => {
   if (!product.value || product.value.stockQuantity < 1) return false
   if (requiresSize.value && !selectedSize.value) return false
@@ -119,15 +125,15 @@ const selectionHint = computed(() => {
 })
 
 function addToCart() {
-  if (!product.value) return
+  if (!product.value) return false
   selectionError.value = ''
   if (requiresSize.value && !selectedSize.value) {
     selectionError.value = 'Choose a size before adding this product.'
-    return
+    return false
   }
   if (requiresColor.value && !selectedColor.value) {
     selectionError.value = 'Choose a color before adding this product.'
-    return
+    return false
   }
   cartStore.addItem(props.store.slug, product.value, quantity.value, {
     size: selectedSize.value || product.value.sizes?.[0] || '',
@@ -138,6 +144,7 @@ function addToCart() {
   toastTimer = window.setTimeout(() => {
     toastMessage.value = ''
   }, 2400)
+  return true
 }
 
 function addRelated(relatedProduct) {
@@ -153,7 +160,14 @@ function addRelated(relatedProduct) {
 }
 
 function buyNow() {
-  addToCart()
-  router.push(`/store/${props.store.slug}/checkout`)
+  if (addToCart()) {
+    router.push(`/store/${props.store.slug}/checkout`)
+  }
+}
+
+function toggleFavorite() {
+  if (!product.value) return
+  const saved = cartStore.toggleFavorite(props.store.slug, product.value.id)
+  toastMessage.value = saved ? `${product.value.name} saved to favorites.` : `${product.value.name} removed from favorites.`
 }
 </script>

@@ -1,59 +1,78 @@
 import { defineStore } from 'pinia'
 
 const STORAGE_KEY = 'novacart_storefront_carts'
+const FAVORITES_KEY = 'novacart_storefront_favorites'
 
 export const useStorefrontCartStore = defineStore('storefrontCart', {
   state: () => ({
-    carts: {}
+    carts: {},
+    favorites: {}
   }),
   getters: {
     itemsForStore: (state) => (storeSlug) => state.carts[storeSlug] || [],
     itemCountForStore: (state) => (storeSlug) => (state.carts[storeSlug] || []).reduce((total, item) => total + item.quantity, 0),
     subtotalForStore: (state) => (storeSlug) => (state.carts[storeSlug] || []).reduce((total, item) => total + item.price * item.quantity, 0),
-    discountTotalForStore: (state) => (storeSlug) => (state.carts[storeSlug] || []).reduce((total, item) => total + (item.discountAmount || 0) * item.quantity, 0)
+    discountTotalForStore: (state) => (storeSlug) => (state.carts[storeSlug] || []).reduce((total, item) => total + (item.discountAmount || 0) * item.quantity, 0),
+    favoriteIdsForStore: (state) => (storeSlug) => state.favorites[storeSlug] || [],
+    favoriteCountForStore: (state) => (storeSlug) => (state.favorites[storeSlug] || []).length,
+    isFavoriteForStore: (state) => (storeSlug, productId) => (state.favorites[storeSlug] || []).includes(normalizeProductId(productId))
   },
   actions: {
     loadCarts() {
       const rawCarts = localStorage.getItem(STORAGE_KEY)
-      if (!rawCarts) return
-      try {
-        const parsed = JSON.parse(rawCarts)
-        this.carts = parsed && typeof parsed === 'object' ? parsed : {}
-      } catch {
-        localStorage.removeItem(STORAGE_KEY)
+      if (rawCarts) {
+        try {
+          this.carts = normalizeCartMap(JSON.parse(rawCarts))
+          this.persistCarts()
+        } catch {
+          localStorage.removeItem(STORAGE_KEY)
+          this.carts = {}
+        }
+      }
+
+      const rawFavorites = localStorage.getItem(FAVORITES_KEY)
+      if (rawFavorites) {
+        try {
+          this.favorites = normalizeFavorites(JSON.parse(rawFavorites))
+          this.persistFavorites()
+        } catch {
+          localStorage.removeItem(FAVORITES_KEY)
+          this.favorites = {}
+        }
       }
     },
     addItem(storeSlug, product, quantity = 1, options = {}) {
-      if (!storeSlug || !product || product.stockQuantity < 1) return
+      if (!storeSlug || !product || normalizeStock(product.stockQuantity) < 1) return
       if (!this.carts[storeSlug]) this.carts[storeSlug] = []
-      const requestedQuantity = Math.max(1, Math.floor(Number(quantity) || 1))
+      const stockQuantity = normalizeStock(product.stockQuantity)
+      const requestedQuantity = normalizeQuantity(quantity)
       const selectedOptions = {
-        size: options.size || '',
-        color: options.color || ''
+        size: clean(options.size),
+        color: clean(options.color)
       }
       const itemId = cartItemId(product.id, selectedOptions)
       const existing = this.carts[storeSlug].find((item) => (item.itemId || cartItemId(item.productId, item.options || {})) === itemId)
       if (existing) {
-        existing.quantity = Math.min(existing.quantity + requestedQuantity, product.stockQuantity)
-        existing.stockQuantity = product.stockQuantity
+        existing.quantity = Math.min(existing.quantity + requestedQuantity, stockQuantity)
+        existing.stockQuantity = stockQuantity
       } else {
         const compareAtPrice = Number(product.compareAtPrice) || null
-        const price = Number(product.effectivePrice ?? product.price) || 0
+        const price = normalizePrice(product.effectivePrice ?? product.price)
         this.carts[storeSlug].push({
           itemId,
           productId: product.id,
-          name: product.name,
+          name: String(product.name || 'Product'),
           price,
           compareAtPrice,
           discountAmount: compareAtPrice ? Math.max(0, compareAtPrice - price) : 0,
           discountPercent: product.discountPercent || 0,
-          imageUrl: product.imageUrl,
-          stockQuantity: product.stockQuantity,
+          imageUrl: product.imageUrl || '',
+          stockQuantity,
           options: selectedOptions,
-          quantity: Math.min(requestedQuantity, product.stockQuantity)
+          quantity: Math.min(requestedQuantity, stockQuantity)
         })
       }
-      this.persist()
+      this.persistCarts()
     },
     updateQuantity(storeSlug, itemId, quantity) {
       const cart = this.carts[storeSlug] || []
@@ -65,18 +84,34 @@ export const useStorefrontCartStore = defineStore('storefrontCart', {
         return
       }
       item.quantity = Math.min(nextQuantity, item.stockQuantity)
-      this.persist()
+      this.persistCarts()
     },
     removeItem(storeSlug, itemId) {
       this.carts[storeSlug] = (this.carts[storeSlug] || []).filter((item) => !matchesCartItem(item, itemId))
-      this.persist()
+      this.persistCarts()
     },
     clearStoreCart(storeSlug) {
       this.carts[storeSlug] = []
-      this.persist()
+      this.persistCarts()
     },
-    persist() {
+    toggleFavorite(storeSlug, productId) {
+      const normalizedId = normalizeProductId(productId)
+      if (!storeSlug || !normalizedId) return false
+      const favorites = new Set(this.favorites[storeSlug] || [])
+      if (favorites.has(normalizedId)) {
+        favorites.delete(normalizedId)
+      } else {
+        favorites.add(normalizedId)
+      }
+      this.favorites[storeSlug] = Array.from(favorites)
+      this.persistFavorites()
+      return favorites.has(normalizedId)
+    },
+    persistCarts() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.carts))
+    },
+    persistFavorites() {
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify(this.favorites))
     }
   }
 })
@@ -87,4 +122,80 @@ function cartItemId(productId, options = {}) {
 
 function matchesCartItem(item, itemId) {
   return item.itemId === itemId || String(item.productId) === String(itemId)
+}
+
+function normalizeCartMap(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+  return Object.entries(value).reduce((result, [storeSlug, items]) => {
+    if (!Array.isArray(items)) return result
+    const normalizedItems = items.map(normalizeStoredItem).filter(Boolean)
+    if (normalizedItems.length) result[storeSlug] = normalizedItems
+    return result
+  }, {})
+}
+
+function normalizeStoredItem(item) {
+  const productId = normalizeProductId(item?.productId)
+  const name = clean(item?.name)
+  const price = normalizePrice(item?.price)
+  const stockQuantity = normalizeStock(item?.stockQuantity)
+  const quantity = normalizeQuantity(item?.quantity)
+  if (!productId || !name || stockQuantity < 1) return null
+  const options = {
+    size: clean(item?.options?.size),
+    color: clean(item?.options?.color)
+  }
+  const compareAtPrice = normalizeNullablePrice(item?.compareAtPrice)
+  return {
+    itemId: item?.itemId || cartItemId(productId, options),
+    productId,
+    name,
+    price,
+    compareAtPrice,
+    discountAmount: normalizePrice(item?.discountAmount),
+    discountPercent: normalizePrice(item?.discountPercent),
+    imageUrl: clean(item?.imageUrl),
+    stockQuantity,
+    options,
+    quantity: Math.min(quantity, stockQuantity)
+  }
+}
+
+function normalizeFavorites(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+  return Object.entries(value).reduce((result, [storeSlug, productIds]) => {
+    if (!Array.isArray(productIds)) return result
+    const normalizedIds = Array.from(new Set(productIds.map(normalizeProductId).filter(Boolean)))
+    if (normalizedIds.length) result[storeSlug] = normalizedIds
+    return result
+  }, {})
+}
+
+function normalizeProductId(value) {
+  const numberValue = Number(value)
+  return Number.isFinite(numberValue) && numberValue > 0 ? numberValue : null
+}
+
+function normalizeQuantity(value) {
+  const quantity = Math.floor(Number(value) || 1)
+  return Math.max(1, quantity)
+}
+
+function normalizeStock(value) {
+  const stock = Math.floor(Number(value) || 0)
+  return Math.max(0, stock)
+}
+
+function normalizePrice(value) {
+  const price = Number(value)
+  return Number.isFinite(price) && price > 0 ? price : 0
+}
+
+function normalizeNullablePrice(value) {
+  const price = Number(value)
+  return Number.isFinite(price) && price > 0 ? price : null
+}
+
+function clean(value) {
+  return value ? String(value).trim() : ''
 }

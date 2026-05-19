@@ -1,7 +1,7 @@
 <template>
   <article class="product-card fashion-product-card">
     <RouterLink class="product-image-frame" :to="`/products/${product.id}`">
-      <img :src="product.imageUrl" :alt="product.name" />
+      <img :src="product.imageUrl" :alt="product.name" loading="lazy" decoding="async" />
       <span v-if="primaryBadge" class="product-image-badge">{{ primaryBadge }}</span>
       <span v-if="product.collection?.name" class="product-collection-ribbon">{{ product.collection.name }}</span>
     </RouterLink>

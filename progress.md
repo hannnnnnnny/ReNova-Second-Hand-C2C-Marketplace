@@ -16,6 +16,19 @@
 - Audited generated storefront product listing, product detail, checkout, support/refund flow, and route-link usage.
 - Audited admin dashboard/product/order/theme-editor pages, backend merchant-store/order implementation, docs, and package metadata.
 - Updated `task_plan.md` with concrete problems found before coding and moved Phase 1 into progress.
+- Committed Phase 0 planning/audit as `33c3784 chore: add project improvement roadmap`.
+- Implemented Phase 1 storefront reliability improvements:
+  - Added generated storefront favorites with persisted per-store saved products.
+  - Normalized generated cart localStorage data on load.
+  - Improved checkout with postal code, delivery method, email validation, and submit loading state.
+  - Added legacy route names/redirects and a catch-all 404 page.
+  - Added lazy/async image loading to repeated product/template/cart imagery.
+  - Updated frontend metadata for the multi-merchant ecommerce website builder positioning.
+  - Refreshed backend Maven description and removed accidental Maven-backend npm lockfile.
+- Phase 1 checks passed:
+  - `npm.cmd run test:unit`
+  - `npm.cmd run build`
+  - `.\mvnw.cmd test`
 
 ## Commands Run
 
@@ -30,4 +43,7 @@ git fetch origin main
 python "$env:USERPROFILE\.agents\skills\ui-ux-pro-max\scripts\search.py" "premium fashion ecommerce SaaS multi merchant Vue dashboard" --design-system -f markdown -p "NovaCart"
 C:\Users\harry\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe "$env:USERPROFILE\.agents\skills\ui-ux-pro-max\scripts\search.py" "premium fashion ecommerce SaaS multi merchant Vue dashboard" --design-system -f markdown -p "NovaCart"
 C:\Users\harry\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe "$env:USERPROFILE\.agents\skills\ui-ux-pro-max\scripts\search.py" "ecommerce product listing checkout dashboard accessibility responsive" --stack vue
+npm.cmd run test:unit
+npm.cmd run build
+.\mvnw.cmd test
 ```

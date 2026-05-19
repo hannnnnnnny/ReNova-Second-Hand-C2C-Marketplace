@@ -9,6 +9,7 @@ import TemplatesPage from '../pages/platform/TemplatesPage.vue'
 import PricingPage from '../pages/platform/PricingPage.vue'
 import SignupPage from '../pages/platform/SignupPage.vue'
 import OnboardingPage from '../pages/platform/OnboardingPage.vue'
+import NotFoundPage from '../pages/platform/NotFoundPage.vue'
 import MerchantStoreHomePage from '../pages/store/MerchantStoreHomePage.vue'
 import MerchantStoreProductsPage from '../pages/store/MerchantStoreProductsPage.vue'
 import MerchantStoreProductDetailPage from '../pages/store/MerchantStoreProductDetailPage.vue'
@@ -48,10 +49,12 @@ const router = createRouter({
         { path: 'pricing', name: 'platform-pricing', component: PricingPage },
         { path: 'signup', name: 'merchant-signup', component: SignupPage },
         { path: 'onboarding', name: 'merchant-onboarding', component: OnboardingPage },
-        { path: 'products', redirect: '/store/demo-fashion/products' },
-        { path: 'products/:id', redirect: (to) => `/store/demo-fashion/products/${to.params.id}` },
-        { path: 'cart', redirect: '/store/demo-fashion/cart' },
-        { path: 'checkout', redirect: '/store/demo-fashion/checkout' }
+        { path: 'products', name: 'products', redirect: (to) => ({ path: '/store/demo-fashion/products', query: to.query }) },
+        { path: 'products/:id', name: 'product-detail', redirect: (to) => ({ path: `/store/demo-fashion/products/${to.params.id}`, query: to.query }) },
+        { path: 'cart', name: 'cart', redirect: (to) => ({ path: '/store/demo-fashion/cart', query: to.query }) },
+        { path: 'checkout', name: 'checkout', redirect: (to) => ({ path: '/store/demo-fashion/checkout', query: to.query }) },
+        { path: 'support', name: 'support', redirect: (to) => ({ path: '/store/demo-fashion/support', query: to.query }) },
+        { path: 'refund-request', name: 'refund-request', redirect: (to) => ({ path: '/store/demo-fashion/support', query: { ...to.query, mode: 'refund' } }) }
       ]
     },
     { path: '/login', name: 'merchant-login', component: AdminLoginPage },
@@ -94,7 +97,8 @@ const router = createRouter({
         { path: 'theme-editor', name: 'admin-theme-editor', component: AdminThemeEditorPage },
         { path: 'settings', name: 'admin-settings', component: AdminSettingsPage }
       ]
-    }
+    },
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundPage }
   ],
   scrollBehavior() {
     return { top: 0 }

@@ -13,7 +13,7 @@
         :style="{ '--template-accent': template.accentColor }"
       >
         <figure>
-          <img :src="template.previewImage" :alt="`${template.name} preview`" />
+        <img :src="template.previewImage" :alt="`${template.name} preview`" loading="lazy" decoding="async" />
           <figcaption>{{ template.fontStyle }}</figcaption>
         </figure>
         <div>

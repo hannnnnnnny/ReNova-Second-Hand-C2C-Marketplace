@@ -2,9 +2,18 @@
   <div class="generated-product-grid">
     <article v-for="product in products" :key="product.id" class="generated-product-card">
       <RouterLink class="generated-product-image" :to="`/store/${store.slug}/products/${product.id}`">
-        <img :src="product.imageUrl" :alt="product.name" />
+        <img :src="product.imageUrl" :alt="product.name" loading="lazy" decoding="async" />
         <span v-if="primaryBadge(product)" class="product-image-badge">{{ primaryBadge(product) }}</span>
       </RouterLink>
+      <button
+        class="favorite-button generated-favorite-button"
+        type="button"
+        :aria-label="favoriteLabel(product)"
+        :aria-pressed="cartStore.isFavoriteForStore(store.slug, product.id)"
+        @click="toggleFavorite(product)"
+      >
+        <Heart aria-hidden="true" />
+      </button>
       <div class="generated-product-body">
         <div class="generated-product-meta">
           <span>{{ product.category }}</span>
@@ -42,9 +51,11 @@
 </template>
 
 <script setup>
+import { Heart } from 'lucide-vue-next'
+import { useStorefrontCartStore } from '../stores/storefrontCart'
 import { formatCurrency } from '../utils/format'
 
-defineProps({
+const props = defineProps({
   products: {
     type: Array,
     required: true
@@ -56,6 +67,7 @@ defineProps({
 })
 
 defineEmits(['add'])
+const cartStore = useStorefrontCartStore()
 
 function primaryBadge(product) {
   if (product.discountPercent) return `${product.discountPercent}% off`
@@ -75,5 +87,15 @@ function hasOptions(product) {
 
 function requiresSelection(product) {
   return (product.sizes?.length || 0) > 1 || (product.colors?.length || 0) > 1
+}
+
+function favoriteLabel(product) {
+  return cartStore.isFavoriteForStore(props.store.slug, product.id)
+    ? `Remove ${product.name} from favorites`
+    : `Save ${product.name} to favorites`
+}
+
+function toggleFavorite(product) {
+  cartStore.toggleFavorite(props.store.slug, product.id)
 }
 </script>

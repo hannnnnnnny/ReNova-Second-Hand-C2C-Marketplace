@@ -28,8 +28,8 @@ Upgrade NovaCart into a polished, reliable, premium multi-merchant ecommerce web
 |---|---|---|---|
 | 0. Planning and audit | Complete | Create planning files, inspect repository structure, route map, UI flows, backend APIs, tests, docs, and current problems. | `task_plan.md`, `findings.md`, and `progress.md` exist; concrete issues listed before coding. |
 | 1. Storefront UX and ecommerce reliability | Complete | Improve product browsing, cart/checkout validation, product-card accessibility, image loading, wishlist/favorites if scoped safely, and mobile storefront polish. | Storefront routes render cleanly; all visible controls have behavior/disabled states; build/tests pass. |
-| 2. Platform/admin polish | In Progress | Improve SaaS homepage, auth/onboarding, admin dashboard hierarchy, tables, filters, empty states, and settings/theme-editor clarity. | Admin and platform pages feel consistent and production-like; build/tests pass. |
-| 3. Code quality and performance | Pending | Remove dead code, reduce duplication, optimize images/lazy loading, improve component semantics and maintainability. | No obvious unused code in touched areas; no build warnings introduced. |
+| 2. Platform/admin polish | Complete | Improve SaaS homepage, auth/onboarding, admin dashboard hierarchy, tables, filters, empty states, and settings/theme-editor clarity. | Admin care notifications, setup/theme save feedback, publish guard, and template-preview routing are implemented; frontend build/tests pass. |
+| 3. Code quality and performance | In Progress | Remove dead code, reduce duplication, optimize images/lazy loading, improve component semantics and maintainability. | No obvious unused code in touched areas; no build warnings introduced. |
 | 4. Accessibility and SEO | Pending | Add/verify labels, aria state, keyboard focus, semantic landmarks, meta title/description/Open Graph/social metadata. | Focus states visible; metadata describes NovaCart platform; checks pass. |
 | 5. Final verification and delivery | Pending | Run backend/frontend tests/builds, route smoke checks, update docs/plan, commit and push. | Working tree clean, commits pushed, final report includes commands and remaining limitations. |
 
@@ -41,4 +41,5 @@ Upgrade NovaCart into a polished, reliable, premium multi-merchant ecommerce web
 
 ## Commit Log For This Task
 - `33c3784 chore: add project improvement roadmap`
-- Pending implementation commit for Phase 1 storefront reliability.
+- `8582a6d feat: improve generated storefront shopping reliability`
+- Pending implementation commit for Phase 2 platform/admin polish.

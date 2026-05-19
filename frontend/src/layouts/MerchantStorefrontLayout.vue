@@ -25,13 +25,27 @@
 import { computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import StorefrontHeader from '../components/StorefrontHeader.vue'
+import { getTemplateById } from '../data/platform'
 import { usePlatformStore } from '../stores/platform'
 import { useStorefrontCartStore } from '../stores/storefrontCart'
 
 const route = useRoute()
 const platformStore = usePlatformStore()
 const cartStore = useStorefrontCartStore()
-const store = computed(() => platformStore.getStore(String(route.params.storeSlug || '')))
+const baseStore = computed(() => platformStore.getStore(String(route.params.storeSlug || '')))
+const store = computed(() => {
+  if (!baseStore.value) return null
+  const templatePreview = route.query.templatePreview ? String(route.query.templatePreview) : ''
+  if (!templatePreview) return baseStore.value
+  const template = getTemplateById(templatePreview)
+  if (template.id !== templatePreview) return baseStore.value
+  return {
+    ...baseStore.value,
+    template: template.id,
+    brandColor: template.accentColor,
+    heroImage: template.previewImage
+  }
+})
 
 onMounted(() => {
   platformStore.loadPlatform()

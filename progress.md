@@ -29,6 +29,14 @@
   - `npm.cmd run test:unit`
   - `npm.cmd run build`
   - `.\mvnw.cmd test`
+- Implemented Phase 2 platform/admin polish:
+  - Wired admin topbar notification count to unresolved support tickets and pending refund requests.
+  - Added explicit save feedback to Store Setup and Theme Editor forms.
+  - Disabled publishing when required store identity fields are empty.
+  - Connected template preview links to generated storefront styling through the `templatePreview` query.
+- Phase 2 checks passed:
+  - `npm.cmd run test:unit`
+  - `npm.cmd run build`
 
 ## Commands Run
 
@@ -46,4 +54,6 @@ C:\Users\harry\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\p
 npm.cmd run test:unit
 npm.cmd run build
 .\mvnw.cmd test
+npm.cmd run test:unit
+npm.cmd run build
 ```

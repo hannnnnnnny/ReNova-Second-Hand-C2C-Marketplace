@@ -12,6 +12,7 @@
     </AdminPageHeader>
     <div class="theme-editor-layout">
       <form class="admin-form theme-editor-form" @submit.prevent="saveTheme">
+        <div v-if="successMessage" class="success-message" role="status">{{ successMessage }}</div>
         <label>Logo text<input v-model.trim="draft.logoText" maxlength="3" /></label>
         <label>Brand color<input v-model="draft.brandColor" type="color" /></label>
         <label>Font style
@@ -40,13 +41,14 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import AdminPageHeader from '../../components/AdminPageHeader.vue'
 import StoreTemplatePreview from '../../components/StoreTemplatePreview.vue'
 import { usePlatformStore } from '../../stores/platform'
 
 const platformStore = usePlatformStore()
 const store = computed(() => platformStore.currentStore)
+const successMessage = ref('')
 const draft = reactive({
   logoText: '',
   brandColor: '',
@@ -86,5 +88,9 @@ function saveTheme() {
     ...draft,
     setup: { preview: true }
   })
+  successMessage.value = 'Theme changes saved for the current merchant store.'
+  window.setTimeout(() => {
+    successMessage.value = ''
+  }, 2600)
 }
 </script>

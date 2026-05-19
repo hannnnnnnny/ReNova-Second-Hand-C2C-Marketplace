@@ -11,13 +11,18 @@
     </nav>
     <div class="generated-store-actions">
       <RouterLink :to="`/store/${store.slug}/products`">Shop</RouterLink>
-      <RouterLink class="cart-link" :to="`/store/${store.slug}/cart`">Cart {{ itemCount }}</RouterLink>
+      <RouterLink class="cart-link generated-cart-link" :to="`/store/${store.slug}/cart`">
+        <ShoppingBag aria-hidden="true" />
+        <span>Cart</span>
+        <strong>{{ itemCount }}</strong>
+      </RouterLink>
     </div>
   </header>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { ShoppingBag } from 'lucide-vue-next'
 import { useStorefrontCartStore } from '../stores/storefrontCart'
 
 const props = defineProps({

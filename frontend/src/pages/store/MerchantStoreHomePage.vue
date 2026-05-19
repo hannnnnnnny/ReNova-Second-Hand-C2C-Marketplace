@@ -1,7 +1,7 @@
 <template>
   <div class="merchant-store-page">
     <section class="merchant-store-hero">
-      <div>
+      <div class="merchant-hero-copy">
         <p class="eyebrow">{{ store.category }} store / {{ template.name }}</p>
         <h1>{{ store.heroTitle }}</h1>
         <p>{{ store.heroText }}</p>
@@ -15,7 +15,13 @@
           <span>{{ store.analytics?.conversionRate }} conversion demo</span>
         </div>
       </div>
-      <img :src="store.heroImage || template.previewImage" :alt="`${store.name} storefront visual`" />
+      <figure class="merchant-hero-media">
+        <img :src="store.heroImage || template.previewImage" :alt="`${store.name} storefront visual`" />
+        <figcaption>
+          <span>Current edit</span>
+          <strong>{{ store.categories[0] }}</strong>
+        </figcaption>
+      </figure>
     </section>
 
     <section class="storefront-category-strip">

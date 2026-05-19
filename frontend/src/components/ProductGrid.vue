@@ -22,7 +22,7 @@
             <span v-if="product.compareAtPrice">{{ formatCurrency(product.compareAtPrice) }}</span>
           </div>
           <button class="primary-button compact-button" type="button" :disabled="product.stockQuantity < 1" @click="$emit('add', product)">
-            {{ product.stockQuantity < 1 ? 'Unavailable' : 'Add' }}
+            <span>{{ product.stockQuantity < 1 ? 'Unavailable' : 'Add' }}</span>
           </button>
         </div>
       </div>

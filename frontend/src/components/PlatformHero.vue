@@ -1,9 +1,9 @@
 <template>
   <section class="platform-hero">
     <div class="platform-hero-copy">
-      <p class="eyebrow">NovaCart ecommerce website builder</p>
-      <h1>Launch a store that already feels merchandised.</h1>
-      <p>Build the storefront, catalog, orders, care queue, and growth dashboard from one workspace designed for real retail rhythm.</p>
+      <p class="eyebrow">Multi-merchant ecommerce platform</p>
+      <h1>Launch your online store with NovaCart.</h1>
+      <p>Choose a template, add your products, manage orders, and grow with built-in analytics from one merchant workspace.</p>
       <div class="hero-actions">
         <RouterLink class="primary-button" to="/onboarding">Start building</RouterLink>
         <RouterLink class="secondary-button" to="/templates">View templates</RouterLink>
@@ -11,7 +11,7 @@
       <dl class="platform-proof-list" aria-label="NovaCart launch signals">
         <div>
           <dt>4</dt>
-          <dd>demo storefronts</dd>
+          <dd>store templates</dd>
         </div>
         <div>
           <dt>24</dt>
@@ -19,7 +19,7 @@
         </div>
         <div>
           <dt>1</dt>
-          <dd>merchant console</dd>
+          <dd>merchant dashboard</dd>
         </div>
       </dl>
     </div>

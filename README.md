@@ -4,6 +4,23 @@ NovaCart is a production-style portfolio SaaS ecommerce platform where many merc
 
 NovaCart is original in naming, layout, copy, seed data, and local artwork. It is a demo-safe project, not a live payment-processing store or a clone of any existing ecommerce platform.
 
+## Live Preview
+
+Temporary free preview:
+
+[https://quiet-olives-hear.loca.lt](https://quiet-olives-hear.loca.lt)
+
+This URL is served through a free LocalTunnel session from the local Vite app. It is useful for quickly opening and testing the project, but it only stays online while the local dev server and tunnel process are running on this machine. For a permanent portfolio link, deploy the `frontend` folder to Vercel, Netlify, or Cloudflare Pages using the deployment settings below.
+
+Recommended demo paths:
+
+- Platform home: `/`
+- Fashion storefront: `/store/demo-fashion`
+- Store catalog: `/store/demo-fashion/products`
+- Demo checkout: `/store/demo-fashion/checkout`
+- Customer orders: `/store/demo-fashion/orders`
+- Merchant admin: `/admin/dashboard`
+
 ## Platform Direction
 
 NovaCart is no longer positioned as one fashion store. It is a website builder and commerce operations platform for independent merchants.
@@ -12,7 +29,7 @@ NovaCart is no longer positioned as one fashion store. It is a website builder a
 - Merchant access: `/login`, `/signup`, `/onboarding`
 - Merchant workspace: `/admin/dashboard`, `/admin/store-setup`, `/admin/products`, `/admin/orders`, `/admin/customers`, `/admin/inventory`, `/admin/promotions`, `/admin/analytics`, `/admin/templates`, `/admin/theme-editor`, `/admin/support`, `/admin/refunds`, `/admin/settings`
 - Generated storefronts: `/store/demo-fashion`, `/store/demo-sports`, `/store/demo-home`, `/store/demo-boutique`
-- Store-specific shopping paths: `/store/:storeSlug/products`, `/store/:storeSlug/products/:productId`, `/store/:storeSlug/cart`, `/store/:storeSlug/checkout`, `/store/:storeSlug/order-success`, `/store/:storeSlug/support`
+- Store-specific shopping paths: `/store/:storeSlug/products`, `/store/:storeSlug/products/:productId`, `/store/:storeSlug/cart`, `/store/:storeSlug/checkout`, `/store/:storeSlug/order-success`, `/store/:storeSlug/orders`, `/store/:storeSlug/orders/:orderId`, `/store/:storeSlug/support`
 
 ## Visual Preview
 
@@ -77,8 +94,8 @@ NovaCart is designed around three connected experiences:
 - Each storefront displays the merchant logo/name, selected template style, announcement bar, hero section, category navigation, featured products, product grid, variant-aware product detail pages, cart, checkout, order success, and support/refund request flow.
 - Demo stores are included for fashion, sports, home goods, and a minimal boutique so visitors can see multiple merchant storefronts.
 - Generated storefront imagery uses original local demo JPEG assets under `frontend/public/demo-images` for realistic ecommerce photography-style previews.
-- Shoppers can save products per store, filter to saved products, select size/color variants, edit cart quantities, choose delivery methods, enter postal details, and submit demo support or refund requests.
-- Generated storefront checkout is demo-safe and local for mock stores. The existing backend checkout remains available for backend-powered commerce flows.
+- Shoppers can save products per store, filter to saved products, select size/color variants, edit cart quantities, apply demo promotions, choose delivery methods, select demo-safe payment methods, enter postal details, view order success, track delivery status, and submit support or refund requests.
+- Generated storefront checkout is demo-safe and local for mock stores. It validates realistic payment fields but never processes real card, wallet, PayPal, BNPL, cash, or bank-transfer payments. The existing backend checkout remains available for backend-powered commerce flows.
 - Legacy single-store paths such as `/products`, `/cart`, `/checkout`, `/support`, and `/refund-request` redirect into the `demo-fashion` generated storefront so older links do not break.
 
 ## Merchant Admin
@@ -248,6 +265,37 @@ Services:
 - Frontend: `http://localhost:5173`
 - Backend: `http://localhost:8080`
 - MySQL: `localhost:3306`
+
+## Deploy The Frontend
+
+The Vue frontend can be deployed for free on common static hosts. The repository includes frontend deployment config for:
+
+- Vercel: [frontend/vercel.json](frontend/vercel.json)
+- Netlify: [frontend/netlify.toml](frontend/netlify.toml)
+
+Build settings:
+
+```text
+Root directory: frontend
+Build command: npm run build
+Output directory: dist
+```
+
+For a frontend-only portfolio demo, leave `VITE_API_BASE_URL` unset. The generated storefront, cart, checkout, local order tracking, and visual admin screens are still usable. For a full backend-connected deployment, set:
+
+```text
+VITE_API_BASE_URL=https://your-backend-domain.example/api
+```
+
+Then deploy the Spring Boot backend and MySQL database separately, and set the backend `CORS_ALLOWED_ORIGINS` to the deployed frontend URL.
+
+Temporary sharing from a local machine:
+
+```powershell
+cd frontend
+npm run dev -- --host 127.0.0.1 --port 5174
+npx localtunnel --port 5174 --local-host 127.0.0.1
+```
 
 ## Quality Checks
 

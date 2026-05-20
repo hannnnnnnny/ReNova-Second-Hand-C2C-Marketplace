@@ -2,6 +2,22 @@
 
 NovaCart is a portfolio fashion commerce system. These notes describe safe deployment preparation without exposing real secrets or implying that the demo checkout is a real payment flow.
 
+## Current Free Preview
+
+Temporary local tunnel preview:
+
+[https://quiet-olives-hear.loca.lt](https://quiet-olives-hear.loca.lt)
+
+This preview is free, but it is not permanent hosting. It works only while the local Vite server and LocalTunnel process are running on the developer machine. Use it for quick review, demos, and screenshots. Use Vercel, Netlify, Cloudflare Pages, Render, Railway, or a similar host for a stable portfolio URL.
+
+Current local tunnel commands:
+
+```powershell
+cd frontend
+npm run dev -- --host 127.0.0.1 --port 5174
+npx localtunnel --port 5174 --local-host 127.0.0.1
+```
+
 ## Production Checklist
 
 - Replace the default admin password after the first deployment.
@@ -79,7 +95,17 @@ java -jar backend/target/backend-0.0.1-SNAPSHOT.jar
 
 Vercel, Netlify, Cloudflare Pages, and static hosting platforms can serve the Vite build.
 
-Required frontend variable:
+Frontend-only portfolio demo:
+
+- Root directory: `frontend`
+- Build command: `npm run build`
+- Publish/output directory: `dist`
+- Vercel config: `frontend/vercel.json`
+- Netlify config: `frontend/netlify.toml`
+
+The frontend-only deployment supports the generated storefront demos, cart, demo checkout, local order tracking, and most portfolio presentation paths. Admin API calls that require Spring Boot will show unavailable-server messaging until the backend is deployed.
+
+Required frontend variable for a backend-connected deployment:
 
 ```text
 VITE_API_BASE_URL=https://your-backend-domain.example/api

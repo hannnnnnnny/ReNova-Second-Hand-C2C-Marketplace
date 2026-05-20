@@ -65,7 +65,8 @@ export const usePlatformStore = defineStore('platform', {
     createStore(payload) {
       const template = getTemplateById(payload.template || 'fashion')
       const slug = uniqueSlug(payload.slug || payload.name, this.stores)
-      const nextStore = {
+      const products = normalizeProducts(payload.products || [])
+      const nextStore = normalizeStore({
         id: `store-${Date.now()}`,
         merchantName: payload.merchantName || payload.name || 'New Merchant',
         name: payload.name || 'New Store',
@@ -89,8 +90,8 @@ export const usePlatformStore = defineStore('platform', {
           preview: false,
           publish: false
         },
-        categories: Array.from(new Set((payload.products || []).map((product) => product.category).filter(Boolean))).concat(['New Arrivals']).slice(0, 8),
-        products: normalizeProducts(payload.products || []),
+        categories: categoryListForProducts(products, payload.categories),
+        products,
         analytics: {
           sales: 0,
           orders: 0,
@@ -100,7 +101,7 @@ export const usePlatformStore = defineStore('platform', {
           topProducts: [],
           trafficSources: ['Direct', 'Search', 'Social']
         }
-      }
+      })
       this.merchantStores.push(nextStore)
       this.setCurrentStore(nextStore.slug)
       this.persistStores()
@@ -162,10 +163,30 @@ export const usePlatformStore = defineStore('platform', {
 
 function normalizeStore(store) {
   if (!store?.name || !store?.slug) return null
+  const template = getTemplateById(store.template || 'fashion')
+  const products = normalizeProducts(store.products || [])
+  const name = cleanText(store.name) || 'New Store'
+  const category = cleanText(store.category) || 'Lifestyle'
+  const description = meaningfulText(store.description) || defaultStoreDescription(name, category)
+  const shippingMessage = meaningfulText(store.shippingMessage) || 'Free shipping on orders over $75'
+  const categories = categoryListForProducts(products, store.categories)
   return {
     ...store,
+    name,
+    merchantName: cleanText(store.merchantName) || name,
     slug: createSlug(store.slug),
-    products: normalizeProducts(store.products || []),
+    category,
+    description,
+    template: template.id,
+    brandColor: store.brandColor || template.accentColor,
+    logoText: cleanText(store.logoText) || initials(name),
+    currency: store.currency || 'USD',
+    shippingMessage,
+    announcement: meaningfulText(store.announcement) || `New arrivals are live. ${shippingMessage}.`,
+    heroTitle: meaningfulText(store.heroTitle) || defaultHeroTitle(name, category),
+    heroText: meaningfulText(store.heroText) || description,
+    categories,
+    products,
     setup: {
       details: false,
       template: false,
@@ -201,13 +222,133 @@ function normalizeProducts(products) {
       imageGallery: product.imageGallery || [product.imageUrl || '/demo-images/products/boutique-shirt.jpg'],
       sizes: Array.isArray(product.sizes) ? product.sizes.filter(Boolean) : [],
       colors: Array.isArray(product.colors) ? product.colors.filter(Boolean) : [],
-      material: product.material || '',
-      careInstructions: product.careInstructions || '',
+      material: product.material || productOptionsForCategory(product.category).material,
+      careInstructions: product.careInstructions || productOptionsForCategory(product.category).careInstructions,
       badges: product.badges || (discountPercent ? ['Sale'] : ['New']),
       status: product.status || 'ACTIVE',
-      description: product.description || 'A merchant-created product ready for the storefront.'
+      rating: normalizeRating(product.rating, id),
+      reviewCount: Number(product.reviewCount) || 24 + ((id % 9) * 7),
+      merchandisingLabel: product.merchandisingLabel || merchandisingLabel(product, compareAtPrice, discountPercent),
+      deliveryPromise: product.deliveryPromise || deliveryPromiseForCategory(product.category),
+      reviewHighlights: Array.isArray(product.reviewHighlights) && product.reviewHighlights.length
+        ? product.reviewHighlights
+        : reviewHighlightsForCategory(product.category),
+      description: meaningfulText(product.description) || productDescription(product.name, product.category)
     }
   })
+}
+
+function categoryListForProducts(products, existingCategories = []) {
+  const source = [
+    'New Arrivals',
+    ...asArray(existingCategories),
+    ...products.map((product) => product.category)
+  ]
+  return uniqueClean(source).slice(0, 8)
+}
+
+function asArray(value) {
+  return Array.isArray(value) ? value : []
+}
+
+function uniqueClean(values) {
+  const seen = new Set()
+  return values.reduce((result, value) => {
+    const text = cleanText(value)
+    const key = text.toLowerCase()
+    if (!text || seen.has(key)) return result
+    seen.add(key)
+    result.push(text)
+    return result
+  }, [])
+}
+
+function cleanText(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim()
+}
+
+function meaningfulText(value) {
+  const text = cleanText(value)
+  return isWeakText(text) ? '' : text
+}
+
+function isWeakText(text) {
+  if (!text || text.length < 9) return true
+  const lower = text.toLowerCase()
+  if (/(^|\s)(test|demo|asdf|qwer|wqwqd|lorem|placeholder|sample)(\s|$)/.test(lower)) return true
+  const letters = lower.replace(/[^a-z]/g, '')
+  if (letters.length >= 5 && !/[aeiou]/.test(letters)) return true
+  if (letters.length >= 5 && new Set(letters).size <= 3) return true
+  return false
+}
+
+function defaultStoreDescription(name, category) {
+  return `${name} curates original ${category.toLowerCase()} pieces with clear product details, demo-safe checkout, and merchant-style delivery updates.`
+}
+
+function defaultHeroTitle(name, category) {
+  if (category.toLowerCase().includes('fashion')) return `An edited wardrobe from ${name}`
+  if (category.toLowerCase().includes('home')) return `Considered goods from ${name}`
+  return `Fresh picks from ${name}`
+}
+
+function productDescription(name, category) {
+  const categoryCopy = cleanText(category) || 'catalog'
+  return `${cleanText(name) || 'This piece'} is part of the ${categoryCopy.toLowerCase()} edit, selected for everyday styling, clear fit notes, and reliable demo inventory.`
+}
+
+function normalizeRating(value, id) {
+  const rating = Number(value)
+  if (Number.isFinite(rating) && rating > 0) return Number(Math.min(5, rating).toFixed(1))
+  return Number((4.4 + ((Number(id) % 6) * 0.08)).toFixed(1))
+}
+
+function merchandisingLabel(product, compareAtPrice, discountPercent) {
+  if (discountPercent || compareAtPrice) return 'Limited markdown'
+  if (Number(product.stockQuantity) <= Number(product.lowStockThreshold || 5)) return 'Low stock watch'
+  if (product.badges?.includes?.('Best Seller')) return 'Customer favorite'
+  return 'New this week'
+}
+
+function deliveryPromiseForCategory(category) {
+  const key = cleanText(category).toLowerCase()
+  if (['equipment', 'home living', 'kitchen', 'objects'].includes(key)) return 'Ships in 2-4 business days'
+  if (['bags', 'jewelry', 'accessories'].includes(key)) return 'Gift-ready packing available'
+  return 'Ships from merchant in 1-3 business days'
+}
+
+function reviewHighlightsForCategory(category) {
+  const key = cleanText(category).toLowerCase()
+  if (key === 'shoes') return ['Comfort noted by early shoppers', 'Fit guidance included before checkout']
+  if (['bags', 'jewelry', 'accessories'].includes(key)) return ['Polished finish', 'Easy gifting choice']
+  if (['home living', 'kitchen', 'objects'].includes(key)) return ['Looks refined in daily spaces', 'Packed with care by the merchant']
+  return ['Easy to style with repeat outfits', 'Soft finish and reliable sizing notes']
+}
+
+function productOptionsForCategory(category) {
+  const key = cleanText(category).toLowerCase()
+  if (['women', 'men', 'knitwear', 'activewear', 'new arrivals'].includes(key)) {
+    return {
+      material: 'Responsibly sourced cotton blend',
+      careInstructions: 'Machine wash cold and lay flat to dry.'
+    }
+  }
+  if (key === 'shoes') {
+    return {
+      material: 'Structured upper with cushioned footbed',
+      careInstructions: 'Wipe clean with a soft cloth.'
+    }
+  }
+  if (['bags', 'accessories', 'jewelry'].includes(key)) {
+    return {
+      material: key === 'jewelry' ? 'Polished brass and glass pearl finish' : 'Structured vegan leather',
+      careInstructions: 'Store dry and avoid prolonged moisture.'
+    }
+  }
+  return {
+    material: 'Small-batch mixed materials',
+    careInstructions: 'Follow the merchant care card included with the order.'
+  }
 }
 
 function uniqueSlug(value, stores) {

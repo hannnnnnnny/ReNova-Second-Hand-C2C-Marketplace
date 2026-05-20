@@ -4,13 +4,14 @@
       <span :style="{ background: store.brandColor }">{{ store.logoText }}</span>
       <strong>{{ store.name }}</strong>
     </RouterLink>
-    <nav aria-label="Store categories">
-      <RouterLink v-for="category in store.categories.slice(0, 6)" :key="category" :to="{ path: `/store/${store.slug}/products`, query: { category } }">
+    <nav v-if="navigationCategories.length" aria-label="Store categories">
+      <RouterLink v-for="category in navigationCategories" :key="category" :to="{ path: `/store/${store.slug}/products`, query: { category } }">
         {{ category }}
       </RouterLink>
     </nav>
     <div class="generated-store-actions">
       <RouterLink :to="`/store/${store.slug}/products`">Shop</RouterLink>
+      <RouterLink :to="`/store/${store.slug}/orders`">Orders</RouterLink>
       <RouterLink :to="`/store/${store.slug}/support`">Support</RouterLink>
       <RouterLink class="cart-link generated-cart-link" :to="{ path: `/store/${store.slug}/products`, query: { saved: 'true' } }" aria-label="Saved products">
         <Heart aria-hidden="true" />
@@ -41,4 +42,15 @@ const props = defineProps({
 const cartStore = useStorefrontCartStore()
 const itemCount = computed(() => cartStore.itemCountForStore(props.store.slug))
 const favoriteCount = computed(() => cartStore.favoriteCountForStore(props.store.slug))
+const navigationCategories = computed(() => {
+  const seen = new Set()
+  return (props.store.categories || [])
+    .filter((category) => {
+      const key = String(category || '').trim().toLowerCase()
+      if (!key || seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
+    .slice(0, 4)
+})
 </script>

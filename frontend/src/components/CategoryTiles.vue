@@ -1,6 +1,6 @@
 <template>
   <div class="category-tile-grid">
-    <RouterLink v-for="category in categories" :key="category" class="category-tile compact-category-tile" :to="{ path: productsPath, query: { category } }">
+    <RouterLink v-for="category in uniqueCategories" :key="category" class="category-tile compact-category-tile" :to="{ path: productsPath, query: { category } }">
       <span>{{ category }}</span>
       <small>Shop {{ category.toLowerCase() }}</small>
     </RouterLink>
@@ -8,7 +8,9 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   categories: {
     type: Array,
     required: true
@@ -17,5 +19,15 @@ defineProps({
     type: String,
     required: true
   }
+})
+
+const uniqueCategories = computed(() => {
+  const seen = new Set()
+  return props.categories.filter((category) => {
+    const key = String(category || '').trim().toLowerCase()
+    if (!key || seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
 })
 </script>

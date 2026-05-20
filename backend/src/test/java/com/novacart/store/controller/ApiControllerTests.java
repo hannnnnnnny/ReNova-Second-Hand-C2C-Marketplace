@@ -99,6 +99,31 @@ class ApiControllerTests {
     }
 
     @Test
+    void loginRateLimitsRepeatedFailedAttempts() throws Exception {
+        String email = "locked-" + UUID.randomUUID() + "@novacart.local";
+        String payload = """
+                {
+                  "email": "%s",
+                  "password": "wrong-password"
+                }
+                """.formatted(email);
+
+        for (int attempt = 0; attempt < 5; attempt += 1) {
+            mockMvc.perform(post("/api/admin/auth/login")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(payload))
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.message").value("Invalid email address or password."));
+        }
+
+        mockMvc.perform(post("/api/admin/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(payload))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.message").value("Too many failed login attempts. Try again in 15 minutes."));
+    }
+
+    @Test
     void publicProductListingReturnsSeededProducts() throws Exception {
         mockMvc.perform(get("/api/public/products"))
                 .andExpect(status().isOk())

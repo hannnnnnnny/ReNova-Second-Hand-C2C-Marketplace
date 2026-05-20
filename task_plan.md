@@ -44,11 +44,21 @@ Upgrade NovaCart into a polished, reliable, premium multi-merchant ecommerce web
 | 10. Architecture documentation | Complete | Add C4-style context/container docs and ADR for preserving the architecture. | Docs committed and final verification rerun. |
 | 11. Final verification | Complete | Rerun frontend tests/build, backend tests, and local route smoke checks. | Unit/build/backend checks pass; route smoke passes; browser-render tooling limitation documented. |
 
+## 2026-05-21 Customer Shopping Rescue Plan
+
+| Phase | Status | Scope | Exit Criteria |
+|---|---|---|---|
+| 12. Generated storefront rescue | Complete | Replace weak local-store placeholder copy, dedupe category/navigation labels, reduce heavy serif typography, and restructure the hero/service/category/product rhythm. | Frontend unit tests/build pass; clean screenshots verified on `127.0.0.1:5174`. |
+| 13. Cart and demo checkout realism | Complete | Add promo codes, correct discount totals, dynamic shipping estimates, demo-safe payment method selection, card validation, billing-address handling, and safer order persistence. | Unit tests cover promotions and payment/tracking utilities; frontend build passes. |
+| 14. Customer logistics | Complete | Add order history and order tracking routes with carrier, tracking number, estimated delivery, address, payment, fulfillment timeline, and reorder/support actions. | Tracking page screenshot verified with realistic local demo order data. |
+
 ## Errors Encountered
 
 | Time | Error | Attempt | Resolution |
 |---|---|---|---|
 | 2026-05-20 | `python` resolved to Windows Store alias when running ui-ux-pro-max helper. | Ran `python ...search.py`. | Used Codex bundled Python at `C:\Users\harry\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe`. |
+| 2026-05-21 | Existing `localhost:5173` server was serving an older Vite bundle during screenshot checks. | Captured a screenshot from `localhost:5173`. | Started a clean Vite dev server on `127.0.0.1:5174` and verified the current code there. |
+| 2026-05-21 | `require('playwright')` was not available from project `node_modules`; only the CLI was available through `npx`. | Tried a Node-based Playwright flow script. | Used `npx playwright screenshot` plus unit/build coverage and storage-state screenshots for visual QA without adding a heavy dependency. |
 
 ## Commit Log For This Task
 - `33c3784 chore: add project improvement roadmap`
@@ -63,4 +73,5 @@ Upgrade NovaCart into a polished, reliable, premium multi-merchant ecommerce web
 - `ee69b38 feat: add route SEO and AI search context`
 - `ae92cd2 feat: throttle repeated admin login failures`
 - `2e2ba1e docs: add architecture decision and C4 map`
-- Pending final verification status commit.
+- `0e1bfd2 feat: polish generated storefront experience`
+- Pending cart, checkout, and tracking commit.

@@ -146,4 +146,20 @@ describe('storefront cart store', () => {
     })
     expect(new Set(viewed.map((item) => item.productId)).size).toBe(6)
   })
+
+  it('applies demo promotions and clears them after checkout', () => {
+    const cartStore = useStorefrontCartStore()
+
+    expect(cartStore.applyPromotion('demo-fashion', 'bad-code')).toMatchObject({ applied: false })
+    expect(cartStore.applyPromotion('demo-fashion', 'WELCOME10')).toMatchObject({ applied: true })
+    expect(cartStore.promotionForStore('demo-fashion')).toMatchObject({
+      code: 'WELCOME10',
+      type: 'percentage'
+    })
+    expect(cartStore.promotionDiscountForStore('demo-fashion', 128)).toBe(12.8)
+
+    cartStore.clearStoreCart('demo-fashion')
+
+    expect(cartStore.promotionForStore('demo-fashion')).toBeNull()
+  })
 })

@@ -3,12 +3,14 @@ import { defineStore } from 'pinia'
 const STORAGE_KEY = 'novacart_storefront_carts'
 const FAVORITES_KEY = 'novacart_storefront_favorites'
 const RECENTLY_VIEWED_KEY = 'novacart_storefront_recently_viewed'
+const PROMOTIONS_KEY = 'novacart_storefront_promotions'
 
 export const useStorefrontCartStore = defineStore('storefrontCart', {
   state: () => ({
     carts: {},
     favorites: {},
-    recentlyViewed: {}
+    recentlyViewed: {},
+    promotions: {}
   }),
   getters: {
     itemsForStore: (state) => (storeSlug) => state.carts[storeSlug] || [],
@@ -18,7 +20,9 @@ export const useStorefrontCartStore = defineStore('storefrontCart', {
     favoriteIdsForStore: (state) => (storeSlug) => state.favorites[storeSlug] || [],
     favoriteCountForStore: (state) => (storeSlug) => (state.favorites[storeSlug] || []).length,
     isFavoriteForStore: (state) => (storeSlug, productId) => (state.favorites[storeSlug] || []).includes(normalizeProductId(productId)),
-    recentlyViewedForStore: (state) => (storeSlug) => state.recentlyViewed[storeSlug] || []
+    recentlyViewedForStore: (state) => (storeSlug) => state.recentlyViewed[storeSlug] || [],
+    promotionForStore: (state) => (storeSlug) => state.promotions[storeSlug] || null,
+    promotionDiscountForStore: (state) => (storeSlug, subtotal) => promotionDiscount(state.promotions[storeSlug], subtotal)
   },
   actions: {
     loadCarts() {
@@ -52,6 +56,17 @@ export const useStorefrontCartStore = defineStore('storefrontCart', {
         } catch {
           localStorage.removeItem(RECENTLY_VIEWED_KEY)
           this.recentlyViewed = {}
+        }
+      }
+
+      const rawPromotions = localStorage.getItem(PROMOTIONS_KEY)
+      if (rawPromotions) {
+        try {
+          this.promotions = normalizePromotions(JSON.parse(rawPromotions))
+          this.persistPromotions()
+        } catch {
+          localStorage.removeItem(PROMOTIONS_KEY)
+          this.promotions = {}
         }
       }
     },
@@ -106,7 +121,9 @@ export const useStorefrontCartStore = defineStore('storefrontCart', {
     },
     clearStoreCart(storeSlug) {
       this.carts[storeSlug] = []
+      delete this.promotions[storeSlug]
       this.persistCarts()
+      this.persistPromotions()
     },
     toggleFavorite(storeSlug, productId) {
       const normalizedId = normalizeProductId(productId)
@@ -144,6 +161,25 @@ export const useStorefrontCartStore = defineStore('storefrontCart', {
       ].slice(0, 6)
       this.persistRecentlyViewed()
     },
+    applyPromotion(storeSlug, code) {
+      const promotion = promotionForCode(code)
+      if (!storeSlug || !promotion) {
+        return {
+          applied: false,
+          message: 'Enter WELCOME10, STYLE10, or FREESHIP to preview a demo promotion.'
+        }
+      }
+      this.promotions[storeSlug] = promotion
+      this.persistPromotions()
+      return {
+        applied: true,
+        message: `${promotion.code} applied.`
+      }
+    },
+    clearPromotion(storeSlug) {
+      delete this.promotions[storeSlug]
+      this.persistPromotions()
+    },
     persistCarts() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.carts))
     },
@@ -152,6 +188,9 @@ export const useStorefrontCartStore = defineStore('storefrontCart', {
     },
     persistRecentlyViewed() {
       localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(this.recentlyViewed))
+    },
+    persistPromotions() {
+      localStorage.setItem(PROMOTIONS_KEY, JSON.stringify(this.promotions))
     }
   }
 })
@@ -235,6 +274,46 @@ function normalizeRecentlyViewedItem(item) {
     rating: normalizeRating(item?.rating),
     reviewCount: normalizeStock(item?.reviewCount)
   }
+}
+
+function promotionForCode(code) {
+  const normalizedCode = clean(code).toUpperCase()
+  const promotions = {
+    WELCOME10: {
+      code: 'WELCOME10',
+      label: 'Welcome 10% off',
+      type: 'percentage',
+      value: 0.1
+    },
+    STYLE10: {
+      code: 'STYLE10',
+      label: 'Style edit 10% off',
+      type: 'percentage',
+      value: 0.1
+    },
+    FREESHIP: {
+      code: 'FREESHIP',
+      label: 'Free standard shipping',
+      type: 'free_shipping',
+      value: 0
+    }
+  }
+  return promotions[normalizedCode] || null
+}
+
+function promotionDiscount(promotion, subtotal) {
+  if (!promotion || promotion.type !== 'percentage') return 0
+  const amount = normalizePrice(subtotal) * Number(promotion.value || 0)
+  return Number(amount.toFixed(2))
+}
+
+function normalizePromotions(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+  return Object.entries(value).reduce((result, [storeSlug, promotion]) => {
+    const normalized = promotionForCode(promotion?.code)
+    if (normalized) result[storeSlug] = normalized
+    return result
+  }, {})
 }
 
 function normalizeProductId(value) {

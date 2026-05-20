@@ -33,5 +33,5 @@ const props = defineProps({
   }
 })
 
-const total = computed(() => props.subtotal + props.shipping)
+const total = computed(() => Math.max(0, props.subtotal - props.discountTotal) + props.shipping)
 </script>

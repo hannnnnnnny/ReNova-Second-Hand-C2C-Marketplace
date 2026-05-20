@@ -16,6 +16,8 @@ import MerchantStoreProductDetailPage from '../pages/store/MerchantStoreProductD
 import MerchantStoreCartPage from '../pages/store/MerchantStoreCartPage.vue'
 import MerchantStoreCheckoutPage from '../pages/store/MerchantStoreCheckoutPage.vue'
 import MerchantStoreOrderSuccessPage from '../pages/store/MerchantStoreOrderSuccessPage.vue'
+import MerchantStoreOrderHistoryPage from '../pages/store/MerchantStoreOrderHistoryPage.vue'
+import MerchantStoreOrderTrackingPage from '../pages/store/MerchantStoreOrderTrackingPage.vue'
 import MerchantStoreSupportPage from '../pages/store/MerchantStoreSupportPage.vue'
 import AdminLoginPage from '../pages/admin/AdminLoginPage.vue'
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage.vue'
@@ -71,6 +73,8 @@ const router = createRouter({
         { path: 'cart', name: 'merchant-store-cart', component: MerchantStoreCartPage, props: true },
         { path: 'checkout', name: 'merchant-store-checkout', component: MerchantStoreCheckoutPage, props: true },
         { path: 'order-success', name: 'merchant-store-order-success', component: MerchantStoreOrderSuccessPage, props: true },
+        { path: 'orders', name: 'merchant-store-order-history', component: MerchantStoreOrderHistoryPage, props: true },
+        { path: 'orders/:orderId', name: 'merchant-store-order-tracking', component: MerchantStoreOrderTrackingPage, props: true },
         { path: 'support', name: 'merchant-store-support', component: MerchantStoreSupportPage, props: true }
       ]
     },

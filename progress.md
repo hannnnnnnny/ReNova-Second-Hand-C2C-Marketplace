@@ -93,3 +93,42 @@ docker compose config --quiet
 npm.cmd run build
 npm.cmd run test:unit
 ```
+
+## 2026-05-21 Session
+
+- Used the requested senior full-stack ecommerce, product design, UX, SEO, security, QA, C4, ADR, and testing lenses.
+- Confirmed `graphify` is not an installed skill in this Codex session; covered architecture mapping with C4/ADR documentation instead.
+- Ran `ui-ux-pro-max` design-system search for a multi-merchant ecommerce SaaS direction.
+- Baseline verification:
+  - `npm.cmd run test:unit` passed.
+  - `npm.cmd run build` passed.
+  - `.\mvnw.cmd test` passed.
+  - Plain `npm` is blocked by local PowerShell execution policy; `npm.cmd` works.
+- Implemented accessible admin confirmations:
+  - Added reusable `ConfirmationDialog`.
+  - Added `useConfirmDialog` composable and tests.
+  - Replaced native browser confirmations in product, promotion, category, collection, and order-status workflows.
+  - Verification passed with frontend unit tests and build.
+  - Commit: `19b1800 feat: add accessible admin confirmations`.
+- Implemented richer generated storefront discovery:
+  - Added ratings, review counts, merchandising labels, delivery promises, and review highlights to generated products.
+  - Added recently viewed tracking per generated storefront.
+  - Added product-card and detail-page proof UI.
+  - Extended storefront search to include merchandising labels and badges.
+  - Verification passed with frontend unit tests and build.
+  - Commit: `a5bdfee feat: enrich storefront product discovery`.
+- Implemented SEO and AI-search context:
+  - Added route-level title, description, canonical, Open Graph/Twitter, and JSON-LD handling.
+  - Added product/store/platform structured data coverage.
+  - Added `robots.txt`, `sitemap.xml`, `llms.txt`, and `.agents/product-marketing.md`.
+  - Verification passed with frontend unit tests and build.
+  - Commit: `ee69b38 feat: add route SEO and AI search context`.
+- Implemented backend admin-auth hardening:
+  - Added in-memory throttling for repeated failed admin login attempts.
+  - Added controller regression coverage for lockout behavior.
+  - Verification passed with backend Maven tests.
+  - Commit: `ae92cd2 feat: throttle repeated admin login failures`.
+- Added architecture documentation:
+  - Created C4-style context/container documentation under `C4-Documentation/`.
+  - Created ADR-0001 explaining the decision to preserve Spring Boot + Vue 3 + MySQL.
+  - Linked the new docs from `docs/ARCHITECTURE.md`.

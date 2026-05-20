@@ -49,3 +49,12 @@
   - Generated storefront favorites are implemented per store with saved-product filtering.
 - Routing audit:
   - Legacy `/products`, `/cart`, `/checkout`, `/support`, and `/refund-request` route names/paths redirect into `demo-fashion` generated-store routes while preserving useful query parameters.
+
+## 2026-05-21 Follow-Up Findings
+
+- Native `window.confirm` dialogs remained in important merchant operations. Replacing them with a shared accessible confirmation dialog improves UX consistency, keyboard behavior, and product polish.
+- Generated storefront products had solid images/options but could still feel thin. Ratings, review counts, delivery promises, merchandising labels, review highlights, and recently viewed history make the storefronts feel more like independent retail brands.
+- SPA-wide metadata was mostly static. Route-level metadata and JSON-LD now cover platform pages, admin pages, generated stores, and generated product detail pages.
+- AI-search context was missing. `llms.txt` and `.agents/product-marketing.md` now summarize NovaCart for AI assistants and future marketing/SEO work.
+- Admin authentication did not throttle repeated failed login attempts. A lightweight in-memory throttle now blocks repeated failures without adding infrastructure dependencies.
+- Architecture documentation existed, but there was no C4-style map or ADR capturing the decision to keep the Spring Boot + Vue + MySQL architecture. Both are now documented.

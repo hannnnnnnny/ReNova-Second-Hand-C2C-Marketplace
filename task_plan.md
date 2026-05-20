@@ -33,6 +33,16 @@ Upgrade NovaCart into a polished, reliable, premium multi-merchant ecommerce web
 | 4. Accessibility and SEO | Complete | Add/verify labels, aria state, keyboard focus, semantic landmarks, meta title/description/Open Graph/social metadata. | Product favorites use ARIA pressed state, generated checkout inputs have labels/autocomplete, images use alt/lazy/async decoding, and metadata describes NovaCart as a multi-merchant platform. |
 | 5. Final verification and delivery | In Progress | Run backend/frontend tests/builds, route smoke checks, update docs/plan, commit and push. | Backend tests, frontend install/build/unit tests, Docker config, and route smoke checks pass; final commit and push remain. |
 
+## 2026-05-21 Follow-Up Upgrade Plan
+
+| Phase | Status | Scope | Exit Criteria |
+|---|---|---|---|
+| 6. Admin UX hardening | Complete | Replace native destructive-action confirmations with reusable accessible merchant-operation dialogs. | Frontend unit tests/build pass; commit created. |
+| 7. Storefront product richness | Complete | Add product proof signals, merchandising labels, review notes, delivery promises, and recently viewed browsing history. | Frontend unit tests/build pass; commit created. |
+| 8. SEO and AI-search readiness | Complete | Add route metadata, canonical handling, structured data, robots/sitemap, llms.txt, and product-marketing context. | Frontend unit tests/build pass; commit created. |
+| 9. Backend auth security | Complete | Add failed-login throttling and regression coverage. | Backend Maven tests pass; commit created. |
+| 10. Architecture documentation | In Progress | Add C4-style context/container docs and ADR for preserving the architecture. | Docs committed and final verification rerun. |
+
 ## Errors Encountered
 
 | Time | Error | Attempt | Resolution |
@@ -44,4 +54,11 @@ Upgrade NovaCart into a polished, reliable, premium multi-merchant ecommerce web
 - `8582a6d feat: improve generated storefront shopping reliability`
 - `7e1225b feat: polish merchant admin interactions`
 - `bcaf0be refactor: improve admin bulk discount controls`
-- Pending final verification commit.
+- `604defe chore: record final verification status`
+- `584b12b docs: update README for multi-merchant platform release`
+- `c0d9d8c docs: refresh platform hero preview`
+- `19b1800 feat: add accessible admin confirmations`
+- `a5bdfee feat: enrich storefront product discovery`
+- `ee69b38 feat: add route SEO and AI search context`
+- `ae92cd2 feat: throttle repeated admin login failures`
+- Pending architecture documentation and final verification commit.

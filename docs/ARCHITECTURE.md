@@ -1,5 +1,10 @@
 # NovaCart Architecture
 
+See also:
+
+- [C4 context and containers](../C4-Documentation/context-and-containers.md)
+- [ADR-0001: Preserve Spring Boot + Vue 3 + MySQL Architecture](adr/0001-preserve-spring-vue-mysql-architecture.md)
+
 NovaCart is organized as a multi-merchant ecommerce website builder with a public platform website, merchant onboarding, generated merchant storefronts, a protected merchant administration workspace, and a Spring Boot API that owns validation, persistence, authentication, and checkout rules.
 
 ## System Overview

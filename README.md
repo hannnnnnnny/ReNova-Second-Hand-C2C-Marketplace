@@ -8,9 +8,9 @@ NovaCart is original in naming, layout, copy, seed data, and local artwork. It i
 
 Temporary free preview:
 
-[https://quiet-olives-hear.loca.lt](https://quiet-olives-hear.loca.lt)
+[https://honest-lions-being-appreciate.trycloudflare.com](https://honest-lions-being-appreciate.trycloudflare.com)
 
-This URL is served through a free LocalTunnel session from the local Vite app. It is useful for quickly opening and testing the project, but it only stays online while the local dev server and tunnel process are running on this machine. For a permanent portfolio link, deploy the `frontend` folder to Vercel, Netlify, or Cloudflare Pages using the deployment settings below.
+This URL is served through a free Cloudflare Quick Tunnel from the local Vite app. It is useful for quickly opening and testing the project, but it only stays online while the local dev server and tunnel process are running on this machine. For a permanent portfolio link, deploy the `frontend` folder to Vercel, Netlify, or Cloudflare Pages using the deployment settings below.
 
 Recommended demo paths:
 
@@ -294,7 +294,7 @@ Temporary sharing from a local machine:
 ```powershell
 cd frontend
 npm run dev -- --host 127.0.0.1 --port 5174
-npx localtunnel --port 5174 --local-host 127.0.0.1
+npx cloudflared tunnel --url http://127.0.0.1:5174
 ```
 
 ## Quality Checks

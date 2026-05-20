@@ -7513,6 +7513,7 @@ nav a.router-link-active {
 .merchant-hero-media img,
 .merchant-store-hero img {
   border-color: rgba(37, 91, 70, 0.13);
+  object-position: 72% center;
   box-shadow: 0 22px 52px rgba(29, 71, 56, 0.14);
 }
 

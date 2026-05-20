@@ -6,16 +6,16 @@ NovaCart is a portfolio fashion commerce system. These notes describe safe deplo
 
 Temporary local tunnel preview:
 
-[https://quiet-olives-hear.loca.lt](https://quiet-olives-hear.loca.lt)
+[https://honest-lions-being-appreciate.trycloudflare.com](https://honest-lions-being-appreciate.trycloudflare.com)
 
-This preview is free, but it is not permanent hosting. It works only while the local Vite server and LocalTunnel process are running on the developer machine. Use it for quick review, demos, and screenshots. Use Vercel, Netlify, Cloudflare Pages, Render, Railway, or a similar host for a stable portfolio URL.
+This preview is free, but it is not permanent hosting. It works only while the local Vite server and Cloudflare Quick Tunnel process are running on the developer machine. Use it for quick review, demos, and screenshots. Use Vercel, Netlify, Cloudflare Pages, Render, Railway, or a similar host for a stable portfolio URL.
 
 Current local tunnel commands:
 
 ```powershell
 cd frontend
 npm run dev -- --host 127.0.0.1 --port 5174
-npx localtunnel --port 5174 --local-host 127.0.0.1
+npx cloudflared tunnel --url http://127.0.0.1:5174
 ```
 
 ## Production Checklist

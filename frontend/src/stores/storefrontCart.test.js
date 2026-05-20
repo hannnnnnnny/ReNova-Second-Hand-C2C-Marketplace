@@ -111,4 +111,39 @@ describe('storefront cart store', () => {
     expect(cartStore.toggleFavorite('demo-fashion', 1001)).toBe(false)
     expect(cartStore.favoriteIdsForStore('demo-fashion')).toEqual([1002])
   })
+
+  it('keeps a bounded recently viewed list per generated storefront', () => {
+    const cartStore = useStorefrontCartStore()
+
+    Array.from({ length: 8 }).forEach((_, index) => {
+      cartStore.recordRecentlyViewed('demo-home', {
+        id: 3000 + index,
+        name: `Home Product ${index}`,
+        category: 'Home Living',
+        imageUrl: '/demo-images/products/home-throw.jpg',
+        price: 48 + index,
+        rating: 4.6,
+        reviewCount: 20 + index
+      })
+    })
+    cartStore.recordRecentlyViewed('demo-home', {
+      id: 3004,
+      name: 'Cedar Drawer Sachet Set',
+      category: 'Gifts',
+      imageUrl: '/demo-images/products/home-sachets.jpg',
+      price: 22,
+      rating: 4.8,
+      reviewCount: 64
+    })
+
+    const viewed = cartStore.recentlyViewedForStore('demo-home')
+    expect(viewed).toHaveLength(6)
+    expect(viewed[0]).toMatchObject({
+      productId: 3004,
+      name: 'Cedar Drawer Sachet Set',
+      rating: 4.8,
+      reviewCount: 64
+    })
+    expect(new Set(viewed.map((item) => item.productId)).size).toBe(6)
+  })
 })

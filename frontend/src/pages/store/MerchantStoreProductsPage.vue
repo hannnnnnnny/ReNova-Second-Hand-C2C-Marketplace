@@ -110,7 +110,7 @@ const filteredProducts = computed(() => {
   const products = props.store.products.filter((product) => {
     const matchesCategory = !selectedCategory.value || product.category === selectedCategory.value
     const matchesSearch = query
-      ? `${product.name} ${product.category} ${product.description}`.toLowerCase().includes(query)
+      ? `${product.name} ${product.category} ${product.description} ${(product.badges || []).join(' ')} ${product.merchandisingLabel || ''}`.toLowerCase().includes(query)
       : true
     const matchesSale = !saleOnly.value || product.discountPercent
     const matchesSaved = !savedOnly.value || cartStore.isFavoriteForStore(props.store.slug, product.id)

@@ -25,6 +25,12 @@
           <h3>{{ product.name }}</h3>
         </RouterLink>
         <p>{{ product.description }}</p>
+        <div v-if="product.rating" class="generated-product-proof" :aria-label="`${product.rating} out of 5 from ${product.reviewCount} reviews`">
+          <Star aria-hidden="true" />
+          <strong>{{ product.rating.toFixed(1) }}</strong>
+          <span>{{ product.reviewCount }} reviews</span>
+          <em v-if="product.merchandisingLabel">{{ product.merchandisingLabel }}</em>
+        </div>
         <div v-if="hasOptions(product)" class="generated-option-summary" aria-label="Available product options">
           <span v-if="product.colors?.length">{{ product.colors.slice(0, 3).join(', ') }}</span>
           <span v-if="product.sizes?.length">{{ product.sizes.slice(0, 4).join(' / ') }}</span>
@@ -51,7 +57,7 @@
 </template>
 
 <script setup>
-import { Heart } from 'lucide-vue-next'
+import { Heart, Star } from 'lucide-vue-next'
 import { useStorefrontCartStore } from '../stores/storefrontCart'
 import { formatCurrency } from '../utils/format'
 

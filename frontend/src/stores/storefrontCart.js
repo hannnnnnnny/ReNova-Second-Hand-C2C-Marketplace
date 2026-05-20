@@ -2,11 +2,13 @@ import { defineStore } from 'pinia'
 
 const STORAGE_KEY = 'novacart_storefront_carts'
 const FAVORITES_KEY = 'novacart_storefront_favorites'
+const RECENTLY_VIEWED_KEY = 'novacart_storefront_recently_viewed'
 
 export const useStorefrontCartStore = defineStore('storefrontCart', {
   state: () => ({
     carts: {},
-    favorites: {}
+    favorites: {},
+    recentlyViewed: {}
   }),
   getters: {
     itemsForStore: (state) => (storeSlug) => state.carts[storeSlug] || [],
@@ -15,7 +17,8 @@ export const useStorefrontCartStore = defineStore('storefrontCart', {
     discountTotalForStore: (state) => (storeSlug) => (state.carts[storeSlug] || []).reduce((total, item) => total + (item.discountAmount || 0) * item.quantity, 0),
     favoriteIdsForStore: (state) => (storeSlug) => state.favorites[storeSlug] || [],
     favoriteCountForStore: (state) => (storeSlug) => (state.favorites[storeSlug] || []).length,
-    isFavoriteForStore: (state) => (storeSlug, productId) => (state.favorites[storeSlug] || []).includes(normalizeProductId(productId))
+    isFavoriteForStore: (state) => (storeSlug, productId) => (state.favorites[storeSlug] || []).includes(normalizeProductId(productId)),
+    recentlyViewedForStore: (state) => (storeSlug) => state.recentlyViewed[storeSlug] || []
   },
   actions: {
     loadCarts() {
@@ -38,6 +41,17 @@ export const useStorefrontCartStore = defineStore('storefrontCart', {
         } catch {
           localStorage.removeItem(FAVORITES_KEY)
           this.favorites = {}
+        }
+      }
+
+      const rawRecentlyViewed = localStorage.getItem(RECENTLY_VIEWED_KEY)
+      if (rawRecentlyViewed) {
+        try {
+          this.recentlyViewed = normalizeRecentlyViewed(JSON.parse(rawRecentlyViewed))
+          this.persistRecentlyViewed()
+        } catch {
+          localStorage.removeItem(RECENTLY_VIEWED_KEY)
+          this.recentlyViewed = {}
         }
       }
     },
@@ -107,11 +121,37 @@ export const useStorefrontCartStore = defineStore('storefrontCart', {
       this.persistFavorites()
       return favorites.has(normalizedId)
     },
+    recordRecentlyViewed(storeSlug, product) {
+      if (!storeSlug || !product) return
+      const productId = normalizeProductId(product.id)
+      if (!productId) return
+
+      const viewedProduct = {
+        productId,
+        viewedAt: new Date().toISOString(),
+        name: clean(product.name) || 'Product',
+        category: clean(product.category),
+        imageUrl: clean(product.imageUrl),
+        price: normalizePrice(product.effectivePrice ?? product.price),
+        rating: normalizeRating(product.rating),
+        reviewCount: normalizeStock(product.reviewCount)
+      }
+
+      const previousItems = this.recentlyViewed[storeSlug] || []
+      this.recentlyViewed[storeSlug] = [
+        viewedProduct,
+        ...previousItems.filter((item) => item.productId !== productId)
+      ].slice(0, 6)
+      this.persistRecentlyViewed()
+    },
     persistCarts() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.carts))
     },
     persistFavorites() {
       localStorage.setItem(FAVORITES_KEY, JSON.stringify(this.favorites))
+    },
+    persistRecentlyViewed() {
+      localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(this.recentlyViewed))
     }
   }
 })
@@ -171,6 +211,32 @@ function normalizeFavorites(value) {
   }, {})
 }
 
+function normalizeRecentlyViewed(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+  return Object.entries(value).reduce((result, [storeSlug, products]) => {
+    if (!Array.isArray(products)) return result
+    const normalizedProducts = products.map(normalizeRecentlyViewedItem).filter(Boolean)
+    if (normalizedProducts.length) result[storeSlug] = normalizedProducts.slice(0, 6)
+    return result
+  }, {})
+}
+
+function normalizeRecentlyViewedItem(item) {
+  const productId = normalizeProductId(item?.productId)
+  const name = clean(item?.name)
+  if (!productId || !name) return null
+  return {
+    productId,
+    viewedAt: clean(item?.viewedAt) || new Date().toISOString(),
+    name,
+    category: clean(item?.category),
+    imageUrl: clean(item?.imageUrl),
+    price: normalizePrice(item?.price),
+    rating: normalizeRating(item?.rating),
+    reviewCount: normalizeStock(item?.reviewCount)
+  }
+}
+
 function normalizeProductId(value) {
   const numberValue = Number(value)
   return Number.isFinite(numberValue) && numberValue > 0 ? numberValue : null
@@ -194,6 +260,11 @@ function normalizePrice(value) {
 function normalizeNullablePrice(value) {
   const price = Number(value)
   return Number.isFinite(price) && price > 0 ? price : null
+}
+
+function normalizeRating(value) {
+  const rating = Number(value)
+  return Number.isFinite(rating) && rating > 0 ? Math.min(5, rating) : 0
 }
 
 function clean(value) {

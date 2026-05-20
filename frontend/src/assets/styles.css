@@ -5000,6 +5000,36 @@ body {
   background: #f8fafc;
 }
 
+.generated-product-proof,
+.product-detail-proof {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  color: #667085;
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.generated-product-proof svg,
+.product-detail-proof svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--store-accent, #7c3f47);
+  fill: currentColor;
+}
+
+.generated-product-proof strong,
+.product-detail-proof strong {
+  color: #1f2328;
+}
+
+.generated-product-proof em,
+.product-detail-proof em {
+  font-style: normal;
+  color: var(--store-accent, #7c3f47);
+}
+
 .generated-product-purchase-row {
   align-items: end;
   margin-top: 0.15rem;
@@ -5067,6 +5097,22 @@ body {
   color: #667085;
   font-size: 0.9rem;
   font-weight: 750;
+}
+
+.review-highlight-panel {
+  display: grid;
+  gap: 0.65rem;
+  border: 1px solid #e4e7ec;
+  border-radius: 14px;
+  padding: 1rem;
+  background: #fbfcfd;
+}
+
+.review-highlight-panel ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: #667085;
+  line-height: 1.7;
 }
 
 .merchant-option-group {

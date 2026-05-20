@@ -212,6 +212,8 @@ function product(id, name, slug, category, price, compareAtPrice, stockQuantity,
     ? Math.round(((Number(compareAtPrice) - Number(price)) / Number(compareAtPrice)) * 100)
     : 0
   const options = productOptionsForCategory(category)
+  const rating = productRating(id, badges, stockQuantity)
+  const reviewCount = productReviewCount(id, stockQuantity)
   return {
     id,
     name,
@@ -229,10 +231,51 @@ function product(id, name, slug, category, price, compareAtPrice, stockQuantity,
     colors: options.colors,
     material: options.material,
     careInstructions: options.careInstructions,
+    rating,
+    reviewCount,
+    merchandisingLabel: merchandisingLabel({ badges, compareAtPrice, stockQuantity }),
+    deliveryPromise: deliveryPromiseForCategory(category),
+    reviewHighlights: reviewHighlightsForCategory(category),
     badges,
     status: stockQuantity > 0 ? 'ACTIVE' : 'ARCHIVED',
     description
   }
+}
+
+function productRating(id, badges = [], stockQuantity = 0) {
+  const base = 4.35 + ((Number(id) % 7) * 0.07)
+  const boost = badges.includes('Best Seller') ? 0.12 : badges.includes('New') ? 0.04 : 0
+  const scarcityAdjustment = stockQuantity <= 6 ? -0.03 : 0
+  return Number(Math.min(4.9, base + boost + scarcityAdjustment).toFixed(1))
+}
+
+function productReviewCount(id, stockQuantity = 0) {
+  return 18 + ((Number(id) % 11) * 9) + Math.max(0, Math.min(32, Number(stockQuantity) || 0))
+}
+
+function merchandisingLabel({ badges = [], compareAtPrice, stockQuantity }) {
+  if (compareAtPrice) return 'Limited markdown'
+  if (badges.includes('Best Seller')) return 'Customer favorite'
+  if (stockQuantity > 0 && stockQuantity <= 6) return 'Low stock watch'
+  if (badges.includes('Gift')) return 'Giftable pick'
+  if (badges.includes('New')) return 'New this week'
+  return 'Core catalog'
+}
+
+function deliveryPromiseForCategory(category) {
+  const key = String(category || '').toLowerCase()
+  if (key === 'equipment' || key === 'home living' || key === 'kitchen') return 'Ships in 2-4 business days'
+  if (key === 'objects' || key === 'gifts') return 'Gift-ready packing available'
+  return 'Ships from merchant in 1-3 business days'
+}
+
+function reviewHighlightsForCategory(category) {
+  const key = String(category || '').toLowerCase()
+  if (key === 'shoes') return ['Comfortable for long wear', 'True-to-size fit notes']
+  if (['bags', 'accessories', 'jewelry'].includes(key)) return ['Polished finish', 'Easy gifting choice']
+  if (key === 'equipment' || key === 'activewear') return ['Reliable for regular sessions', 'Compact everyday storage']
+  if (['home living', 'kitchen', 'textiles', 'objects', 'gifts'].includes(key)) return ['Feels considered in daily use', 'Looks refined on open shelves']
+  return ['Soft hand feel', 'Easy to style with repeat outfits']
 }
 
 function productOptionsForCategory(category) {

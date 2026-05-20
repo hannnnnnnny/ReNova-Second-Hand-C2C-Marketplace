@@ -14,6 +14,12 @@
         <p class="eyebrow">{{ product.category }}</p>
         <h1>{{ product.name }}</h1>
         <p class="product-description">{{ product.description }}</p>
+        <div v-if="product.rating" class="product-detail-proof" :aria-label="`${product.rating} out of 5 from ${product.reviewCount} reviews`">
+          <Star aria-hidden="true" />
+          <strong>{{ product.rating.toFixed(1) }}</strong>
+          <span>{{ product.reviewCount }} reviews</span>
+          <em v-if="product.merchandisingLabel">{{ product.merchandisingLabel }}</em>
+        </div>
         <div class="price-stack detail-price">
           <strong class="price">{{ formatCurrency(product.price) }}</strong>
           <span v-if="product.compareAtPrice">{{ formatCurrency(product.compareAtPrice) }}</span>
@@ -59,9 +65,16 @@
         </div>
         <div class="merchant-detail-notes">
           <span>{{ store.shippingMessage }}</span>
+          <span>{{ product.deliveryPromise || 'Ships from merchant in 1-3 business days' }}</span>
           <span>30-day refund request window</span>
           <span v-if="product.material">Material: {{ product.material }}</span>
           <span v-if="product.careInstructions">Care: {{ product.careInstructions }}</span>
+        </div>
+        <div v-if="product.reviewHighlights?.length" class="review-highlight-panel">
+          <strong>Customer notes</strong>
+          <ul>
+            <li v-for="highlight in product.reviewHighlights" :key="highlight">{{ highlight }}</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -72,6 +85,13 @@
       </div>
       <ProductGrid :products="relatedProducts" :store="store" @add="addRelated" />
     </section>
+    <section v-if="recentlyViewedProducts.length" class="related-section recently-viewed-section">
+      <div class="retail-section-heading">
+        <p class="eyebrow">Browsing history</p>
+        <h2>Recently viewed in {{ store.name }}</h2>
+      </div>
+      <ProductGrid :products="recentlyViewedProducts" :store="store" @add="addRelated" />
+    </section>
     <ToastMessage :message="toastMessage" />
   </section>
   <EmptyState v-else title="Product not found" message="This product is not available in the merchant storefront.">
@@ -80,9 +100,9 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Heart } from 'lucide-vue-next'
+import { Heart, Star } from 'lucide-vue-next'
 import EmptyState from '../../components/EmptyState.vue'
 import ProductGrid from '../../components/ProductGrid.vue'
 import QuantityStepper from '../../components/QuantityStepper.vue'
@@ -108,6 +128,12 @@ const toastMessage = ref('')
 let toastTimer
 const product = computed(() => props.store.products.find((entry) => String(entry.id) === String(route.params.productId)))
 const relatedProducts = computed(() => props.store.products.filter((entry) => entry.id !== product.value?.id).slice(0, 3))
+const recentlyViewedProducts = computed(() => {
+  return cartStore.recentlyViewedForStore(props.store.slug)
+    .map((item) => props.store.products.find((entry) => entry.id === item.productId))
+    .filter((entry) => entry && entry.id !== product.value?.id)
+    .slice(0, 3)
+})
 const requiresSize = computed(() => (product.value?.sizes?.length || 0) > 1)
 const requiresColor = computed(() => (product.value?.colors?.length || 0) > 1)
 const isFavorite = computed(() => product.value ? cartStore.isFavoriteForStore(props.store.slug, product.value.id) : false)
@@ -123,6 +149,16 @@ const selectionHint = computed(() => {
   if (requiresColor.value && !selectedColor.value) return 'Choose a color to continue.'
   return ''
 })
+
+watch(
+  product,
+  (nextProduct) => {
+    if (nextProduct) {
+      cartStore.recordRecentlyViewed(props.store.slug, nextProduct)
+    }
+  },
+  { immediate: true }
+)
 
 function addToCart() {
   if (!product.value) return false

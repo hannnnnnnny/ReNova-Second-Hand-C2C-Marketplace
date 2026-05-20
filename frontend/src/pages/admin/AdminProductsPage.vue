@@ -163,6 +163,7 @@
       </table>
       </div>
     </div>
+    <ConfirmationDialog v-bind="confirmation" @confirm="confirm" @cancel="cancel" />
   </section>
 </template>
 
@@ -171,15 +172,18 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { createAdminPromotion, fetchAdminCategories, fetchAdminCollections, fetchAdminProducts, updateAdminProduct } from '../../api/admin'
 import { getApiError } from '../../api/client'
+import ConfirmationDialog from '../../components/ConfirmationDialog.vue'
 import EmptyState from '../../components/EmptyState.vue'
 import ErrorMessage from '../../components/ErrorMessage.vue'
 import LoadingState from '../../components/LoadingState.vue'
 import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
+import { useConfirmDialog } from '../../composables/useConfirmDialog'
 import { usePlatformStore } from '../../stores/platform'
 import { formatCurrency, formatStatus } from '../../utils/format'
 
 const platformStore = usePlatformStore()
+const { confirmation, requestConfirmation, confirm, cancel } = useConfirmDialog()
 const loading = ref(true)
 const error = ref('')
 const route = useRoute()
@@ -254,7 +258,15 @@ async function loadProducts() {
 async function toggleArchive(product) {
   const archived = product.status === 'ARCHIVED'
   const nextStatus = archived ? 'ACTIVE' : 'ARCHIVED'
-  const confirmed = window.confirm(`${archived ? 'Reactivate' : 'Archive'} ${product.name}?`)
+  const confirmed = await requestConfirmation({
+    eyebrow: 'Product visibility',
+    title: `${archived ? 'Reactivate' : 'Archive'} ${product.name}?`,
+    message: archived
+      ? 'The product will become visible again anywhere active catalog filters include it.'
+      : 'The product will be hidden from storefront shopping while remaining available in admin records.',
+    confirmLabel: archived ? 'Reactivate product' : 'Archive product',
+    tone: archived ? 'default' : 'danger'
+  })
   if (!confirmed) return
 
   try {
@@ -273,7 +285,14 @@ function toggleAll(checked) {
 }
 
 async function bulkArchive() {
-  if (!window.confirm(`Archive ${selectedIds.value.length} selected products?`)) return
+  const confirmed = await requestConfirmation({
+    eyebrow: 'Bulk catalog action',
+    title: `Archive ${selectedIds.value.length} selected products?`,
+    message: 'Selected products will leave the customer storefront but remain in merchant admin for reporting and reactivation.',
+    confirmLabel: 'Archive selected',
+    tone: 'danger'
+  })
+  if (!confirmed) return
   try {
     await Promise.all(selectedProducts().map((product) => updateAdminProduct(product.id, productPayload(product, { status: 'ARCHIVED', active: false }))))
     await loadProducts()
@@ -288,7 +307,13 @@ async function bulkAssignCollection() {
     error.value = 'Choose a collection before assigning selected products.'
     return
   }
-  if (!window.confirm(`Assign ${selectedIds.value.length} selected products to ${collection.name}?`)) return
+  const confirmed = await requestConfirmation({
+    eyebrow: 'Bulk merchandising',
+    title: `Assign ${selectedIds.value.length} selected products to ${collection.name}?`,
+    message: 'Collection placement affects merchandising stories, promotion targeting, and admin reporting.',
+    confirmLabel: 'Assign collection'
+  })
+  if (!confirmed) return
 
   try {
     await Promise.all(selectedProducts().map((product) => updateAdminProduct(

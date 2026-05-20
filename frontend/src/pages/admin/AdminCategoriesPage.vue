@@ -95,6 +95,7 @@
         </div>
       </div>
     </div>
+    <ConfirmationDialog v-bind="confirmation" @confirm="confirm" @cancel="cancel" />
     <ToastMessage :message="toastMessage" />
   </section>
 </template>
@@ -108,14 +109,17 @@ import {
   updateAdminCategory
 } from '../../api/admin'
 import { getApiError } from '../../api/client'
+import ConfirmationDialog from '../../components/ConfirmationDialog.vue'
 import EmptyState from '../../components/EmptyState.vue'
 import ErrorMessage from '../../components/ErrorMessage.vue'
 import LoadingState from '../../components/LoadingState.vue'
 import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
 import ToastMessage from '../../components/ToastMessage.vue'
+import { useConfirmDialog } from '../../composables/useConfirmDialog'
 
 const categories = ref([])
+const { confirmation, requestConfirmation, confirm, cancel } = useConfirmDialog()
 const loading = ref(true)
 const submitting = ref(false)
 const listError = ref('')
@@ -216,7 +220,13 @@ async function submitCategory() {
 }
 
 async function removeCategory(category) {
-  const confirmed = window.confirm(`Delete ${category.name}? Products assigned to this category will prevent deletion.`)
+  const confirmed = await requestConfirmation({
+    eyebrow: 'Category removal',
+    title: `Delete ${category.name}?`,
+    message: 'Products assigned to this category will prevent deletion. If deletion succeeds, the category will disappear from storefront organization.',
+    confirmLabel: 'Delete category',
+    tone: 'danger'
+  })
   if (!confirmed) return
 
   try {

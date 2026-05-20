@@ -74,6 +74,7 @@
         <p class="order-total">Order Total: {{ formatCurrency(order.totalAmount) }}</p>
       </section>
     </div>
+    <ConfirmationDialog v-bind="confirmation" @confirm="confirm" @cancel="cancel" />
     <ToastMessage :message="toastMessage" />
   </section>
 </template>
@@ -83,14 +84,17 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { fetchAdminOrder, updateOrderStatus } from '../../api/admin'
 import { getApiError } from '../../api/client'
+import ConfirmationDialog from '../../components/ConfirmationDialog.vue'
 import ErrorMessage from '../../components/ErrorMessage.vue'
 import LoadingState from '../../components/LoadingState.vue'
 import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
 import ToastMessage from '../../components/ToastMessage.vue'
+import { useConfirmDialog } from '../../composables/useConfirmDialog'
 import { formatCurrency, formatDate, formatStatus } from '../../utils/format'
 
 const route = useRoute()
+const { confirmation, requestConfirmation, confirm, cancel } = useConfirmDialog()
 const statuses = ['PENDING', 'PAID', 'PROCESSING', 'SHIPPED', 'COMPLETED', 'CANCELLED']
 const statusTransitions = {
   PENDING: ['PAID', 'PROCESSING', 'CANCELLED'],
@@ -147,9 +151,13 @@ async function loadOrder() {
 async function saveStatus() {
   if (selectedStatus.value === order.value.status) return
 
-  const confirmed = window.confirm(
-    `Update order #${order.value.id} from ${formatStatus(order.value.status)} to ${formatStatus(selectedStatus.value)}?`
-  )
+  const confirmed = await requestConfirmation({
+    eyebrow: 'Fulfillment workflow',
+    title: `Update order #${order.value.id}?`,
+    message: `Move this order from ${formatStatus(order.value.status)} to ${formatStatus(selectedStatus.value)}. Cancellation restores item stock automatically.`,
+    confirmLabel: 'Update status',
+    tone: selectedStatus.value === 'CANCELLED' ? 'danger' : 'default'
+  })
   if (!confirmed) {
     selectedStatus.value = order.value.status
     return

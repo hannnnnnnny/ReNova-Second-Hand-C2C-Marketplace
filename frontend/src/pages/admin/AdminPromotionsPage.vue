@@ -100,6 +100,7 @@
         </div>
       </div>
     </div>
+    <ConfirmationDialog v-bind="confirmation" @confirm="confirm" @cancel="cancel" />
   </section>
 </template>
 
@@ -115,13 +116,16 @@ import {
   updateAdminPromotion
 } from '../../api/admin'
 import { getApiError } from '../../api/client'
+import ConfirmationDialog from '../../components/ConfirmationDialog.vue'
 import ErrorMessage from '../../components/ErrorMessage.vue'
 import LoadingState from '../../components/LoadingState.vue'
 import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
+import { useConfirmDialog } from '../../composables/useConfirmDialog'
 import { formatCurrency, formatStatus } from '../../utils/format'
 
 const loading = ref(true)
+const { confirmation, requestConfirmation, confirm, cancel } = useConfirmDialog()
 const saving = ref(false)
 const error = ref('')
 const promotions = ref([])
@@ -269,7 +273,14 @@ function editPromotion(promotion) {
 }
 
 async function removePromotion(promotion) {
-  if (!window.confirm(`Delete promotion ${promotion.name}?`)) return
+  const confirmed = await requestConfirmation({
+    eyebrow: 'Promotion removal',
+    title: `Delete ${promotion.name}?`,
+    message: 'This promotion will stop applying to future carts and will be removed from the merchant promotion list.',
+    confirmLabel: 'Delete promotion',
+    tone: 'danger'
+  })
+  if (!confirmed) return
   try {
     await deleteAdminPromotion(promotion.id)
     promotions.value = promotions.value.filter((entry) => entry.id !== promotion.id)

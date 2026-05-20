@@ -81,6 +81,7 @@
         </div>
       </div>
     </div>
+    <ConfirmationDialog v-bind="confirmation" @confirm="confirm" @cancel="cancel" />
   </section>
 </template>
 
@@ -95,12 +96,15 @@ import {
   updateAdminProduct
 } from '../../api/admin'
 import { getApiError } from '../../api/client'
+import ConfirmationDialog from '../../components/ConfirmationDialog.vue'
 import ErrorMessage from '../../components/ErrorMessage.vue'
 import LoadingState from '../../components/LoadingState.vue'
 import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
+import { useConfirmDialog } from '../../composables/useConfirmDialog'
 
 const loading = ref(true)
+const { confirmation, requestConfirmation, confirm, cancel } = useConfirmDialog()
 const saving = ref(false)
 const error = ref('')
 const collections = ref([])
@@ -167,7 +171,14 @@ function editCollection(collection) {
 }
 
 async function removeCollection(collection) {
-  if (!window.confirm(`Delete ${collection.name}? Assigned products must be removed first.`)) return
+  const confirmed = await requestConfirmation({
+    eyebrow: 'Collection removal',
+    title: `Delete ${collection.name}?`,
+    message: 'Assigned products must be removed first. If deletion succeeds, campaign merchandising and promotion targets using this collection will no longer reference it.',
+    confirmLabel: 'Delete collection',
+    tone: 'danger'
+  })
+  if (!confirmed) return
   try {
     await deleteAdminCollection(collection.id)
     collections.value = collections.value.filter((entry) => entry.id !== collection.id)

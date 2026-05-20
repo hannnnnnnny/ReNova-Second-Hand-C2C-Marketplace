@@ -1,0 +1,28 @@
+# NovaCart
+
+NovaCart is a portfolio-ready multi-merchant ecommerce website builder. It demonstrates a public SaaS marketing site, generated merchant storefronts, a protected merchant operations dashboard, demo-safe checkout, inventory tracking, promotions, support tickets, refund queues, and analytics.
+
+## Core Pages
+
+- Platform overview: /
+- Features: /features
+- Templates: /templates
+- Pricing: /pricing
+- Fashion storefront demo: /store/demo-fashion
+- Sports storefront demo: /store/demo-sports
+- Home goods storefront demo: /store/demo-home
+- Minimal boutique storefront demo: /store/demo-boutique
+
+## Technical Architecture
+
+- Frontend: Vue 3, Vite, Vue Router, Pinia, Axios, custom responsive CSS
+- Backend: Java 21, Spring Boot 4, Spring Data JPA, Spring Security, JWT, REST JSON APIs
+- Database: MySQL at runtime, H2 for tests
+- Demo safety: checkout and generated storefront orders are mock/demo-safe and do not process real payments
+
+## Useful Documentation
+
+- README.md
+- docs/ARCHITECTURE.md
+- docs/API.md
+- docs/PRODUCT_REQUIREMENTS.md

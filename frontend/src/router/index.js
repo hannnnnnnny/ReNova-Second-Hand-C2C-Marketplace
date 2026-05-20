@@ -35,6 +35,8 @@ import AdminSettingsPage from '../pages/admin/AdminSettingsPage.vue'
 import AdminStoreSetupPage from '../pages/admin/AdminStoreSetupPage.vue'
 import AdminTemplatesPage from '../pages/admin/AdminTemplatesPage.vue'
 import AdminThemeEditorPage from '../pages/admin/AdminThemeEditorPage.vue'
+import { applyRouteSeo } from '../utils/seo'
+import { usePlatformStore } from '../stores/platform'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -118,6 +120,12 @@ router.beforeEach((to) => {
       }
     }
   }
+})
+
+router.afterEach((to) => {
+  const platformStore = usePlatformStore()
+  platformStore.loadPlatform()
+  applyRouteSeo(to, (slug) => platformStore.getStore(slug))
 })
 
 export default router

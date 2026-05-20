@@ -15,6 +15,8 @@ This URL is served through a free Cloudflare Quick Tunnel from the local Vite ap
 Recommended demo paths:
 
 - Platform home: `/`
+- Template gallery: `/templates`
+- Page preview gallery: `/templates/demo-fashion`
 - Fashion storefront: `/store/demo-fashion`
 - Store catalog: `/store/demo-fashion/products`
 - Demo checkout: `/store/demo-fashion/checkout`
@@ -25,7 +27,7 @@ Recommended demo paths:
 
 NovaCart is no longer positioned as one fashion store. It is a website builder and commerce operations platform for independent merchants.
 
-- Public platform site: `/`, `/features`, `/templates`, `/pricing`
+- Public platform site: `/`, `/features`, `/templates`, `/templates/:templateId`, `/pricing`
 - Merchant access: `/login`, `/signup`, `/onboarding`
 - Merchant workspace: `/admin/dashboard`, `/admin/store-setup`, `/admin/products`, `/admin/orders`, `/admin/customers`, `/admin/inventory`, `/admin/promotions`, `/admin/analytics`, `/admin/templates`, `/admin/theme-editor`, `/admin/support`, `/admin/refunds`, `/admin/settings`
 - Generated storefronts: `/store/demo-fashion`, `/store/demo-sports`, `/store/demo-home`, `/store/demo-boutique`

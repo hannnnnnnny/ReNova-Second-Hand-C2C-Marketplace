@@ -14,6 +14,10 @@ const PLATFORM_SEO = {
     title: 'NovaCart Templates | Premium Storefront Starting Points',
     description: 'Browse original NovaCart storefront templates for fashion boutiques, sports retailers, home goods, thrift shops, and minimal merchant catalogs.'
   },
+  'platform-template-detail': {
+    title: 'NovaCart Template Preview | Storefront Page Gallery',
+    description: 'Review NovaCart template page previews across home, product listing, product detail, cart, checkout, order tracking, support, and merchant operations screens.'
+  },
   'platform-pricing': {
     title: 'NovaCart Pricing | Demo Ecommerce SaaS Plans',
     description: 'Review NovaCart demo pricing tiers for portfolio storefront building, promotion management, inventory alerts, analytics, and merchant operations.'

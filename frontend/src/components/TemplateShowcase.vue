@@ -22,7 +22,7 @@
           <span>Best for: {{ template.bestFor }}</span>
         </div>
         <div class="template-actions">
-          <RouterLink class="secondary-button" :to="{ path: '/templates', query: { preview: template.id } }">Preview</RouterLink>
+          <RouterLink class="secondary-button" :to="previewPath(template.id)">Preview pages</RouterLink>
           <RouterLink class="primary-button" :to="{ path: '/onboarding', query: { template: template.id } }">Select</RouterLink>
         </div>
       </article>
@@ -31,10 +31,17 @@
 </template>
 
 <script setup>
+import { demoStores } from '../data/platform'
+
 defineProps({
   templates: {
     type: Array,
     required: true
   }
 })
+
+function previewPath(templateId) {
+  const store = demoStores.find((entry) => entry.template === templateId)
+  return store ? `/templates/${store.slug}` : '/templates'
+}
 </script>

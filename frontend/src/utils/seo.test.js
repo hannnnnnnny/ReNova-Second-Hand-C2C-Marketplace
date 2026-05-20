@@ -56,4 +56,16 @@ describe('SEO utilities', () => {
     expect(seo.description).toContain('storefront templates')
     expect(seo.jsonLd['@type']).toBe('WebSite')
   })
+
+  it('returns metadata for template page galleries', () => {
+    const seo = resolveRouteSeo({
+      name: 'platform-template-detail',
+      path: '/templates/demo-fashion',
+      params: { templateId: 'demo-fashion' }
+    })
+
+    expect(seo.title).toContain('Template Preview')
+    expect(seo.description).toContain('order tracking')
+    expect(seo.jsonLd['@type']).toBe('WebSite')
+  })
 })

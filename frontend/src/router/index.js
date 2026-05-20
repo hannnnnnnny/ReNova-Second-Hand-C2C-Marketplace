@@ -6,6 +6,7 @@ import AdminLayout from '../layouts/AdminLayout.vue'
 import PlatformHomePage from '../pages/platform/PlatformHomePage.vue'
 import FeaturesPage from '../pages/platform/FeaturesPage.vue'
 import TemplatesPage from '../pages/platform/TemplatesPage.vue'
+import TemplateDetailPage from '../pages/platform/TemplateDetailPage.vue'
 import PricingPage from '../pages/platform/PricingPage.vue'
 import SignupPage from '../pages/platform/SignupPage.vue'
 import OnboardingPage from '../pages/platform/OnboardingPage.vue'
@@ -50,6 +51,7 @@ const router = createRouter({
         { path: '', name: 'platform-home', component: PlatformHomePage },
         { path: 'features', name: 'platform-features', component: FeaturesPage },
         { path: 'templates', name: 'platform-templates', component: TemplatesPage },
+        { path: 'templates/:templateId', name: 'platform-template-detail', component: TemplateDetailPage },
         { path: 'pricing', name: 'platform-pricing', component: PricingPage },
         { path: 'signup', name: 'merchant-signup', component: SignupPage },
         { path: 'onboarding', name: 'merchant-onboarding', component: OnboardingPage },

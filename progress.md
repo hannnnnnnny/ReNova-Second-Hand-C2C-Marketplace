@@ -132,3 +132,9 @@ npm.cmd run test:unit
   - Created C4-style context/container documentation under `C4-Documentation/`.
   - Created ADR-0001 explaining the decision to preserve Spring Boot + Vue 3 + MySQL.
   - Linked the new docs from `docs/ARCHITECTURE.md`.
+- Final verification completed:
+  - `npm.cmd run test:unit` passed: 7 files, 27 tests.
+  - `npm.cmd run build` passed.
+  - `.\mvnw.cmd test` passed: 31 tests, 0 failures.
+  - Local Vite route smoke passed with HTTP 200 responses for `/`, `/store/demo-fashion/products/1001`, `/admin/dashboard`, and `/llms.txt`.
+  - Playwright browser smoke was attempted through the bundled Node runtime, but the available `playwright` package could not import `playwright-core`. Microsoft Edge headless `--dump-dom` also returned no DOM output in this environment, so browser-render verification is documented as unavailable rather than passed.

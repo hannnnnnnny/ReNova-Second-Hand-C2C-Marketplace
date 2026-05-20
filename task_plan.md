@@ -41,7 +41,8 @@ Upgrade NovaCart into a polished, reliable, premium multi-merchant ecommerce web
 | 7. Storefront product richness | Complete | Add product proof signals, merchandising labels, review notes, delivery promises, and recently viewed browsing history. | Frontend unit tests/build pass; commit created. |
 | 8. SEO and AI-search readiness | Complete | Add route metadata, canonical handling, structured data, robots/sitemap, llms.txt, and product-marketing context. | Frontend unit tests/build pass; commit created. |
 | 9. Backend auth security | Complete | Add failed-login throttling and regression coverage. | Backend Maven tests pass; commit created. |
-| 10. Architecture documentation | In Progress | Add C4-style context/container docs and ADR for preserving the architecture. | Docs committed and final verification rerun. |
+| 10. Architecture documentation | Complete | Add C4-style context/container docs and ADR for preserving the architecture. | Docs committed and final verification rerun. |
+| 11. Final verification | Complete | Rerun frontend tests/build, backend tests, and local route smoke checks. | Unit/build/backend checks pass; route smoke passes; browser-render tooling limitation documented. |
 
 ## Errors Encountered
 
@@ -61,4 +62,5 @@ Upgrade NovaCart into a polished, reliable, premium multi-merchant ecommerce web
 - `a5bdfee feat: enrich storefront product discovery`
 - `ee69b38 feat: add route SEO and AI search context`
 - `ae92cd2 feat: throttle repeated admin login failures`
-- Pending architecture documentation and final verification commit.
+- `2e2ba1e docs: add architecture decision and C4 map`
+- Pending final verification status commit.

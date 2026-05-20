@@ -8,8 +8,8 @@ export const storeTemplates = [
     description: 'Editorial merchandising for apparel, bags, jewelry, footwear, and seasonal edits.',
     bestFor: 'Fashion labels, thrift boutiques, accessory shops',
     previewImage: heroPath('fashion'),
-    accentColor: '#7c3f47',
-    fontStyle: 'Editorial serif'
+    accentColor: '#2f5d50',
+    fontStyle: 'Clean retail sans'
   },
   {
     id: 'thrift',
@@ -17,7 +17,7 @@ export const storeTemplates = [
     description: 'A warm discovery-led layout for curated vintage, rare finds, and mixed lifestyle goods.',
     bestFor: 'Secondhand stores, charity shops, vintage sellers',
     previewImage: heroPath('boutique'),
-    accentColor: '#8a5a35',
+    accentColor: '#6d6239',
     fontStyle: 'Classic sans'
   },
   {
@@ -26,7 +26,7 @@ export const storeTemplates = [
     description: 'Fast shopping paths for activewear, equipment, accessories, and club-ready collections.',
     bestFor: 'Sports retailers, active lifestyle brands',
     previewImage: heroPath('sports'),
-    accentColor: '#245c7a',
+    accentColor: '#285f83',
     fontStyle: 'Modern condensed'
   },
   {
@@ -35,7 +35,7 @@ export const storeTemplates = [
     description: 'Quiet merchandising for home goods, gifts, daily essentials, and lifestyle collections.',
     bestFor: 'Homeware, lifestyle, gift stores',
     previewImage: heroPath('home'),
-    accentColor: '#6f614f',
+    accentColor: '#59694f',
     fontStyle: 'Warm minimal'
   },
   {
@@ -44,7 +44,7 @@ export const storeTemplates = [
     description: 'A clean catalog-first template for small merchants that need speed, clarity, and trust.',
     bestFor: 'New stores, digital-first boutiques',
     previewImage: heroPath('boutique'),
-    accentColor: '#30343b',
+    accentColor: '#343a35',
     fontStyle: 'System clean'
   }
 ]
@@ -97,7 +97,7 @@ export const demoStores = [
     category: 'Fashion',
     description: 'Independent fashion boutique for quiet tailoring, bags, jewelry, shoes, and seasonal wardrobe pieces.',
     template: 'fashion',
-    brandColor: '#7c3f47',
+    brandColor: '#2f5d50',
     logoText: 'AS',
     currency: 'USD',
     shippingMessage: 'Free shipping on orders over $75',
@@ -126,7 +126,7 @@ export const demoStores = [
     category: 'Sports',
     description: 'Performance apparel, training extras, and compact sports equipment for active weekends.',
     template: 'sports',
-    brandColor: '#245c7a',
+    brandColor: '#285f83',
     logoText: 'NA',
     currency: 'USD',
     shippingMessage: 'Free shipping over $90',
@@ -155,7 +155,7 @@ export const demoStores = [
     category: 'Home goods',
     description: 'Warm home pieces, thoughtful gifts, and minimal lifestyle goods for calm daily routines.',
     template: 'home',
-    brandColor: '#6f614f',
+    brandColor: '#59694f',
     logoText: 'HH',
     currency: 'USD',
     shippingMessage: 'Free shipping on orders over $60',
@@ -184,7 +184,7 @@ export const demoStores = [
     category: 'Minimal boutique',
     description: 'Small-batch wardrobe staples, simple objects, and refined accessories for a quiet premium shop.',
     template: 'minimal',
-    brandColor: '#30343b',
+    brandColor: '#343a35',
     logoText: 'LG',
     currency: 'USD',
     shippingMessage: 'Free shipping on orders over $80',

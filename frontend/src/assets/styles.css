@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,750&family=Manrope:wght@500;650;750;850&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,750&family=Manrope:wght@500;650;750;850&family=Nunito+Sans:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800&display=swap");
 
 :root {
   --color-ink: #17201b;
@@ -7078,21 +7078,25 @@ p {
   }
 
   .generated-store-actions {
-    display: flex;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 0.45rem;
-    justify-content: flex-start;
-    overflow-x: auto;
+    overflow: visible;
     width: 100%;
-    padding-bottom: 0.15rem;
   }
 
   .generated-store-actions > a,
   .generated-cart-link {
-    flex: 0 0 auto;
     justify-content: center;
-    width: auto;
     white-space: nowrap;
+  }
+
+  .generated-store-actions > a:not(.cart-link) {
+    grid-column: span 2;
+  }
+
+  .generated-cart-link {
+    grid-column: span 3;
   }
 
   .merchant-store-hero {
@@ -7100,7 +7104,7 @@ p {
   }
 
   .merchant-store-hero h1 {
-    font-size: 2.45rem;
+    font-size: 2.2rem;
   }
 
   .merchant-store-hero p:not(.eyebrow) {
@@ -7364,4 +7368,278 @@ p {
   .order-history-statuses {
     justify-content: flex-start;
   }
+}
+
+/* Production retail color refresh */
+:root {
+  --color-ink: #151915;
+  --color-muted: #5e685f;
+  --color-subtle: #f3f6f0;
+  --color-surface: #fbfcf8;
+  --color-surface-strong: #ffffff;
+  --color-border: #d8e1d4;
+  --color-primary: #255b46;
+  --color-primary-hover: #1d4738;
+  --color-accent: #285f83;
+  --color-accent-soft: #edf5f2;
+  --color-accent-warm: #b46b39;
+  --color-signal: #c39139;
+  --shadow-sm: 0 12px 28px rgba(29, 71, 56, 0.08);
+  --shadow-md: 0 24px 64px rgba(29, 71, 56, 0.13);
+  --shadow-hard: 8px 8px 0 rgba(29, 71, 56, 0.1);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(47, 93, 80, 0.1), transparent 28rem),
+    radial-gradient(circle at 92% 16%, rgba(40, 95, 131, 0.08), transparent 25rem),
+    #f3f6f0;
+}
+
+body::before {
+  opacity: 0.2;
+  background-image:
+    linear-gradient(115deg, rgba(47, 93, 80, 0.12), transparent 28%),
+    linear-gradient(290deg, rgba(180, 107, 57, 0.09), transparent 32%);
+}
+
+.platform-shell,
+.admin-shell,
+.generated-store-shell {
+  background:
+    radial-gradient(circle at 88% 4%, rgba(40, 95, 131, 0.08), transparent 24rem),
+    linear-gradient(180deg, #fbfcf8 0%, #f3f6f0 52%, #eef3eb 100%);
+  color: var(--color-ink);
+}
+
+.store-announcement {
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.09) 0 1px, transparent 1px 14px),
+    linear-gradient(90deg, #244f40, #2f5d50);
+  color: #fbfcf8;
+}
+
+.app-header,
+.generated-store-header,
+.admin-topbar {
+  border-bottom-color: rgba(37, 91, 70, 0.13);
+  background: rgba(251, 252, 248, 0.94);
+  box-shadow: 0 12px 34px rgba(29, 71, 56, 0.07);
+}
+
+.generated-store-brand span,
+.brand-mark {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--store-accent, var(--color-primary)) 88%, #143329), #1f4838);
+  color: #fbfcf8;
+  box-shadow: 4px 4px 0 rgba(37, 91, 70, 0.16);
+}
+
+.generated-store-header nav a,
+.generated-store-actions > a:not(.cart-link),
+.store-nav a,
+.footer-nav a {
+  color: #334039;
+}
+
+.generated-store-header nav a:hover,
+.generated-store-header nav a.router-link-active,
+.generated-store-actions > a:not(.cart-link):hover,
+.store-nav a:hover,
+.store-nav a.router-link-active {
+  background: rgba(37, 91, 70, 0.08);
+  color: var(--color-primary);
+}
+
+.primary-button {
+  background: var(--color-primary);
+  color: #fbfcf8;
+  box-shadow: 0 0 0 1px rgba(21, 25, 21, 0.84), 4px 4px 0 rgba(37, 91, 70, 0.16);
+}
+
+.primary-button:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  box-shadow: 0 0 0 1px rgba(21, 25, 21, 0.84), 6px 6px 0 rgba(37, 91, 70, 0.18);
+}
+
+.secondary-button,
+.generated-cart-link {
+  border-color: rgba(37, 91, 70, 0.14);
+  background: rgba(251, 252, 248, 0.86);
+  color: #1f4838;
+}
+
+.secondary-button:hover:not(:disabled),
+.generated-cart-link:hover {
+  border-color: rgba(37, 91, 70, 0.3);
+  background: #ffffff;
+}
+
+.text-button,
+.text-link,
+nav a.router-link-active {
+  color: var(--color-primary);
+}
+
+.eyebrow,
+.merchant-hero-media figcaption span,
+.storefront-service-strip span {
+  color: color-mix(in srgb, var(--store-accent, var(--color-primary)) 72%, #214336);
+}
+
+.merchant-store-hero h1,
+.storefront-category-strip h2,
+.storefront-section-header h2,
+.merchant-products-header h1,
+.retail-section-heading h2,
+.tracking-main-panel h2,
+.order-detail-items-panel h2,
+.order-history-card h2 {
+  color: #151915;
+}
+
+.merchant-store-hero p:not(.eyebrow),
+.generated-product-body p,
+.storefront-service-strip p,
+.shipping-estimate-panel p,
+.tracking-timeline small,
+.tracking-timeline p,
+.tracking-address,
+.order-line-item span,
+.order-history-card p {
+  color: #5e685f;
+}
+
+.merchant-hero-media img,
+.merchant-store-hero img {
+  border-color: rgba(37, 91, 70, 0.13);
+  box-shadow: 0 22px 52px rgba(29, 71, 56, 0.14);
+}
+
+.merchant-hero-media figcaption,
+.storefront-service-strip article,
+.generated-product-card,
+.summary-panel,
+.form-section,
+.cart-item,
+.demo-card-form,
+.choice-card,
+.compact-category-tile {
+  border-color: rgba(37, 91, 70, 0.13);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 14px 34px rgba(29, 71, 56, 0.07);
+}
+
+.compact-category-tile::after {
+  background: linear-gradient(90deg, rgba(37, 91, 70, 0.14), transparent);
+}
+
+.compact-category-tile:hover,
+.generated-product-card:hover {
+  border-color: color-mix(in srgb, var(--store-accent, var(--color-primary)) 38%, #d8e1d4);
+  box-shadow: 0 20px 46px rgba(29, 71, 56, 0.12);
+}
+
+.generated-product-image,
+.generated-product-image img {
+  background: #edf3ed;
+}
+
+.product-image-badge,
+.generated-product-purchase-row .compact-button,
+.tracking-timeline li.complete span,
+.tracking-timeline li.current span {
+  border-color: color-mix(in srgb, var(--store-accent, var(--color-primary)) 74%, #143329);
+  background: color-mix(in srgb, var(--store-accent, var(--color-primary)) 82%, #143329);
+  color: #fbfcf8;
+}
+
+.generated-product-title:hover h3 {
+  color: color-mix(in srgb, var(--store-accent, var(--color-primary)) 76%, #143329);
+}
+
+.merchant-store-proof span,
+.generated-option-summary span,
+.order-history-statuses span {
+  border-color: rgba(37, 91, 70, 0.12);
+  background: rgba(248, 250, 245, 0.92);
+  color: #4f5d54;
+}
+
+.choice-card:has(input:checked),
+.checkout-progress li.active,
+.checkout-note {
+  border-color: rgba(37, 91, 70, 0.34);
+  background: #edf7f0;
+  color: #214d3d;
+  box-shadow: inset 0 0 0 1px rgba(37, 91, 70, 0.11);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline-color: rgba(37, 91, 70, 0.42);
+}
+
+input,
+select,
+textarea {
+  border-color: #cbd7ca;
+  background: #ffffff;
+  color: #151915;
+}
+
+.generated-cart-link strong {
+  background: #151915;
+  color: #fbfcf8;
+}
+
+.favorite-button:hover,
+.favorite-button[aria-pressed="true"],
+.favorite-detail-button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--store-accent, var(--color-primary)) 52%, #151915);
+  background: color-mix(in srgb, var(--store-accent, var(--color-primary)) 10%, #ffffff);
+  color: color-mix(in srgb, var(--store-accent, var(--color-primary)) 76%, #143329);
+}
+
+.professional-sidebar {
+  background:
+    linear-gradient(180deg, rgba(195, 145, 57, 0.12), transparent 34%),
+    #12362c;
+  color: #f7fbf5;
+}
+
+.professional-sidebar .admin-brand,
+.professional-sidebar .admin-session-card,
+.professional-sidebar .admin-signout {
+  border-color: rgba(247, 251, 245, 0.14);
+  background: rgba(247, 251, 245, 0.08);
+}
+
+.professional-sidebar .admin-nav a:hover,
+.professional-sidebar .admin-nav a.router-link-active {
+  border-color: rgba(247, 251, 245, 0.12);
+  background: rgba(247, 251, 245, 0.1);
+}
+
+.professional-sidebar .admin-nav a.router-link-active::before,
+.stat-card::before {
+  background: linear-gradient(90deg, #2f5d50, #285f83, #c39139);
+}
+
+.stat-card,
+.chart-card,
+.dashboard-section,
+.settings-card,
+.customer-detail-panel,
+.merchant-filter-panel,
+.theme-editor-form,
+.setup-checklist-card,
+.quick-action-card,
+.admin-table-wrap {
+  border-color: rgba(37, 91, 70, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 34px rgba(29, 71, 56, 0.08);
 }

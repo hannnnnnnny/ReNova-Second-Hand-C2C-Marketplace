@@ -32,6 +32,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
 
     private static final Map<OrderStatus, List<OrderStatus>> ALLOWED_STATUS_TRANSITIONS = buildStatusTransitions();
     private static final BigDecimal TAX_RATE = new BigDecimal("0.08");
+    private final ConcurrentMap<String, Object> idempotencyLocks = new ConcurrentHashMap<>();
 
     private final CustomerOrderRepository orderRepository;
     private final CustomerProfileRepository customerProfileRepository;
@@ -65,6 +68,21 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse createOrder(CheckoutRequest request) {
         String idempotencyKey = normalizeIdempotencyKey(request.idempotencyKey());
+        if (idempotencyKey == null) {
+            return createOrderWithIdempotencyKey(request, null);
+        }
+
+        Object lock = idempotencyLocks.computeIfAbsent(idempotencyKey, ignored -> new Object());
+        synchronized (lock) {
+            try {
+                return createOrderWithIdempotencyKey(request, idempotencyKey);
+            } finally {
+                idempotencyLocks.remove(idempotencyKey, lock);
+            }
+        }
+    }
+
+    private OrderResponse createOrderWithIdempotencyKey(CheckoutRequest request, String idempotencyKey) {
         if (idempotencyKey != null) {
             var existingOrder = orderRepository.findByIdempotencyKey(idempotencyKey);
             if (existingOrder.isPresent()) {

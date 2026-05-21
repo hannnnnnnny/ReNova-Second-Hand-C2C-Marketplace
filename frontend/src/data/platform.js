@@ -11,7 +11,14 @@ export const storeTemplates = [
     bestFor: 'Fashion labels, thrift boutiques, accessory shops',
     previewImage: heroPath('fashion'),
     accentColor: '#2f5d50',
-    fontStyle: 'Clean retail sans'
+    fontStyle: 'Clean retail sans',
+    layoutName: 'Editorial launch',
+    focus: 'Lookbook hero, seasonal edits, and polished outfit-first merchandising.',
+    primaryGoal: 'Help shoppers understand the collection mood before they browse.',
+    homepageModules: ['Large visual hero', 'Editorial category rail', 'Featured outfit edit'],
+    easyEdits: ['Hero image and headline', 'Collection description', 'Featured products'],
+    trafficReadiness: 'Static preview pages, guarded forms, and checkout idempotency for high-click launches.',
+    wireframe: ['Hero', 'Edit rail', 'Products']
   },
   {
     id: 'thrift',
@@ -20,7 +27,14 @@ export const storeTemplates = [
     bestFor: 'Secondhand stores, charity shops, vintage sellers',
     previewImage: heroPath('boutique'),
     accentColor: '#6d6239',
-    fontStyle: 'Classic sans'
+    fontStyle: 'Classic sans',
+    layoutName: 'Discovery drop',
+    focus: 'One-off finds, story-led product notes, and fast scanning for rotating stock.',
+    primaryGoal: 'Make every product feel findable even when inventory changes every week.',
+    homepageModules: ['Drop announcement', 'Condition-aware product list', 'Quick category filters'],
+    easyEdits: ['Weekly drop message', 'Find categories', 'One-off product cards'],
+    trafficReadiness: 'Duplicate-submit guards keep high-click drops from creating repeated actions.',
+    wireframe: ['Drop', 'Filters', 'One-offs']
   },
   {
     id: 'sports',
@@ -29,7 +43,14 @@ export const storeTemplates = [
     bestFor: 'Sports retailers, active lifestyle brands',
     previewImage: heroPath('sports'),
     accentColor: '#285f83',
-    fontStyle: 'Modern condensed'
+    fontStyle: 'Modern condensed',
+    layoutName: 'Performance shop',
+    focus: 'Speed, stock confidence, training categories, and equipment-first buying paths.',
+    primaryGoal: 'Get repeat shoppers to the right gear with the fewest taps.',
+    homepageModules: ['Performance hero', 'Training category shortcuts', 'Stock and shipping proof'],
+    easyEdits: ['Hero action copy', 'Sport categories', 'Low-stock products'],
+    trafficReadiness: 'Optimized image loading and locked submit buttons reduce wasted requests.',
+    wireframe: ['Action', 'Shortcuts', 'Stock']
   },
   {
     id: 'home',
@@ -38,7 +59,14 @@ export const storeTemplates = [
     bestFor: 'Homeware, lifestyle, gift stores',
     previewImage: heroPath('home'),
     accentColor: '#59694f',
-    fontStyle: 'Warm minimal'
+    fontStyle: 'Warm minimal',
+    layoutName: 'Room story',
+    focus: 'Room-by-room browsing, gifting cues, and calm product detail for home shoppers.',
+    primaryGoal: 'Help shoppers imagine the product inside daily routines.',
+    homepageModules: ['Room hero', 'Giftable category tiles', 'Home ritual product row'],
+    easyEdits: ['Room background image', 'Gift description', 'Home categories'],
+    trafficReadiness: 'Mostly static storefront pages stay responsive during traffic spikes.',
+    wireframe: ['Room', 'Gifts', 'Rituals']
   },
   {
     id: 'minimal',
@@ -47,7 +75,14 @@ export const storeTemplates = [
     bestFor: 'New stores, digital-first boutiques',
     previewImage: heroPath('boutique'),
     accentColor: '#343a35',
-    fontStyle: 'System clean'
+    fontStyle: 'System clean',
+    layoutName: 'Catalog first',
+    focus: 'Simple navigation, direct product discovery, and trust signals for first-time merchants.',
+    primaryGoal: 'Publish a clear store quickly without visual noise or complex setup.',
+    homepageModules: ['Compact hero', 'Trust strip', 'Fast product grid'],
+    easyEdits: ['Store name', 'Short description', 'Starter catalog'],
+    trafficReadiness: 'Lean layout and guarded public forms keep first launches stable.',
+    wireframe: ['Intro', 'Trust', 'Grid']
   }
 ]
 
@@ -119,6 +154,35 @@ export const demoStores = [
       product(1006, 'Black Satin Evening Clutch', 'black-satin-evening-clutch', 'Bags', 64, null, 4, productPath('fashion-clutch'), ['Low Stock'], 'Slim satin clutch with a quiet shine and interior card pocket.')
     ],
     analytics: analytics(18420, 214, 5620, '3.8%', 86.07, ['Ivory Collarless Blazer', 'Sculpted Day Bag', 'Pearl Drop Earring Set'])
+  },
+  {
+    id: 'store-thrift',
+    merchantName: 'Found Loop',
+    name: 'Found Loop',
+    slug: 'demo-thrift',
+    category: 'Thrift and vintage',
+    description: 'Curated secondhand layers, small objects, and one-off accessories refreshed for weekly discovery.',
+    template: 'thrift',
+    brandColor: '#6d6239',
+    logoText: 'FL',
+    currency: 'USD',
+    shippingMessage: 'Flat $6 shipping, free over $70',
+    announcement: 'Friday vintage drop is live with one-off finds and small home pieces.',
+    heroTitle: 'One-off finds with a story',
+    heroText: 'Vintage layers, useful objects, and carefully checked secondhand goods from Found Loop.',
+    heroImage: heroPath('boutique'),
+    published: true,
+    setup: completeSetup(),
+    categories: ['New Finds', 'Vintage Apparel', 'Bags', 'Objects', 'Accessories', 'Sale'],
+    products: [
+      product(5001, 'Vintage Cotton Chore Jacket', 'vintage-cotton-chore-jacket', 'Vintage Apparel', 74, null, 1, productPath('fashion-blazer'), ['One-off', 'Low Stock'], 'Softly worn chore jacket with clean seams, roomy pockets, and one available piece.'),
+      product(5002, 'Market Woven Shoulder Bag', 'market-woven-shoulder-bag', 'Bags', 46, null, 2, productPath('fashion-bag'), ['One-off'], 'Textured shoulder bag selected for everyday errands and relaxed weekend styling.'),
+      product(5003, 'Found Ceramic Bud Vase', 'found-ceramic-bud-vase', 'Objects', 28, null, 3, productPath('boutique-vase'), ['New'], 'Small ceramic vase with gentle surface character and shelf-ready proportions.'),
+      product(5004, 'Soft Washed Utility Shirt', 'soft-washed-utility-shirt', 'Vintage Apparel', 38, 52, 4, productPath('boutique-shirt'), ['Sale'], 'Washed utility shirt with a relaxed collar and easy layered shape.'),
+      product(5005, 'Slim Leather Card Wallet', 'slim-leather-card-wallet', 'Accessories', 32, null, 2, productPath('boutique-wallet'), ['One-off'], 'Compact card wallet with a clean fold and visible vintage grain.'),
+      product(5006, 'Evening Satin Pouch', 'evening-satin-pouch', 'Bags', 36, null, 1, productPath('fashion-clutch'), ['Low Stock'], 'Small satin pouch for evening styling, checked and ready for a second life.')
+    ],
+    analytics: analytics(6240, 89, 3210, '2.8%', 70.11, ['Vintage Cotton Chore Jacket', 'Market Woven Shoulder Bag', 'Found Ceramic Bud Vase'])
   },
   {
     id: 'store-sports',

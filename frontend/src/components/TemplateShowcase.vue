@@ -11,15 +11,24 @@
         :key="template.id"
         class="template-card"
         :style="{ '--template-accent': template.accentColor }"
+        :data-template="template.id"
       >
         <figure>
-        <img :src="template.previewImage" :alt="`${template.name} preview`" loading="lazy" decoding="async" />
+          <img :src="template.previewImage" :alt="`${template.name} preview`" loading="lazy" decoding="async" />
           <figcaption>{{ template.fontStyle }}</figcaption>
         </figure>
-        <div>
+        <div class="template-card-body">
           <h3>{{ template.name }}</h3>
           <p>{{ template.description }}</p>
-          <span>Best for: {{ template.bestFor }}</span>
+          <div class="template-layout-list">
+            <span><strong>Layout</strong>{{ template.layoutName }}</span>
+            <span><strong>Focus</strong>{{ template.primaryGoal }}</span>
+            <span><strong>Best for</strong>{{ template.bestFor }}</span>
+          </div>
+          <div class="template-module-chips" aria-label="Homepage modules">
+            <span v-for="module in template.homepageModules" :key="module">{{ module }}</span>
+          </div>
+          <small class="template-traffic-pill">{{ template.trafficReadiness }}</small>
         </div>
         <div class="template-actions">
           <RouterLink class="secondary-button" :to="previewPath(template.id)">Preview pages</RouterLink>

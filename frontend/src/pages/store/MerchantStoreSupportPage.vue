@@ -143,6 +143,7 @@ watch(
 )
 
 async function submitCareRequest() {
+  if (submitting.value) return
   error.value = ''
   successMessage.value = ''
   if (!form.email || !form.customerName || !form.message) {

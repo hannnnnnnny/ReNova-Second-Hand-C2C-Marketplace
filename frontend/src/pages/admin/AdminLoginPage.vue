@@ -68,6 +68,7 @@ const noticeMessage = computed(() => {
 })
 
 async function submitLogin() {
+  if (submitting.value) return
   error.value = ''
   submitting.value = true
   try {

@@ -9,8 +9,10 @@
 
       <p v-if="error" class="field-error">{{ error }}</p>
       <div class="onboarding-actions">
-        <button class="secondary-button" type="button" :disabled="currentStep === 0" @click="currentStep -= 1">Back</button>
-        <button class="primary-button" type="submit">{{ currentStep === steps.length - 1 ? 'Create store' : 'Continue' }}</button>
+        <button class="secondary-button" type="button" :disabled="currentStep === 0 || submitting" @click="currentStep -= 1">Back</button>
+        <button class="primary-button" type="submit" :disabled="submitting">
+          {{ submitting ? 'Creating...' : currentStep === steps.length - 1 ? 'Create store' : 'Continue' }}
+        </button>
       </div>
     </form>
   </OnboardingLayout>
@@ -35,6 +37,7 @@ const platformStore = usePlatformStore()
 const steps = ['Store basics', 'Choose template', 'Add products', 'Configure store', 'Finish']
 const currentStep = ref(0)
 const error = ref('')
+const submitting = ref(false)
 const form = reactive({
   name: '',
   slug: '',
@@ -68,6 +71,7 @@ watch(
 )
 
 function nextStep() {
+  if (submitting.value) return
   error.value = ''
   if (currentStep.value === 0 && (!form.name || !form.slug)) {
     error.value = 'Store name and slug are required.'
@@ -81,10 +85,17 @@ function nextStep() {
     currentStep.value += 1
     return
   }
-  const createdStore = platformStore.createStore({
-    ...form,
-    products: form.products.filter((product) => product.name && Number(product.price) > 0)
-  })
-  router.push(`/store/${createdStore.slug}`)
+  submitting.value = true
+  try {
+    const createdStore = platformStore.createStore({
+      ...form,
+      products: form.products.filter((product) => product.name && Number(product.price) > 0)
+    })
+    router.push(`/store/${createdStore.slug}`)
+  } finally {
+    window.setTimeout(() => {
+      submitting.value = false
+    }, 500)
+  }
 }
 </script>

@@ -3,6 +3,7 @@
     class="store-template-preview"
     :to="{ name: 'platform-template-detail', params: { templateId: store.slug } }"
     :style="{ '--store-accent': store.brandColor }"
+    :data-template="template.id"
     :aria-label="`Open ${store.name} page previews`"
   >
     <div class="store-preview-window">
@@ -24,12 +25,16 @@
           <img :src="product.imageUrl" :alt="product.name" loading="lazy" decoding="async" />
         </span>
       </div>
+      <div class="store-preview-layout-map" aria-label="Template layout focus">
+        <span v-for="block in template.wireframe" :key="block">{{ block }}</span>
+      </div>
     </div>
     <footer class="store-preview-footer">
       <div>
         <p class="eyebrow">{{ store.category }}</p>
         <h3>{{ store.name }}</h3>
         <p>{{ store.description }}</p>
+        <small>{{ template.layoutName }} / {{ template.focus }}</small>
       </div>
       <span class="preview-open-label">View page previews</span>
     </footer>

@@ -1,8 +1,8 @@
 <template>
-  <div class="merchant-store-page">
-    <section class="merchant-store-hero">
+  <div class="merchant-store-page" :data-template="template.id">
+    <section class="merchant-store-hero" :class="`merchant-store-hero--${template.id}`">
       <div class="merchant-hero-copy">
-        <p class="eyebrow">{{ store.category }} edit / {{ template.name }}</p>
+        <p class="eyebrow">{{ store.category }} edit / {{ template.layoutName }}</p>
         <h1>{{ store.heroTitle }}</h1>
         <p>{{ store.heroText }}</p>
         <div class="hero-actions">
@@ -18,10 +18,25 @@
       <figure class="merchant-hero-media">
         <img :src="store.heroImage || template.previewImage" :alt="`${store.name} storefront visual`" />
         <figcaption>
-          <span>Current edit</span>
+          <span>{{ template.name }}</span>
           <strong>{{ primaryCategory }}</strong>
         </figcaption>
       </figure>
+    </section>
+
+    <section class="template-focus-panel" :data-template="template.id" aria-label="Template merchandising focus">
+      <div>
+        <p class="eyebrow">{{ template.name }}</p>
+        <h2>{{ template.primaryGoal }}</h2>
+        <p>{{ template.focus }}</p>
+      </div>
+      <div class="template-focus-grid">
+        <article v-for="(item, index) in templateProofItems" :key="item.label">
+          <span>{{ String(index + 1).padStart(2, '0') }}</span>
+          <strong>{{ item.label }}</strong>
+          <p>{{ item.copy }}</p>
+        </article>
+      </div>
     </section>
 
     <section class="storefront-service-strip" aria-label="Store service promises">
@@ -45,7 +60,7 @@
     <section class="storefront-category-strip">
       <div>
         <p class="eyebrow">Shop by category</p>
-        <h2>Find the right part of the edit</h2>
+        <h2>{{ categoryHeading }}</h2>
       </div>
       <CategoryTiles :categories="visibleCategories" :products-path="`/store/${store.slug}/products`" />
     </section>
@@ -54,7 +69,7 @@
       <div class="storefront-section-header">
         <div>
           <p class="eyebrow">Featured products</p>
-          <h2>Pieces worth opening first</h2>
+          <h2>{{ productHeading }}</h2>
         </div>
         <RouterLink class="text-link" :to="`/store/${store.slug}/products`">View all products</RouterLink>
       </div>
@@ -84,6 +99,13 @@ const toastMessage = ref('')
 let toastTimer
 const template = computed(() => getTemplateById(props.store.template))
 const featuredProducts = computed(() => props.store.products.slice(0, 6))
+const templateProofItems = computed(() => {
+  const copies = templateCopyById[template.value.id] || templateCopyById.minimal
+  return (template.value.homepageModules || []).map((label, index) => ({
+    label,
+    copy: copies[index] || 'This section is editable from the merchant setup screen.'
+  }))
+})
 const visibleCategories = computed(() => {
   const seen = new Set()
   return (props.store.categories || []).filter((category) => {
@@ -94,6 +116,52 @@ const visibleCategories = computed(() => {
   })
 })
 const primaryCategory = computed(() => visibleCategories.value[0] || 'New Arrivals')
+const categoryHeading = computed(() => categoryHeadingByTemplate[template.value.id] || 'Find the right part of the edit')
+const productHeading = computed(() => productHeadingByTemplate[template.value.id] || 'Pieces worth opening first')
+
+const templateCopyById = {
+  fashion: [
+    'Use the main image and headline to sell the collection mood before products appear.',
+    'Lead shoppers into seasonal edits without forcing them through a dense menu.',
+    'Keep hero products visible for quick add-to-cart behavior.'
+  ],
+  thrift: [
+    'Announce the newest drop so repeat shoppers know what changed.',
+    'Help shoppers scan condition, category, and rarity before opening a product.',
+    'Keep limited pieces easy to find before they sell out.'
+  ],
+  sports: [
+    'Prioritize action-led messaging for shoppers who already know what they need.',
+    'Surface training categories as shortcuts instead of decorative navigation.',
+    'Show stock and delivery confidence near the first buying decision.'
+  ],
+  home: [
+    'Set the room feeling first so products make sense in context.',
+    'Make gifting and room-based browsing obvious without extra instructions.',
+    'Feature calm daily-use products instead of a loud sale grid.'
+  ],
+  minimal: [
+    'Keep the introduction short so new merchants can publish quickly.',
+    'Put delivery, support, and demo-payment trust signals near the top.',
+    'Let the product grid carry the store without extra decoration.'
+  ]
+}
+
+const categoryHeadingByTemplate = {
+  fashion: 'Browse the edit by wardrobe moment',
+  thrift: 'Scan the newest finds by type',
+  sports: 'Jump straight to the gear category',
+  home: 'Shop by room, ritual, or gift need',
+  minimal: 'Move quickly through the catalog'
+}
+
+const productHeadingByTemplate = {
+  fashion: 'The pieces anchoring this edit',
+  thrift: 'One-off finds to open first',
+  sports: 'Ready-to-move products in stock',
+  home: 'Useful pieces for calm routines',
+  minimal: 'Clear picks from the starter catalog'
+}
 
 function addToCart(product) {
   cartStore.addItem(props.store.slug, product, 1)

@@ -14,7 +14,14 @@ import com.novacart.store.exception.BusinessRuleException;
 import com.novacart.store.repository.CategoryRepository;
 import com.novacart.store.repository.ProductRepository;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -104,6 +111,48 @@ class OrderServiceTests {
         Product updatedProduct = productRepository.findById(product.getId()).orElseThrow();
         assertThat(secondResponse.id()).isEqualTo(firstResponse.id());
         assertThat(updatedProduct.getStockQuantity()).isEqualTo(2);
+    }
+
+    @Test
+    void createOrderHandlesConcurrentRepeatedIdempotencyKey() throws Exception {
+        Product product = saveProduct("Test Concurrent Shirt", "test-concurrent-shirt", 5, "20.00");
+        CheckoutRequest request = new CheckoutRequest(
+                "Morgan Lee",
+                "morgan@example.com",
+                "12 Market Street",
+                "Auckland",
+                "1010",
+                "New Zealand",
+                "STANDARD",
+                "Demo Card Approved",
+                "checkout-idempotency-key-concurrent",
+                false,
+                List.of(new CheckoutItemRequest(product.getId(), 1))
+        );
+        int workers = 6;
+        ExecutorService executor = Executors.newFixedThreadPool(workers);
+        CountDownLatch ready = new CountDownLatch(workers);
+        CountDownLatch start = new CountDownLatch(1);
+
+        List<Future<OrderResponse>> futures = java.util.stream.IntStream.range(0, workers)
+                .mapToObj(index -> executor.submit(() -> {
+                    ready.countDown();
+                    start.await(2, TimeUnit.SECONDS);
+                    return orderService.createOrder(request);
+                }))
+                .toList();
+
+        ready.await(2, TimeUnit.SECONDS);
+        start.countDown();
+        Set<Long> orderIds = new HashSet<>();
+        for (Future<OrderResponse> future : futures) {
+            orderIds.add(future.get(5, TimeUnit.SECONDS).id());
+        }
+        executor.shutdownNow();
+
+        Product updatedProduct = productRepository.findById(product.getId()).orElseThrow();
+        assertThat(orderIds).hasSize(1);
+        assertThat(updatedProduct.getStockQuantity()).isEqualTo(4);
     }
 
     @Test

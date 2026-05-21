@@ -4458,6 +4458,12 @@ body {
   background: #f1f3f5;
 }
 
+.template-select-card small {
+  color: #596273;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
 .first-products-list {
   display: grid;
   gap: 0.8rem;
@@ -8327,10 +8333,464 @@ textarea {
   min-height: 42px;
 }
 
+.template-difference-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto clamp(0.6rem, 2vw, 1.4rem);
+}
+
+.template-difference-strip article {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 0.25rem 0.8rem;
+  align-items: start;
+  border: 1px solid rgba(37, 91, 70, 0.12);
+  border-radius: 8px;
+  padding: 0.95rem;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.template-difference-strip span,
+.simple-step-heading span,
+.template-focus-grid span {
+  display: grid;
+  width: 2.5rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: #151915;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.template-difference-strip strong {
+  color: #151915;
+  font-size: 1rem;
+}
+
+.template-difference-strip p {
+  grid-column: 2;
+  margin: 0;
+  color: #596273;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.template-card-body {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.template-layout-list {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.template-layout-list span {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 0.6rem;
+  color: #596273;
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.template-layout-list strong {
+  color: color-mix(in srgb, var(--template-accent, #2f5d50) 76%, #151915);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.template-module-chips,
+.category-preview-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.template-module-chips span,
+.category-preview-chips span,
+.store-preview-layout-map span {
+  border: 1px solid rgba(37, 91, 70, 0.12);
+  border-radius: 999px;
+  padding: 0.36rem 0.55rem;
+  background: color-mix(in srgb, var(--template-accent, var(--store-accent, #2f5d50)) 8%, #ffffff);
+  color: #414a43;
+  font-size: 0.75rem;
+  font-weight: 850;
+}
+
+.template-traffic-pill {
+  display: block;
+  border-left: 3px solid var(--template-accent, #2f5d50);
+  padding-left: 0.65rem;
+  color: #596273;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.store-preview-layout-map {
+  display: grid;
+  grid-template-columns: 1.25fr 0.9fr 1fr;
+  gap: 0.4rem;
+  border-top: 1px solid rgba(37, 91, 70, 0.1);
+  padding: 0.65rem;
+  background: rgba(251, 252, 248, 0.92);
+}
+
+.store-preview-footer small {
+  display: block;
+  margin-top: 0.55rem;
+  color: color-mix(in srgb, var(--store-accent, #2f5d50) 68%, #596273);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.store-template-preview[data-template="sports"] .store-preview-copy {
+  margin-left: auto;
+  border-radius: 4px;
+}
+
+.store-template-preview[data-template="sports"] .store-preview-layout-map {
+  grid-template-columns: 1.45fr 0.8fr 0.8fr;
+}
+
+.store-template-preview[data-template="home"] .store-preview-copy {
+  width: min(82%, 300px);
+  margin-top: 1.5rem;
+  border-radius: 14px 14px 4px 14px;
+}
+
+.store-template-preview[data-template="thrift"] .store-preview-copy {
+  width: min(62%, 245px);
+  min-height: calc(245px - 2.2rem);
+  border-radius: 4px;
+  background: rgba(255, 250, 238, 0.9);
+}
+
+.store-template-preview[data-template="minimal"] .store-preview-copy {
+  width: min(58%, 230px);
+  border-radius: 2px;
+  backdrop-filter: none;
+}
+
+.store-template-preview[data-template="fashion"] .store-preview-layout-map span:first-child,
+.store-template-preview[data-template="sports"] .store-preview-layout-map span:first-child,
+.store-template-preview[data-template="home"] .store-preview-layout-map span:first-child,
+.store-template-preview[data-template="thrift"] .store-preview-layout-map span:first-child,
+.store-template-preview[data-template="minimal"] .store-preview-layout-map span:first-child {
+  background: color-mix(in srgb, var(--store-accent, #2f5d50) 18%, #ffffff);
+}
+
+.template-focus-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.48fr) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 1.4rem);
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto clamp(1.5rem, 4vw, 3rem);
+  border-block: 1px solid rgba(37, 91, 70, 0.12);
+  padding-block: clamp(1.2rem, 3vw, 1.8rem);
+}
+
+.template-focus-panel h2 {
+  margin: 0.25rem 0 0.55rem;
+  max-width: 13ch;
+  font-size: clamp(1.55rem, 3vw, 2.5rem);
+  line-height: 1.02;
+}
+
+.template-focus-panel p {
+  color: #596273;
+  line-height: 1.55;
+}
+
+.template-focus-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.template-focus-grid article {
+  display: grid;
+  gap: 0.55rem;
+  min-height: 190px;
+  border: 1px solid rgba(37, 91, 70, 0.12);
+  border-radius: 8px;
+  padding: 0.95rem;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.template-focus-grid strong {
+  color: #151915;
+  font-size: 1.05rem;
+  line-height: 1.15;
+}
+
+.merchant-store-page[data-template="sports"] .merchant-store-hero {
+  grid-template-columns: minmax(0, 0.82fr) minmax(340px, 1fr);
+}
+
+.merchant-store-page[data-template="sports"] .merchant-hero-media img {
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+}
+
+.merchant-store-page[data-template="thrift"] .merchant-store-hero {
+  align-items: start;
+}
+
+.merchant-store-page[data-template="thrift"] .merchant-hero-media img {
+  aspect-ratio: 5 / 4;
+  border-radius: 4px;
+}
+
+.merchant-store-page[data-template="home"] .merchant-store-hero {
+  grid-template-columns: minmax(0, 0.9fr) minmax(340px, 0.92fr);
+}
+
+.merchant-store-page[data-template="home"] .merchant-hero-media img {
+  aspect-ratio: 4 / 5;
+}
+
+.merchant-store-page[data-template="minimal"] .merchant-store-hero {
+  grid-template-columns: minmax(0, 0.72fr) minmax(340px, 1fr);
+  padding-top: clamp(1.8rem, 5vw, 3.5rem);
+}
+
+.merchant-store-page[data-template="minimal"] .merchant-hero-media img {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.simple-builder-layout {
+  grid-template-columns: minmax(280px, 0.36fr) minmax(0, 1fr);
+  gap: 1.1rem;
+}
+
+.simple-builder-layout > article {
+  grid-column: 2;
+}
+
+.simple-builder-side {
+  position: sticky;
+  top: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-row: 1 / span 4;
+}
+
+.simple-store-builder .setup-checklist-card,
+.simple-store-builder .store-template-preview,
+.simple-template-note,
+.simple-builder-card,
+.simple-save-panel {
+  border-radius: 8px;
+}
+
+.simple-template-note {
+  padding: 1rem;
+}
+
+.simple-template-note ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.8rem 0 0;
+  padding-left: 1.1rem;
+  color: #596273;
+}
+
+.simple-builder-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.simple-step-heading {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: start;
+}
+
+.simple-step-heading h2 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.simple-step-heading p,
+.simple-save-panel p {
+  margin: 0.28rem 0 0;
+  color: #596273;
+}
+
+.simple-image-picker {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.image-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.image-choice-grid button,
+.product-editor-list button {
+  cursor: pointer;
+  border: 1px solid rgba(37, 91, 70, 0.14);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #151915;
+  text-align: left;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.image-choice-grid button {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.45rem;
+}
+
+.image-choice-grid button.active,
+.product-editor-list button.active {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(47, 93, 80, 0.16);
+}
+
+.image-choice-grid img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.image-choice-grid span {
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.category-textarea {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.simple-store-builder .product-editor-layout {
+  grid-template-columns: minmax(230px, 0.42fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.product-editor-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.product-editor-list button {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: center;
+  padding: 0.55rem;
+}
+
+.product-editor-list img {
+  width: 64px;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.product-editor-list span,
+.product-editor-list small {
+  min-width: 0;
+}
+
+.product-editor-list strong,
+.product-editor-list small {
+  display: block;
+}
+
+.product-editor-list strong {
+  overflow-wrap: anywhere;
+  font-size: 0.92rem;
+}
+
+.product-editor-list small {
+  margin-top: 0.18rem;
+  color: #596273;
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.product-editor-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.product-editor-panel .wide-field,
+.product-image-picker,
+.product-form-actions {
+  grid-column: 1 / -1;
+}
+
+.compact-image-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.simple-save-panel {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+}
+
+.simple-save-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.8rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.simple-save-status span {
+  color: #356757;
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
 @media (max-width: 900px) {
   .template-detail-hero,
   .template-page-preview-grid {
     grid-template-columns: 1fr;
+  }
+
+  .template-difference-strip,
+  .template-focus-panel,
+  .template-focus-grid,
+  .simple-builder-layout,
+  .simple-store-builder .product-editor-layout,
+  .simple-save-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .simple-builder-side {
+    position: static;
+    grid-row: auto;
+  }
+
+  .simple-builder-layout > article {
+    grid-column: auto;
+  }
+
+  .simple-save-panel {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .store-preview-footer {
@@ -8363,5 +8823,19 @@ textarea {
 
   .preview-card-topline {
     display: grid;
+  }
+
+  .template-difference-strip,
+  .product-editor-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .image-choice-grid,
+  .compact-image-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .template-difference-strip p {
+    grid-column: 1 / -1;
   }
 }

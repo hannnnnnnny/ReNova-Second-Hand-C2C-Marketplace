@@ -82,6 +82,7 @@ const formIsValid = computed(() => {
 })
 
 async function submitTicket() {
+  if (submitting.value) return
   error.value = ''
   successMessage.value = ''
   if (!formIsValid.value) {

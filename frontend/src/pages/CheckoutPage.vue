@@ -258,6 +258,7 @@ onMounted(() => {
 })
 
 async function submitOrder() {
+  if (submitting.value) return
   submitted.value = true
   error.value = ''
   if (!formIsValid.value) {

@@ -65,6 +65,7 @@ const formIsValid = computed(() => {
 })
 
 async function submitRefund() {
+  if (submitting.value) return
   error.value = ''
   successMessage.value = ''
   if (!formIsValid.value) {

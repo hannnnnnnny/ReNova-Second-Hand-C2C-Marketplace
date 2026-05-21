@@ -14,7 +14,8 @@
       >
         <img :src="template.previewImage" :alt="`${template.name} preview`" />
         <strong>{{ template.name }}</strong>
-        <span>{{ template.bestFor }}</span>
+        <span>{{ template.layoutName }}</span>
+        <small>{{ template.primaryGoal }}</small>
       </button>
     </div>
   </section>

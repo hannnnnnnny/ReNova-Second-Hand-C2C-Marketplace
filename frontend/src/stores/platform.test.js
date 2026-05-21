@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
+import { demoStores, storeTemplates } from '../data/platform'
 import { usePlatformStore } from './platform'
 
 describe('platform store generated merchant normalization', () => {
@@ -98,5 +99,46 @@ describe('platform store generated merchant normalization', () => {
     platformStore.applyInventoryChange(store.slug, [{ productId: 9102, quantity: 1 }], 1)
 
     expect(platformStore.getStore(store.slug).products.find((product) => product.id === 9102).stockQuantity).toBe(2)
+  })
+
+  it('keeps every storefront template distinct and previewable', () => {
+    for (const template of storeTemplates) {
+      expect(template.layoutName).toBeTruthy()
+      expect(template.primaryGoal).toBeTruthy()
+      expect(template.homepageModules.length).toBeGreaterThanOrEqual(3)
+      expect(template.easyEdits.length).toBeGreaterThanOrEqual(3)
+      expect(demoStores.some((store) => store.template === template.id)).toBe(true)
+    }
+  })
+
+  it('normalizes products updated from the simple store builder', () => {
+    const platformStore = usePlatformStore()
+    const store = platformStore.createStore({
+      name: 'Builder Studio',
+      template: 'home',
+      products: []
+    })
+
+    platformStore.updateStore(store.slug, {
+      categories: ['Objects', 'Objects', 'Gifts'],
+      products: [
+        {
+          id: 9301,
+          name: 'Gift Vase',
+          category: 'Objects',
+          price: 34,
+          stockQuantity: 0
+        }
+      ]
+    })
+
+    const updatedStore = platformStore.getStore(store.slug)
+    expect(updatedStore.categories).toEqual(['New Arrivals', 'Objects', 'Gifts'])
+    expect(updatedStore.products[0]).toMatchObject({
+      slug: 'gift-vase',
+      stockQuantity: 0,
+      imageGallery: expect.any(Array),
+      deliveryPromise: expect.any(String)
+    })
   })
 })

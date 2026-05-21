@@ -116,6 +116,13 @@ export const usePlatformStore = defineStore('platform', {
       if (!patch.slug) {
         delete nextPatch.slug
       }
+      const currentStore = this.getStore(slug)
+      if (Array.isArray(patch.products)) {
+        nextPatch.products = normalizeProducts(patch.products)
+      }
+      if (Array.isArray(patch.categories)) {
+        nextPatch.categories = categoryListForProducts(nextPatch.products || currentStore?.products || [], patch.categories)
+      }
       const index = this.merchantStores.findIndex((store) => store.slug === slug)
       if (index === -1) {
         if (!demoStores.some((store) => store.slug === slug)) return null

@@ -141,4 +141,51 @@ describe('platform store generated merchant normalization', () => {
       deliveryPromise: expect.any(String)
     })
   })
+
+  it('creates merchant stores with editable website content defaults', () => {
+    const platformStore = usePlatformStore()
+
+    const store = platformStore.createStore({
+      name: 'Content Studio',
+      template: 'minimal',
+      description: 'A merchant storefront with editable public content.',
+      products: [
+        {
+          id: 9401,
+          name: 'First Product',
+          category: 'Objects',
+          price: 24,
+          stockQuantity: 5
+        },
+        {
+          id: 9402,
+          name: 'Second Product',
+          category: 'Gifts',
+          price: 30,
+          stockQuantity: 5
+        }
+      ]
+    })
+
+    expect(store).toMatchObject({
+      heroButtonLabel: 'Shop products',
+      secondaryButtonLabel: 'Browse new arrivals',
+      aboutTitle: 'Content Studio story',
+      seoTitle: 'Content Studio | NovaCart Storefront'
+    })
+    expect(store.featuredProductIds).toEqual([9401, 9402])
+
+    platformStore.updateStore(store.slug, {
+      aboutTitle: 'Updated public story',
+      seoDescription: 'Updated SEO description.',
+      featuredProductIds: [9402],
+      categories: ['Gifts']
+    })
+
+    const updatedStore = platformStore.getStore(store.slug)
+    expect(updatedStore.aboutTitle).toBe('Updated public story')
+    expect(updatedStore.seoDescription).toBe('Updated SEO description.')
+    expect(updatedStore.featuredProductIds).toEqual([9402])
+    expect(updatedStore.categories).toEqual(['New Arrivals', 'Gifts', 'Objects'])
+  })
 })

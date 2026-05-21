@@ -6,6 +6,8 @@ const demoStore = {
   slug: 'demo-fashion',
   currency: 'USD',
   description: 'Independent fashion boutique for quiet tailoring.',
+  seoTitle: 'Custom Avery Storefront',
+  seoDescription: 'Custom public search text for Avery Studio.',
   products: [
     {
       id: 1001,
@@ -55,6 +57,28 @@ describe('SEO utilities', () => {
     expect(seo.title).toContain('NovaCart Templates')
     expect(seo.description).toContain('storefront templates')
     expect(seo.jsonLd['@type']).toBe('WebSite')
+  })
+
+  it('uses merchant-controlled SEO content for storefront homepages', () => {
+    const seo = resolveRouteSeo(
+      {
+        name: 'merchant-store-home',
+        path: '/store/demo-fashion',
+        params: { storeSlug: 'demo-fashion' }
+      },
+      () => demoStore
+    )
+
+    expect(seo.title).toBe('Custom Avery Storefront')
+    expect(seo.description).toBe('Custom public search text for Avery Studio.')
+    expect(seo.jsonLd.description).toBe('Custom public search text for Avery Studio.')
+  })
+
+  it('returns admin metadata for website content management', () => {
+    const seo = resolveRouteSeo({ name: 'admin-store-content', path: '/admin/store-content', params: {} })
+
+    expect(seo.title).toContain('Website Content')
+    expect(seo.jsonLd['@type']).toBe('SoftwareApplication')
   })
 
   it('returns metadata for template page galleries', () => {

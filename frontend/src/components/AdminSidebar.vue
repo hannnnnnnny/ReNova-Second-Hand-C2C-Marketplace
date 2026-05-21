@@ -29,6 +29,7 @@ import {
   BarChart3,
   Boxes,
   Brush,
+  FileText,
   Gauge,
   Gift,
   Headphones,
@@ -51,6 +52,7 @@ const authStore = useAuthStore()
 const platformStore = usePlatformStore()
 const navItems = [
   { label: 'Dashboard', to: '/admin/dashboard', icon: Home },
+  { label: 'Website Content', to: '/admin/store-content', icon: FileText },
   { label: 'Store Setup', to: '/admin/store-setup', icon: Gauge },
   { label: 'Products', to: '/admin/products', icon: Package },
   { label: 'Orders', to: '/admin/orders', icon: ReceiptText },

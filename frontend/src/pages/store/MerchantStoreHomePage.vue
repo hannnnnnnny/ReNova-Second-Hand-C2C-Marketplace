@@ -6,8 +6,8 @@
         <h1>{{ store.heroTitle }}</h1>
         <p>{{ store.heroText }}</p>
         <div class="hero-actions">
-          <RouterLink class="primary-button" :to="`/store/${store.slug}/products`">Shop the edit</RouterLink>
-          <RouterLink class="secondary-button" :to="{ path: `/store/${store.slug}/products`, query: { category: primaryCategory } }">New arrivals</RouterLink>
+          <RouterLink class="primary-button" :to="`/store/${store.slug}/products`">{{ heroButtonLabel }}</RouterLink>
+          <RouterLink class="secondary-button" :to="{ path: `/store/${store.slug}/products`, query: { category: primaryCategory } }">{{ secondaryButtonLabel }}</RouterLink>
         </div>
         <div class="merchant-store-proof">
           <span>{{ store.products.length }} products</span>
@@ -36,6 +36,17 @@
           <strong>{{ item.label }}</strong>
           <p>{{ item.copy }}</p>
         </article>
+      </div>
+    </section>
+
+    <section class="storefront-story-section" aria-label="Store story">
+      <div>
+        <p class="eyebrow">{{ store.name }}</p>
+        <h2>{{ aboutTitle }}</h2>
+      </div>
+      <div>
+        <p>{{ aboutText }}</p>
+        <strong>{{ customerPromise }}</strong>
       </div>
     </section>
 
@@ -98,7 +109,13 @@ const cartStore = useStorefrontCartStore()
 const toastMessage = ref('')
 let toastTimer
 const template = computed(() => getTemplateById(props.store.template))
-const featuredProducts = computed(() => props.store.products.slice(0, 6))
+const featuredProducts = computed(() => {
+  const selectedIds = new Set((props.store.featuredProductIds || []).map(Number))
+  const selectedProducts = selectedIds.size
+    ? props.store.products.filter((product) => selectedIds.has(Number(product.id)))
+    : []
+  return (selectedProducts.length ? selectedProducts : props.store.products).slice(0, 6)
+})
 const templateProofItems = computed(() => {
   const copies = templateCopyById[template.value.id] || templateCopyById.minimal
   return (template.value.homepageModules || []).map((label, index) => ({
@@ -116,6 +133,11 @@ const visibleCategories = computed(() => {
   })
 })
 const primaryCategory = computed(() => visibleCategories.value[0] || 'New Arrivals')
+const heroButtonLabel = computed(() => props.store.heroButtonLabel || 'Shop products')
+const secondaryButtonLabel = computed(() => props.store.secondaryButtonLabel || 'Browse new arrivals')
+const aboutTitle = computed(() => props.store.aboutTitle || `${props.store.name} story`)
+const aboutText = computed(() => props.store.aboutText || props.store.description)
+const customerPromise = computed(() => props.store.customerPromise || 'Clear product details, safe demo checkout, and responsive merchant support.')
 const categoryHeading = computed(() => categoryHeadingByTemplate[template.value.id] || 'Find the right part of the edit')
 const productHeading = computed(() => productHeadingByTemplate[template.value.id] || 'Pieces worth opening first')
 

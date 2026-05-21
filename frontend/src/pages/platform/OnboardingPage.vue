@@ -28,12 +28,15 @@ import StoreBasicsStep from '../../components/StoreBasicsStep.vue'
 import StoreConfigStep from '../../components/StoreConfigStep.vue'
 import TemplateSelectStep from '../../components/TemplateSelectStep.vue'
 import { createSlug, storeTemplates } from '../../data/platform'
+import { useAuthStore } from '../../stores/auth'
 import { usePlatformStore } from '../../stores/platform'
+import { LOCAL_DEMO_ADMIN_TOKEN } from '../../utils/demoAdmin'
 import { publicAsset } from '../../utils/publicPath'
 
 const route = useRoute()
 const router = useRouter()
 const platformStore = usePlatformStore()
+const authStore = useAuthStore()
 const steps = ['Store basics', 'Choose template', 'Add products', 'Configure store', 'Finish']
 const currentStep = ref(0)
 const error = ref('')
@@ -91,7 +94,13 @@ function nextStep() {
       ...form,
       products: form.products.filter((product) => product.name && Number(product.price) > 0)
     })
-    router.push(`/store/${createdStore.slug}`)
+    authStore.setSession({
+      token: LOCAL_DEMO_ADMIN_TOKEN,
+      email: 'admin@novacart.local',
+      role: 'ROLE_ADMIN',
+      expiresInMinutes: 120
+    })
+    router.push('/admin/store-content')
   } finally {
     window.setTimeout(() => {
       submitting.value = false

@@ -33,8 +33,8 @@ NovaCart is no longer positioned as one fashion store. It is a website builder a
 
 - Public platform site: `/`, `/features`, `/templates`, `/templates/:templateId`, `/pricing`
 - Merchant access: `/login`, `/signup`, `/onboarding`
-- Merchant workspace: `/admin/dashboard`, `/admin/store-setup`, `/admin/products`, `/admin/orders`, `/admin/customers`, `/admin/inventory`, `/admin/promotions`, `/admin/analytics`, `/admin/templates`, `/admin/theme-editor`, `/admin/support`, `/admin/refunds`, `/admin/settings`
-- Generated storefronts: `/store/demo-fashion`, `/store/demo-sports`, `/store/demo-home`, `/store/demo-boutique`
+- Merchant workspace: `/admin/dashboard`, `/admin/store-content`, `/admin/store-setup`, `/admin/products`, `/admin/orders`, `/admin/customers`, `/admin/inventory`, `/admin/promotions`, `/admin/analytics`, `/admin/templates`, `/admin/theme-editor`, `/admin/support`, `/admin/refunds`, `/admin/settings`
+- Generated storefronts: `/store/demo-fashion`, `/store/demo-thrift`, `/store/demo-sports`, `/store/demo-home`, `/store/demo-boutique`
 - Store-specific shopping paths: `/store/:storeSlug/products`, `/store/:storeSlug/products/:productId`, `/store/:storeSlug/cart`, `/store/:storeSlug/checkout`, `/store/:storeSlug/order-success`, `/store/:storeSlug/orders`, `/store/:storeSlug/orders/:orderId`, `/store/:storeSlug/support`
 
 ## Visual Preview

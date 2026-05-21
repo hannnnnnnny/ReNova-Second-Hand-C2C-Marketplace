@@ -82,6 +82,16 @@ export const usePlatformStore = defineStore('platform', {
         announcement: payload.announcement || payload.shippingMessage || 'Welcome to our new NovaCart store.',
         heroTitle: payload.heroTitle || `Shop ${payload.name || 'our store'}`,
         heroText: payload.heroText || payload.description || 'Discover products from this independent merchant.',
+        heroImage: payload.heroImage || template.previewImage,
+        heroButtonLabel: payload.heroButtonLabel || 'Shop products',
+        secondaryButtonLabel: payload.secondaryButtonLabel || 'Browse new arrivals',
+        aboutTitle: payload.aboutTitle || `${payload.name || 'This store'} story`,
+        aboutText: payload.aboutText || payload.description || 'Share the store story, customer promise, and merchandising focus from the content editor.',
+        customerPromise: payload.customerPromise || 'Clear product details, safe demo checkout, and responsive merchant support.',
+        footerText: payload.footerText || payload.description || 'A NovaCart merchant storefront.',
+        seoTitle: payload.seoTitle || `${payload.name || 'New Store'} | NovaCart Storefront`,
+        seoDescription: payload.seoDescription || payload.description || 'Shop this NovaCart merchant storefront.',
+        featuredProductIds: payload.featuredProductIds,
         published: false,
         setup: {
           details: Boolean(payload.name),
@@ -119,6 +129,12 @@ export const usePlatformStore = defineStore('platform', {
       const currentStore = this.getStore(slug)
       if (Array.isArray(patch.products)) {
         nextPatch.products = normalizeProducts(patch.products)
+      }
+      if (Array.isArray(patch.featuredProductIds) || Array.isArray(patch.products)) {
+        nextPatch.featuredProductIds = normalizeFeaturedProductIds(
+          patch.featuredProductIds || currentStore?.featuredProductIds,
+          nextPatch.products || currentStore?.products || []
+        )
       }
       if (Array.isArray(patch.categories)) {
         nextPatch.categories = categoryListForProducts(nextPatch.products || currentStore?.products || [], patch.categories)
@@ -210,6 +226,7 @@ function normalizeStore(store) {
   const description = meaningfulText(store.description) || defaultStoreDescription(name, category)
   const shippingMessage = meaningfulText(store.shippingMessage) || 'Free shipping on orders over $75'
   const categories = categoryListForProducts(products, store.categories)
+  const featuredProductIds = normalizeFeaturedProductIds(store.featuredProductIds, products)
   return {
     ...store,
     name,
@@ -225,6 +242,16 @@ function normalizeStore(store) {
     announcement: meaningfulText(store.announcement) || `New arrivals are live. ${shippingMessage}.`,
     heroTitle: meaningfulText(store.heroTitle) || defaultHeroTitle(name, category),
     heroText: meaningfulText(store.heroText) || description,
+    heroImage: store.heroImage || template.previewImage,
+    heroButtonLabel: cleanText(store.heroButtonLabel) || 'Shop products',
+    secondaryButtonLabel: cleanText(store.secondaryButtonLabel) || 'Browse new arrivals',
+    aboutTitle: meaningfulText(store.aboutTitle) || `${name} story`,
+    aboutText: meaningfulText(store.aboutText) || description,
+    customerPromise: meaningfulText(store.customerPromise) || 'Clear product details, safe demo checkout, and responsive merchant support.',
+    footerText: meaningfulText(store.footerText) || description,
+    seoTitle: cleanText(store.seoTitle) || `${name} | NovaCart Storefront`,
+    seoDescription: meaningfulText(store.seoDescription) || description,
+    featuredProductIds,
     categories,
     products,
     setup: {
@@ -282,6 +309,14 @@ function normalizeNonNegativeInteger(value, fallback) {
   if (value === null || value === undefined || value === '') return fallback
   const numberValue = Math.floor(Number(value))
   return Number.isFinite(numberValue) && numberValue >= 0 ? numberValue : fallback
+}
+
+function normalizeFeaturedProductIds(featuredProductIds, products) {
+  const productIds = new Set(products.map((product) => Number(product.id)))
+  const selectedIds = asArray(featuredProductIds)
+    .map((id) => Number(id))
+    .filter((id) => productIds.has(id))
+  return selectedIds.length ? selectedIds.slice(0, 6) : products.slice(0, 6).map((product) => product.id)
 }
 
 function categoryListForProducts(products, existingCategories = []) {

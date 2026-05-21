@@ -35,6 +35,7 @@ import AdminRefundsPage from '../pages/admin/AdminRefundsPage.vue'
 import AdminAnalyticsPage from '../pages/admin/AdminAnalyticsPage.vue'
 import AdminCustomersPage from '../pages/admin/AdminCustomersPage.vue'
 import AdminSettingsPage from '../pages/admin/AdminSettingsPage.vue'
+import AdminStoreContentPage from '../pages/admin/AdminStoreContentPage.vue'
 import AdminStoreSetupPage from '../pages/admin/AdminStoreSetupPage.vue'
 import AdminTemplatesPage from '../pages/admin/AdminTemplatesPage.vue'
 import AdminThemeEditorPage from '../pages/admin/AdminThemeEditorPage.vue'
@@ -87,6 +88,7 @@ const router = createRouter({
       children: [
         { path: '', redirect: '/admin/dashboard' },
         { path: 'dashboard', name: 'admin-dashboard', component: AdminDashboardPage },
+        { path: 'store-content', name: 'admin-store-content', component: AdminStoreContentPage },
         { path: 'store-setup', name: 'admin-store-setup', component: AdminStoreSetupPage },
         { path: 'products', name: 'admin-products', component: AdminProductsPage },
         { path: 'products/new', name: 'admin-product-new', component: AdminProductFormPage },

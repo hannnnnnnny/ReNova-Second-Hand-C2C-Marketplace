@@ -38,6 +38,7 @@ const PLATFORM_SEO = {
 
 const ADMIN_SEO = {
   'admin-dashboard': 'Merchant Dashboard',
+  'admin-store-content': 'Website Content',
   'admin-store-setup': 'Store Setup',
   'admin-products': 'Product Management',
   'admin-product-new': 'New Product',
@@ -104,8 +105,12 @@ export function resolveRouteSeo(to, getStore = () => null) {
             : 'Storefront'
 
     return {
-      title: `${store.name} ${storeRouteLabel} | NovaCart Storefront`,
-      description: store.description || `Shop ${store.name}, a generated merchant storefront built with NovaCart.`,
+      title: storeRouteLabel === 'Storefront'
+        ? (store.seoTitle || `${store.name} ${storeRouteLabel} | NovaCart Storefront`)
+        : `${store.name} ${storeRouteLabel} | NovaCart Storefront`,
+      description: storeRouteLabel === 'Storefront'
+        ? (store.seoDescription || store.description || `Shop ${store.name}, a generated merchant storefront built with NovaCart.`)
+        : (store.description || `Shop ${store.name}, a generated merchant storefront built with NovaCart.`),
       canonicalPath,
       jsonLd: storeJsonLd(store, canonicalPath)
     }
@@ -168,7 +173,7 @@ function storeJsonLd(store, path) {
     '@context': 'https://schema.org',
     '@type': 'OnlineStore',
     name: store.name,
-    description: store.description,
+    description: store.seoDescription || store.description,
     url: path,
     brand: {
       '@type': 'Brand',

@@ -66,6 +66,7 @@
           <div class="admin-page-header">
             <h2>Quick Actions</h2>
           </div>
+          <QuickActionCard title="Edit website content" description="Change the live storefront copy, navigation, hero, SEO, and featured products." to="/admin/store-content" />
           <QuickActionCard title="Add product" description="Create an item for the current store catalog." to="/admin/products/new" />
           <QuickActionCard title="Customize theme" description="Edit logo, brand color, hero text, and announcement." to="/admin/theme-editor" />
           <QuickActionCard title="Create discount" description="Launch a product, category, collection, season, or tag markdown." to="/admin/promotions" />

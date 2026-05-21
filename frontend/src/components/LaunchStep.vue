@@ -2,7 +2,7 @@
   <section class="onboarding-step">
     <p class="eyebrow">Step 5</p>
     <h2>Finish setup</h2>
-    <p>Review the store summary before creating the merchant workspace.</p>
+    <p>Review the store summary before opening the merchant content workspace.</p>
     <div class="launch-summary-card">
       <span class="store-logo-preview" :style="{ background: model.brandColor }">{{ model.logoText || 'NS' }}</span>
       <div>

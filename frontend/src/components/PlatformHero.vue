@@ -30,7 +30,7 @@
       </div>
       <div class="preview-commerce-board">
         <div class="preview-store-card">
-          <img src="/demo-images/heroes/fashion.jpg" alt="Fashion store template preview" />
+          <img :src="publicAsset('demo-images/heroes/fashion.jpg')" alt="Fashion store template preview" />
           <div>
             <span>Template live</span>
             <strong>Avery Studio</strong>
@@ -51,3 +51,7 @@
     </div>
   </section>
 </template>
+
+<script setup>
+import { publicAsset } from '../utils/publicPath'
+</script>

@@ -27,6 +27,7 @@ import StoreConfigStep from '../../components/StoreConfigStep.vue'
 import TemplateSelectStep from '../../components/TemplateSelectStep.vue'
 import { createSlug, storeTemplates } from '../../data/platform'
 import { usePlatformStore } from '../../stores/platform'
+import { publicAsset } from '../../utils/publicPath'
 
 const route = useRoute()
 const router = useRouter()
@@ -41,7 +42,7 @@ const form = reactive({
   description: '',
   template: 'fashion',
   products: [
-    { name: 'Signature launch product', price: 68, category: 'New Arrivals', imageUrl: '/demo-images/products/boutique-shirt.jpg' }
+    { name: 'Signature launch product', price: 68, category: 'New Arrivals', imageUrl: publicAsset('demo-images/products/boutique-shirt.jpg') }
   ],
   logoText: 'NS',
   brandColor: '#6f4f45',

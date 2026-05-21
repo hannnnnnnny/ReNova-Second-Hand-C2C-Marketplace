@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="storefront-hero-visual" aria-hidden="true">
-      <img src="/demo-images/heroes/fashion.jpg" alt="" />
+      <img :src="publicAsset('demo-images/heroes/fashion.jpg')" alt="" />
       <div class="hero-visual-note">
         <span>Curated edit</span>
         <strong>Timeless layers, rare finds, everyday polish.</strong>
@@ -22,6 +22,8 @@
 </template>
 
 <script setup>
+import { publicAsset } from '../utils/publicPath'
+
 defineProps({
   eyebrow: {
     type: String,

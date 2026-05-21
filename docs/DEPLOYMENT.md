@@ -4,11 +4,25 @@ NovaCart is a portfolio fashion commerce system. These notes describe safe deplo
 
 ## Current Free Preview
 
-Temporary local tunnel preview:
+Stable GitHub Pages preview:
 
-[https://honest-lions-being-appreciate.trycloudflare.com](https://honest-lions-being-appreciate.trycloudflare.com)
+[https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/](https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/)
 
-This preview is free, but it is not permanent hosting. It works only while the local Vite server and Cloudflare Quick Tunnel process are running on the developer machine. Use it for quick review, demos, and screenshots. Use Vercel, Netlify, Cloudflare Pages, Render, Railway, or a similar host for a stable portfolio URL.
+This preview is free, stable, and deployed from `.github/workflows/pages.yml`. GitHub Pages serves the static Vue build only; it does not run the Spring Boot API or MySQL database. Use it as the portfolio preview for the platform UI, generated storefronts, cart, demo checkout, template gallery, and account/order mock flows.
+
+GitHub Pages URL:
+
+```text
+https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/
+```
+
+If the first Pages workflow asks for repository setup, open GitHub repository settings, go to **Pages**, and set **Build and deployment > Source** to **GitHub Actions**.
+
+Temporary local tunnel fallback:
+
+[https://bouquet-did-ide-bills.trycloudflare.com](https://bouquet-did-ide-bills.trycloudflare.com)
+
+The tunnel fallback is free, but it is not permanent hosting. It works only while the local Vite server and Cloudflare Quick Tunnel process are running on the developer machine.
 
 Current local tunnel commands:
 

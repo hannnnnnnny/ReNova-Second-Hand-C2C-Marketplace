@@ -1,5 +1,7 @@
-const heroPath = (name) => `/demo-images/heroes/${name}.jpg`
-const productPath = (name) => `/demo-images/products/${name}.jpg`
+import { publicAsset } from '../utils/publicPath'
+
+const heroPath = (name) => publicAsset(`demo-images/heroes/${name}.jpg`)
+const productPath = (name) => publicAsset(`demo-images/products/${name}.jpg`)
 
 export const storeTemplates = [
   {

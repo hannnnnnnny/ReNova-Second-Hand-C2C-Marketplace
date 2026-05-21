@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { createSlug, demoStores, getTemplateById, storeTemplates } from '../data/platform'
+import { publicAsset } from '../utils/publicPath'
 
 const STORAGE_KEY = 'novacart_platform_stores'
 const OVERRIDE_KEY = 'novacart_platform_store_overrides'
@@ -218,8 +219,8 @@ function normalizeProducts(products) {
       discountPercent,
       stockQuantity: Number(product.stockQuantity) || 12,
       lowStockThreshold: Number(product.lowStockThreshold) || 5,
-      imageUrl: product.imageUrl || '/demo-images/products/boutique-shirt.jpg',
-      imageGallery: product.imageGallery || [product.imageUrl || '/demo-images/products/boutique-shirt.jpg'],
+      imageUrl: product.imageUrl || publicAsset('demo-images/products/boutique-shirt.jpg'),
+      imageGallery: product.imageGallery || [product.imageUrl || publicAsset('demo-images/products/boutique-shirt.jpg')],
       sizes: Array.isArray(product.sizes) ? product.sizes.filter(Boolean) : [],
       colors: Array.isArray(product.colors) ? product.colors.filter(Boolean) : [],
       material: product.material || productOptionsForCategory(product.category).material,

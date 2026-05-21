@@ -2,8 +2,11 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 const tunnelAllowedHosts = ['.loca.lt', '.trycloudflare.com']
+const githubPagesBase = '/NovaCart-Fashion-Commerce-Platform/'
+const base = process.env.GITHUB_PAGES === 'true' ? githubPagesBase : '/'
 
 export default defineConfig({
+  base,
   plugins: [vue()],
   server: {
     port: 5173,

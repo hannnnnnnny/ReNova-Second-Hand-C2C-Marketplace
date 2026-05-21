@@ -137,7 +137,10 @@ export function applyRouteSeo(to, getStore = () => null) {
 }
 
 function routePath(to) {
-  return String(to?.path || '/').split('?')[0] || '/'
+  const path = String(to?.path || '/').split('?')[0] || '/'
+  const base = import.meta.env.BASE_URL || '/'
+  if (base === '/' || path.startsWith(base)) return path
+  return `${base.replace(/\/$/, '')}${path}`
 }
 
 function websiteJsonLd() {

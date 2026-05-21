@@ -16,6 +16,8 @@
 </template>
 
 <script setup>
+import { publicAsset } from '../utils/publicPath'
+
 const props = defineProps({
   model: {
     type: Object,
@@ -24,7 +26,7 @@ const props = defineProps({
 })
 
 function addProduct() {
-  props.model.products.push({ name: '', price: 48, category: 'New Arrivals', imageUrl: '/demo-images/products/boutique-shirt.jpg' })
+  props.model.products.push({ name: '', price: 48, category: 'New Arrivals', imageUrl: publicAsset('demo-images/products/boutique-shirt.jpg') })
 }
 
 function removeProduct(index) {

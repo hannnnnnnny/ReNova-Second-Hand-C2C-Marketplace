@@ -6,11 +6,11 @@ NovaCart is original in naming, layout, copy, seed data, and local artwork. It i
 
 ## Live Preview
 
-Temporary free preview:
+Stable free GitHub Pages preview:
 
-[https://honest-lions-being-appreciate.trycloudflare.com](https://honest-lions-being-appreciate.trycloudflare.com)
+[https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/](https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/)
 
-This URL is served through a free Cloudflare Quick Tunnel from the local Vite app. It is useful for quickly opening and testing the project, but it only stays online while the local dev server and tunnel process are running on this machine. For a permanent portfolio link, deploy the `frontend` folder to Vercel, Netlify, or Cloudflare Pages using the deployment settings below.
+This URL is deployed by GitHub Actions to GitHub Pages from the `frontend` Vite build. It is a permanent free portfolio preview for the static Vue storefront and platform UI. The Spring Boot/MySQL backend is still included in the repository, but it is not run by GitHub Pages.
 
 Recommended demo paths:
 
@@ -22,6 +22,10 @@ Recommended demo paths:
 - Demo checkout: `/store/demo-fashion/checkout`
 - Customer orders: `/store/demo-fashion/orders`
 - Merchant admin: `/admin/dashboard`
+
+Temporary tunnel fallback, only while the local machine is running:
+
+[https://bouquet-did-ide-bills.trycloudflare.com](https://bouquet-did-ide-bills.trycloudflare.com)
 
 ## Platform Direction
 

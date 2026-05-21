@@ -10,7 +10,7 @@ Stable free GitHub Pages preview:
 
 [https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/](https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/)
 
-This URL is deployed by GitHub Actions to GitHub Pages from the `frontend` Vite build. It is a permanent free portfolio preview for the static Vue storefront and platform UI. The Spring Boot/MySQL backend is still included in the repository, but it is not run by GitHub Pages.
+This URL is published from the `gh-pages` branch with a GitHub Actions workflow that builds the `frontend` Vite app. It is a permanent free portfolio preview for the static Vue storefront and platform UI. The Spring Boot/MySQL backend is still included in the repository, but it is not run by GitHub Pages.
 
 Recommended demo paths:
 

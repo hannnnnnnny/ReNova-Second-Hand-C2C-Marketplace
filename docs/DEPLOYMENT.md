@@ -8,7 +8,7 @@ Stable GitHub Pages preview:
 
 [https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/](https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/)
 
-This preview is free, stable, and deployed from `.github/workflows/pages.yml`. GitHub Pages serves the static Vue build only; it does not run the Spring Boot API or MySQL database. Use it as the portfolio preview for the platform UI, generated storefronts, cart, demo checkout, template gallery, and account/order mock flows.
+This preview is free, stable, and published from the `gh-pages` branch by `.github/workflows/pages.yml`. GitHub Pages serves the static Vue build only; it does not run the Spring Boot API or MySQL database. Use it as the portfolio preview for the platform UI, generated storefronts, cart, demo checkout, template gallery, and account/order mock flows.
 
 GitHub Pages URL:
 
@@ -16,7 +16,7 @@ GitHub Pages URL:
 https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/
 ```
 
-If the first Pages workflow asks for repository setup, open GitHub repository settings, go to **Pages**, and set **Build and deployment > Source** to **GitHub Actions**.
+If GitHub ever shows a Pages setup prompt, open GitHub repository settings, go to **Pages**, and set **Build and deployment > Source** to **Deploy from a branch**, then choose `gh-pages` and `/ (root)`.
 
 Temporary local tunnel fallback:
 

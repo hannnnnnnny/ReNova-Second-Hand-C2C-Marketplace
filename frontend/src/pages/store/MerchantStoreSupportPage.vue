@@ -86,7 +86,9 @@ import { getApiError } from '../../api/client'
 import { createRefundRequest, createSupportTicket } from '../../api/orders'
 import ErrorMessage from '../../components/ErrorMessage.vue'
 import PageHeader from '../../components/PageHeader.vue'
+import { shouldUseLocalDemoFallback } from '../../utils/demoAdmin'
 import { formatCurrency } from '../../utils/format'
+import { saveLocalCareRequest } from '../../utils/orderTracking'
 
 const props = defineProps({
   store: {
@@ -156,20 +158,44 @@ async function submitCareRequest() {
     if (mode.value === 'refund') {
       await submitRefundRequest()
     } else {
-      await createSupportTicket({
-        issueType: form.issueType,
-        orderNumber: form.orderNumber || null,
-        email: form.email,
-        customerName: form.customerName,
-        message: careMessage()
-      })
-      successMessage.value = 'Support ticket submitted to the merchant care queue.'
+      await submitSupportTicket()
     }
     form.message = ''
   } catch (requestError) {
     error.value = getApiError(requestError, 'The care request could not be submitted.')
   } finally {
     submitting.value = false
+  }
+}
+
+async function submitSupportTicket() {
+  const payload = {
+    issueType: form.issueType,
+    orderNumber: form.orderNumber || null,
+    email: form.email,
+    customerName: form.customerName,
+    message: careMessage()
+  }
+  if (String(form.orderNumber).startsWith('local-')) {
+    saveLocalCareRequest('support', {
+      storeSlug: props.store.slug,
+      status: 'OPEN',
+      ...payload
+    })
+    successMessage.value = 'Demo support ticket saved for this generated storefront preview.'
+    return
+  }
+  try {
+    await createSupportTicket(payload)
+    successMessage.value = 'Support ticket submitted to the merchant care queue.'
+  } catch (requestError) {
+    if (!shouldUseLocalDemoFallback(requestError)) throw requestError
+    saveLocalCareRequest('support', {
+      storeSlug: props.store.slug,
+      status: 'OPEN',
+      ...payload
+    })
+    successMessage.value = 'Backend is offline, so this demo support ticket was saved in this browser.'
   }
 }
 
@@ -185,34 +211,27 @@ async function submitRefundRequest() {
     successMessage.value = 'Demo refund request saved for this generated storefront preview.'
     return
   }
-  await createRefundRequest({
-    orderNumber: form.orderNumber,
-    email: form.email,
-    reason: `${form.refundReason}: ${form.message}`
-  })
-  successMessage.value = 'Refund request submitted for merchant review.'
+  try {
+    await createRefundRequest({
+      orderNumber: form.orderNumber,
+      email: form.email,
+      reason: `${form.refundReason}: ${form.message}`
+    })
+    successMessage.value = 'Refund request submitted for merchant review.'
+  } catch (requestError) {
+    if (!shouldUseLocalDemoFallback(requestError)) throw requestError
+    saveLocalCareRequest('refund', {
+      storeSlug: props.store.slug,
+      orderNumber: form.orderNumber,
+      email: form.email,
+      customerName: form.customerName,
+      reason: `${form.refundReason}: ${form.message}`
+    })
+    successMessage.value = 'Backend is offline, so this demo refund request was saved in this browser.'
+  }
 }
 
 function careMessage() {
   return `[${props.store.name}] ${form.message}`
-}
-
-function saveLocalCareRequest(type, payload) {
-  const storageKey = 'novacart_local_care_requests'
-  let current = []
-  try {
-    current = JSON.parse(localStorage.getItem(storageKey) || '[]')
-  } catch {
-    current = []
-  }
-  if (!Array.isArray(current)) current = []
-  current.unshift({
-    id: `${type}-${Date.now()}`,
-    type,
-    status: 'REQUESTED',
-    createdAt: new Date().toISOString(),
-    ...payload
-  })
-  localStorage.setItem(storageKey, JSON.stringify(current.slice(0, 50)))
 }
 </script>

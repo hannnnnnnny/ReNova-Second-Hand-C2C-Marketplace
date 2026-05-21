@@ -104,6 +104,7 @@ import CartSummary from '../../components/CartSummary.vue'
 import EmptyState from '../../components/EmptyState.vue'
 import ErrorMessage from '../../components/ErrorMessage.vue'
 import PageHeader from '../../components/PageHeader.vue'
+import { usePlatformStore } from '../../stores/platform'
 import { useStorefrontCartStore } from '../../stores/storefrontCart'
 import {
   PAYMENT_METHODS,
@@ -111,7 +112,8 @@ import {
   maskCardNumber,
   paymentMethodLabel,
   paymentStatusForMethod,
-  saveStoreOrder
+  saveStoreOrder,
+  saveStoreStockMovement
 } from '../../utils/orderTracking'
 
 const props = defineProps({
@@ -123,6 +125,7 @@ const props = defineProps({
 
 const router = useRouter()
 const cartStore = useStorefrontCartStore()
+const platformStore = usePlatformStore()
 const error = ref('')
 const form = reactive({
   name: '',
@@ -187,14 +190,20 @@ function submitOrder() {
     error.value = 'Review the highlighted demo payment fields before placing the order.'
     return
   }
+  const stockError = validateCartStock()
+  if (stockError) {
+    error.value = stockError
+    return
+  }
   submitting.value = true
   const orderId = `local-${props.store.slug}-${Date.now()}`
+  const orderedItems = items.value.map((item) => ({ ...item, options: { ...(item.options || {}) } }))
   const order = {
     id: orderId,
     storeSlug: props.store.slug,
     storeName: props.store.name,
     customer: { ...form },
-    items: items.value,
+    items: orderedItems,
     subtotal: subtotal.value,
     discountTotal: summaryDiscountTotal.value,
     shipping: shipping.value,
@@ -211,8 +220,28 @@ function submitOrder() {
   }
   order.tracking = createDemoTracking(order, props.store)
   saveStoreOrder(order)
+  platformStore.applyInventoryChange(props.store.slug, orderedItems, -1).forEach((movement) => {
+    saveStoreStockMovement({
+      ...movement,
+      storeSlug: props.store.slug,
+      orderId,
+      type: 'ORDER_PLACED',
+      reason: `Stock deducted for local order ${orderId}.`
+    })
+  })
   cartStore.clearStoreCart(props.store.slug)
   router.push(`/store/${props.store.slug}/order-success?order=${orderId}`)
+}
+
+function validateCartStock() {
+  for (const item of items.value) {
+    const product = props.store.products.find((entry) => Number(entry.id) === Number(item.productId))
+    if (!product) return `${item.name} is no longer available from ${props.store.name}.`
+    if (Number(product.stockQuantity || 0) < Number(item.quantity || 0)) {
+      return `${item.name} only has ${product.stockQuantity} available. Update the cart before placing the order.`
+    }
+  }
+  return ''
 }
 
 function isValidEmail(value) {

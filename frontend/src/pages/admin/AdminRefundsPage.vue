@@ -71,7 +71,12 @@ import LoadingState from '../../components/LoadingState.vue'
 import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
 import ToastMessage from '../../components/ToastMessage.vue'
+import { useAuthStore } from '../../stores/auth'
+import { usePlatformStore } from '../../stores/platform'
+import { isLocalDemoAdminSession, localRefundsForStore, shouldUseLocalDemoFallback, updateLocalRefund } from '../../utils/demoAdmin'
 
+const platformStore = usePlatformStore()
+const authStore = useAuthStore()
 const loading = ref(true)
 const error = ref('')
 const statusFilter = ref('')
@@ -90,29 +95,50 @@ const refundSummary = computed(() => {
 onMounted(loadRefunds)
 
 async function loadRefunds() {
+  platformStore.loadPlatform()
   loading.value = true
   error.value = ''
+  if (isLocalDemoAdminSession(authStore)) {
+    refunds.value = localRefundsForStore(platformStore.currentStore.slug, statusFilter.value).map(prepareRefund)
+    loading.value = false
+    return
+  }
   try {
     const params = statusFilter.value ? { status: statusFilter.value } : {}
-    refunds.value = (await fetchAdminRefunds(params)).map((refund) => ({
-      ...refund,
-      nextStatus: refund.status,
-      internalNotesDraft: refund.internalNotes || ''
-    }))
+    refunds.value = (await fetchAdminRefunds(params)).map(prepareRefund)
   } catch (requestError) {
-    error.value = getApiError(requestError, 'Refund requests could not be loaded.')
+    if (!shouldUseLocalDemoFallback(requestError)) {
+      error.value = getApiError(requestError, 'Refund requests could not be loaded.')
+    } else {
+      refunds.value = localRefundsForStore(platformStore.currentStore.slug, statusFilter.value).map(prepareRefund)
+      error.value = ''
+    }
   } finally {
     loading.value = false
+  }
+}
+
+function prepareRefund(refund) {
+  return {
+    ...refund,
+    nextStatus: refund.status,
+    internalNotesDraft: refund.internalNotes || ''
   }
 }
 
 async function updateRefund(refund) {
   savingId.value = refund.id
   try {
-    const updated = await updateAdminRefund(refund.id, {
-      status: refund.nextStatus,
-      internalNotes: refund.internalNotesDraft || null
-    })
+    const updated = refund.localDemo
+      ? updateLocalRefund(refund.id, {
+        status: refund.nextStatus,
+        internalNotes: refund.internalNotesDraft || null
+      })
+      : await updateAdminRefund(refund.id, {
+        status: refund.nextStatus,
+        internalNotes: refund.internalNotesDraft || null
+      })
+    if (!updated) throw new Error('Refund request could not be updated.')
     Object.assign(refund, updated, {
       nextStatus: updated.status,
       internalNotesDraft: updated.internalNotes || ''

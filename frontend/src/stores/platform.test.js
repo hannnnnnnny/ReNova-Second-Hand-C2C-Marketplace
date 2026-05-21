@@ -55,4 +55,48 @@ describe('platform store generated merchant normalization', () => {
     })
     expect(store.products[0].description).not.toContain('wqwqd')
   })
+
+  it('preserves zero stock and applies local generated-store inventory changes', () => {
+    const platformStore = usePlatformStore()
+
+    const store = platformStore.createStore({
+      name: 'Stock Studio',
+      template: 'minimal',
+      category: 'Home',
+      products: [
+        {
+          id: 9101,
+          name: 'Sold Out Vase',
+          category: 'Objects',
+          price: 52,
+          stockQuantity: 0
+        },
+        {
+          id: 9102,
+          name: 'Linen Runner',
+          category: 'Home Living',
+          price: 42,
+          stockQuantity: 3
+        }
+      ]
+    })
+
+    expect(store.products[0].stockQuantity).toBe(0)
+
+    const deducted = platformStore.applyInventoryChange(store.slug, [{ productId: 9102, quantity: 2 }], -1)
+
+    expect(deducted).toEqual([
+      {
+        productId: 9102,
+        productName: 'Linen Runner',
+        quantityChange: -2,
+        stockAfter: 1
+      }
+    ])
+    expect(platformStore.getStore(store.slug).products.find((product) => product.id === 9102).stockQuantity).toBe(1)
+
+    platformStore.applyInventoryChange(store.slug, [{ productId: 9102, quantity: 1 }], 1)
+
+    expect(platformStore.getStore(store.slug).products.find((product) => product.id === 9102).stockQuantity).toBe(2)
+  })
 })

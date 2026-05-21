@@ -119,8 +119,14 @@ import LoadingState from '../../components/LoadingState.vue'
 import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
 import ToastMessage from '../../components/ToastMessage.vue'
+import { useAuthStore } from '../../stores/auth'
+import { usePlatformStore } from '../../stores/platform'
+import { isLocalDemoAdminSession, localInventoryMovementsForStore, localInventoryWarnings, shouldUseLocalDemoFallback } from '../../utils/demoAdmin'
 import { formatDate, formatStatus } from '../../utils/format'
+import { saveStoreStockMovement } from '../../utils/orderTracking'
 
+const platformStore = usePlatformStore()
+const authStore = useAuthStore()
 const threshold = ref(5)
 const warnings = ref([])
 const movements = ref([])
@@ -128,6 +134,7 @@ const products = ref([])
 const loading = ref(true)
 const error = ref('')
 const adjusting = ref(false)
+const usingLocalDemo = ref(false)
 const toastMessage = ref('')
 let toastTimer
 const adjustment = reactive({
@@ -135,6 +142,7 @@ const adjustment = reactive({
   quantityChange: 0,
   reason: ''
 })
+const currentStore = computed(() => platformStore.currentStore)
 const selectedAdjustmentProduct = computed(() => {
   return products.value.find((product) => String(product.id) === adjustment.productId)
 })
@@ -153,6 +161,7 @@ const adjustmentIsValid = computed(() => {
 onMounted(loadWarnings)
 
 async function loadWarnings() {
+  platformStore.loadPlatform()
   if (!Number.isFinite(threshold.value) || threshold.value < 0) {
     error.value = 'Inventory threshold cannot be negative.'
     warnings.value = []
@@ -162,6 +171,11 @@ async function loadWarnings() {
   threshold.value = Math.floor(threshold.value)
   loading.value = true
   error.value = ''
+  if (isLocalDemoAdminSession(authStore)) {
+    loadLocalInventoryData()
+    loading.value = false
+    return
+  }
   try {
     const [warningData, movementData, productData] = await Promise.all([
       fetchInventoryWarnings(threshold.value),
@@ -171,11 +185,24 @@ async function loadWarnings() {
     warnings.value = warningData
     movements.value = movementData
     products.value = productData
+    usingLocalDemo.value = false
   } catch (requestError) {
-    error.value = getApiError(requestError, 'Inventory warnings could not be loaded.')
+    if (!shouldUseLocalDemoFallback(requestError)) {
+      error.value = getApiError(requestError, 'Inventory warnings could not be loaded.')
+    } else {
+      loadLocalInventoryData()
+      error.value = ''
+    }
   } finally {
     loading.value = false
   }
+}
+
+function loadLocalInventoryData() {
+  warnings.value = localInventoryWarnings(currentStore.value, threshold.value)
+  movements.value = localInventoryMovementsForStore(currentStore.value.slug)
+  products.value = currentStore.value.products || []
+  usingLocalDemo.value = true
 }
 
 async function submitAdjustment() {
@@ -189,6 +216,27 @@ async function submitAdjustment() {
   adjusting.value = true
   error.value = ''
   try {
+    if (usingLocalDemo.value) {
+      const quantityChange = Number(adjustment.quantityChange)
+      platformStore.applyInventoryChange(
+        currentStore.value.slug,
+        [{ productId: Number(adjustment.productId), quantity: Math.abs(quantityChange) }],
+        quantityChange > 0 ? 1 : -1
+      ).forEach((movement) => {
+        saveStoreStockMovement({
+          ...movement,
+          storeSlug: currentStore.value.slug,
+          type: 'MANUAL_ADJUSTMENT',
+          reason: adjustment.reason
+        })
+      })
+      adjustment.productId = ''
+      adjustment.quantityChange = 0
+      adjustment.reason = ''
+      showToast('Local demo inventory adjustment saved.')
+      await loadWarnings()
+      return
+    }
     await adjustInventory({
       productId: Number(adjustment.productId),
       quantityChange: Number(adjustment.quantityChange),

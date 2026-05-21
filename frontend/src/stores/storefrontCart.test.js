@@ -64,6 +64,26 @@ describe('storefront cart store', () => {
     })
   })
 
+  it('uses single available size and color when a grid add does not pass options', () => {
+    const cartStore = useStorefrontCartStore()
+    const product = {
+      id: 3001,
+      name: 'Canvas Day Bag',
+      price: 64,
+      imageUrl: '/demo-images/products/fashion-bag.jpg',
+      stockQuantity: 3,
+      sizes: ['One size'],
+      colors: ['Olive']
+    }
+
+    cartStore.addItem('demo-fashion', product, 1)
+
+    expect(cartStore.itemsForStore('demo-fashion')[0]).toMatchObject({
+      itemId: '3001::One size::Olive',
+      options: { size: 'One size', color: 'Olive' }
+    })
+  })
+
   it('normalizes generated storefront cart data loaded from localStorage', () => {
     storage.set('novacart_storefront_carts', JSON.stringify({
       'demo-fashion': [

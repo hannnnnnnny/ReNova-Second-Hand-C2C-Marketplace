@@ -91,10 +91,14 @@ import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
 import ToastMessage from '../../components/ToastMessage.vue'
 import { useConfirmDialog } from '../../composables/useConfirmDialog'
+import { usePlatformStore } from '../../stores/platform'
+import { localAdminOrderById, shouldUseLocalDemoFallback, updateLocalAdminOrderStatus } from '../../utils/demoAdmin'
 import { formatCurrency, formatDate, formatStatus } from '../../utils/format'
+import { saveStoreStockMovement } from '../../utils/orderTracking'
 
 const route = useRoute()
 const { confirmation, requestConfirmation, confirm, cancel } = useConfirmDialog()
+const platformStore = usePlatformStore()
 const statuses = ['PENDING', 'PAID', 'PROCESSING', 'SHIPPED', 'COMPLETED', 'CANCELLED']
 const statusTransitions = {
   PENDING: ['PAID', 'PROCESSING', 'CANCELLED'],
@@ -138,11 +142,30 @@ const statusTransitionMessage = computed(() => {
 onMounted(loadOrder)
 
 async function loadOrder() {
+  platformStore.loadPlatform()
+  if (String(route.params.id).startsWith('local-')) {
+    const localOrder = localAdminOrderById(route.params.id)
+    if (localOrder) {
+      order.value = localOrder
+      selectedStatus.value = localOrder.status
+    } else {
+      error.value = 'Local demo order could not be found in this browser.'
+    }
+    loading.value = false
+    return
+  }
+
   try {
     order.value = await fetchAdminOrder(route.params.id)
     selectedStatus.value = order.value.status
   } catch (requestError) {
-    error.value = getApiError(requestError, 'Order could not be loaded.')
+    const localOrder = shouldUseLocalDemoFallback(requestError) ? localAdminOrderById(route.params.id) : null
+    if (localOrder) {
+      order.value = localOrder
+      selectedStatus.value = localOrder.status
+    } else {
+      error.value = getApiError(requestError, 'Order could not be loaded.')
+    }
   } finally {
     loading.value = false
   }
@@ -165,11 +188,33 @@ async function saveStatus() {
 
   savingStatus.value = true
   try {
-    order.value = await updateOrderStatus(route.params.id, selectedStatus.value)
+    const previousStatus = order.value.status
+    if (order.value.localDemo) {
+      const updatedOrder = updateLocalAdminOrderStatus(route.params.id, selectedStatus.value)
+      if (!updatedOrder) {
+        throw new Error('Local demo order status could not be updated.')
+      }
+      if (selectedStatus.value === 'CANCELLED' && previousStatus !== 'CANCELLED') {
+        platformStore.applyInventoryChange(order.value.storeSlug, order.value.items, 1).forEach((movement) => {
+          saveStoreStockMovement({
+            ...movement,
+            storeSlug: order.value.storeSlug,
+            orderId: order.value.id,
+            type: 'ORDER_CANCELLED',
+            reason: `Stock restored after local order ${order.value.id} was cancelled.`
+          })
+        })
+      }
+      order.value = updatedOrder
+    } else {
+      order.value = await updateOrderStatus(route.params.id, selectedStatus.value)
+    }
     selectedStatus.value = order.value.status
     showToast('Order status updated.')
   } catch (requestError) {
-    error.value = getApiError(requestError, 'Order status could not be updated.')
+    error.value = requestError.response
+      ? getApiError(requestError, 'Order status could not be updated.')
+      : 'Order status could not be updated.'
     selectedStatus.value = order.value.status
   } finally {
     savingStatus.value = false

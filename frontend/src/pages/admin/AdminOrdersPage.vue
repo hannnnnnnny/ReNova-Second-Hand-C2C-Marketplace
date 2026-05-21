@@ -101,10 +101,13 @@ import ErrorMessage from '../../components/ErrorMessage.vue'
 import LoadingState from '../../components/LoadingState.vue'
 import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
+import { useAuthStore } from '../../stores/auth'
 import { usePlatformStore } from '../../stores/platform'
+import { isLocalDemoAdminSession, localAdminOrdersForStore, shouldUseLocalDemoFallback } from '../../utils/demoAdmin'
 import { formatCurrency, formatDate, formatStatus } from '../../utils/format'
 
 const platformStore = usePlatformStore()
+const authStore = useAuthStore()
 const statuses = ['PENDING', 'PAID', 'PROCESSING', 'SHIPPED', 'COMPLETED', 'CANCELLED']
 const paymentStatuses = ['UNPAID', 'PAID', 'FAILED', 'REFUNDED']
 const refundStatuses = ['NONE', 'REQUESTED', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 'REFUNDED']
@@ -145,10 +148,20 @@ const orderTabs = computed(() => {
 
 onMounted(async () => {
   platformStore.loadPlatform()
+  if (isLocalDemoAdminSession(authStore)) {
+    orders.value = localAdminOrdersForStore(currentStore.value.slug)
+    loading.value = false
+    return
+  }
   try {
     orders.value = await fetchAdminOrders()
   } catch (requestError) {
-    error.value = getApiError(requestError, 'Orders could not be loaded.')
+    if (!shouldUseLocalDemoFallback(requestError)) {
+      error.value = getApiError(requestError, 'Orders could not be loaded.')
+    } else {
+      orders.value = localAdminOrdersForStore(currentStore.value.slug)
+      error.value = ''
+    }
   } finally {
     loading.value = false
   }

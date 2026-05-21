@@ -105,6 +105,33 @@ watch(
   { immediate: true }
 )
 
+watch(
+  () => route.query.sale,
+  (sale) => {
+    saleOnly.value = sale === 'true'
+  },
+  { immediate: true }
+)
+
+watch(
+  () => route.query.sort,
+  (sort) => {
+    const nextSort = String(sort || '')
+    sortMode.value = ['featured', 'price-low', 'price-high', 'sale', 'discount'].includes(nextSort)
+      ? (nextSort === 'discount' ? 'sale' : nextSort)
+      : 'featured'
+  },
+  { immediate: true }
+)
+
+watch(
+  () => route.query.search,
+  (search) => {
+    searchTerm.value = search ? String(search) : ''
+  },
+  { immediate: true }
+)
+
 const filteredProducts = computed(() => {
   const query = searchTerm.value.toLowerCase()
   const products = props.store.products.filter((product) => {

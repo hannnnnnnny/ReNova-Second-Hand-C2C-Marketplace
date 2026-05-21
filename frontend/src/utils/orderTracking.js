@@ -1,5 +1,7 @@
 const ORDER_KEY_PREFIX = 'novacart_order_'
 const ORDER_INDEX_KEY = 'novacart_storefront_orders'
+const LOCAL_CARE_REQUESTS_KEY = 'novacart_local_care_requests'
+const STOCK_MOVEMENTS_KEY = 'novacart_storefront_stock_movements'
 
 export const PAYMENT_METHODS = [
   {
@@ -106,6 +108,16 @@ export function saveStoreOrder(order) {
   return normalizedOrder
 }
 
+export function updateStoredOrder(orderId, patch = {}) {
+  const order = loadOrder(orderId)
+  if (!order) return null
+  return saveStoreOrder({
+    ...order,
+    ...patch,
+    updatedAt: new Date().toISOString()
+  })
+}
+
 export function loadOrder(orderId) {
   const id = String(orderId || '')
   if (!id) return null
@@ -124,6 +136,73 @@ export function loadStoreOrders(storeSlug) {
   return (index[storeSlug] || [])
     .map(loadOrder)
     .filter(Boolean)
+    .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+}
+
+export function saveLocalCareRequest(type, payload = {}) {
+  const normalizedType = type === 'refund' ? 'refund' : 'support'
+  const current = readLocalArray(LOCAL_CARE_REQUESTS_KEY)
+  const request = {
+    id: payload.id || `${normalizedType}-${Date.now()}`,
+    type: normalizedType,
+    status: payload.status || (normalizedType === 'refund' ? 'REQUESTED' : 'OPEN'),
+    createdAt: payload.createdAt || new Date().toISOString(),
+    updatedAt: payload.updatedAt || new Date().toISOString(),
+    ...payload
+  }
+  localStorage.setItem(LOCAL_CARE_REQUESTS_KEY, JSON.stringify([request, ...current.filter((entry) => entry.id !== request.id)].slice(0, 75)))
+  return request
+}
+
+export function loadLocalCareRequests(filters = {}) {
+  const requests = readLocalArray(LOCAL_CARE_REQUESTS_KEY)
+  return requests.filter((request) => {
+    const matchesStore = !filters.storeSlug || request.storeSlug === filters.storeSlug
+    const matchesType = !filters.type || request.type === filters.type
+    const matchesStatus = !filters.status || request.status === filters.status
+    return matchesStore && matchesType && matchesStatus
+  })
+}
+
+export function updateLocalCareRequest(id, patch = {}) {
+  const requests = readLocalArray(LOCAL_CARE_REQUESTS_KEY)
+  let updatedRequest = null
+  const nextRequests = requests.map((request) => {
+    if (request.id !== id) return request
+    updatedRequest = {
+      ...request,
+      ...patch,
+      updatedAt: new Date().toISOString()
+    }
+    return updatedRequest
+  })
+  if (!updatedRequest) return null
+  localStorage.setItem(LOCAL_CARE_REQUESTS_KEY, JSON.stringify(nextRequests))
+  return updatedRequest
+}
+
+export function saveStoreStockMovement(payload = {}) {
+  if (!payload.storeSlug || !payload.productId) return null
+  const movement = {
+    id: payload.id || `movement-${Date.now()}-${payload.productId}`,
+    storeSlug: payload.storeSlug,
+    productId: payload.productId,
+    productName: payload.productName || 'Product',
+    orderId: payload.orderId || null,
+    type: payload.type || 'MANUAL_ADJUSTMENT',
+    quantityChange: Number(payload.quantityChange) || 0,
+    stockAfter: Math.max(0, Number(payload.stockAfter) || 0),
+    reason: payload.reason || '',
+    createdAt: payload.createdAt || new Date().toISOString()
+  }
+  const current = readLocalArray(STOCK_MOVEMENTS_KEY)
+  localStorage.setItem(STOCK_MOVEMENTS_KEY, JSON.stringify([movement, ...current].slice(0, 100)))
+  return movement
+}
+
+export function loadStoreStockMovements(storeSlug) {
+  return readLocalArray(STOCK_MOVEMENTS_KEY)
+    .filter((movement) => !storeSlug || movement.storeSlug === storeSlug)
     .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
 }
 
@@ -148,6 +227,16 @@ function loadOrderIndex() {
   } catch {
     localStorage.removeItem(ORDER_INDEX_KEY)
     return {}
+  }
+}
+
+function readLocalArray(storageKey) {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(storageKey) || '[]')
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    localStorage.removeItem(storageKey)
+    return []
   }
 }
 

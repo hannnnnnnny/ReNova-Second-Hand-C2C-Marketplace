@@ -71,8 +71,13 @@ import LoadingState from '../../components/LoadingState.vue'
 import PageHeader from '../../components/PageHeader.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
 import ToastMessage from '../../components/ToastMessage.vue'
+import { useAuthStore } from '../../stores/auth'
+import { usePlatformStore } from '../../stores/platform'
+import { isLocalDemoAdminSession, localSupportTicketsForStore, shouldUseLocalDemoFallback, updateLocalSupportTicket } from '../../utils/demoAdmin'
 import { formatStatus } from '../../utils/format'
 
+const platformStore = usePlatformStore()
+const authStore = useAuthStore()
 const loading = ref(true)
 const error = ref('')
 const tickets = ref([])
@@ -96,28 +101,49 @@ const ticketSummary = computed(() => {
 onMounted(loadTickets)
 
 async function loadTickets() {
+  platformStore.loadPlatform()
   loading.value = true
   error.value = ''
+  if (isLocalDemoAdminSession(authStore)) {
+    tickets.value = localSupportTicketsForStore(platformStore.currentStore.slug).map(prepareTicket)
+    loading.value = false
+    return
+  }
   try {
-    tickets.value = (await fetchAdminSupportTickets()).map((ticket) => ({
-      ...ticket,
-      nextStatus: ticket.status,
-      internalNotesDraft: ticket.internalNotes || ''
-    }))
+    tickets.value = (await fetchAdminSupportTickets()).map(prepareTicket)
   } catch (requestError) {
-    error.value = getApiError(requestError, 'Support tickets could not be loaded.')
+    if (!shouldUseLocalDemoFallback(requestError)) {
+      error.value = getApiError(requestError, 'Support tickets could not be loaded.')
+    } else {
+      tickets.value = localSupportTicketsForStore(platformStore.currentStore.slug).map(prepareTicket)
+      error.value = ''
+    }
   } finally {
     loading.value = false
+  }
+}
+
+function prepareTicket(ticket) {
+  return {
+    ...ticket,
+    nextStatus: ticket.status,
+    internalNotesDraft: ticket.internalNotes || ''
   }
 }
 
 async function updateTicket(ticket) {
   savingId.value = ticket.id
   try {
-    const updated = await updateAdminSupportTicket(ticket.id, {
-      status: ticket.nextStatus,
-      internalNotes: ticket.internalNotesDraft || null
-    })
+    const updated = ticket.localDemo
+      ? updateLocalSupportTicket(ticket.id, {
+        status: ticket.nextStatus,
+        internalNotes: ticket.internalNotesDraft || null
+      })
+      : await updateAdminSupportTicket(ticket.id, {
+        status: ticket.nextStatus,
+        internalNotes: ticket.internalNotesDraft || null
+      })
+    if (!updated) throw new Error('Support ticket could not be updated.')
     Object.assign(ticket, updated, {
       nextStatus: updated.status,
       internalNotesDraft: updated.internalNotes || ''

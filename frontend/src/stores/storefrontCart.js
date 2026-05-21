@@ -76,8 +76,8 @@ export const useStorefrontCartStore = defineStore('storefrontCart', {
       const stockQuantity = normalizeStock(product.stockQuantity)
       const requestedQuantity = normalizeQuantity(quantity)
       const selectedOptions = {
-        size: clean(options.size),
-        color: clean(options.color)
+        size: clean(options.size) || defaultSingleOption(product.sizes),
+        color: clean(options.color) || defaultSingleOption(product.colors)
       }
       const itemId = cartItemId(product.id, selectedOptions)
       const existing = this.carts[storeSlug].find((item) => (item.itemId || cartItemId(item.productId, item.options || {})) === itemId)
@@ -339,6 +339,10 @@ function normalizePrice(value) {
 function normalizeNullablePrice(value) {
   const price = Number(value)
   return Number.isFinite(price) && price > 0 ? price : null
+}
+
+function defaultSingleOption(values) {
+  return Array.isArray(values) && values.length === 1 ? clean(values[0]) : ''
 }
 
 function normalizeRating(value) {

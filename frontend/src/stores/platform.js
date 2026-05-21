@@ -155,6 +155,38 @@ export const usePlatformStore = defineStore('platform', {
         setup: { preview: true, publish: true }
       })
     },
+    applyInventoryChange(slug, items, direction = -1) {
+      const store = this.getStore(slug)
+      if (!store || !Array.isArray(items) || !items.length) return []
+      const quantities = items.reduce((result, item) => {
+        const productId = Number(item.productId)
+        const quantity = Math.max(0, Math.floor(Number(item.quantity) || 0))
+        if (!productId || !quantity) return result
+        result.set(productId, (result.get(productId) || 0) + quantity)
+        return result
+      }, new Map())
+      const movements = []
+      const products = store.products.map((product) => {
+        const quantity = quantities.get(Number(product.id))
+        if (!quantity) return product
+        const quantityChange = quantity * (direction >= 0 ? 1 : -1)
+        const stockAfter = Math.max(0, Number(product.stockQuantity || 0) + quantityChange)
+        movements.push({
+          productId: product.id,
+          productName: product.name,
+          quantityChange,
+          stockAfter
+        })
+        return {
+          ...product,
+          stockQuantity: stockAfter
+        }
+      })
+      if (movements.length) {
+        this.updateStore(slug, { products })
+      }
+      return movements
+    },
     persistStores() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.merchantStores))
       localStorage.setItem(OVERRIDE_KEY, JSON.stringify(this.storeOverrides))
@@ -217,8 +249,8 @@ function normalizeProducts(products) {
       compareAtPrice,
       effectivePrice: price,
       discountPercent,
-      stockQuantity: Number(product.stockQuantity) || 12,
-      lowStockThreshold: Number(product.lowStockThreshold) || 5,
+      stockQuantity: normalizeNonNegativeInteger(product.stockQuantity, 12),
+      lowStockThreshold: normalizeNonNegativeInteger(product.lowStockThreshold, 5),
       imageUrl: product.imageUrl || publicAsset('demo-images/products/boutique-shirt.jpg'),
       imageGallery: product.imageGallery || [product.imageUrl || publicAsset('demo-images/products/boutique-shirt.jpg')],
       sizes: Array.isArray(product.sizes) ? product.sizes.filter(Boolean) : [],
@@ -237,6 +269,12 @@ function normalizeProducts(products) {
       description: meaningfulText(product.description) || productDescription(product.name, product.category)
     }
   })
+}
+
+function normalizeNonNegativeInteger(value, fallback) {
+  if (value === null || value === undefined || value === '') return fallback
+  const numberValue = Math.floor(Number(value))
+  return Number.isFinite(numberValue) && numberValue >= 0 ? numberValue : fallback
 }
 
 function categoryListForProducts(products, existingCategories = []) {

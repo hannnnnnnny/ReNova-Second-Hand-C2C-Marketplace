@@ -16,9 +16,12 @@ import { computed, onMounted, ref } from 'vue'
 import { fetchAdminRefunds, fetchAdminSupportTickets } from '../api/admin'
 import AdminSidebar from '../components/AdminSidebar.vue'
 import AdminTopbar from '../components/AdminTopbar.vue'
+import { useAuthStore } from '../stores/auth'
 import { usePlatformStore } from '../stores/platform'
+import { isLocalDemoAdminSession, localRefundsForStore, localSupportTicketsForStore, shouldUseLocalDemoFallback } from '../utils/demoAdmin'
 
 const platformStore = usePlatformStore()
+const authStore = useAuthStore()
 const supportTickets = ref([])
 const refunds = ref([])
 const notificationCount = computed(() => {
@@ -33,6 +36,11 @@ onMounted(() => {
 })
 
 async function loadCareNotifications() {
+  if (isLocalDemoAdminSession(authStore)) {
+    supportTickets.value = localSupportTicketsForStore(platformStore.currentStore.slug)
+    refunds.value = localRefundsForStore(platformStore.currentStore.slug)
+    return
+  }
   try {
     const [supportData, refundData] = await Promise.all([
       fetchAdminSupportTickets(),
@@ -40,9 +48,14 @@ async function loadCareNotifications() {
     ])
     supportTickets.value = supportData
     refunds.value = refundData
-  } catch {
-    supportTickets.value = []
-    refunds.value = []
+  } catch (requestError) {
+    if (shouldUseLocalDemoFallback(requestError)) {
+      supportTickets.value = localSupportTicketsForStore(platformStore.currentStore.slug)
+      refunds.value = localRefundsForStore(platformStore.currentStore.slug)
+    } else {
+      supportTickets.value = []
+      refunds.value = []
+    }
   }
 }
 </script>

@@ -163,10 +163,13 @@ import QuickActionCard from '../../components/QuickActionCard.vue'
 import SetupChecklist from '../../components/SetupChecklist.vue'
 import StatCard from '../../components/StatCard.vue'
 import StatusBadge from '../../components/StatusBadge.vue'
+import { useAuthStore } from '../../stores/auth'
 import { usePlatformStore } from '../../stores/platform'
+import { buildLocalDashboardData, isLocalDemoAdminSession, shouldUseLocalDemoFallback } from '../../utils/demoAdmin'
 import { formatCurrency } from '../../utils/format'
 
 const platformStore = usePlatformStore()
+const authStore = useAuthStore()
 const loading = ref(true)
 const error = ref('')
 const metrics = ref({})
@@ -200,6 +203,11 @@ const trendPoints = computed(() => {
 
 onMounted(async () => {
   platformStore.loadPlatform()
+  if (isLocalDemoAdminSession(authStore)) {
+    applyLocalDashboardData()
+    loading.value = false
+    return
+  }
   try {
     const [metricData, analyticsData, orderData, warningData, customerData, supportData, refundData] = await Promise.all([
       fetchDashboardMetrics(),
@@ -218,11 +226,27 @@ onMounted(async () => {
     supportTickets.value = supportData
     refunds.value = refundData
   } catch (requestError) {
-    error.value = getApiError(requestError, 'Dashboard metrics could not be loaded.')
+    if (!shouldUseLocalDemoFallback(requestError)) {
+      error.value = getApiError(requestError, 'Dashboard metrics could not be loaded.')
+    } else {
+      applyLocalDashboardData()
+      error.value = ''
+    }
   } finally {
     loading.value = false
   }
 })
+
+function applyLocalDashboardData() {
+  const localData = buildLocalDashboardData(currentStore.value)
+  metrics.value = localData.metrics
+  analytics.value = localData.analytics
+  orders.value = localData.orders
+  warnings.value = localData.warnings
+  customers.value = localData.customers
+  supportTickets.value = localData.supportTickets
+  refunds.value = localData.refunds
+}
 
 function shortDate(value) {
   return new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric' }).format(new Date(value))

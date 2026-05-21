@@ -39,7 +39,7 @@ NovaCart is no longer positioned as one fashion store. It is a website builder a
 
 ## Visual Preview
 
-These images are regenerated from the current running Vue app and use cache-busting filenames so the GitHub preview reflects the latest UI.
+These images are regenerated from the live GitHub Pages preview so the repository front page reflects the latest storefront and checkout UI.
 
 ### Platform Builder Home
 
@@ -57,13 +57,15 @@ These images are regenerated from the current running Vue app and use cache-bust
 
 ![NovaCart generated product detail](docs/assets/screenshots/generated-product-detail-current.png)
 
-### Cart, Checkout, And Care
+### Cart, Checkout, Tracking, And Care
 
 ![NovaCart generated cart](docs/assets/screenshots/generated-cart-current.png)
 
 ![NovaCart generated checkout](docs/assets/screenshots/generated-checkout-current.png)
 
 ![NovaCart generated order success](docs/assets/screenshots/generated-order-success-current.png)
+
+![NovaCart generated order tracking](docs/assets/screenshots/generated-order-tracking-current.png)
 
 ![NovaCart generated support and refund flow](docs/assets/screenshots/generated-support-refund-current.png)
 

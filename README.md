@@ -1,240 +1,118 @@
-# NovaCart Multi-Merchant Ecommerce Website Builder Platform
+# ReNova — Second-Hand C2C Marketplace
 
-NovaCart is a production-style portfolio SaaS ecommerce platform where many merchants can create, customize, manage, and publish their own online stores. It includes a platform marketing website, merchant onboarding flow, template selector, store builder controls, protected merchant admin workspace, and generated customer storefront routes.
+ReNova is a portfolio-grade peer-to-peer second-hand marketplace where individuals list pre-loved goods, message each other, negotiate prices, place orders with escrow, ship, and rate. It is a clean rebuild of the project formerly known as NovaCart, repurposed from a multi-merchant SaaS into a C2C trading platform.
 
-NovaCart is original in naming, layout, copy, seed data, and local artwork. It is a demo-safe project, not a live payment-processing store or a clone of any existing ecommerce platform.
+The frontend is bilingual (English / 简体中文) with a live language switcher in the header.
 
-## Live Preview
+## What you can do as a user
 
-Stable free GitHub Pages preview:
+- **Sign up** and immediately list items, browse, save favorites, and message any seller
+- **Browse and search** by keyword, category, condition, price range, location, and sort
+- **List an item** with title, description, photos, asking price, original retail, condition, location, shipping fee, and a flag for whether offers are accepted
+- **Make offers and counter-offers** on negotiable listings (full back-and-forth thread with accept / reject / counter / withdraw)
+- **Private messaging** between buyer and seller per listing, with unread badges in the header
+- **Checkout** at list price or with an accepted offer — order is created in pending-payment state
+- **Demo escrow flow**: buyer "pays" → seller marks shipped (with carrier + tracking) → buyer confirms receipt → order completes and the listing is marked sold
+- **Two-way reviews** after a completed order — both buyer and seller can rate each other (1–5 stars + comment); user rating averages roll up to the profile
+- **Public profile** for any user: listings, reviews received, location, average rating, member since
+- **Favorites** list of saved items
+- **Edit / remove** your own listings; archive sold ones
 
-[https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/](https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/)
+## Demo accounts (seeded on first launch)
 
-This URL is published from the `gh-pages` branch with a GitHub Actions workflow that builds the `frontend` Vite app. It is a permanent free portfolio preview for the static Vue storefront and platform UI. The Spring Boot/MySQL backend is still included in the repository, but it is not run by GitHub Pages.
+| Email | Password | Notes |
+|---|---|---|
+| `ava@renova.local` | `DemoPassword1!` | Sample seller |
+| `liam@renova.local` | `DemoPassword1!` | Sample seller |
+| `nora@renova.local` | `DemoPassword1!` | Sample seller |
+| `sam@renova.local`  | `DemoPassword1!` | Sample seller |
+| `admin@renova.local` | `Demo Admin123!` | Admin role (no admin UI surface yet) |
 
-Recommended demo paths:
+You can also sign up fresh — accounts are created in two seconds.
 
-- Platform home: `/`
-- Template gallery: `/templates`
-- Page preview gallery: `/templates/demo-fashion`
-- Fashion storefront: `/store/demo-fashion`
-- Store catalog: `/store/demo-fashion/products`
-- Demo checkout: `/store/demo-fashion/checkout`
-- Customer orders: `/store/demo-fashion/orders`
-- Merchant admin: `/admin/dashboard`
+## Architecture
 
-Temporary tunnel fallback, only while the local machine is running:
+### Backend (Spring Boot 4, Java 21, MySQL)
 
-[https://bouquet-did-ide-bills.trycloudflare.com](https://bouquet-did-ide-bills.trycloudflare.com)
+- **Entities**: `User`, `Category`, `Listing` (with `ListingCondition` + `ListingStatus`), `Favorite`, `Offer` (with counter-offer chains), `Conversation` + `Message`, `TradeOrder` (escrow state machine), `Review`
+- **Auth**: BCrypt + JWT, stateless `SecurityFilterChain`, `AppUserDetailsService` reads from `users` table, `CurrentUserService` injects the authenticated user into services
+- **Services**: `AuthService`, `ListingService`, `OfferService`, `MessagingService`, `OrderService`, `ReviewService`, `UserService`, `CategoryService`
+- **REST endpoints**: `/api/auth/*`, `/api/public/listings`, `/api/listings/*`, `/api/offers/*`, `/api/conversations/*`, `/api/orders/*`, `/api/reviews`, `/api/public/users/*`, `/api/users/me`, `/api/public/categories`
+- **Data seeding**: `DataInitializer` populates categories, demo users, and ~8 starter listings on first boot if the tables are empty
+- **Validation**: Jakarta Bean Validation on every DTO, global `@RestControllerAdvice` shaped to a stable error envelope
 
-## Platform Direction
+### Frontend (Vue 3 + Vite + Pinia + vue-router + vue-i18n)
 
-NovaCart is no longer positioned as one fashion store. It is a website builder and commerce operations platform for independent merchants.
+- **i18n**: full `en` and `zh` translation sets; locale switch in the topbar persists to `localStorage`
+- **State**: `auth` (JWT + user) and `toast` Pinia stores; the auth store transparently persists across reloads
+- **Pages** (16): Home, Browse, ListingDetail, PostListing, EditListing, MyListings, Favorites, Offers, Messages, Orders, OrderDetail, Checkout, Profile (public), MyProfile, Login, Signup, NotFound
+- **Components**: `AppHeader` (search bar, unread badge, account menu), `AppFooter`, `LocaleSwitcher`, `ListingCard`, `Avatar`, `Stars`, `StarInput`, `ToastContainer`
+- **Design system**: hand-rolled CSS tokens (Fraunces serif display + Inter body), warm off-white palette, single global stylesheet, no Tailwind / UI kit dependencies
 
-- Public platform site: `/`, `/features`, `/templates`, `/templates/:templateId`, `/pricing`
-- Merchant access: `/login`, `/signup`, `/onboarding`
-- Merchant workspace: `/admin/dashboard`, `/admin/store-content`, `/admin/store-setup`, `/admin/products`, `/admin/orders`, `/admin/customers`, `/admin/inventory`, `/admin/promotions`, `/admin/analytics`, `/admin/templates`, `/admin/theme-editor`, `/admin/support`, `/admin/refunds`, `/admin/settings`
-- Generated storefronts: `/store/demo-fashion`, `/store/demo-thrift`, `/store/demo-sports`, `/store/demo-home`, `/store/demo-boutique`
-- Store-specific shopping paths: `/store/:storeSlug/products`, `/store/:storeSlug/products/:productId`, `/store/:storeSlug/cart`, `/store/:storeSlug/checkout`, `/store/:storeSlug/order-success`, `/store/:storeSlug/orders`, `/store/:storeSlug/orders/:orderId`, `/store/:storeSlug/support`
-
-## Visual Preview
-
-These images are regenerated from the live GitHub Pages preview so the repository front page reflects the latest storefront and checkout UI.
-
-### Platform Builder Home
-
-![NovaCart platform builder home](docs/assets/screenshots/platform-home-current.png)
-
-### Generated Merchant Storefront
-
-![NovaCart generated merchant storefront](docs/assets/screenshots/generated-storefront-current.png)
-
-### Store Catalog
-
-![NovaCart generated storefront catalog](docs/assets/screenshots/generated-catalog-current.png)
-
-### Variant-Aware Product Detail
-
-![NovaCart generated product detail](docs/assets/screenshots/generated-product-detail-current.png)
-
-### Cart, Checkout, Tracking, And Care
-
-![NovaCart generated cart](docs/assets/screenshots/generated-cart-current.png)
-
-![NovaCart generated checkout](docs/assets/screenshots/generated-checkout-current.png)
-
-![NovaCart generated order success](docs/assets/screenshots/generated-order-success-current.png)
-
-![NovaCart generated order tracking](docs/assets/screenshots/generated-order-tracking-current.png)
-
-![NovaCart generated support and refund flow](docs/assets/screenshots/generated-support-refund-current.png)
-
-### Merchant Operations Dashboard
-
-![NovaCart merchant operations dashboard](docs/assets/screenshots/admin-dashboard-current.png)
-
-## What NovaCart Is
-
-NovaCart is a multi-merchant ecommerce website builder. Merchants can choose a template, define store basics, add products, configure brand settings, preview the generated storefront, and operate commerce workflows from a dashboard.
-
-The project demonstrates real ecommerce architecture: a Spring Boot REST API, MySQL persistence, JPA entities, DTO validation, service-layer business logic, JWT-protected admin APIs, transactional checkout, stock movement tracking, Vue 3 platform and storefront experiences, and a merchant admin workspace.
-
-## Current Product Scope
-
-NovaCart is designed around three connected experiences:
-
-- Platform experience: landing pages, feature pages, template showcase, pricing/demo plans, login, signup, and onboarding.
-- Merchant experience: protected admin workspace for store setup, catalog, orders, customers, inventory, promotions, templates, theme editing, support, refunds, analytics, and settings.
-- Shopper experience: generated storefronts under `/store/:storeSlug` with merchant-specific branding, product discovery, cart, checkout, order success, support, and refund request flows.
-
-## Multi-Merchant Store Builder
-
-- Merchant onboarding creates a store name, slug, category, description, template, first products, brand color, logo text, currency, and shipping message.
-- Template options include Fashion Boutique, Thrift Classic, Sports Gear, Home Living, and Minimal Modern.
-- Store switcher lets the admin workspace move between demo and merchant-created stores.
-- Theme editor updates logo text, brand color, hero copy, announcement text, font style, and button style through a frontend store data layer.
-- Generated storefronts use store-specific names, colors, template styling, categories, products, cart, and local demo checkout.
-- Backend groundwork includes `MerchantAccount` and `MerchantStore` entities, repositories, seed demo stores, and public store lookup endpoints.
-
-## Generated Customer Storefronts
-
-- Storefronts live under `/store/:storeSlug`, which keeps the platform homepage separate from merchant stores.
-- Each storefront displays the merchant logo/name, selected template style, announcement bar, hero section, category navigation, featured products, product grid, variant-aware product detail pages, cart, checkout, order success, and support/refund request flow.
-- Demo stores are included for fashion, sports, home goods, and a minimal boutique so visitors can see multiple merchant storefronts.
-- Generated storefront imagery uses original local demo JPEG assets under `frontend/public/demo-images` for realistic ecommerce photography-style previews.
-- Shoppers can save products per store, filter to saved products, select size/color variants, edit cart quantities, apply demo promotions, choose delivery methods, select demo-safe payment methods, enter postal details, view order success, track delivery status, and submit support or refund requests.
-- Generated storefront checkout is demo-safe and local for mock stores. It validates realistic payment fields but never processes real card, wallet, PayPal, BNPL, cash, or bank-transfer payments. The existing backend checkout remains available for backend-powered commerce flows.
-- Legacy single-store paths such as `/products`, `/cart`, `/checkout`, `/support`, and `/refund-request` redirect into the `demo-fashion` generated storefront so older links do not break.
-
-## Merchant Admin
-
-- JWT-protected admin login with persisted session handling and clear expired-session behavior.
-- Dashboard with current store context, store setup checklist, revenue, order, visitor, conversion, average order value, refund, support, stock, sales trend, top products, and quick actions.
-- Store setup page for details, slug, description, shipping message, preview, and publish state.
-- Templates page and theme editor for store builder workflows.
-- Product management with thumbnail table, search, status/category/collection/sale filters, active/draft/archive status, stock badges, featured markers, preview links, edit links, archive/reactivate, bulk archive, bulk collection assignment, and inline selected-product markdown creation.
-- Collection management for Spring Edit, Summer Essentials, Workwear Capsule, Evening Details, Active Weekend, and End of Season Sale with campaign images and product assignment.
-- Promotion management for percentage or fixed discounts targeted by selected products, categories, collections, seasons, or tags.
-- Order management with status tabs, search, region filtering, payment state, refund state, fulfillment state, order detail, and safe status transitions.
-- Refund and support queues with status summaries, topbar notification counts, merchant-only notes, and workflow updates.
-- Customer records and analytics based on guest checkout email.
-- Inventory workspace with low-stock thresholds, manual adjustments with reasons, warning cards, and stock movement history.
-
-## Core Workflows
+## Core flows
 
 ```mermaid
 flowchart LR
-  Home["Storefront Home"] --> Catalog["Store Catalog"]
-  Catalog --> Detail["Product Detail"]
-  Detail --> Cart["Cart"]
-  Detail --> Checkout["Buy Now"]
-  Cart --> Checkout
-  Checkout --> Success["Order Success"]
-  Success --> Support["Support Ticket"]
-  Success --> Refund["Refund Request"]
+  Browse[Browse / Search] --> Detail[Listing detail]
+  Detail -- Make offer --> Offer[Offer thread]
+  Offer -- Accept --> Reserve[Listing reserved]
+  Detail -- Buy now --> Checkout[Checkout]
+  Reserve --> Checkout
+  Checkout --> Pending[Order pending payment]
+  Pending -- Pay (demo) --> Paid[Paid]
+  Paid -- Seller ships --> Shipped[Shipped + tracking]
+  Shipped -- Confirm receipt --> Done[Completed + listing marked SOLD]
+  Done --> Review[Two-way review]
 ```
 
 ```mermaid
 flowchart LR
-  Login["Admin Login"] --> Dashboard["Dashboard"]
-  Dashboard --> Products["Products"]
-  Dashboard --> Collections["Collections"]
-  Dashboard --> Promotions["Promotions"]
-  Products --> Catalog["Customer Catalog"]
-  Promotions --> Cart["Discounted Cart"]
+  Seller[Seller] -->|posts| Listing
+  Buyer[Buyer] -->|messages| Conversation[Conversation thread]
+  Conversation -->|offer link| Offer
+  Offer -->|counter| Offer
+  Offer -->|accepted| Order
+  Order -->|review on completion| Reputation[Reputation rating]
 ```
 
-```mermaid
-flowchart LR
-  Order["Customer Order"] --> Orders["Admin Orders"]
-  Order --> Refund["Refund Queue"]
-  Order --> Support["Support Queue"]
-  Orders --> Inventory["Stock Movements"]
-  Refund --> Analytics["Care Metrics"]
-  Support --> Analytics
-```
-
-## Tech Stack
-
-- Backend: Java 21, Spring Boot 4, Maven
-- Frontend: Vue 3, Vite, Vue Router, Pinia, Axios
-- Database: MySQL for runtime, H2 for tests
-- ORM: Spring Data JPA and Hibernate
-- Authentication: JWT with BCrypt password hashing
-- Styling: Custom responsive CSS
-- API style: RESTful JSON
-- Deployment: Dockerfiles and Docker Compose
-
-## Project Structure
-
-```text
-NovaCart-Fashion-Commerce-Platform/
-  backend/
-    src/main/java/com/novacart/store/
-      config/ controller/ dto/ entity/ exception/
-      repository/ security/ service/ service/impl/
-    src/main/resources/
-    src/test/
-  frontend/
-    src/
-      api/ assets/ components/ layouts/ pages/
-      router/ stores/ utils/
-  docs/
-    API.md
-    ARCHITECTURE.md
-    DEPLOYMENT.md
-    DEVELOPMENT.md
-    PRODUCT_REQUIREMENTS.md
-```
-
-## Quick Start
+## Quick start
 
 ### Backend
-
-```bash
-cd backend
-./mvnw spring-boot:run
-```
-
-Windows PowerShell:
 
 ```powershell
 cd backend
 .\mvnw.cmd spring-boot:run
 ```
 
-Default backend URL:
+Default base URL: `http://localhost:8080`. The first launch seeds categories, users, and listings.
 
-```text
-http://localhost:8080
+Run tests:
+
+```powershell
+cd backend
+.\mvnw.cmd test
 ```
 
 ### Frontend
 
-```bash
+```powershell
 cd frontend
 npm install
 npm run dev
 ```
 
-Default frontend URL:
+Default URL: `http://localhost:5173`. The dev server proxies `/api` to `http://localhost:8080`. Override with `VITE_API_BASE_URL` if you point at a remote backend.
 
-```text
-http://localhost:5173
+Frontend build:
+
+```powershell
+cd frontend
+npm run build
 ```
 
-### Default Admin Account
+## Environment
 
-```text
-Email: admin@novacart.local
-Password: NovaCartAdmin123!
-```
-
-Use this account only for local development.
-
-## Environment Variables
-
-Backend variables can be copied from [backend/.env.example](backend/.env.example).
+Backend (defaults work locally without overrides):
 
 ```text
 DB_HOST=localhost
@@ -247,13 +125,13 @@ JWT_EXPIRATION_MINUTES=120
 CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 ```
 
-Frontend variables can be copied from [frontend/.env.example](frontend/.env.example).
+Frontend:
 
 ```text
 VITE_API_BASE_URL=http://localhost:8080/api
 ```
 
-## MySQL Setup
+## MySQL bootstrap
 
 ```sql
 CREATE DATABASE novacart CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -262,99 +140,52 @@ GRANT ALL PRIVILEGES ON novacart.* TO 'novacart_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-## Docker Setup
+(JPA `ddl-auto: update` creates the tables on first run. For tests an H2 in-memory database is used.)
 
-```bash
-docker compose up --build
-```
+## Security notes
 
-Services:
+- All admin endpoints require `Authorization: Bearer <jwt>`; public endpoints sit under `/api/public/*` and `/api/auth/*`
+- Passwords stored only as BCrypt hashes; never returned in responses
+- Listings and offers enforce ownership at the service layer (a buyer can never modify a seller's listing and vice versa)
+- This is a portfolio demo — **no real payments are processed**. The "pay" action is a demo state transition.
 
-- Frontend: `http://localhost:5173`
-- Backend: `http://localhost:8080`
-- MySQL: `localhost:3306`
+## Limitations (intentional, since this is a portfolio demo)
 
-## Deploy The Frontend
+- No real payment provider integration (Stripe Connect etc.) — the escrow flow is a state machine, not a money flow
+- No image upload pipeline — listings reference image URLs you paste in
+- No realtime push for messages — open the messages page to refresh; the unread count refreshes on every route change
+- No admin dashboard surface (admin role exists in the entity but no admin UI yet)
+- No dispute resolution workflow — the entity supports `DISPUTED` state but there's no buyer-facing escalation page
+- No mobile native app
 
-The Vue frontend can be deployed for free on common static hosts. The repository includes frontend deployment config for:
+## Tech stack
 
-- Vercel: [frontend/vercel.json](frontend/vercel.json)
-- Netlify: [frontend/netlify.toml](frontend/netlify.toml)
+- **Backend**: Java 21, Spring Boot 4, Spring Data JPA, Spring Security, JJWT, Hibernate, MySQL (H2 for tests), Maven
+- **Frontend**: Vue 3, Vite, Pinia, vue-router, vue-i18n, axios, plain CSS
 
-Build settings:
-
-```text
-Root directory: frontend
-Build command: npm run build
-Output directory: dist
-```
-
-For a frontend-only portfolio demo, leave `VITE_API_BASE_URL` unset. The generated storefront, cart, checkout, local order tracking, and visual admin screens are still usable. For a full backend-connected deployment, set:
+## Project layout
 
 ```text
-VITE_API_BASE_URL=https://your-backend-domain.example/api
+renova-marketplace/
+  backend/
+    src/main/java/com/novacart/store/
+      config/         SecurityConfig, DataInitializer
+      controller/     Auth, Listing, Offer, Conversation, Order, Review, Category, User
+      dto/            *Dtos.java (records, grouped by domain)
+      entity/         User, Category, Listing, Favorite, Offer, Conversation, Message, TradeOrder, Review + enums
+      exception/      GlobalExceptionHandler + business exceptions
+      repository/     Spring Data JPA repositories
+      security/       JWT filter, JwtService, AppUserDetailsService, CurrentUserService
+      service/        Business logic per domain
+  frontend/
+    src/
+      api/            axios client + endpoint groups
+      components/     reusable atoms (Header, Footer, ListingCard, Avatar, Stars…)
+      i18n/           en + zh message bundles, locale switcher
+      layouts/        MainLayout (header + footer wrap)
+      pages/          16 routed pages
+      router/         vue-router config with auth guard
+      stores/         Pinia (auth, toast)
+      utils/          formatting helpers
+      assets/         single design-token stylesheet
 ```
-
-Then deploy the Spring Boot backend and MySQL database separately, and set the backend `CORS_ALLOWED_ORIGINS` to the deployed frontend URL.
-
-Temporary sharing from a local machine:
-
-```powershell
-cd frontend
-npm run dev -- --host 127.0.0.1 --port 5174
-npx cloudflared tunnel --url http://127.0.0.1:5174
-```
-
-## Quality Checks
-
-Backend:
-
-```bash
-cd backend
-./mvnw test
-```
-
-Frontend:
-
-```bash
-cd frontend
-npm install
-npm run build
-npm run test:unit
-```
-
-Smoke checks used during this pass included platform pages, generated storefront pages, legacy redirects, admin routes, support/refund routes, and the global not-found route through a temporary Vite dev server.
-
-## Documentation
-
-- API reference: [docs/API.md](docs/API.md)
-- Architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- Product requirements: [docs/PRODUCT_REQUIREMENTS.md](docs/PRODUCT_REQUIREMENTS.md)
-- Development guide: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
-- Deployment guide: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
-
-## Security Notes
-
-- The seeded admin account is for local development only.
-- Change `JWT_SECRET` before deploying anywhere public.
-- Store database credentials and JWT secrets in environment variables or a secret manager.
-- No real payment provider is connected. Demo checkout creates orders and stock movements but does not authorize, capture, or refund real money.
-- Public storefront APIs are open by design. Admin APIs require a valid bearer token.
-- Password hashes use BCrypt and are never returned from API responses.
-
-## Limitations And Roadmap
-
-- Add a real payment provider before accepting live payments.
-- Add customer accounts, saved addresses, and customer order history.
-- Add deeper server-side pagination for large admin datasets.
-- Add admin audit logs for product, promotion, fulfillment, refund, and inventory changes.
-- Add production observability, structured logs, rate limiting, backups, and monitoring.
-- Expand end-to-end test coverage for all merchant workflows.
-
-## Troubleshooting
-
-- MySQL connection failure: verify host, port, database, user, password, and privileges.
-- Frontend cannot reach backend: confirm `VITE_API_BASE_URL` points to `http://localhost:8080/api`.
-- CORS issue: confirm `CORS_ALLOWED_ORIGINS` includes the frontend origin.
-- Port already in use: stop the existing process or start Vite on another port and update CORS during local testing.
-- JWT errors: set a long `JWT_SECRET` and clear stale browser storage after changing auth settings.

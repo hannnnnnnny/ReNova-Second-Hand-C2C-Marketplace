@@ -1,7 +1,6 @@
 import axios from 'axios'
-import { useAuthStore } from '../stores/auth'
 
-const ADMIN_LOGIN_PATH = '/admin/login'
+const TOKEN_KEY = 'renova.token'
 const DEFAULT_ERROR_MESSAGE = 'The request could not be completed.'
 
 const apiClient = axios.create({
@@ -12,12 +11,9 @@ const apiClient = axios.create({
 })
 
 apiClient.interceptors.request.use((config) => {
-  const authStore = useAuthStore()
-  const token = typeof authStore.token === 'string' ? authStore.token.trim() : ''
-  if (token && token !== 'undefined' && token !== 'null') {
+  const token = localStorage.getItem(TOKEN_KEY)
+  if (token) {
     config.headers.Authorization = `Bearer ${token}`
-  } else if (config.headers.Authorization) {
-    delete config.headers.Authorization
   }
   return config
 })
@@ -26,72 +22,27 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      const authStore = useAuthStore()
-      authStore.clearSession()
-      redirectExpiredAdminSession()
+      localStorage.removeItem(TOKEN_KEY)
     }
     return Promise.reject(error)
   }
 )
 
-export function getApiData(response) {
+export function unwrap(response) {
   return response.data?.data ?? response.data
 }
 
-export function getApiError(error, fallbackMessage = DEFAULT_ERROR_MESSAGE) {
+export function apiError(error, fallback = DEFAULT_ERROR_MESSAGE) {
   if (!error.response) {
-    return 'The server is unavailable. Check that the backend is running and try again.'
+    return 'Cannot reach the server. Check that the backend is running.'
   }
-
-  const validationMessages = getValidationMessages(error.response.data?.errors)
-  if (validationMessages.length) {
-    return validationMessages.join(' ')
+  const data = error.response.data
+  const validation = data?.errors
+  if (Array.isArray(validation) && validation.length) {
+    return validation.map((v) => v.message || v.field).filter(Boolean).join(' • ')
   }
-
-  return error.response?.data?.message || fallbackMessage || DEFAULT_ERROR_MESSAGE
+  return data?.message || fallback
 }
 
-function getValidationMessages(errors) {
-  if (Array.isArray(errors)) {
-    return errors
-      .map((entry) => formatFieldError(entry.field, entry.message))
-      .filter(Boolean)
-  }
-
-  if (errors && typeof errors === 'object') {
-    return Object.entries(errors)
-      .map(([field, message]) => formatFieldError(field, message))
-      .filter(Boolean)
-  }
-
-  return []
-}
-
-function formatFieldError(field, message) {
-  if (!message) return ''
-  if (!field) return message
-  return `${humanizeField(field)}: ${message}`
-}
-
-function humanizeField(field) {
-  return String(field)
-    .replace(/\[(\d+)\]/g, (_, index) => ` ${Number(index) + 1}`)
-    .replace(/\./g, ' ')
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .replace(/[_-]+/g, ' ')
-    .replace(/\b\w/g, (letter) => letter.toUpperCase())
-}
-
-function redirectExpiredAdminSession() {
-  if (typeof window === 'undefined') return
-  const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`
-  const isAdminRoute = window.location.pathname.startsWith('/admin')
-  const isLoginRoute = window.location.pathname === ADMIN_LOGIN_PATH
-
-  if (isAdminRoute && !isLoginRoute) {
-    const loginUrl = `${ADMIN_LOGIN_PATH}?redirect=${encodeURIComponent(currentPath)}&session=expired`
-    window.location.assign(loginUrl)
-  }
-}
-
+export { TOKEN_KEY }
 export default apiClient

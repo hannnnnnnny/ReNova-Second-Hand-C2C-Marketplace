@@ -6,117 +6,47 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.Instant;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "categories", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_categories_slug", columnNames = "slug")
+})
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false, length = 80)
     private String name;
 
-    @Column(nullable = false, unique = true, length = 140)
+    @Column(nullable = false, length = 80)
     private String slug;
 
-    @Column(length = 500)
-    private String description;
+    @Column(length = 8)
+    private String icon;
 
-    @Column(length = 600)
-    private String imageUrl;
-
-    @Column(nullable = false)
+    @Column(name = "sort_order", nullable = false)
     private int sortOrder;
 
-    @Column(nullable = false)
-    private boolean active = true;
+    public Category() {}
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt;
-
-    @UpdateTimestamp
-    @Column(nullable = false)
-    private Instant updatedAt;
-
-    protected Category() {
-    }
-
-    public Category(String name, String slug, String description, boolean active) {
-        this(name, slug, description, null, 0, active);
-    }
-
-    public Category(String name, String slug, String description, String imageUrl, int sortOrder, boolean active) {
+    public Category(String name, String slug, String icon, int sortOrder) {
         this.name = name;
         this.slug = slug;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.sortOrder = sortOrder;
-        this.active = active;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public int getSortOrder() {
-        return sortOrder;
-    }
-
-    public void setSortOrder(int sortOrder) {
+        this.icon = icon;
         this.sortOrder = sortOrder;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getSlug() { return slug; }
+    public void setSlug(String slug) { this.slug = slug; }
+    public String getIcon() { return icon; }
+    public void setIcon(String icon) { this.icon = icon; }
+    public int getSortOrder() { return sortOrder; }
+    public void setSortOrder(int sortOrder) { this.sortOrder = sortOrder; }
 }

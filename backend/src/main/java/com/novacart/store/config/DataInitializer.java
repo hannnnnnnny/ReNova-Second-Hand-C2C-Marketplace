@@ -1,613 +1,199 @@
 package com.novacart.store.config;
 
-import com.novacart.store.entity.AdminUser;
 import com.novacart.store.entity.Category;
-import com.novacart.store.entity.CollectionStatus;
-import com.novacart.store.entity.FashionCollection;
-import com.novacart.store.entity.GenderTarget;
-import com.novacart.store.entity.MerchantAccount;
-import com.novacart.store.entity.MerchantStore;
-import com.novacart.store.entity.Product;
-import com.novacart.store.entity.ProductStatus;
-import com.novacart.store.entity.Promotion;
-import com.novacart.store.entity.PromotionDiscountType;
-import com.novacart.store.entity.PromotionTargetType;
-import com.novacart.store.repository.AdminUserRepository;
+import com.novacart.store.entity.Listing;
+import com.novacart.store.entity.ListingCondition;
+import com.novacart.store.entity.ListingStatus;
+import com.novacart.store.entity.User;
+import com.novacart.store.entity.UserRole;
 import com.novacart.store.repository.CategoryRepository;
-import com.novacart.store.repository.FashionCollectionRepository;
-import com.novacart.store.repository.MerchantAccountRepository;
-import com.novacart.store.repository.MerchantStoreRepository;
-import com.novacart.store.repository.ProductRepository;
-import com.novacart.store.repository.PromotionRepository;
+import com.novacart.store.repository.ListingRepository;
+import com.novacart.store.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-@Configuration
+@Component
 public class DataInitializer {
 
-    public static final String DEFAULT_ADMIN_EMAIL = "admin@novacart.local";
-    public static final String DEFAULT_ADMIN_PASSWORD = "NovaCartAdmin123!";
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    private final ListingRepository listingRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Bean
-    CommandLineRunner seedAdminUser(
-            AdminUserRepository adminUserRepository,
+    public DataInitializer(
+            UserRepository userRepository,
             CategoryRepository categoryRepository,
-            ProductRepository productRepository,
-            FashionCollectionRepository collectionRepository,
-            PromotionRepository promotionRepository,
-            MerchantAccountRepository merchantAccountRepository,
-            MerchantStoreRepository merchantStoreRepository,
+            ListingRepository listingRepository,
             PasswordEncoder passwordEncoder
     ) {
-        return args -> {
-            if (!adminUserRepository.existsByEmailIgnoreCase(DEFAULT_ADMIN_EMAIL)) {
-                AdminUser adminUser = new AdminUser(
-                        DEFAULT_ADMIN_EMAIL,
-                        passwordEncoder.encode(DEFAULT_ADMIN_PASSWORD),
-                        "ADMIN",
-                        true
-                );
-                adminUserRepository.save(adminUser);
-            }
-
-            Map<String, Category> categories = seedCategories(categoryRepository);
-            Map<String, FashionCollection> collections = seedCollections(collectionRepository);
-            seedMerchantStores(merchantAccountRepository, merchantStoreRepository);
-            seedProducts(productRepository, categories, collections);
-            seedPromotions(promotionRepository);
-        };
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
+        this.listingRepository = listingRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    private void seedMerchantStores(
-            MerchantAccountRepository merchantAccountRepository,
-            MerchantStoreRepository merchantStoreRepository
-    ) {
-        MerchantAccount demoMerchant = merchantAccountRepository.findByEmailIgnoreCase("merchant@novacart.local")
-                .orElseGet(() -> merchantAccountRepository.save(new MerchantAccount(
-                        "NovaCart Demo Merchant",
-                        "merchant@novacart.local",
-                        true
-                )));
+    @PostConstruct
+    @Transactional
+    public void seed() {
+        seedCategories();
+        seedUsers();
+        seedListings();
+    }
 
-        seedMerchantStore(
-                merchantStoreRepository,
-                demoMerchant,
-                "Avery Studio",
-                "demo-fashion",
-                "Fashion",
-                "Independent fashion boutique for tailoring, bags, jewelry, shoes, and seasonal wardrobe edits.",
-                "fashion",
-                "#7c3f47",
-                "AS",
-                "USD",
-                "Free shipping on orders over $75",
-                "Spring edit now live. Free shipping on orders over $75."
+    private void seedCategories() {
+        if (categoryRepository.count() > 0) return;
+        List<Category> categories = List.of(
+                new Category("Electronics", "electronics", "💻", 1),
+                new Category("Fashion", "fashion", "👕", 2),
+                new Category("Home & Living", "home", "🏠", 3),
+                new Category("Books & Media", "books", "📚", 4),
+                new Category("Sports & Outdoors", "sports", "⚽", 5),
+                new Category("Toys & Games", "toys", "🎮", 6),
+                new Category("Beauty", "beauty", "💄", 7),
+                new Category("Collectibles", "collectibles", "🎯", 8),
+                new Category("Other", "other", "📦", 99)
         );
-        seedMerchantStore(
-                merchantStoreRepository,
-                demoMerchant,
-                "Northline Active",
-                "demo-sports",
-                "Sports",
-                "Activewear, training extras, and compact sports equipment for active weekends.",
-                "sports",
-                "#245c7a",
-                "NA",
-                "USD",
-                "Free shipping over $90",
-                "Training kits and active layers ready for the weekend."
-        );
-        seedMerchantStore(
-                merchantStoreRepository,
-                demoMerchant,
-                "Harbor Home",
-                "demo-home",
-                "Home goods",
-                "Warm home pieces, thoughtful gifts, and minimal lifestyle goods.",
-                "home",
-                "#6f614f",
-                "HH",
-                "USD",
-                "Free shipping on orders over $60",
-                "New home living pieces for quieter everyday rituals."
-        );
-        seedMerchantStore(
-                merchantStoreRepository,
-                demoMerchant,
-                "Luma Goods",
-                "demo-boutique",
-                "Minimal boutique",
-                "Small-batch wardrobe staples, simple objects, and refined accessories for a quiet premium shop.",
-                "minimal",
-                "#30343b",
-                "LG",
-                "USD",
-                "Free shipping on orders over $80",
-                "Minimal essentials, edited weekly."
-        );
+        categoryRepository.saveAll(categories);
     }
 
-    private void seedMerchantStore(
-            MerchantStoreRepository merchantStoreRepository,
-            MerchantAccount merchantAccount,
-            String name,
-            String slug,
-            String category,
-            String description,
-            String templateKey,
-            String brandColor,
-            String logoText,
-            String currency,
-            String shippingMessage,
-            String announcement
-    ) {
-        if (merchantStoreRepository.existsBySlug(slug)) {
-            return;
-        }
-        merchantStoreRepository.save(new MerchantStore(
-                merchantAccount,
-                name,
-                slug,
-                category,
-                description,
-                templateKey,
-                brandColor,
-                logoText,
-                currency,
-                shippingMessage,
-                announcement,
-                true
-        ));
+    private void seedUsers() {
+        ensureUser("admin@renova.local", "ReNova Admin", "Demo Admin123!", UserRole.ADMIN, "Headquarters");
+        ensureUser("ava@renova.local", "Ava Chen", "DemoPassword1!", UserRole.USER, "San Francisco, CA");
+        ensureUser("liam@renova.local", "Liam Park", "DemoPassword1!", UserRole.USER, "Brooklyn, NY");
+        ensureUser("nora@renova.local", "Nora Kapoor", "DemoPassword1!", UserRole.USER, "Austin, TX");
+        ensureUser("sam@renova.local", "Sam Reyes", "DemoPassword1!", UserRole.USER, "Seattle, WA");
     }
 
-    private Map<String, Category> seedCategories(CategoryRepository categoryRepository) {
-        return Map.of(
-                "women", seedCategory(
-                        categoryRepository,
-                        "Women",
-                        "women",
-                        "Tailored separates, dresses, knitwear, and soft layers for everyday wardrobes."
-                ),
-                "men", seedCategory(
-                        categoryRepository,
-                        "Men",
-                        "men",
-                        "Clean shirting, relaxed trousers, outerwear, and refined essentials."
-                ),
-                "bags", seedCategory(
-                        categoryRepository,
-                        "Bags",
-                        "bags",
-                        "Crossbodies, totes, clutches, and weekend carry pieces."
-                ),
-                "jewelry", seedCategory(
-                        categoryRepository,
-                        "Jewelry",
-                        "jewelry",
-                        "Minimal earrings, chains, rings, and polished finishing pieces."
-                ),
-                "shoes", seedCategory(
-                        categoryRepository,
-                        "Shoes",
-                        "shoes",
-                        "Loafers, sandals, boots, sneakers, and day-to-evening footwear."
-                ),
-                "sportswear", seedCategory(
-                        categoryRepository,
-                        "Sportswear",
-                        "sportswear",
-                        "Training layers, recovery pieces, and original sports equipment."
-                ),
-                "accessories", seedCategory(
-                        categoryRepository,
-                        "Accessories",
-                        "accessories",
-                        "Scarves, belts, sunglasses, socks, and small style details."
-                ),
-                "new-arrivals", seedCategory(
-                        categoryRepository,
-                        "New Arrivals",
-                        "new-arrivals",
-                        "Freshly added pieces from the latest NovaCart seasonal edit."
-                ),
-                "sale", seedCategory(
-                        categoryRepository,
-                        "Sale",
-                        "sale",
-                        "Limited markdowns on selected last-season fashion and lifestyle pieces."
-                ),
-                "seasonal-collection", seedCategory(
-                        categoryRepository,
-                        "Seasonal Collection",
-                        "seasonal-collection",
-                        "Campaign-led outfits, occasion pieces, and weather-ready layers."
-                )
-        );
+    private User ensureUser(String email, String displayName, String password, UserRole role, String location) {
+        return userRepository.findByEmailIgnoreCase(email).orElseGet(() -> {
+            User user = new User();
+            user.setEmail(email);
+            user.setDisplayName(displayName);
+            user.setPasswordHash(passwordEncoder.encode(password));
+            user.setLocation(location);
+            user.setRole(role);
+            user.setBio("Hi, I'm " + displayName.split(" ")[0] + " on ReNova.");
+            user.setCreatedAt(Instant.now());
+            return userRepository.save(user);
+        });
     }
 
-    private Map<String, FashionCollection> seedCollections(FashionCollectionRepository collectionRepository) {
-        return Map.of(
-                "spring-edit", seedCollection(collectionRepository, "Spring Edit", "spring-edit", "Light layers, fresh color, and polished pieces for the first warm days.", "/catalog/seasonal.svg", "/catalog/women.svg", true, 10),
-                "summer-essentials", seedCollection(collectionRepository, "Summer Essentials", "summer-essentials", "Airy linen, easy sandals, and resort-minded accessories for heat and travel.", "/catalog/seasonal.svg", "/catalog/accessories.svg", true, 20),
-                "workwear-capsule", seedCollection(collectionRepository, "Workwear Capsule", "workwear-capsule", "Quiet tailoring, crisp shirting, structured bags, and shoes built for repeat wear.", "/catalog/men.svg", "/catalog/bags.svg", true, 30),
-                "evening-details", seedCollection(collectionRepository, "Evening Details", "evening-details", "Satin, sculptural jewelry, small bags, and soft shine for after-dark plans.", "/catalog/jewelry.svg", "/catalog/bags.svg", true, 40),
-                "active-weekend", seedCollection(collectionRepository, "Active Weekend", "active-weekend", "Performance layers, trainers, equipment, and outdoor-ready lifestyle pieces.", "/catalog/sportswear.svg", "/catalog/shoes.svg", true, 50),
-                "end-of-season-sale", seedCollection(collectionRepository, "End of Season Sale", "end-of-season-sale", "Selected last-season favorites with limited markdowns while sizes remain.", "/catalog/sale.svg", "/catalog/sale.svg", true, 60)
-        );
+    private void seedListings() {
+        if (listingRepository.count() > 0) return;
+
+        User ava = userRepository.findByEmailIgnoreCase("ava@renova.local").orElseThrow();
+        User liam = userRepository.findByEmailIgnoreCase("liam@renova.local").orElseThrow();
+        User nora = userRepository.findByEmailIgnoreCase("nora@renova.local").orElseThrow();
+        User sam = userRepository.findByEmailIgnoreCase("sam@renova.local").orElseThrow();
+
+        Category electronics = categoryRepository.findBySlug("electronics").orElseThrow();
+        Category fashion = categoryRepository.findBySlug("fashion").orElseThrow();
+        Category home = categoryRepository.findBySlug("home").orElseThrow();
+        Category books = categoryRepository.findBySlug("books").orElseThrow();
+        Category sports = categoryRepository.findBySlug("sports").orElseThrow();
+        Category collectibles = categoryRepository.findBySlug("collectibles").orElseThrow();
+
+        listing(ava, electronics,
+                "Apple iPad Air 5th gen, 64GB, Space Gray",
+                "Used for note-taking and reading for about 8 months. No scratches on screen, light wear on edges. Original box, charger, and Apple Pencil 2 included.",
+                new BigDecimal("380.00"), new BigDecimal("599.00"),
+                ListingCondition.LIKE_NEW, "San Francisco, CA", true, new BigDecimal("8.00"),
+                List.of(
+                        "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=900",
+                        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=900"
+                ));
+
+        listing(liam, fashion,
+                "Carhartt WIP Detroit Jacket, Size M",
+                "Bought from the Soho store, worn maybe ten times. Aged hamilton brown duck canvas, blanket lining still warm and clean.",
+                new BigDecimal("95.00"), new BigDecimal("178.00"),
+                ListingCondition.GOOD, "Brooklyn, NY", true, new BigDecimal("12.00"),
+                List.of(
+                        "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=900",
+                        "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=900"
+                ));
+
+        listing(nora, home,
+                "IKEA STRANDMON wing chair, dark blue",
+                "Comfortable reading chair, in great shape. Pet-free, smoke-free home. Local pickup in Austin preferred but I can arrange shipping at cost.",
+                new BigDecimal("180.00"), new BigDecimal("349.00"),
+                ListingCondition.GOOD, "Austin, TX", true, new BigDecimal("0.00"),
+                List.of(
+                        "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900",
+                        "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=900"
+                ));
+
+        listing(sam, books,
+                "Designing Data-Intensive Applications, hardcover",
+                "Read it twice during my first staff-engineer year. Has occasional pencil underlines (erasable). Cover in great shape.",
+                new BigDecimal("18.00"), new BigDecimal("55.00"),
+                ListingCondition.GOOD, "Seattle, WA", false, new BigDecimal("6.00"),
+                List.of(
+                        "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=900"
+                ));
+
+        listing(ava, sports,
+                "Specialized Sirrus 2.0 hybrid bike, size S",
+                "Two years old, garage kept. Recent tune-up at REI, new chain installed last month. Some paint chips on the chainstay.",
+                new BigDecimal("320.00"), new BigDecimal("650.00"),
+                ListingCondition.GOOD, "San Francisco, CA", true, new BigDecimal("0.00"),
+                List.of(
+                        "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=900",
+                        "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=900"
+                ));
+
+        listing(liam, collectibles,
+                "Lego Star Wars Razor Crest 75292, 100% complete",
+                "Built once, then displayed in a glass case. All minifigs and the original instructions are included. Box has a small crease on the corner.",
+                new BigDecimal("210.00"), new BigDecimal("299.00"),
+                ListingCondition.LIKE_NEW, "Brooklyn, NY", true, new BigDecimal("15.00"),
+                List.of(
+                        "https://images.unsplash.com/photo-1518155317743-a8ff43ea6a5f?w=900"
+                ));
+
+        listing(nora, electronics,
+                "Bose QuietComfort 45 over-ear headphones",
+                "Battery still holds full charge. Pads are clean, case included. Selling because I upgraded to AirPods Max.",
+                new BigDecimal("125.00"), new BigDecimal("279.00"),
+                ListingCondition.GOOD, "Austin, TX", true, new BigDecimal("8.00"),
+                List.of(
+                        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900"
+                ));
+
+        listing(sam, fashion,
+                "Vintage Levi's 501 jeans, W32 L32",
+                "Honestly, the best fade I've ever worn in. Some honeycomb behind the knees, no holes, no repairs. Vintage USA red tab.",
+                new BigDecimal("65.00"), null,
+                ListingCondition.GOOD, "Seattle, WA", true, new BigDecimal("8.00"),
+                List.of(
+                        "https://images.unsplash.com/photo-1542272604-787c3835535d?w=900"
+                ));
     }
 
-    private FashionCollection seedCollection(
-            FashionCollectionRepository collectionRepository,
-            String name,
-            String slug,
-            String description,
-            String heroImageUrl,
-            String displayImageUrl,
-            boolean featured,
-            int sortOrder
-    ) {
-        return collectionRepository.findBySlug(slug)
-                .map(collection -> {
-                    collection.setName(name);
-                    collection.setDescription(description);
-                    collection.setHeroImageUrl(heroImageUrl);
-                    collection.setDisplayImageUrl(displayImageUrl);
-                    collection.setStatus(CollectionStatus.ACTIVE);
-                    collection.setFeatured(featured);
-                    collection.setStartDate(LocalDate.of(2026, 1, 1));
-                    collection.setEndDate(LocalDate.of(2026, 12, 31));
-                    collection.setSortOrder(sortOrder);
-                    return collection;
-                })
-                .orElseGet(() -> collectionRepository.save(new FashionCollection(
-                        name,
-                        slug,
-                        description,
-                        heroImageUrl,
-                        displayImageUrl,
-                        CollectionStatus.ACTIVE,
-                        featured,
-                        LocalDate.of(2026, 1, 1),
-                        LocalDate.of(2026, 12, 31),
-                        sortOrder
-                )));
-    }
-
-    private void seedProducts(ProductRepository productRepository, Map<String, Category> categories, Map<String, FashionCollection> collections) {
-        List<SeedProduct> products = List.of(
-                new SeedProduct("silk-wrap-blouse", "Silk Wrap Blouse", "women", "Aster Row", "A fluid wrap blouse with a soft tie waist and subtle sheen for dinner, work, and weekends.", "118.00", "148.00", 24, 5, "/catalog/women.svg", true, ProductStatus.ACTIVE, List.of("spring-edit", "silk", "workwear")),
-                new SeedProduct("linen-wide-leg-trouser", "Linen Wide-Leg Trouser", "women", "Linden Vale", "Airy linen trousers with a pressed front crease and comfortable high-rise waist.", "132.00", null, 31, 6, "/catalog/women.svg", true, ProductStatus.ACTIVE, List.of("linen", "summer", "capsule")),
-                new SeedProduct("ribbed-midi-dress", "Ribbed Midi Dress", "women", "Rue Forme", "A close but easy rib-knit dress with a clean neckline and seasonless layering weight.", "96.00", null, 19, 4, "/catalog/women.svg", false, ProductStatus.ACTIVE, List.of("dress", "knit", "new-arrival")),
-                new SeedProduct("cropped-denim-jacket", "Cropped Denim Jacket", "women", "Aster Row", "A cropped denim layer with bracelet sleeves, tonal stitching, and a structured fit.", "128.00", null, 16, 4, "/catalog/women.svg", false, ProductStatus.ACTIVE, List.of("denim", "jacket", "weekend")),
-                new SeedProduct("tailored-wool-coat", "Tailored Wool Coat", "women", "Meridian Atelier", "A lined wool coat with a clean shoulder, deep pockets, and a softly shaped waist.", "286.00", "340.00", 8, 3, "/catalog/women.svg", true, ProductStatus.ACTIVE, List.of("outerwear", "winter", "tailored")),
-                new SeedProduct("satin-camisole", "Satin Camisole", "women", "Solace Field", "A bias-cut camisole designed to sit neatly under blazers or stand alone after hours.", "68.00", null, 37, 8, "/catalog/women.svg", false, ProductStatus.ACTIVE, List.of("evening", "satin", "layering")),
-                new SeedProduct("merino-overshirt", "Merino Overshirt", "men", "Harbor Finch", "A warm merino overshirt with matte buttons and enough structure to replace a light jacket.", "154.00", null, 22, 5, "/catalog/men.svg", true, ProductStatus.ACTIVE, List.of("merino", "overshirt", "fall")),
-                new SeedProduct("relaxed-twill-trouser", "Relaxed Twill Trouser", "men", "Northline Studio", "Soft twill trousers cut with room through the leg and a clean tailored waistband.", "118.00", null, 34, 7, "/catalog/men.svg", false, ProductStatus.ACTIVE, List.of("twill", "workwear", "capsule")),
-                new SeedProduct("cotton-poplin-shirt", "Cotton Poplin Shirt", "men", "Harbor Finch", "A crisp poplin shirt with a relaxed collar and a curved hem for tucked or untucked styling.", "82.00", null, 42, 9, "/catalog/men.svg", true, ProductStatus.ACTIVE, List.of("shirt", "cotton", "workwear")),
-                new SeedProduct("brushed-crew-sweater", "Brushed Crew Sweater", "men", "Linden Vale", "A brushed cotton crew with rib trim, a soft hand, and an easy weekday fit.", "94.00", "112.00", 27, 6, "/catalog/men.svg", false, ProductStatus.ACTIVE, List.of("knitwear", "crew", "sale")),
-                new SeedProduct("city-bomber-jacket", "City Bomber Jacket", "men", "Meridian Atelier", "A streamlined bomber with a smooth recycled shell and quiet utility pockets.", "176.00", null, 14, 4, "/catalog/men.svg", true, ProductStatus.ACTIVE, List.of("outerwear", "city", "weekend")),
-                new SeedProduct("pleated-resort-short", "Pleated Resort Short", "men", "Solace Field", "Tailored resort shorts with a soft pleat, corozo-style button, and breathable finish.", "72.00", null, 29, 6, "/catalog/men.svg", false, ProductStatus.ACTIVE, List.of("summer", "short", "resort")),
-                new SeedProduct("crescent-shoulder-bag", "Crescent Shoulder Bag", "bags", "Rue Forme", "A sculptural crescent bag with an adjustable strap and smooth lined interior.", "138.00", null, 18, 4, "/catalog/bags.svg", true, ProductStatus.ACTIVE, List.of("bag", "leather", "bestseller")),
-                new SeedProduct("structured-work-tote", "Structured Work Tote", "bags", "Meridian Atelier", "A structured tote sized for a laptop, flats, and the daily pieces that need their own place.", "186.00", "228.00", 11, 3, "/catalog/bags.svg", true, ProductStatus.ACTIVE, List.of("tote", "workwear", "commute")),
-                new SeedProduct("nylon-belt-bag", "Nylon Belt Bag", "bags", "Kinetic Loom", "A water-resistant belt bag with a low-profile buckle and two internal slip pockets.", "64.00", null, 38, 8, "/catalog/bags.svg", false, ProductStatus.ACTIVE, List.of("travel", "nylon", "sportswear")),
-                new SeedProduct("woven-evening-clutch", "Woven Evening Clutch", "bags", "Solace Field", "A small woven clutch with a soft magnetic closure and room for evening essentials.", "92.00", null, 13, 4, "/catalog/bags.svg", false, ProductStatus.ACTIVE, List.of("evening", "clutch", "occasion")),
-                new SeedProduct("weekender-duffel", "Weekender Duffel", "bags", "Northline Studio", "A durable weekender with padded handles, a shoe sleeve, and a clean rectangular shape.", "164.00", null, 17, 4, "/catalog/bags.svg", true, ProductStatus.ACTIVE, List.of("travel", "duffel", "lifestyle")),
-                new SeedProduct("compact-crossbody", "Compact Crossbody", "bags", "Aster Row", "A compact crossbody with card slots, a secure top zip, and an easy day-to-night strap.", "88.00", "108.00", 26, 6, "/catalog/bags.svg", false, ProductStatus.ACTIVE, List.of("crossbody", "sale", "daywear")),
-                new SeedProduct("sculpted-hoop-earrings", "Sculpted Hoop Earrings", "jewelry", "Vale & Thread", "Lightweight sculpted hoops with a polished curve that catches light without feeling loud.", "54.00", null, 48, 10, "/catalog/jewelry.svg", true, ProductStatus.ACTIVE, List.of("earrings", "gold-tone", "bestseller")),
-                new SeedProduct("fine-chain-necklace", "Fine Chain Necklace", "jewelry", "Vale & Thread", "A fine chain necklace designed for solo wear or quiet layering with pendants.", "62.00", null, 44, 10, "/catalog/jewelry.svg", false, ProductStatus.ACTIVE, List.of("necklace", "layering", "minimal")),
-                new SeedProduct("brushed-signet-ring", "Brushed Signet Ring", "jewelry", "Meridian Atelier", "A softly brushed signet ring with rounded edges and a low, comfortable profile.", "74.00", null, 30, 7, "/catalog/jewelry.svg", false, ProductStatus.ACTIVE, List.of("ring", "silver-tone", "gift")),
-                new SeedProduct("pearl-drop-bracelet", "Pearl Drop Bracelet", "jewelry", "Solace Field", "A delicate bracelet finished with small pearl drops and a slim adjustable chain.", "66.00", "82.00", 21, 5, "/catalog/jewelry.svg", true, ProductStatus.ACTIVE, List.of("bracelet", "pearl", "evening")),
-                new SeedProduct("layered-ear-cuff-set", "Layered Ear Cuff Set", "jewelry", "Rue Forme", "A set of two ear cuffs for layered styling without an extra piercing.", "38.00", null, 52, 12, "/catalog/jewelry.svg", false, ProductStatus.ACTIVE, List.of("ear-cuff", "stacking", "accessory")),
-                new SeedProduct("enamel-charm-pendant", "Enamel Charm Pendant", "jewelry", "Aster Row", "A small enamel charm pendant on a fine chain with a clean pop of color.", "58.00", null, 33, 8, "/catalog/jewelry.svg", false, ProductStatus.ACTIVE, List.of("pendant", "color", "gift")),
-                new SeedProduct("soft-leather-loafer", "Soft Leather Loafer", "shoes", "Harbor Finch", "A soft leather loafer with a flexible sole, almond toe, and polished everyday shape.", "148.00", null, 23, 5, "/catalog/shoes.svg", true, ProductStatus.ACTIVE, List.of("loafer", "leather", "workwear")),
-                new SeedProduct("strappy-block-heel", "Strappy Block Heel", "shoes", "Solace Field", "A steady block heel with slim straps and a cushioned footbed for long evenings.", "124.00", null, 18, 4, "/catalog/shoes.svg", false, ProductStatus.ACTIVE, List.of("heel", "evening", "occasion")),
-                new SeedProduct("clean-court-sneaker", "Clean Court Sneaker", "shoes", "Northline Studio", "A low court sneaker with tonal panels, a padded collar, and a minimal side profile.", "112.00", null, 40, 8, "/catalog/shoes.svg", true, ProductStatus.ACTIVE, List.of("sneaker", "unisex", "bestseller")),
-                new SeedProduct("suede-ankle-boot", "Suede Ankle Boot", "shoes", "Meridian Atelier", "A suede ankle boot with a stacked heel and a slim side zip for clean styling.", "168.00", "210.00", 12, 4, "/catalog/shoes.svg", true, ProductStatus.ACTIVE, List.of("boot", "suede", "fall")),
-                new SeedProduct("woven-slide-sandal", "Woven Slide Sandal", "shoes", "Linden Vale", "A woven slide sandal with a squared toe, padded strap, and easy summer shape.", "86.00", null, 35, 8, "/catalog/shoes.svg", false, ProductStatus.ACTIVE, List.of("sandal", "summer", "resort")),
-                new SeedProduct("trail-inspired-trainer", "Trail Inspired Trainer", "shoes", "Kinetic Loom", "A mixed-material trainer with a grippy sole and city-ready trail detailing.", "132.00", null, 20, 5, "/catalog/shoes.svg", false, ProductStatus.ACTIVE, List.of("trainer", "sportswear", "weekend")),
-                new SeedProduct("flex-running-jacket", "Flex Running Jacket", "sportswear", "Kinetic Loom", "A featherweight running jacket with vented panels, packable hood, and secure pocketing.", "118.00", null, 28, 6, "/catalog/sportswear.svg", true, ProductStatus.ACTIVE, List.of("running", "jacket", "active-weekend")),
-                new SeedProduct("studio-bike-short", "Studio Bike Short", "sportswear", "Kinetic Loom", "Supportive bike shorts with a smooth waistband and a pocket sized for a phone.", "52.00", null, 46, 10, "/catalog/sportswear.svg", false, ProductStatus.ACTIVE, List.of("training", "short", "studio")),
-                new SeedProduct("seamless-training-top", "Seamless Training Top", "sportswear", "Kinetic Loom", "A seamless training top with breathable texture and a close, move-with-you fit.", "48.00", null, 39, 8, "/catalog/sportswear.svg", false, ProductStatus.ACTIVE, List.of("training", "top", "performance")),
-                new SeedProduct("court-tennis-skort", "Court Tennis Skort", "sportswear", "Kinetic Loom", "A pleated tennis skort with built-in shorts and a crisp court-ready line.", "74.00", "92.00", 25, 6, "/catalog/sportswear.svg", true, ProductStatus.ACTIVE, List.of("tennis", "skort", "sport")),
-                new SeedProduct("studio-yoga-mat", "Studio Yoga Mat", "sportswear", "Solace Field", "A grippy studio mat with alignment marks and a smooth roll for class or home practice.", "68.00", null, 32, 7, "/catalog/sportswear.svg", false, ProductStatus.ACTIVE, List.of("equipment", "yoga", "studio")),
-                new SeedProduct("resistance-band-kit", "Resistance Band Kit", "sportswear", "Kinetic Loom", "Five training bands in progressive strengths with a compact drawstring carry pouch.", "34.00", null, 58, 12, "/catalog/sportswear.svg", false, ProductStatus.ACTIVE, List.of("equipment", "training", "travel")),
-                new SeedProduct("silk-square-scarf", "Silk Square Scarf", "accessories", "Aster Row", "A silk square scarf with an original abstract print and softly rolled edges.", "72.00", null, 36, 8, "/catalog/accessories.svg", true, ProductStatus.ACTIVE, List.of("scarf", "silk", "print")),
-                new SeedProduct("slim-leather-belt", "Slim Leather Belt", "accessories", "Harbor Finch", "A slim leather belt with a clean metal buckle and polished edge finishing.", "58.00", null, 41, 8, "/catalog/accessories.svg", false, ProductStatus.ACTIVE, List.of("belt", "leather", "workwear")),
-                new SeedProduct("acetate-sunglasses", "Acetate Sunglasses", "accessories", "Rue Forme", "Sculpted acetate sunglasses with soft square lenses and a lightweight temple feel.", "96.00", null, 28, 6, "/catalog/accessories.svg", true, ProductStatus.ACTIVE, List.of("sunglasses", "summer", "accessory")),
-                new SeedProduct("cashmere-rib-beanie", "Cashmere Rib Beanie", "accessories", "Linden Vale", "A soft ribbed beanie in a warm cashmere blend with a neat folded cuff.", "64.00", "78.00", 24, 6, "/catalog/accessories.svg", false, ProductStatus.ACTIVE, List.of("beanie", "winter", "cashmere")),
-                new SeedProduct("soft-rib-sock-set", "Soft Rib Sock Set", "accessories", "Solace Field", "Three pairs of soft rib socks in tonal colors for loafers, sneakers, or boots.", "28.00", null, 64, 14, "/catalog/accessories.svg", false, ProductStatus.ACTIVE, List.of("socks", "set", "everyday")),
-                new SeedProduct("jewelry-travel-case", "Jewelry Travel Case", "accessories", "Vale & Thread", "A compact travel case with ring rolls, necklace tabs, and a soft microsuede lining.", "44.00", null, 33, 7, "/catalog/accessories.svg", false, ProductStatus.ACTIVE, List.of("travel", "jewelry", "case")),
-                new SeedProduct("spring-belted-trench", "Spring Belted Trench", "new-arrivals", "Meridian Atelier", "A lightweight belted trench with storm flaps, a fluid drape, and a removable tie belt.", "214.00", null, 15, 4, "/catalog/new-arrivals.svg", true, ProductStatus.ACTIVE, List.of("new-arrival", "spring-edit", "outerwear")),
-                new SeedProduct("sheer-organza-blouse", "Sheer Organza Blouse", "new-arrivals", "Aster Row", "A sheer organza blouse with a tonal camisole lining and soft volume through the sleeve.", "126.00", null, 18, 4, "/catalog/new-arrivals.svg", false, ProductStatus.ACTIVE, List.of("new-arrival", "evening", "blouse")),
-                new SeedProduct("utility-midi-skirt", "Utility Midi Skirt", "new-arrivals", "Northline Studio", "A utility midi skirt with angled pockets, a back vent, and a smooth cotton finish.", "98.00", null, 24, 5, "/catalog/new-arrivals.svg", false, ProductStatus.ACTIVE, List.of("new-arrival", "skirt", "utility")),
-                new SeedProduct("canvas-high-top", "Canvas High-Top", "new-arrivals", "Kinetic Loom", "A canvas high-top sneaker with tonal laces, a cushioned insole, and a clean rubber foxing.", "92.00", null, 27, 6, "/catalog/new-arrivals.svg", true, ProductStatus.ACTIVE, List.of("new-arrival", "sneaker", "unisex")),
-                new SeedProduct("paneled-track-pant", "Paneled Track Pant", "new-arrivals", "Kinetic Loom", "A paneled track pant with a relaxed leg, adjustable hem, and smooth performance fabric.", "88.00", null, 30, 7, "/catalog/new-arrivals.svg", false, ProductStatus.ACTIVE, List.of("new-arrival", "sportswear", "pant")),
-                new SeedProduct("mesh-sling-bag", "Mesh Sling Bag", "new-arrivals", "Rue Forme", "A compact mesh sling bag with a curved strap and secure internal card pocket.", "76.00", null, 21, 5, "/catalog/new-arrivals.svg", false, ProductStatus.ACTIVE, List.of("new-arrival", "bag", "weekend")),
-                new SeedProduct("last-season-cotton-tee", "Last-Season Cotton Tee", "sale", "Northline Studio", "A soft cotton tee from a previous color story, cut with a straight body and clean neckband.", "28.00", "44.00", 55, 12, "/catalog/sale.svg", false, ProductStatus.ACTIVE, List.of("sale", "tee", "last-season")),
-                new SeedProduct("relaxed-cargo-pant", "Relaxed Cargo Pant", "sale", "Harbor Finch", "Relaxed cargo pants with low-profile side pockets and a washed cotton handle.", "72.00", "118.00", 26, 6, "/catalog/sale.svg", true, ProductStatus.ACTIVE, List.of("sale", "cargo", "last-season")),
-                new SeedProduct("quilted-liner-vest", "Quilted Liner Vest", "sale", "Linden Vale", "A quilted liner vest with light padding, deep patch pockets, and a neat snap front.", "84.00", "126.00", 17, 4, "/catalog/sale.svg", false, ProductStatus.ACTIVE, List.of("sale", "outerwear", "vest")),
-                new SeedProduct("metallic-ballet-flat", "Metallic Ballet Flat", "sale", "Solace Field", "A metallic ballet flat with a rounded toe, soft binding, and barely-there heel.", "78.00", "112.00", 22, 5, "/catalog/sale.svg", false, ProductStatus.ACTIVE, List.of("sale", "shoe", "evening")),
-                new SeedProduct("ribbed-tank-duo", "Ribbed Tank Duo", "sale", "Aster Row", "Two ribbed tanks in complementary tones, shaped for layering under shirting and jackets.", "38.00", "58.00", 44, 9, "/catalog/sale.svg", false, ProductStatus.ACTIVE, List.of("sale", "tank", "bundle")),
-                new SeedProduct("travel-pouch-set", "Travel Pouch Set", "sale", "Northline Studio", "Three zip pouches for accessories, toiletries, or tech cords, finished in washable nylon.", "34.00", "52.00", 39, 8, "/catalog/sale.svg", false, ProductStatus.ACTIVE, List.of("sale", "travel", "accessory")),
-                new SeedProduct("summer-linen-blazer", "Summer Linen Blazer", "seasonal-collection", "Meridian Atelier", "An unlined linen blazer with a relaxed shoulder and natural texture for warm-weather polish.", "196.00", null, 12, 4, "/catalog/seasonal.svg", true, ProductStatus.ACTIVE, List.of("summer-essentials", "linen", "blazer")),
-                new SeedProduct("resort-maxi-skirt", "Resort Maxi Skirt", "seasonal-collection", "Solace Field", "A sweeping maxi skirt with a flat front waistband and soft movement through the hem.", "118.00", null, 18, 4, "/catalog/seasonal.svg", false, ProductStatus.ACTIVE, List.of("summer-essentials", "resort", "skirt")),
-                new SeedProduct("evening-satin-wrap", "Evening Satin Wrap", "seasonal-collection", "Solace Field", "A long satin wrap that adds soft coverage over dresses, camisoles, and occasion tailoring.", "86.00", null, 25, 6, "/catalog/seasonal.svg", true, ProductStatus.ACTIVE, List.of("evening-details", "satin", "occasion")),
-                new SeedProduct("rain-shell-parka", "Rain Shell Parka", "seasonal-collection", "Kinetic Loom", "A lightweight rain shell with taped seams, a drawcord waist, and an adjustable hood.", "158.00", null, 14, 4, "/catalog/seasonal.svg", false, ProductStatus.ACTIVE, List.of("active-weekend", "rain", "outerwear")),
-                new SeedProduct("active-weekend-backpack", "Active Weekend Backpack", "seasonal-collection", "Kinetic Loom", "A streamlined backpack with a ventilated back panel, wet pocket, and laptop sleeve.", "128.00", null, 20, 5, "/catalog/seasonal.svg", true, ProductStatus.ACTIVE, List.of("active-weekend", "bag", "equipment")),
-                new SeedProduct("holiday-sequin-top", "Holiday Sequin Top", "seasonal-collection", "Aster Row", "A draft campaign top with small tonal sequins and a soft jersey backing for holiday styling.", "108.00", null, 0, 5, "/catalog/seasonal.svg", false, ProductStatus.DRAFT, List.of("evening-details", "holiday", "draft"))
-        );
-
-        products.forEach(product -> seedProduct(productRepository, product, categories.get(product.categorySlug()), collections));
-    }
-
-    private Category seedCategory(
-            CategoryRepository categoryRepository,
-            String name,
-            String slug,
-            String description
-    ) {
-        return categoryRepository.findBySlug(slug)
-                .map(category -> {
-                    category.setName(name);
-                    category.setDescription(description);
-                    category.setImageUrl(categoryImage(slug));
-                    category.setSortOrder(sortOrderForCategory(slug));
-                    category.setActive(true);
-                    return category;
-                })
-                .orElseGet(() -> categoryRepository.save(new Category(
-                        name,
-                        slug,
-                        description,
-                        categoryImage(slug),
-                        sortOrderForCategory(slug),
-                        true
-                )));
-    }
-
-    private void seedProduct(
-            ProductRepository productRepository,
-            SeedProduct seed,
-            Category category,
-            Map<String, FashionCollection> collections
-    ) {
-        FashionCollection collection = collectionFor(seed, collections);
-        productRepository.findBySlug(seed.slug()).ifPresentOrElse(
-                product -> applySeedProduct(product, seed, category, collection),
-                () -> productRepository.save(new Product(
-                        seed.name(),
-                        seed.slug(),
-                        sku(seed.slug()),
-                        seed.brand(),
-                        seed.description(),
-                        new BigDecimal(seed.price()),
-                        seed.compareAtPrice() == null ? null : new BigDecimal(seed.compareAtPrice()),
-                        seed.stockQuantity(),
-                        seed.lowStockThreshold(),
-                        seed.imageUrl(),
-                        List.of(seed.imageUrl()),
-                        seed.tags(),
-                        sizesFor(seed),
-                        colorsFor(seed),
-                        materialFor(seed),
-                        careInstructionsFor(seed),
-                        seasonFor(seed),
-                        genderTargetFor(seed),
-                        seed.featured(),
-                        seed.status(),
-                        seed.status() == ProductStatus.ACTIVE,
-                        category,
-                        collection
-                ))
-        );
-    }
-
-    private void applySeedProduct(Product product, SeedProduct seed, Category category, FashionCollection collection) {
-        product.setName(seed.name());
-        product.setSku(sku(seed.slug()));
-        product.setBrand(seed.brand());
-        product.setDescription(seed.description());
-        product.setPrice(new BigDecimal(seed.price()));
-        product.setCompareAtPrice(seed.compareAtPrice() == null ? null : new BigDecimal(seed.compareAtPrice()));
-        product.setLowStockThreshold(seed.lowStockThreshold());
-        product.setImageUrl(seed.imageUrl());
-        product.setImageGallery(List.of(seed.imageUrl()));
-        product.setTags(seed.tags());
-        product.setSizes(sizesFor(seed));
-        product.setColors(colorsFor(seed));
-        product.setMaterial(materialFor(seed));
-        product.setCareInstructions(careInstructionsFor(seed));
-        product.setSeason(seasonFor(seed));
-        product.setGenderTarget(genderTargetFor(seed));
-        product.setFeatured(seed.featured());
-        product.setStatus(seed.status());
-        product.setActive(seed.status() == ProductStatus.ACTIVE);
-        product.setCategory(category);
-        product.setCollection(collection);
-    }
-
-    private int sortOrderForCategory(String slug) {
-        return switch (slug) {
-            case "women" -> 10;
-            case "men" -> 20;
-            case "bags" -> 30;
-            case "jewelry" -> 40;
-            case "shoes" -> 50;
-            case "sportswear" -> 60;
-            case "accessories" -> 70;
-            case "new-arrivals" -> 80;
-            case "sale" -> 90;
-            case "seasonal-collection" -> 100;
-            default -> 999;
-        };
-    }
-
-    private String categoryImage(String slug) {
-        return "/catalog/" + switch (slug) {
-            case "seasonal-collection" -> "seasonal";
-            default -> slug;
-        } + ".svg";
-    }
-
-    private FashionCollection collectionFor(SeedProduct seed, Map<String, FashionCollection> collections) {
-        if (seed.tags().contains("spring-edit")) {
-            return collections.get("spring-edit");
-        }
-        if (seed.tags().contains("summer-essentials") || seed.tags().contains("summer") || seed.tags().contains("resort")) {
-            return collections.get("summer-essentials");
-        }
-        if (seed.tags().contains("workwear") || seed.tags().contains("capsule") || seed.tags().contains("commute")) {
-            return collections.get("workwear-capsule");
-        }
-        if (seed.tags().contains("evening") || seed.tags().contains("occasion") || seed.tags().contains("holiday")) {
-            return collections.get("evening-details");
-        }
-        if (seed.tags().contains("active-weekend") || seed.tags().contains("sportswear") || seed.tags().contains("training") || seed.tags().contains("equipment")) {
-            return collections.get("active-weekend");
-        }
-        if (seed.tags().contains("sale") || seed.tags().contains("last-season")) {
-            return collections.get("end-of-season-sale");
-        }
-        return collections.get("spring-edit");
-    }
-
-    private List<String> sizesFor(SeedProduct seed) {
-        if ("shoes".equals(seed.categorySlug()) || seed.tags().contains("sneaker") || seed.tags().contains("trainer") || seed.tags().contains("shoe")) {
-            return List.of("5", "6", "7", "8", "9", "10", "11");
-        }
-        if ("jewelry".equals(seed.categorySlug()) || "bags".equals(seed.categorySlug()) || seed.tags().contains("equipment") || seed.tags().contains("scarf") || seed.tags().contains("sunglasses") || seed.tags().contains("case")) {
-            return List.of("One Size");
-        }
-        return List.of("XS", "S", "M", "L", "XL");
-    }
-
-    private List<String> colorsFor(SeedProduct seed) {
-        if (seed.tags().contains("gold-tone")) {
-            return List.of("Gold", "Warm Brass");
-        }
-        if (seed.tags().contains("silver-tone")) {
-            return List.of("Silver", "Graphite");
-        }
-        if (seed.tags().contains("summer") || seed.tags().contains("resort")) {
-            return List.of("Ivory", "Sand", "Sky");
-        }
-        if (seed.tags().contains("evening")) {
-            return List.of("Black", "Pearl", "Wine");
-        }
-        if (seed.tags().contains("sportswear") || seed.tags().contains("training") || seed.tags().contains("equipment")) {
-            return List.of("Black", "Slate", "Pine");
-        }
-        return List.of("Black", "Ivory", "Taupe");
-    }
-
-    private String materialFor(SeedProduct seed) {
-        if (seed.tags().contains("silk") || seed.name().toLowerCase().contains("silk")) {
-            return "Silk blend";
-        }
-        if (seed.tags().contains("linen")) {
-            return "Linen";
-        }
-        if (seed.tags().contains("leather") || seed.name().toLowerCase().contains("loafer") || seed.name().toLowerCase().contains("belt")) {
-            return "Leather";
-        }
-        if (seed.tags().contains("satin")) {
-            return "Satin";
-        }
-        if (seed.tags().contains("denim")) {
-            return "Cotton denim";
-        }
-        if (seed.tags().contains("equipment") || seed.tags().contains("sportswear") || seed.tags().contains("training")) {
-            return "Performance blend";
-        }
-        if (seed.tags().contains("wool") || seed.name().toLowerCase().contains("wool")) {
-            return "Wool blend";
-        }
-        return "Cotton blend";
-    }
-
-    private String careInstructionsFor(SeedProduct seed) {
-        if (seed.tags().contains("jewelry") || "jewelry".equals(seed.categorySlug())) {
-            return "Store dry and polish gently with a soft cloth.";
-        }
-        if (seed.tags().contains("leather") || "bags".equals(seed.categorySlug()) || "shoes".equals(seed.categorySlug())) {
-            return "Wipe clean with a soft damp cloth and store away from direct heat.";
-        }
-        if (seed.tags().contains("silk") || seed.tags().contains("satin") || seed.tags().contains("wool")) {
-            return "Dry clean recommended to preserve shape and finish.";
-        }
-        return "Machine wash cold with like colors and lay flat or hang to dry.";
-    }
-
-    private String seasonFor(SeedProduct seed) {
-        if (seed.tags().contains("last-season") || seed.tags().contains("sale")) {
-            return "Last Season";
-        }
-        if (seed.tags().contains("summer") || seed.tags().contains("summer-essentials") || seed.tags().contains("resort")) {
-            return "Summer 2026";
-        }
-        if (seed.tags().contains("fall") || seed.tags().contains("winter") || seed.tags().contains("holiday")) {
-            return "Fall Winter 2026";
-        }
-        if (seed.tags().contains("active-weekend")) {
-            return "Active Weekend";
-        }
-        if (seed.tags().contains("evening-details") || seed.tags().contains("evening")) {
-            return "Evening Edit";
-        }
-        return "Spring 2026";
-    }
-
-    private GenderTarget genderTargetFor(SeedProduct seed) {
-        if ("women".equals(seed.categorySlug())) {
-            return GenderTarget.WOMEN;
-        }
-        if ("men".equals(seed.categorySlug())) {
-            return GenderTarget.MEN;
-        }
-        return GenderTarget.UNISEX;
-    }
-
-    private void seedPromotions(PromotionRepository promotionRepository) {
-        if (promotionRepository.findAll().stream().anyMatch(promotion -> "End of Season Fashion Markdown".equals(promotion.getName()))) {
-            return;
-        }
-        promotionRepository.save(new Promotion(
-                "End of Season Fashion Markdown",
-                "A controlled markdown for selected last-season fashion pieces.",
-                PromotionDiscountType.PERCENTAGE,
-                new BigDecimal("15.00"),
-                LocalDate.now().minusDays(7),
-                LocalDate.now().plusDays(45),
-                true,
-                PromotionTargetType.TAGS,
-                List.of("sale", "last-season")
-        ));
-    }
-
-    private String sku(String slug) {
-        return "NC-" + slug.toUpperCase().replaceAll("[^A-Z0-9]+", "-").replaceAll("(^-|-$)", "");
-    }
-
-    private record SeedProduct(
-            String slug,
-            String name,
-            String categorySlug,
-            String brand,
-            String description,
-            String price,
-            String compareAtPrice,
-            int stockQuantity,
-            int lowStockThreshold,
-            String imageUrl,
-            boolean featured,
-            ProductStatus status,
-            List<String> tags
-    ) {
+    private void listing(User seller, Category category, String title, String description,
+                         BigDecimal price, BigDecimal originalPrice, ListingCondition condition,
+                         String location, boolean negotiable, BigDecimal shippingFee, List<String> images) {
+        Listing l = new Listing();
+        l.setSeller(seller);
+        l.setCategory(category);
+        l.setTitle(title);
+        l.setDescription(description);
+        l.setPrice(price);
+        l.setOriginalPrice(originalPrice);
+        l.setCondition(condition);
+        l.setLocation(location);
+        l.setNegotiable(negotiable);
+        l.setShippingFee(shippingFee);
+        l.setImageUrls(new ArrayList<>(images));
+        l.setStatus(ListingStatus.ACTIVE);
+        l.setCreatedAt(Instant.now());
+        l.setUpdatedAt(Instant.now());
+        listingRepository.save(l);
     }
 }

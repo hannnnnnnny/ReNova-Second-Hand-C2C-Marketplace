@@ -1,18 +1,29 @@
 package com.novacart.store.service;
 
-import com.novacart.store.dto.CategoryRequest;
-import com.novacart.store.dto.CategoryResponse;
+import com.novacart.store.dto.CategoryDtos;
+import com.novacart.store.entity.Category;
+import com.novacart.store.exception.ResourceNotFoundException;
+import com.novacart.store.repository.CategoryRepository;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
-public interface CategoryService {
+@Service
+public class CategoryService {
 
-    List<CategoryResponse> findPublicCategories();
+    private final CategoryRepository categoryRepository;
 
-    List<CategoryResponse> findAdminCategories();
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
-    CategoryResponse createCategory(CategoryRequest request);
+    public List<CategoryDtos.CategoryResponse> listAll() {
+        return categoryRepository.findAllByOrderBySortOrderAsc().stream()
+                .map(CategoryDtos.CategoryResponse::from)
+                .toList();
+    }
 
-    CategoryResponse updateCategory(Long id, CategoryRequest request);
-
-    void deleteCategory(Long id);
+    public Category requireById(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found."));
+    }
 }

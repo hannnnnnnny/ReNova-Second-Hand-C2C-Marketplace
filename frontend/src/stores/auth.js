@@ -1,78 +1,73 @@
 import { defineStore } from 'pinia'
+import { authApi } from '../api/endpoints'
+import { TOKEN_KEY } from '../api/client'
 
-const STORAGE_KEY = 'novacart_admin_auth'
+const USER_KEY = 'renova.user'
+
+function readUser() {
+  try {
+    const raw = localStorage.getItem(USER_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: null,
-    email: null,
-    role: null,
-    expiresAt: null
+    token: localStorage.getItem(TOKEN_KEY) || '',
+    user: readUser()
   }),
   getters: {
-    isAuthenticated: (state) => Boolean(state.token) && !isExpired(state.expiresAt)
+    isAuthenticated: (state) => Boolean(state.token && state.user)
   },
   actions: {
-    loadSession() {
-      const rawSession = localStorage.getItem(STORAGE_KEY)
-      if (!rawSession) return 'empty'
-
+    persist() {
+      if (this.token) {
+        localStorage.setItem(TOKEN_KEY, this.token)
+      } else {
+        localStorage.removeItem(TOKEN_KEY)
+      }
+      if (this.user) {
+        localStorage.setItem(USER_KEY, JSON.stringify(this.user))
+      } else {
+        localStorage.removeItem(USER_KEY)
+      }
+    },
+    async signup(payload) {
+      const result = await authApi.signup(payload)
+      this.token = result.token
+      this.user = result.user
+      this.persist()
+      return result
+    },
+    async login(payload) {
+      const result = await authApi.login(payload)
+      this.token = result.token
+      this.user = result.user
+      this.persist()
+      return result
+    },
+    async refresh() {
+      if (!this.token) return null
       try {
-        const session = JSON.parse(rawSession)
-        this.token = session.token
-        this.email = session.email
-        this.role = session.role
-        this.expiresAt = Number(session.expiresAt) || null
-        return this.validateSession()
+        const user = await authApi.me()
+        this.user = user
+        this.persist()
+        return user
       } catch {
-        localStorage.removeItem(STORAGE_KEY)
-        return 'empty'
+        this.logout()
+        return null
       }
     },
-    setSession(session) {
-      const expiresAt = resolveExpiresAt(session)
-      this.token = session.token
-      this.email = session.email
-      this.role = session.role
-      this.expiresAt = expiresAt
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        token: session.token,
-        email: session.email,
-        role: session.role,
-        expiresAt
-      }))
+    logout() {
+      this.token = ''
+      this.user = null
+      this.persist()
     },
-    validateSession() {
-      if (!this.token) return 'empty'
-      if (isExpired(this.expiresAt)) {
-        this.clearSession()
-        return 'expired'
-      }
-      return 'loaded'
-    },
-    clearSession() {
-      this.token = null
-      this.email = null
-      this.role = null
-      this.expiresAt = null
-      localStorage.removeItem(STORAGE_KEY)
+    setUser(user) {
+      this.user = user
+      this.persist()
     }
   }
 })
-
-function resolveExpiresAt(session) {
-  if (session.expiresAt) {
-    return Number(session.expiresAt)
-  }
-
-  const expirationMinutes = Number(session.expiresInMinutes)
-  if (!Number.isFinite(expirationMinutes) || expirationMinutes <= 0) {
-    return null
-  }
-
-  return Date.now() + expirationMinutes * 60 * 1000
-}
-
-function isExpired(expiresAt) {
-  return !expiresAt || Date.now() >= Number(expiresAt)
-}

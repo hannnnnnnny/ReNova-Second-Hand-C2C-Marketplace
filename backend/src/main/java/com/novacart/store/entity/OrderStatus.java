@@ -1,10 +1,11 @@
 package com.novacart.store.entity;
 
 public enum OrderStatus {
-    PENDING,
+    PENDING_PAYMENT,
     PAID,
-    PROCESSING,
     SHIPPED,
+    DELIVERED,
     COMPLETED,
-    CANCELLED
+    CANCELLED,
+    DISPUTED
 }

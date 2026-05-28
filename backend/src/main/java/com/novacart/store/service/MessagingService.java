@@ -100,6 +100,7 @@ public class MessagingService {
         return detail(conversation, current);
     }
 
+    @Transactional(readOnly = true)
     public List<MessageDtos.ConversationSummary> listMine() {
         User current = currentUserService.requireCurrentUser();
         return conversationRepository.findAllForUser(current).stream()
@@ -107,6 +108,7 @@ public class MessagingService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public long unreadCount() {
         User current = currentUserService.requireCurrentUser();
         return conversationRepository.totalUnreadForUser(current);

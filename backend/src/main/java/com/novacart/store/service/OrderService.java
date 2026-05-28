@@ -14,6 +14,7 @@ import com.novacart.store.exception.ResourceNotFoundException;
 import com.novacart.store.repository.OfferRepository;
 import com.novacart.store.repository.TradeOrderRepository;
 import com.novacart.store.security.CurrentUserService;
+import com.novacart.store.util.EnumParsers;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.time.Instant;
@@ -171,6 +172,7 @@ public class OrderService {
         return OrderDtos.OrderResponse.from(order);
     }
 
+    @Transactional(readOnly = true)
     public OrderDtos.OrderResponse get(Long orderId) {
         User current = currentUserService.requireCurrentUser();
         TradeOrder order = requireById(orderId);
@@ -180,24 +182,29 @@ public class OrderService {
         return OrderDtos.OrderResponse.from(order);
     }
 
+    @Transactional(readOnly = true)
     public PageResponse<OrderDtos.OrderResponse> listAsBuyer(String status, int page, int size) {
         User buyer = currentUserService.requireCurrentUser();
         Pageable pageable = PageRequest.of(Math.max(0, page), Math.min(60, Math.max(1, size)));
-        Page<TradeOrder> result = status == null || status.isBlank()
+        OrderStatus orderStatus = EnumParsers.optional(OrderStatus.class, status, "status");
+        Page<TradeOrder> result = orderStatus == null
                 ? orderRepository.findByBuyerOrderByCreatedAtDesc(buyer, pageable)
-                : orderRepository.findByBuyerAndStatusOrderByCreatedAtDesc(buyer, OrderStatus.valueOf(status.toUpperCase()), pageable);
+                : orderRepository.findByBuyerAndStatusOrderByCreatedAtDesc(buyer, orderStatus, pageable);
         return PageResponse.from(result.map(OrderDtos.OrderResponse::from));
     }
 
+    @Transactional(readOnly = true)
     public PageResponse<OrderDtos.OrderResponse> listAsSeller(String status, int page, int size) {
         User seller = currentUserService.requireCurrentUser();
         Pageable pageable = PageRequest.of(Math.max(0, page), Math.min(60, Math.max(1, size)));
-        Page<TradeOrder> result = status == null || status.isBlank()
+        OrderStatus orderStatus = EnumParsers.optional(OrderStatus.class, status, "status");
+        Page<TradeOrder> result = orderStatus == null
                 ? orderRepository.findBySellerOrderByCreatedAtDesc(seller, pageable)
-                : orderRepository.findBySellerAndStatusOrderByCreatedAtDesc(seller, OrderStatus.valueOf(status.toUpperCase()), pageable);
+                : orderRepository.findBySellerAndStatusOrderByCreatedAtDesc(seller, orderStatus, pageable);
         return PageResponse.from(result.map(OrderDtos.OrderResponse::from));
     }
 
+    @Transactional(readOnly = true)
     public TradeOrder requireById(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found."));

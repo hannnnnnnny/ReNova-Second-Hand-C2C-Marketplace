@@ -1,74 +1,72 @@
-# NovaCart Multi-Merchant Ecommerce Website Builder Requirements
+# ReNova Marketplace Requirements
 
 ## Product Vision
 
-NovaCart is a SaaS-style ecommerce website builder where many merchants can create, customize, manage, and publish their own online stores. The product includes a public platform website, merchant onboarding flow, template selector, generated storefronts, and a protected merchant operations workspace.
+ReNova is a peer-to-peer second-hand marketplace. Individuals can list pre-owned goods, discover local or shippable items, message sellers, negotiate offers, place orders, and review completed trades.
 
-NovaCart is not one store. It is the platform merchants use to launch stores for fashion, thrift, sports, home goods, lifestyle, and other retail categories.
+The product is not currently a multi-store website builder. Storefront-template work is out of scope for the current ReNova codebase unless a future migration reintroduces it with backend persistence.
 
-## Platform Requirements
+## Core User Requirements
 
-- Public platform landing page explaining NovaCart as a store builder.
-- Feature, template, and pricing pages for merchant evaluation.
-- Merchant signup/login entry points.
-- Guided onboarding for store basics, template choice, first products, brand configuration, and storefront preview.
-- Store slug routing under `/store/:storeSlug` for local multi-store support without subdomains.
-- Demo stores for `demo-fashion`, `demo-sports`, `demo-home`, and `demo-boutique`.
+- Public home page that explains the marketplace value.
+- Browse page with search, category, condition, price, location, and sort filters.
+- Listing detail page with image gallery, seller profile, favorite, offer, message, and checkout actions.
+- User sign-up, login, logout, and persisted session recovery.
+- Seller listing creation and editing with simple fields an inexperienced user can understand.
+- Favorites list for saved items.
+- Offers inbox and sent-offers view.
+- Buyer-seller conversations tied to listings.
+- Checkout flow for creating marketplace orders.
+- Buying and selling order views.
+- Public and private profile views.
+- Review creation after completed orders.
+- English and Chinese UI text.
 
-## Generated Customer Storefront Requirements
+## Backend Requirements
 
-- Storefront homepage displays merchant name/logo, template styling, announcement bar, hero, categories, and featured products.
-- Product listing is scoped by store slug and uses store-specific products and categories.
-- Product detail, cart, checkout, order success, and support/refund paths stay under `/store/:storeSlug`.
-- Checkout remains demo-safe and local for frontend-generated stores until backend multi-store checkout is fully wired.
-- Storefront styling changes based on selected template and merchant brand settings.
-- Support ticket flow for refund, exchange, shipping, product, payment, and other customer issues.
-- Refund request flow with configurable refund window and admin review.
+- REST JSON API under `/api`.
+- Public endpoints for categories, active listings, listing detail, public profiles, seller listings, and public reviews.
+- Protected endpoints for listings, favorites, offers, conversations, orders, reviews, and profile updates.
+- JWT authentication with BCrypt password hashes.
+- DTO-based request and response contracts.
+- Server-side validation with field-level error messages.
+- Business-rule errors for invalid enum values and invalid state transitions.
+- Transactional marketplace mutations.
+- Public DTOs must not leak private account fields such as email.
+- MySQL runtime support and H2 test profile support.
 
-## Merchant Admin Requirements
+## Frontend Requirements
 
-- Dashboard with revenue periods, total orders, average order value, pending orders, refund requests, low-stock products, best sellers, sales trend, top regions, and customer preferences.
-- Store setup checklist for details, template, products, shipping, preview, and publish state.
-- Store switcher for current merchant store context.
-- Template selector and theme editor for logo text, brand color, font style, hero copy, announcement text, and button style.
-- Product management with create, edit, archive, reactivate, price, compare-at price, stock, size/color options, category assignment, collection assignment, imagery, tags, featured flag, preview link, search, filters, bulk discount, bulk archive, and bulk collection assignment.
-- Collection management with create, edit, imagery, featured flag, status, sort order, date window, and product counts.
-- Category management with create, edit, image, description, active flag, sort order, and safe delete behavior.
-- Promotion management for percentage and fixed-amount discounts targeted to selected products, category, collection, season, or tags with affected-product preview.
-- Order management with customer details, payment status, fulfillment status, refund status, totals, line items, shipping data, search, status filters, and valid status transitions.
-- Refund and support management with status updates and internal notes payload support.
-- Inventory management with warning threshold controls, product-level low-stock thresholds, manual stock adjustments, stock movement history, and replenishment review.
-- Customer records for guest checkout profiles based on email.
-- Analytics for sales periods, sales trend, customer regions, category/size/color preferences, best sellers, repeat customers, and average order value.
+- Vue 3, Vue Router, Pinia, Vue I18n, Axios, and Vite.
+- All API calls go through `frontend/src/api/endpoints.js`.
+- Shared Axios behavior stays in `frontend/src/api/client.js`.
+- Browser storage access stays in `frontend/src/utils/browserStorage.js`.
+- UI workflows surface backend failures instead of silently swallowing them.
+- Filter actions avoid duplicate network requests.
+- Unit tests cover API endpoint contracts, storage resilience, error normalization, formatting, and i18n bundle shape.
 
-## Data Requirements
+## Demo And Production Boundaries
 
-- Merchant account concept.
-- Store/shop concept with slug, category, description, template, brand settings, currency, shipping message, announcement, and publish state.
-- Product catalog, orders, customers, inventory, promotions, analytics, support, and refunds should ultimately be scoped by store.
-- At least 60 original fashion products.
-- At least 10 fashion categories.
-- At least 6 original seasonal collections: Spring Edit, Summer Essentials, Workwear Capsule, Evening Details, Active Weekend, and End of Season Sale.
-- No copyrighted brand names, logos, product photos, or copied product descriptions.
-- Local sample imagery is repository-owned generated demo artwork. Generated merchant storefronts use realistic JPEG assets under `frontend/public/demo-images`; legacy SVG catalog assets remain available for backend seed records and older catalog references.
+- Seeded accounts, categories, and listings are for local development and portfolio preview.
+- Payment endpoints currently represent order-state transitions only. No real card processor is connected.
+- GitHub Pages can serve the static frontend preview but cannot run the Spring Boot API or MySQL database.
+- A production marketplace needs managed hosting, secrets, database backups, rate limits, observability, and a real payment provider before handling real money.
 
-## Non-Goals
+## Non-Goals For Current Codebase
 
-- Real payment processing.
-- Real subdomain provisioning in local development.
-- Full backend migration of every existing catalog/order table to store-scoped queries in the first platform repositioning pass.
-- Customer account passwords and saved addresses.
-- Real carrier rating or label purchase.
-- Production audit logging and fraud controls.
+- Website-builder templates and generated merchant stores.
+- Real subdomain or custom-domain provisioning.
+- Real payment capture, escrow custody, refunds, or fraud controls.
+- Carrier label purchase or live shipping quotes.
+- Production audit logging.
+- Full end-to-end browser test suite in CI.
 
 ## Future Roadmap
 
-- API-backed onboarding and persistent store creation.
-- Store-scoped product, order, customer, promotion, inventory, support, refund, and analytics queries.
-- Custom domains and subdomain routing.
-- Customer accounts and authenticated order history.
-- Real payment provider integration behind explicit configuration.
-- Admin audit trail.
-- Reserved stock and supplier notes.
-- Full E2E test suite in CI.
-- Production observability, backups, rate limiting, and deployment hardening.
+- Persistent media uploads instead of external image URLs.
+- Payment provider integration with webhooks and idempotency.
+- Abuse reporting, moderation queue, and audit log.
+- Inventory reservation timeout jobs.
+- Production rate limiting and queue-backed write bursts.
+- Accessibility and mobile UX audits on every major flow.
+- Full E2E tests for signup, listing, offer, messaging, checkout, and review.

@@ -19,10 +19,12 @@ public class UserService {
         this.currentUserService = currentUserService;
     }
 
+    @Transactional(readOnly = true)
     public UserDtos.UserSummary currentUser() {
         return UserDtos.UserSummary.from(currentUserService.requireCurrentUser());
     }
 
+    @Transactional(readOnly = true)
     public UserDtos.PublicUser getPublicProfile(Long userId) {
         User u = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found."));

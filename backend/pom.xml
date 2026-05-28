@@ -11,8 +11,8 @@
 	<groupId>com.novacart</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>novacart-backend</name>
-	<description>REST API for NovaCart multi-merchant ecommerce website builder</description>
+	<name>renova-backend</name>
+	<description>REST API for the ReNova second-hand marketplace</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>test</scope>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 

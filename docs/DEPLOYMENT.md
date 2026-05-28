@@ -1,6 +1,6 @@
-# NovaCart Deployment Notes
+# ReNova Deployment Notes
 
-NovaCart is a portfolio fashion commerce system. These notes describe safe deployment preparation without exposing real secrets or implying that the demo checkout is a real payment flow.
+ReNova is a portfolio marketplace with a Vue frontend and Spring Boot API. These notes separate the free static preview from a backend-connected deployment so the project does not imply unsupported production capacity.
 
 ## Current Free Preview
 
@@ -8,39 +8,18 @@ Stable GitHub Pages preview:
 
 [https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/](https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/)
 
-This preview is free, stable, and published from the `gh-pages` branch by `.github/workflows/pages.yml`. GitHub Pages serves the static Vue build only; it does not run the Spring Boot API or MySQL database. Use it as the portfolio preview for the platform UI, generated storefronts, cart, demo checkout, template gallery, and account/order mock flows.
+The repository path still contains the old project name, so the Pages URL keeps that path. GitHub Pages serves the static Vue build only; it does not run the Spring Boot API or MySQL database. Any backend-connected marketplace operation needs a deployed API and `VITE_API_BASE_URL`.
 
-GitHub Pages URL:
-
-```text
-https://hannnnnnnny.github.io/NovaCart-Fashion-Commerce-Platform/
-```
-
-If GitHub ever shows a Pages setup prompt, open GitHub repository settings, go to **Pages**, and set **Build and deployment > Source** to **Deploy from a branch**, then choose `gh-pages` and `/ (root)`.
-
-Temporary local tunnel fallback:
-
-[https://bouquet-did-ide-bills.trycloudflare.com](https://bouquet-did-ide-bills.trycloudflare.com)
-
-The tunnel fallback is free, but it is not permanent hosting. It works only while the local Vite server and Cloudflare Quick Tunnel process are running on the developer machine.
-
-Current local tunnel commands:
-
-```powershell
-cd frontend
-npm run dev -- --host 127.0.0.1 --port 5174
-npx cloudflared tunnel --url http://127.0.0.1:5174
-```
+If GitHub shows a Pages setup prompt, open repository settings, go to **Pages**, set **Build and deployment > Source** to **Deploy from a branch**, then choose `gh-pages` and `/ (root)`.
 
 ## Production Checklist
 
-- Replace the default admin password after the first deployment.
 - Set a long random `JWT_SECRET` through the hosting provider secret manager.
 - Use managed MySQL credentials supplied through environment variables.
 - Set `CORS_ALLOWED_ORIGINS` to the deployed frontend origin.
 - Set `VITE_API_BASE_URL` to the deployed backend API root before building the frontend.
 - Configure HTTPS at the platform, load balancer, or reverse proxy layer.
-- Add monitoring, backup, rate limiting, and log retention before real operational use.
+- Add monitoring, backups, rate limiting, and log retention before real operational use.
 - Integrate a payment provider before accepting real paid orders.
 
 ## Docker Compose
@@ -65,19 +44,11 @@ Local container URLs:
 - Backend API: `http://localhost:8080/api`
 - MySQL: `localhost:3306`
 
-The compose file uses local demo credentials only. Edit `.env` before starting Compose if you need different host ports, database credentials, frontend origin, or API URL. The backend container is built with a Maven build image and runs the packaged Spring Boot application on a slim Java runtime image.
-
-Useful validation command:
-
-```bash
-docker compose config
-```
-
-Do not reuse local Docker credentials, JWT secrets, or exposed database ports in production.
+The compose file uses local demo credentials only. Edit `.env` before starting Compose if you need different host ports, database credentials, frontend origin, or API URL.
 
 ## Backend Hosting
 
-Render, Railway, Fly.io, and similar platforms can run the backend as a Java service or Docker container.
+Render, Railway, Fly.io, Azure App Service, AWS ECS, and similar platforms can run the backend as a Java service or Docker container.
 
 Required backend variables:
 
@@ -109,16 +80,6 @@ java -jar backend/target/backend-0.0.1-SNAPSHOT.jar
 
 Vercel, Netlify, Cloudflare Pages, and static hosting platforms can serve the Vite build.
 
-Frontend-only portfolio demo:
-
-- Root directory: `frontend`
-- Build command: `npm run build`
-- Publish/output directory: `dist`
-- Vercel config: `frontend/vercel.json`
-- Netlify config: `frontend/netlify.toml`
-
-The frontend-only deployment supports the generated storefront demos, cart, demo checkout, local order tracking, and most portfolio presentation paths. Admin API calls that require Spring Boot will show unavailable-server messaging until the backend is deployed.
-
 Required frontend variable for a backend-connected deployment:
 
 ```text
@@ -149,6 +110,19 @@ Recommended operational safeguards:
 - Separate databases or schemas for staging and production.
 - Migration strategy before production schema changes.
 
+## 100,000 Concurrent Form Clicks
+
+The repository can prevent obvious application-level mistakes such as duplicate frontend submissions, invalid states, and unsafe API errors. True 100,000-concurrent-click stability requires paid or free-tier-limited infrastructure decisions:
+
+- CDN for static assets.
+- Load-balanced backend replicas.
+- Database connection pooling and managed MySQL sizing.
+- Rate limiting and queueing for bursty writes.
+- Load tests that simulate realistic logged-in traffic.
+- Observability for latency, errors, database pressure, and saturation.
+
+Those services usually cost money once traffic is real. The exact cost depends on provider, region, traffic volume, database size, and uptime target.
+
 ## Payment Limitation
 
-NovaCart checkout creates an order and deducts stock, but no payment provider is connected. A real deployment that accepts payments should add provider-specific checkout sessions, webhook verification, idempotency keys, payment status reconciliation, and secure customer-facing order access.
+ReNova order payment currently records a marketplace state transition. A real deployment that accepts payments should add provider checkout sessions, webhook verification, idempotency keys, payment status reconciliation, refunds, and secure customer-facing order access.

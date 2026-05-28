@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { readStorageItem, removeStorageItem } from '../utils/browserStorage'
 
 const TOKEN_KEY = 'renova.token'
 const DEFAULT_ERROR_MESSAGE = 'The request could not be completed.'
@@ -11,9 +12,11 @@ const apiClient = axios.create({
 })
 
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem(TOKEN_KEY)
+  const token = getStoredAuthToken()
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
+  } else if (config.headers.Authorization) {
+    delete config.headers.Authorization
   }
   return config
 })
@@ -22,11 +25,19 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem(TOKEN_KEY)
+      clearStoredAuthToken()
     }
     return Promise.reject(error)
   }
 )
+
+export function getStoredAuthToken() {
+  return readStorageItem(TOKEN_KEY)
+}
+
+export function clearStoredAuthToken() {
+  removeStorageItem(TOKEN_KEY)
+}
 
 export function unwrap(response) {
   return response.data?.data ?? response.data
@@ -36,12 +47,43 @@ export function apiError(error, fallback = DEFAULT_ERROR_MESSAGE) {
   if (!error.response) {
     return 'Cannot reach the server. Check that the backend is running.'
   }
+
   const data = error.response.data
-  const validation = data?.errors
-  if (Array.isArray(validation) && validation.length) {
-    return validation.map((v) => v.message || v.field).filter(Boolean).join(' • ')
+  const validationMessages = validationErrorMessages(data?.errors)
+  if (validationMessages.length) {
+    return validationMessages.join('; ')
   }
+
   return data?.message || fallback
+}
+
+function validationErrorMessages(errors) {
+  if (Array.isArray(errors)) {
+    return errors.map((error) => fieldErrorMessage(error.field, error.message)).filter(Boolean)
+  }
+
+  if (errors && typeof errors === 'object') {
+    return Object.entries(errors)
+      .map(([field, message]) => fieldErrorMessage(field, message))
+      .filter(Boolean)
+  }
+
+  return []
+}
+
+function fieldErrorMessage(field, message) {
+  if (!message) return field || ''
+  if (!field) return message
+  return `${humanizeField(field)}: ${message}`
+}
+
+function humanizeField(field) {
+  return String(field)
+    .replace(/\[(\d+)\]/g, (_, index) => ` ${Number(index) + 1}`)
+    .replace(/\./g, ' ')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase())
 }
 
 export { TOKEN_KEY }

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: novacart-backend
+    name: renova-backend
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:novacart}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: ${DB_USERNAME:novacart_user}

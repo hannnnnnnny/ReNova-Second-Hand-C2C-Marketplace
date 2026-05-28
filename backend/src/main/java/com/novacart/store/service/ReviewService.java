@@ -74,6 +74,7 @@ public class ReviewService {
         return ReviewDtos.ReviewResponse.from(review);
     }
 
+    @Transactional(readOnly = true)
     public List<ReviewDtos.ReviewResponse> listForUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found."));
@@ -82,6 +83,7 @@ public class ReviewService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<ReviewDtos.ReviewResponse> listForOrder(Long orderId) {
         TradeOrder order = orderService.requireById(orderId);
         return reviewRepository.findByOrder(order).stream()

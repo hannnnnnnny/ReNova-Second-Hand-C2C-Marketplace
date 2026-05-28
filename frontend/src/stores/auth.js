@@ -1,22 +1,14 @@
 import { defineStore } from 'pinia'
 import { authApi } from '../api/endpoints'
 import { TOKEN_KEY } from '../api/client'
+import { readStorageItem, readStorageJson, removeStorageItem, writeStorageItem, writeStorageJson } from '../utils/browserStorage'
 
 const USER_KEY = 'renova.user'
 
-function readUser() {
-  try {
-    const raw = localStorage.getItem(USER_KEY)
-    return raw ? JSON.parse(raw) : null
-  } catch {
-    return null
-  }
-}
-
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: localStorage.getItem(TOKEN_KEY) || '',
-    user: readUser()
+    token: readStorageItem(TOKEN_KEY),
+    user: readStorageJson(USER_KEY)
   }),
   getters: {
     isAuthenticated: (state) => Boolean(state.token && state.user)
@@ -24,14 +16,14 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     persist() {
       if (this.token) {
-        localStorage.setItem(TOKEN_KEY, this.token)
+        writeStorageItem(TOKEN_KEY, this.token)
       } else {
-        localStorage.removeItem(TOKEN_KEY)
+        removeStorageItem(TOKEN_KEY)
       }
       if (this.user) {
-        localStorage.setItem(USER_KEY, JSON.stringify(this.user))
+        writeStorageJson(USER_KEY, this.user)
       } else {
-        localStorage.removeItem(USER_KEY)
+        removeStorageItem(USER_KEY)
       }
     },
     async signup(payload) {

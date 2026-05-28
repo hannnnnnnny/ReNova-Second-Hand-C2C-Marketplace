@@ -33,16 +33,27 @@ async function load() {
     listing.value = await listingApi.get(route.params.id)
     activeImage.value = 0
     if (listing.value?.seller?.id) {
-      try {
-        const more = await userApi.publicListings(listing.value.seller.id, { page: 0, size: 4 })
-        sellerListings.value = (more.content || []).filter((l) => l.id !== listing.value.id).slice(0, 3)
-      } catch {}
+      await loadSellerListings(listing.value.seller.id)
+    } else {
+      sellerListings.value = []
     }
   } catch (err) {
     toast.error(apiError(err))
     router.replace({ name: 'browse' })
   } finally {
     loading.value = false
+  }
+}
+
+async function loadSellerListings(sellerId) {
+  try {
+    const more = await userApi.publicListings(sellerId, { page: 0, size: 4 })
+    sellerListings.value = (more.content || [])
+      .filter((l) => l.id !== listing.value.id)
+      .slice(0, 3)
+  } catch (err) {
+    sellerListings.value = []
+    toast.error(apiError(err, 'More listings from this seller could not be loaded.'))
   }
 }
 

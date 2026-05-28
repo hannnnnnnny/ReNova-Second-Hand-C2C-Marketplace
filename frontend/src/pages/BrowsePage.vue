@@ -32,7 +32,11 @@ const CONDITIONS = ['NEW', 'LIKE_NEW', 'GOOD', 'FAIR', 'FOR_PARTS']
 const SORTS = ['newest', 'price_asc', 'price_desc', 'popular']
 
 async function loadCategories() {
-  try { categories.value = await categoryApi.list() } catch {}
+  try {
+    categories.value = await categoryApi.list()
+  } catch (err) {
+    toast.error(apiError(err, 'Categories could not be loaded.'))
+  }
 }
 
 async function search() {
@@ -61,8 +65,12 @@ async function search() {
 
 function applyFilters() {
   page.value = 0
-  router.replace({ query: cleanQuery() })
-  search()
+  const nextQuery = cleanQuery()
+  if (queriesMatch(route.query, nextQuery)) {
+    search()
+    return
+  }
+  router.replace({ query: nextQuery })
 }
 
 function reset() {
@@ -76,6 +84,17 @@ function cleanQuery() {
     if (v !== '' && v !== null && v !== undefined) q[k] = v
   })
   return q
+}
+
+function queriesMatch(current, next) {
+  const currentEntries = Object.entries(current).filter(([, value]) => value !== undefined)
+  const nextEntries = Object.entries(next)
+  if (currentEntries.length !== nextEntries.length) return false
+  return nextEntries.every(([key, value]) => queryValue(current[key]) === queryValue(value))
+}
+
+function queryValue(value) {
+  return Array.isArray(value) ? value.join(',') : String(value ?? '')
 }
 
 watch(() => route.query, (next) => {

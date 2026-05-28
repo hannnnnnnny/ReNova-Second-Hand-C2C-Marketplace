@@ -13,6 +13,7 @@ import com.novacart.store.exception.ResourceNotFoundException;
 import com.novacart.store.repository.FavoriteRepository;
 import com.novacart.store.repository.ListingRepository;
 import com.novacart.store.security.CurrentUserService;
+import com.novacart.store.util.EnumParsers;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class ListingService {
         this.currentUserService = currentUserService;
     }
 
+    @Transactional(readOnly = true)
     public PageResponse<ListingDtos.ListingSummary> search(
             String keyword,
             Long categoryId,
@@ -54,8 +56,7 @@ public class ListingService {
             int page,
             int size
     ) {
-        ListingCondition cond = condition == null || condition.isBlank() ? null
-                : ListingCondition.valueOf(condition.toUpperCase());
+        ListingCondition cond = EnumParsers.optional(ListingCondition.class, condition, "condition");
         Sort sortObj = switch (sort == null ? "" : sort) {
             case "price_asc" -> Sort.by(Sort.Direction.ASC, "price");
             case "price_desc" -> Sort.by(Sort.Direction.DESC, "price");
@@ -97,7 +98,7 @@ public class ListingService {
         listing.setDescription(request.description().trim());
         listing.setPrice(request.price());
         listing.setOriginalPrice(request.originalPrice());
-        listing.setCondition(ListingCondition.valueOf(request.condition().toUpperCase()));
+        listing.setCondition(EnumParsers.required(ListingCondition.class, request.condition(), "condition"));
         listing.setLocation(request.location());
         listing.setNegotiable(request.negotiable());
         listing.setShippingFee(request.shippingFee() == null ? BigDecimal.ZERO : request.shippingFee());
@@ -123,7 +124,7 @@ public class ListingService {
         if (request.description() != null) listing.setDescription(request.description().trim());
         if (request.price() != null) listing.setPrice(request.price());
         if (request.originalPrice() != null) listing.setOriginalPrice(request.originalPrice());
-        if (request.condition() != null) listing.setCondition(ListingCondition.valueOf(request.condition().toUpperCase()));
+        if (request.condition() != null) listing.setCondition(EnumParsers.required(ListingCondition.class, request.condition(), "condition"));
         if (request.categoryId() != null) listing.setCategory(categoryService.requireById(request.categoryId()));
         if (request.location() != null) listing.setLocation(request.location());
         if (request.negotiable() != null) listing.setNegotiable(request.negotiable());
@@ -133,7 +134,7 @@ public class ListingService {
             listing.getImageUrls().addAll(request.imageUrls());
         }
         if (request.status() != null) {
-            ListingStatus next = ListingStatus.valueOf(request.status().toUpperCase());
+            ListingStatus next = EnumParsers.required(ListingStatus.class, request.status(), "status");
             if (next == ListingStatus.SOLD) {
                 throw new BusinessRuleException("Mark as sold via order completion, not manually.");
             }
@@ -156,6 +157,7 @@ public class ListingService {
         listing.setUpdatedAt(Instant.now());
     }
 
+    @Transactional(readOnly = true)
     public PageResponse<ListingDtos.ListingSummary> mySellerListings(int page, int size) {
         User seller = currentUserService.requireCurrentUser();
         Pageable pageable = PageRequest.of(Math.max(0, page), Math.min(60, Math.max(1, size)));
@@ -163,6 +165,7 @@ public class ListingService {
         return PageResponse.from(result.map(ListingDtos.ListingSummary::from));
     }
 
+    @Transactional(readOnly = true)
     public PageResponse<ListingDtos.ListingSummary> publicSellerListings(User seller, int page, int size) {
         Pageable pageable = PageRequest.of(Math.max(0, page), Math.min(60, Math.max(1, size)));
         Page<Listing> result = listingRepository.findBySellerAndStatusOrderByCreatedAtDesc(seller, ListingStatus.ACTIVE, pageable);
@@ -183,6 +186,7 @@ public class ListingService {
         }
     }
 
+    @Transactional(readOnly = true)
     public PageResponse<ListingDtos.ListingSummary> myFavorites(int page, int size) {
         User current = currentUserService.requireCurrentUser();
         Pageable pageable = PageRequest.of(Math.max(0, page), Math.min(60, Math.max(1, size)));
@@ -192,6 +196,7 @@ public class ListingService {
         );
     }
 
+    @Transactional(readOnly = true)
     public Listing requireById(Long id) {
         return listingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Listing not found."));

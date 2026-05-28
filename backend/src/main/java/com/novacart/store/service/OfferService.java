@@ -148,6 +148,7 @@ public class OfferService {
         return OfferDtos.OfferResponse.from(offer);
     }
 
+    @Transactional(readOnly = true)
     public PageResponse<OfferDtos.OfferResponse> receivedOffers(int page, int size) {
         User seller = currentUserService.requireCurrentUser();
         Pageable pageable = PageRequest.of(Math.max(0, page), Math.min(60, Math.max(1, size)));
@@ -155,6 +156,7 @@ public class OfferService {
         return PageResponse.from(result.map(OfferDtos.OfferResponse::from));
     }
 
+    @Transactional(readOnly = true)
     public PageResponse<OfferDtos.OfferResponse> sentOffers(int page, int size) {
         User buyer = currentUserService.requireCurrentUser();
         Pageable pageable = PageRequest.of(Math.max(0, page), Math.min(60, Math.max(1, size)));
@@ -162,6 +164,7 @@ public class OfferService {
         return PageResponse.from(result.map(OfferDtos.OfferResponse::from));
     }
 
+    @Transactional(readOnly = true)
     public Offer requireById(Long id) {
         return offerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Offer not found."));

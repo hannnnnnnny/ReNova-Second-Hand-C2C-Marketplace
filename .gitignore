@@ -60,3 +60,6 @@ pnpm-debug.log*
 # Build artifacts
 backend/target/
 frontend/dist/
+
+# Local Claude Code dev-tool config
+.claude/

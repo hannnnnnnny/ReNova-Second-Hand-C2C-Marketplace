@@ -1,0 +1,25 @@
+# Demo profile: self-contained, no external DB, no committed secret.
+# A fresh random JWT_SECRET is generated per JVM by DemoJwtSecret
+# (an EnvironmentPostProcessor) unless the operator explicitly sets one.
+spring:
+  datasource:
+    url: jdbc:h2:mem:renova_demo;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+
+novacart:
+  security:
+    # No default value here. DemoJwtSecret fills this with a random
+    # 384-bit value at startup if JWT_SECRET is unset.
+    jwt-secret: ${JWT_SECRET:}
+    jwt-expiration-minutes: ${JWT_EXPIRATION_MINUTES:480}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}

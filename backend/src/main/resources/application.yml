@@ -3,8 +3,8 @@ spring:
     name: renova-backend
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:novacart}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: ${DB_USERNAME:novacart_user}
-    password: ${DB_PASSWORD:novacart_password}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -24,9 +24,12 @@ management:
       exposure:
         include: health,info
 
+# JWT_SECRET, DB_USERNAME and DB_PASSWORD have NO defaults on purpose.
+# JwtSecretGuard refuses to start outside dev/test/demo profiles unless
+# JWT_SECRET is a real, 32+ byte, non-placeholder value.
 novacart:
   security:
-    jwt-secret: ${JWT_SECRET:change-this-development-secret-to-a-long-random-value}
+    jwt-secret: ${JWT_SECRET}
     jwt-expiration-minutes: ${JWT_EXPIRATION_MINUTES:120}
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}

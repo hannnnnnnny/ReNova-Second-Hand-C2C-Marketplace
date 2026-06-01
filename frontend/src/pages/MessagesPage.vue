@@ -330,8 +330,8 @@ onMounted(async () => {
 .compose-section { display: flex; flex-direction: column; }
 .compose-anchor {
   display: flex; align-items: center; gap: 14px;
-  border: 1px solid var(--border, #e6e2da);
-  background: var(--card-bg, #fff);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
   border-radius: 14px;
   padding: 12px 14px;
 }
@@ -348,16 +348,16 @@ onMounted(async () => {
 .compose-other-card {
   flex: 0 0 130px;
   display: flex; flex-direction: column; gap: 4px;
-  background: var(--card-bg, #fff);
-  border: 1.5px solid var(--border, #e6e2da);
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border-strong);
   border-radius: 12px;
   padding: 8px;
   cursor: pointer;
   text-align: left;
   transition: border-color 120ms, transform 120ms;
 }
-.compose-other-card:hover { border-color: var(--brand, #2c6f47); transform: translateY(-1px); }
-.compose-other-card.is-active { border-color: var(--brand, #2c6f47); box-shadow: 0 0 0 3px rgba(44, 111, 71, 0.15); }
+.compose-other-card:hover { border-color: var(--primary); transform: translateY(-1px); }
+.compose-other-card.is-active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(76, 175, 108, 0.20); }
 .compose-other-card.is-pinned { border-style: dashed; }
 .compose-other-card .thumb {
   width: 100%; aspect-ratio: 1; border-radius: 8px;

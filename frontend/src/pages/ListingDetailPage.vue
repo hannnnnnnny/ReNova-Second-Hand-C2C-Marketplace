@@ -2,7 +2,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import { listingApi, offerApi, conversationApi, userApi } from '../api/endpoints'
+import { listingApi, offerApi, userApi } from '../api/endpoints'
 import { useAuthStore } from '../stores/auth'
 import { useToastStore } from '../stores/toast'
 import { apiError } from '../api/client'
@@ -21,10 +21,8 @@ const listing = ref(null)
 const loading = ref(true)
 const activeImage = ref(0)
 const showOfferModal = ref(false)
-const showMessageModal = ref(false)
 const offerAmount = ref('')
 const offerMessage = ref('')
-const initialMessage = ref('')
 const sellerListings = ref([])
 
 async function load() {
@@ -91,17 +89,10 @@ async function submitOffer() {
 
 function openMessage() {
   if (!auth.isAuthenticated) { router.push({ name: 'login' }); return }
-  initialMessage.value = ''
-  showMessageModal.value = true
-}
-
-async function sendMessage() {
-  if (!initialMessage.value.trim()) return
-  try {
-    const detail = await conversationApi.start({ listingId: listing.value.id, body: initialMessage.value })
-    showMessageModal.value = false
-    router.push({ name: 'conversation', params: { id: detail.conversation.id } })
-  } catch (err) { toast.error(apiError(err)) }
+  // Route to the dedicated compose page. It loads the listing again,
+  // pulls the seller's other items, and lets the buyer pick which one
+  // to actually ask about before sending — replaces the old inline modal.
+  router.push({ name: 'compose-message', query: { listingId: listing.value.id } })
 }
 
 function checkout() {
@@ -210,17 +201,5 @@ function checkout() {
       </div>
     </div>
 
-    <div v-if="showMessageModal" class="modal-overlay" @click.self="showMessageModal = false">
-      <div class="modal">
-        <h3 style="margin-bottom: 16px">{{ t('listing.messageSeller') }}</h3>
-        <div class="field">
-          <textarea class="textarea" v-model="initialMessage" :placeholder="t('chat.placeholder')" maxlength="2000"></textarea>
-        </div>
-        <div class="row" style="justify-content: flex-end">
-          <button class="btn btn-ghost" @click="showMessageModal = false" type="button">{{ t('common.cancel') }}</button>
-          <button class="btn btn-primary" @click="sendMessage" type="button">{{ t('common.send') }}</button>
-        </div>
-      </div>
-    </div>
   </main>
 </template>

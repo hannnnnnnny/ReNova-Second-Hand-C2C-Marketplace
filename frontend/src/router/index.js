@@ -38,6 +38,7 @@ const router = createRouter({
         { path: 'my/favorites', name: 'favorites', component: FavoritesPage, meta: { requiresAuth: true } },
         { path: 'my/offers', name: 'offers', component: OffersPage, meta: { requiresAuth: true } },
         { path: 'messages', name: 'messages', component: MessagesPage, meta: { requiresAuth: true } },
+        { path: 'messages/new', name: 'compose-message', component: MessagesPage, meta: { requiresAuth: true } },
         { path: 'messages/:id', name: 'conversation', component: MessagesPage, props: true, meta: { requiresAuth: true } },
         { path: 'orders', name: 'orders', component: OrdersPage, meta: { requiresAuth: true } },
         { path: 'orders/:id', name: 'order-detail', component: OrderDetailPage, props: true, meta: { requiresAuth: true } },

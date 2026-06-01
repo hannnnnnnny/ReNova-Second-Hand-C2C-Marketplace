@@ -187,7 +187,16 @@ export const messages = {
       title: 'Messages',
       placeholder: 'Write a message…',
       empty: 'No conversations yet. Message a seller from any listing.',
-      role: { BUYER: 'You are buying', SELLER: 'You are selling' }
+      role: { BUYER: 'You are buying', SELLER: 'You are selling' },
+      composeTitle: 'Message {name}',
+      aboutThisListing: 'About this listing',
+      switchListing: '{name} has other items — pick a different one to ask about',
+      otherListingsFrom: 'Other items from {name}',
+      noOtherListings: 'No other active listings.',
+      composeHint: 'Tell them why you\'re interested — ask about condition, shipping, or a price.',
+      back: '← Back to messages',
+      switched: 'Now asking about: {title}',
+      startConversation: 'Send & open chat'
     },
     checkout: {
       title: 'Checkout',
@@ -433,7 +442,16 @@ export const messages = {
       title: '私信',
       placeholder: '输入消息…',
       empty: '还没有会话。在物品页面里点击「私信卖家」就能开始。',
-      role: { BUYER: '我在买', SELLER: '我在卖' }
+      role: { BUYER: '我在买', SELLER: '我在卖' },
+      composeTitle: '私信 {name}',
+      aboutThisListing: '关于这件物品',
+      switchListing: '{name} 还在卖其他东西 —— 也可以改问别的',
+      otherListingsFrom: '{name} 的其他在售',
+      noOtherListings: '暂无其他在售物品。',
+      composeHint: '说一下感兴趣的点 —— 成色、邮寄、还是想砍个价。',
+      back: '← 返回消息列表',
+      switched: '现在咨询的是：{title}',
+      startConversation: '发送并打开会话'
     },
     checkout: {
       title: '结算',

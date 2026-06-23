@@ -25,11 +25,6 @@ async function submit() {
     router.push(redirect)
   } catch (err) { toast.error(apiError(err)) } finally { submitting.value = false }
 }
-
-function tryDemo(account) {
-  email.value = account
-  password.value = 'DemoPassword1!'
-}
 </script>
 
 <template>
@@ -48,13 +43,6 @@ function tryDemo(account) {
         </div>
         <button class="btn btn-primary btn-lg btn-block" :disabled="submitting" type="submit">{{ submitting ? t('common.loading') : t('common.login') }}</button>
       </form>
-
-      <div class="divider"></div>
-      <p class="muted text-center" style="font-size: 13px; margin-bottom: 8px">Demo accounts (password <code>DemoPassword1!</code>)</p>
-      <div class="row-wrap" style="justify-content: center; gap: 6px">
-        <button class="btn btn-ghost btn-sm" type="button" @click="tryDemo('ava@renova.local')">ava@renova.local</button>
-        <button class="btn btn-ghost btn-sm" type="button" @click="tryDemo('liam@renova.local')">liam@renova.local</button>
-      </div>
 
       <p class="text-center muted" style="margin-top: 20px; font-size: 13px">{{ t('auth.noAccount') }} <RouterLink :to="{ name: 'signup' }" class="bold" style="color: var(--primary-strong)">{{ t('auth.createAccount') }}</RouterLink></p>
     </div>

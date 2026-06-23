@@ -6,6 +6,7 @@ import com.novacart.store.entity.ListingCondition;
 import com.novacart.store.entity.ListingStatus;
 import com.novacart.store.entity.User;
 import com.novacart.store.entity.UserRole;
+import com.novacart.store.entity.UserStatus;
 import com.novacart.store.repository.CategoryRepository;
 import com.novacart.store.repository.ListingRepository;
 import com.novacart.store.repository.UserRepository;
@@ -14,74 +15,72 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Component
+@Profile("demo")
+@DependsOn("categoryDataInitializer")
 public class DataInitializer {
 
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final ListingRepository listingRepository;
     private final PasswordEncoder passwordEncoder;
+    private final String demoPassword;
 
     public DataInitializer(
             UserRepository userRepository,
             CategoryRepository categoryRepository,
             ListingRepository listingRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            @Value("${RENOVA_DEMO_PASSWORD}") String demoPassword
     ) {
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.listingRepository = listingRepository;
         this.passwordEncoder = passwordEncoder;
+        Assert.hasText(demoPassword, "RENOVA_DEMO_PASSWORD is required when the demo profile is active.");
+        Assert.isTrue(demoPassword.length() >= 12, "RENOVA_DEMO_PASSWORD must contain at least 12 characters.");
+        this.demoPassword = demoPassword;
     }
 
     @PostConstruct
     @Transactional
     public void seed() {
-        seedCategories();
         seedUsers();
         seedListings();
     }
 
-    private void seedCategories() {
-        if (categoryRepository.count() > 0) return;
-        List<Category> categories = List.of(
-                new Category("Electronics", "electronics", "💻", 1),
-                new Category("Fashion", "fashion", "👕", 2),
-                new Category("Home & Living", "home", "🏠", 3),
-                new Category("Books & Media", "books", "📚", 4),
-                new Category("Sports & Outdoors", "sports", "⚽", 5),
-                new Category("Toys & Games", "toys", "🎮", 6),
-                new Category("Beauty", "beauty", "💄", 7),
-                new Category("Collectibles", "collectibles", "🎯", 8),
-                new Category("Other", "other", "📦", 99)
-        );
-        categoryRepository.saveAll(categories);
-    }
-
     private void seedUsers() {
-        ensureUser("admin@renova.local", "ReNova Admin", "Demo Admin123!", UserRole.ADMIN, "Headquarters");
-        ensureUser("ava@renova.local", "Ava Chen", "DemoPassword1!", UserRole.USER, "San Francisco, CA");
-        ensureUser("liam@renova.local", "Liam Park", "DemoPassword1!", UserRole.USER, "Brooklyn, NY");
-        ensureUser("nora@renova.local", "Nora Kapoor", "DemoPassword1!", UserRole.USER, "Austin, TX");
-        ensureUser("sam@renova.local", "Sam Reyes", "DemoPassword1!", UserRole.USER, "Seattle, WA");
+        ensureUser("ava@renova.local", "Ava Chen", demoPassword, UserRole.USER, "San Francisco, CA");
+        ensureUser("liam@renova.local", "Liam Park", demoPassword, UserRole.USER, "Brooklyn, NY");
+        ensureUser("nora@renova.local", "Nora Kapoor", demoPassword, UserRole.USER, "Austin, TX");
+        ensureUser("sam@renova.local", "Sam Reyes", demoPassword, UserRole.USER, "Seattle, WA");
+        userRepository.findByEmailIgnoreCase("admin@renova.local")
+                .ifPresent(user -> {
+                    user.setStatus(UserStatus.DEACTIVATED);
+                    userRepository.save(user);
+                });
     }
 
     private User ensureUser(String email, String displayName, String password, UserRole role, String location) {
-        return userRepository.findByEmailIgnoreCase(email).orElseGet(() -> {
-            User user = new User();
-            user.setEmail(email);
-            user.setDisplayName(displayName);
-            user.setPasswordHash(passwordEncoder.encode(password));
-            user.setLocation(location);
-            user.setRole(role);
-            user.setBio("Hi, I'm " + displayName.split(" ")[0] + " on ReNova.");
-            user.setCreatedAt(Instant.now());
-            return userRepository.save(user);
-        });
+        User user = userRepository.findByEmailIgnoreCase(email).orElseGet(User::new);
+        user.setEmail(email);
+        user.setDisplayName(displayName);
+        user.setPasswordHash(passwordEncoder.encode(password));
+        user.setLocation(location);
+        user.setRole(role);
+        user.setStatus(UserStatus.ACTIVE);
+        user.setBio("Hi, I'm " + displayName.split(" ")[0] + " on ReNova.");
+        user.setCreatedAt(Optional.ofNullable(user.getCreatedAt()).orElseGet(Instant::now));
+        return userRepository.save(user);
     }
 
     private void seedListings() {

@@ -18,17 +18,13 @@ The frontend is bilingual (English / 简体中文) with a live language switcher
 - **Favorites** list of saved items
 - **Edit / remove** your own listings; archive sold ones
 
-## Demo accounts (seeded on first launch)
+## Accounts and optional demo data
 
-| Email | Password | Notes |
-|---|---|---|
-| `ava@renova.local` | `DemoPassword1!` | Sample seller |
-| `liam@renova.local` | `DemoPassword1!` | Sample seller |
-| `nora@renova.local` | `DemoPassword1!` | Sample seller |
-| `sam@renova.local`  | `DemoPassword1!` | Sample seller |
-| `admin@renova.local` | `Demo Admin123!` | Admin role (no admin UI surface yet) |
+Normal startup creates no user or admin accounts. Register through the application to create an account with a BCrypt password hash.
 
-You can also sign up fresh — accounts are created in two seconds.
+Sample sellers and listings are available only with the explicit `demo` Spring profile. The operator must supply `RENOVA_DEMO_PASSWORD` at runtime; the repository contains no default or displayed demo password.
+
+Known accounts from earlier demo builds are automatically deactivated outside the `demo` profile so an existing database cannot retain the old public credentials.
 
 ## Architecture
 
@@ -38,7 +34,7 @@ You can also sign up fresh — accounts are created in two seconds.
 - **Auth**: BCrypt + JWT, stateless `SecurityFilterChain`, `AppUserDetailsService` reads from `users` table, `CurrentUserService` injects the authenticated user into services
 - **Services**: `AuthService`, `ListingService`, `OfferService`, `MessagingService`, `OrderService`, `ReviewService`, `UserService`, `CategoryService`
 - **REST endpoints**: `/api/auth/*`, `/api/public/listings`, `/api/listings/*`, `/api/offers/*`, `/api/conversations/*`, `/api/orders/*`, `/api/reviews`, `/api/public/users/*`, `/api/users/me`, `/api/public/categories`
-- **Data seeding**: `DataInitializer` populates categories, demo users, and ~8 starter listings on first boot if the tables are empty
+- **Data seeding**: categories are initialized without credentials; sample sellers and listings require the explicit `demo` profile and an environment-supplied password
 - **Validation**: Jakarta Bean Validation on every DTO, global `@RestControllerAdvice` shaped to a stable error envelope
 
 ### Frontend (Vue 3 + Vite + Pinia + vue-router + vue-i18n)
@@ -84,7 +80,7 @@ cd backend
 .\mvnw.cmd spring-boot:run
 ```
 
-Default base URL: `http://localhost:8080`. The first launch seeds categories, users, and listings.
+Default base URL: `http://localhost:8080`. The first launch seeds non-sensitive categories only.
 
 Run tests:
 

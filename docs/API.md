@@ -47,7 +47,7 @@ Validation errors include field-level messages. Invalid enum values return a `40
 {
   "email": "seller@example.com",
   "displayName": "Morgan Lee",
-  "password": "StrongPassword1!",
+  "password": "<your-password>",
   "location": "Auckland, NZ"
 }
 ```
@@ -58,8 +58,8 @@ Validation errors include field-level messages. Invalid enum values return a `40
 
 ```json
 {
-  "email": "ava@renova.local",
-  "password": "DemoPassword1!"
+  "email": "seller@example.com",
+  "password": "<your-password>"
 }
 ```
 

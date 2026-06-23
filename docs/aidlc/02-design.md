@@ -1,6 +1,6 @@
 # ReNova AIDLC Stage 2: Design
 
-Status: Proposed for approval
+Status: Accepted
 
 Date: 2026-06-24
 

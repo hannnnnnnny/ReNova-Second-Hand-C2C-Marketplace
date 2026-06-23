@@ -11,7 +11,7 @@ The backend module contains the Spring Boot REST API for ReNova, a second-hand m
 - MySQL runtime persistence with H2 test profile support.
 - JWT authentication for protected marketplace APIs.
 - BCrypt password hashing for user accounts.
-- Seed data for local categories, demo users, and realistic starter listings.
+- Non-sensitive category seed data; optional sample sellers/listings require the explicit `demo` profile and an environment-supplied password.
 - Server-side listing search, filtering, sorting, and pagination.
 - Transactional listing, offer, order, and review business rules.
 - Global exception handling with consistent English JSON error responses.
@@ -87,7 +87,8 @@ Tests use `application-test.yml`, H2 in MySQL compatibility mode, and the `test`
 
 ## Security Notes
 
-- Seeded demo accounts are for local development only.
+- Normal startup creates no user or admin accounts. Never expose the optional demo profile on a public deployment.
+- Known accounts from earlier demo builds are automatically deactivated outside the `demo` profile.
 - Replace `JWT_SECRET` with a long, random production secret.
 - Keep database credentials, JWT secrets, and deployment settings out of version control.
 - This backend does not process real card payments. Payment endpoints currently move marketplace order state only.

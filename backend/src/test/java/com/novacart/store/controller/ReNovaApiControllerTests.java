@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,9 +27,6 @@ import tools.jackson.databind.ObjectMapper;
 @ActiveProfiles("test")
 class ReNovaApiControllerTests {
 
-    private static final String DEMO_EMAIL = "ava@renova.local";
-    private static final String DEMO_PASSWORD = "DemoPassword1!";
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -36,7 +34,7 @@ class ReNovaApiControllerTests {
     private ObjectMapper objectMapper;
 
     @Test
-    void publicCatalogReadsSeededDataFromTheBackend() throws Exception {
+    void publicCatalogReadsDatabaseBackedCategoriesAndListings() throws Exception {
         mockMvc.perform(get("/api/public/categories"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -46,9 +44,7 @@ class ReNovaApiControllerTests {
         mockMvc.perform(get("/api/public/listings").param("size", "3"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.content").isArray())
-                .andExpect(jsonPath("$.data.content[0].seller.displayName").isString())
-                .andExpect(jsonPath("$.data.content[0].category.name").isString());
+                .andExpect(jsonPath("$.data.content").isArray());
     }
 
     @Test
@@ -77,12 +73,13 @@ class ReNovaApiControllerTests {
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.message").value("Authentication is required."));
 
-        String token = login(DEMO_EMAIL, DEMO_PASSWORD);
+        TestAccount account = register("Session Test User");
+        String token = login(account.email(), account.password());
 
         mockMvc.perform(get("/api/auth/me").header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.email").value(DEMO_EMAIL))
-                .andExpect(jsonPath("$.data.displayName").value("Ava Chen"));
+                .andExpect(jsonPath("$.data.email").value(account.email()))
+                .andExpect(jsonPath("$.data.displayName").value(account.displayName()));
     }
 
     @Test
@@ -103,7 +100,8 @@ class ReNovaApiControllerTests {
                         .content(objectMapper.writeValueAsString(payload)))
                 .andExpect(status().isUnauthorized());
 
-        String token = login(DEMO_EMAIL, DEMO_PASSWORD);
+        TestAccount account = register("Listing Test User");
+        String token = login(account.email(), account.password());
 
         mockMvc.perform(post("/api/listings")
                         .header("Authorization", "Bearer " + token)
@@ -114,7 +112,26 @@ class ReNovaApiControllerTests {
                 .andExpect(jsonPath("$.data.id").isNumber())
                 .andExpect(jsonPath("$.data.title").value("Test ReNova lamp"))
                 .andExpect(jsonPath("$.data.seller.email").doesNotExist())
-                .andExpect(jsonPath("$.data.seller.displayName").value("Ava Chen"));
+                .andExpect(jsonPath("$.data.seller.displayName").value(account.displayName()));
+    }
+
+    private TestAccount register(String displayName) throws Exception {
+        String email = "account." + UUID.randomUUID() + "@example.test";
+        String password = "T!" + UUID.randomUUID() + "a1";
+
+        mockMvc.perform(post("/api/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(Map.of(
+                                "email", email,
+                                "displayName", displayName,
+                                "password", password,
+                                "location", "Test City"
+                        ))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.password").doesNotExist())
+                .andExpect(jsonPath("$.data.passwordHash").doesNotExist());
+
+        return new TestAccount(email, password, displayName);
     }
 
     private String login(String email, String password) throws Exception {
@@ -140,4 +157,6 @@ class ReNovaApiControllerTests {
         JsonNode root = objectMapper.readTree(result.getResponse().getContentAsString());
         return root.path("data").get(0).path("id").asLong();
     }
+
+    private record TestAccount(String email, String password, String displayName) {}
 }

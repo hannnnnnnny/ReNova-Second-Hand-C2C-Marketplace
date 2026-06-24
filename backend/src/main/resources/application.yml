@@ -3,8 +3,8 @@ spring:
     name: renova-backend
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:novacart}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: ${DB_USERNAME:novacart_user}
-    password: ${DB_PASSWORD:novacart_password}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -26,7 +26,7 @@ management:
 
 novacart:
   security:
-    jwt-secret: ${JWT_SECRET:change-this-development-secret-to-a-long-random-value}
+    jwt-secret: ${JWT_SECRET}
     jwt-expiration-minutes: ${JWT_EXPIRATION_MINUTES:120}
     cookie-secure: ${SESSION_COOKIE_SECURE:false}
   cors:

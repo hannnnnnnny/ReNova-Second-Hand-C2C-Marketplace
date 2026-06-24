@@ -1,6 +1,6 @@
 # ReNova API Reference
 
-ReNova exposes a REST JSON API under `/api`. Public discovery endpoints are open. Marketplace actions that affect a user account, listing, offer, conversation, order, or review require `Authorization: Bearer <token>`.
+ReNova exposes a REST JSON API under `/api`. Public discovery endpoints are open. Marketplace actions require the signed `RENOVA_SESSION` HttpOnly cookie. State-changing requests also require the `XSRF-TOKEN` cookie value in the `X-XSRF-TOKEN` header.
 
 The frontend API layer in `frontend/src/api/endpoints.js` maps directly to these routes. There are no frontend mock fallbacks for marketplace trading flows.
 
@@ -63,13 +63,25 @@ Validation errors include field-level messages. Invalid enum values return a `40
 }
 ```
 
-Returns a JWT, expiration metadata, and the authenticated user summary.
+Sets the HttpOnly session cookie and returns expiration metadata plus the authenticated user summary. The JWT is never returned in JSON.
+
+### CSRF Token
+
+`GET /api/auth/csrf`
+
+Issues the readable `XSRF-TOKEN` cookie used by browser clients. Axios sends its value as `X-XSRF-TOKEN` on writes.
 
 ### Current Session
 
 `GET /api/auth/me`
 
-Requires a bearer token.
+Requires the valid session cookie.
+
+### Log Out
+
+`POST /api/auth/logout`
+
+Expires the server-authentication cookie and requires a valid CSRF token.
 
 ## Public Catalog
 
@@ -211,6 +223,6 @@ Reviews can be created after an order is completed and are tied to buyer/seller 
 
 - Runtime database: MySQL.
 - Test database: H2 in MySQL compatibility mode.
-- Authentication: stateless JWT plus BCrypt password hashes.
+- Authentication: stateless JWT in an HttpOnly cookie, SPA CSRF protection, and BCrypt password hashes.
 - Public seed data exists for local development and portfolio preview only.
 - High concurrency requires deployment support: CDN, load balancer, horizontal backend replicas, database sizing, queue/rate-limit strategy, observability, and load testing.

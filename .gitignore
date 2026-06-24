@@ -57,6 +57,14 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
+# Private keys and credential stores
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
 # Build artifacts
 backend/target/
 frontend/dist/

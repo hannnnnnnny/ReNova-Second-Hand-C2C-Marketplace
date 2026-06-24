@@ -44,7 +44,7 @@ Local container URLs:
 - Backend API: `http://localhost:8080/api`
 - MySQL: `localhost:3306`
 
-The compose file uses local demo credentials only. Edit `.env` before starting Compose if you need different host ports, database credentials, frontend origin, or API URL.
+Compose refuses to start until `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_ROOT_PASSWORD`, and `JWT_SECRET` are filled in the ignored `.env` file. Do not use production credentials for local preview.
 
 ## Backend Hosting
 
@@ -60,6 +60,7 @@ DB_USERNAME=
 DB_PASSWORD=
 JWT_SECRET=
 JWT_EXPIRATION_MINUTES=120
+SESSION_COOKIE_SECURE=true
 CORS_ALLOWED_ORIGINS=https://your-frontend-domain.example
 SERVER_PORT=8080
 ```
@@ -83,7 +84,7 @@ Vercel, Netlify, Cloudflare Pages, and static hosting platforms can serve the Vi
 Required frontend variable for a backend-connected deployment:
 
 ```text
-VITE_API_BASE_URL=https://your-backend-domain.example/api
+VITE_API_BASE_URL=/api
 ```
 
 Build command:

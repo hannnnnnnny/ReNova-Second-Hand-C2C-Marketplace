@@ -31,7 +31,7 @@ Known accounts from earlier demo builds are automatically deactivated outside th
 ### Backend (Spring Boot 4, Java 21, MySQL)
 
 - **Entities**: `User`, `Category`, `Listing` (with `ListingCondition` + `ListingStatus`), `Favorite`, `Offer` (with counter-offer chains), `Conversation` + `Message`, `TradeOrder` (escrow state machine), `Review`
-- **Auth**: BCrypt + JWT, stateless `SecurityFilterChain`, `AppUserDetailsService` reads from `users` table, `CurrentUserService` injects the authenticated user into services
+- **Auth**: BCrypt + JWT in an HttpOnly cookie, SPA CSRF protection, stateless `SecurityFilterChain`, and actor-scoped repository queries
 - **Services**: `AuthService`, `ListingService`, `OfferService`, `MessagingService`, `OrderService`, `ReviewService`, `UserService`, `CategoryService`
 - **REST endpoints**: `/api/auth/*`, `/api/public/listings`, `/api/listings/*`, `/api/offers/*`, `/api/conversations/*`, `/api/orders/*`, `/api/reviews`, `/api/public/users/*`, `/api/users/me`, `/api/public/categories`
 - **Data seeding**: categories are initialized without credentials; sample sellers and listings require the explicit `demo` profile and an environment-supplied password
@@ -40,7 +40,7 @@ Known accounts from earlier demo builds are automatically deactivated outside th
 ### Frontend (Vue 3 + Vite + Pinia + vue-router + vue-i18n)
 
 - **i18n**: full `en` and `zh` translation sets; locale switch in the topbar persists to `localStorage`
-- **State**: `auth` (JWT + user) and `toast` Pinia stores; the auth store transparently persists across reloads
+- **State**: in-memory authenticated user plus toast state; the session survives reloads in an HttpOnly cookie that JavaScript cannot read
 - **Pages** (16): Home, Browse, ListingDetail, PostListing, EditListing, MyListings, Favorites, Offers, Messages, Orders, OrderDetail, Checkout, Profile (public), MyProfile, Login, Signup, NotFound
 - **Components**: `AppHeader` (search bar, unread badge, account menu), `AppFooter`, `LocaleSwitcher`, `ListingCard`, `Avatar`, `Stars`, `StarInput`, `ToastContainer`
 - **Design system**: hand-rolled CSS tokens (Fraunces serif display + Inter body), warm off-white palette, single global stylesheet, no Tailwind / UI kit dependencies
@@ -77,6 +77,9 @@ flowchart LR
 
 ```powershell
 cd backend
+$env:DB_USERNAME = "renova_app"
+$env:DB_PASSWORD = "<your-local-database-password>"
+$env:JWT_SECRET = "<your-random-signing-secret-of-at-least-48-characters>"
 .\mvnw.cmd spring-boot:run
 ```
 
@@ -108,31 +111,32 @@ npm run build
 
 ## Environment
 
-Backend (defaults work locally without overrides):
+Backend (database credentials and JWT signing secret are required):
 
 ```text
 DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=novacart
-DB_USERNAME=novacart_user
-DB_PASSWORD=novacart_password
-JWT_SECRET=replace-with-a-long-random-secret
+DB_USERNAME=
+DB_PASSWORD=
+JWT_SECRET=
 JWT_EXPIRATION_MINUTES=120
+SESSION_COOKIE_SECURE=false
 CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 ```
 
 Frontend:
 
 ```text
-VITE_API_BASE_URL=http://localhost:8080/api
+VITE_API_BASE_URL=/api
 ```
 
 ## MySQL bootstrap
 
 ```sql
 CREATE DATABASE novacart CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'novacart_user'@'localhost' IDENTIFIED BY 'novacart_password';
-GRANT ALL PRIVILEGES ON novacart.* TO 'novacart_user'@'localhost';
+CREATE USER 'renova_app'@'localhost' IDENTIFIED BY '<choose-a-unique-password>';
+GRANT ALL PRIVILEGES ON novacart.* TO 'renova_app'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -140,7 +144,9 @@ FLUSH PRIVILEGES;
 
 ## Security notes
 
-- All admin endpoints require `Authorization: Bearer <jwt>`; public endpoints sit under `/api/public/*` and `/api/auth/*`
+- Authentication uses an HttpOnly `RENOVA_SESSION` cookie; state-changing requests also require the `XSRF-TOKEN` cookie value in `X-XSRF-TOKEN`
+- `/api/admin/**` requires the server-side `ADMIN` role; listing, offer, order, review, and conversation access is enforced server-side
+- Set `SESSION_COOKIE_SECURE=true` behind production HTTPS
 - Passwords stored only as BCrypt hashes; never returned in responses
 - Listings and offers enforce ownership at the service layer (a buyer can never modify a seller's listing and vice versa)
 - This is a portfolio demo — **no real payments are processed**. The "pay" action is a demo state transition.

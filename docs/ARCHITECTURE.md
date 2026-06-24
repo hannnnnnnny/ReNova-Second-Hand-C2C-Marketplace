@@ -17,7 +17,7 @@ flowchart LR
   RestApi --> Services["Transactional Services"]
   Services --> Repositories["Spring Data JPA"]
   Repositories --> Database["MySQL Runtime / H2 Tests"]
-  RestApi --> Security["JWT, BCrypt, CORS"]
+  RestApi --> Security["HttpOnly JWT, CSRF, BCrypt, CORS"]
 ```
 
 ## Backend Layers
@@ -27,7 +27,7 @@ flowchart LR
 - `service`: Transactional business rules, ownership checks, marketplace state changes, and DTO mapping.
 - `repository`: Spring Data JPA access for users, categories, listings, favorites, offers, conversations, messages, orders, and reviews.
 - `entity`: JPA models for marketplace users, listings, categories, offers, orders, reviews, and messaging.
-- `security`: JWT generation, bearer-token parsing, current-user lookup, and security filter integration.
+- `security`: JWT generation, HttpOnly session-cookie parsing, current-user lookup, and security filter integration.
 - `exception`: Domain exceptions and JSON error normalization.
 - `config`: Security, CORS, password encoding, and local seed data.
 - `util`: Shared infrastructure helpers such as enum parsing for stable API errors.
@@ -46,10 +46,11 @@ flowchart LR
 ## Authentication Flow
 
 1. A user signs up or logs in through `/api/auth/signup` or `/api/auth/login`.
-2. The backend verifies credentials with BCrypt and returns a JWT.
-3. The frontend stores the token and user summary through `browserStorage`, then sends `Authorization: Bearer <token>` through the Axios interceptor.
-4. Protected backend routes resolve the current user from the JWT.
-5. Missing, expired, or invalid tokens return a consistent `401` JSON error and the frontend clears the stale token.
+2. The backend verifies credentials with BCrypt, sets the signed JWT in the HttpOnly `RENOVA_SESSION` cookie, and returns only the user summary and expiration time.
+3. The frontend keeps the user summary in memory. It cannot read the session token.
+4. The frontend obtains `XSRF-TOKEN`; Axios mirrors that value into `X-XSRF-TOKEN` for state-changing requests.
+5. Protected backend routes resolve the current user from the cookie. Actor-scoped repository queries enforce private resource access.
+6. Missing, expired, or invalid sessions return a consistent `401` JSON error.
 
 ## Marketplace Flow
 
@@ -63,8 +64,8 @@ flowchart LR
 ## API Boundary Rules
 
 - Frontend code uses `frontend/src/api/endpoints.js` for route construction.
-- `frontend/src/api/client.js` normalizes envelopes, validation errors, network errors, and token cleanup.
-- Browser storage access is isolated in `frontend/src/utils/browserStorage.js`.
+- `frontend/src/api/client.js` normalizes envelopes and errors and configures credentialed CSRF-aware requests.
+- Browser storage is limited to non-sensitive preferences such as locale.
 - Backend enum parsing returns business errors for invalid user input instead of leaking Java exceptions.
 - Public user DTOs omit private fields such as email.
 - Seed data is development data, not a substitute for persistence.
@@ -85,5 +86,5 @@ Serving 100,000 simultaneous form clicks still requires deployment architecture 
 ## Test Strategy
 
 - Frontend unit tests cover formatting, i18n bundle shape, browser storage resilience, API error normalization, and endpoint route contracts.
-- Backend MockMvc tests cover public catalog reads, validation errors, invalid enum handling, JWT-protected session access, and authenticated listing creation.
+- Backend MockMvc tests cover public catalog reads, validation errors, real Cookie/CSRF exchange, authenticated listing creation, and direct cross-user authorization failures.
 - Build checks run the Vite production build and the Spring Boot test profile.

@@ -16,5 +16,6 @@ novacart:
   security:
     jwt-secret: test-secret-value-with-enough-length-for-local-tests
     jwt-expiration-minutes: 120
+    cookie-secure: false
   cors:
     allowed-origins: http://localhost:5173,http://127.0.0.1:5173

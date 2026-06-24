@@ -58,9 +58,9 @@ public class OfferService {
     @Transactional
     public OfferDtos.OfferResponse accept(Long offerId) {
         User current = currentUserService.requireCurrentUser();
-        Offer offer = requireById(offerId);
-        if (!offer.getListing().getSeller().getId().equals(current.getId())) {
-            throw new BusinessRuleException("Only the seller can accept this offer.");
+        Offer offer = requireForSeller(offerId, current);
+        if (offer.isFromSeller()) {
+            throw new BusinessRuleException("A seller cannot accept their own counter-offer.");
         }
         if (offer.getStatus() != OfferStatus.PENDING) {
             throw new BusinessRuleException("This offer is not pending.");
@@ -74,9 +74,9 @@ public class OfferService {
     @Transactional
     public OfferDtos.OfferResponse reject(Long offerId) {
         User current = currentUserService.requireCurrentUser();
-        Offer offer = requireById(offerId);
-        if (!offer.getListing().getSeller().getId().equals(current.getId())) {
-            throw new BusinessRuleException("Only the seller can reject this offer.");
+        Offer offer = requireForSeller(offerId, current);
+        if (offer.isFromSeller()) {
+            throw new BusinessRuleException("Withdraw your own counter-offer instead.");
         }
         if (offer.getStatus() != OfferStatus.PENDING) {
             throw new BusinessRuleException("This offer is not pending.");
@@ -89,9 +89,9 @@ public class OfferService {
     @Transactional
     public OfferDtos.OfferResponse counter(Long offerId, OfferDtos.OfferCounterRequest request) {
         User current = currentUserService.requireCurrentUser();
-        Offer original = requireById(offerId);
-        if (!original.getListing().getSeller().getId().equals(current.getId())) {
-            throw new BusinessRuleException("Only the seller can counter this offer.");
+        Offer original = requireForSeller(offerId, current);
+        if (original.isFromSeller()) {
+            throw new BusinessRuleException("Withdraw your existing counter-offer before sending another.");
         }
         if (original.getStatus() != OfferStatus.PENDING) {
             throw new BusinessRuleException("This offer is not pending.");
@@ -114,13 +114,8 @@ public class OfferService {
     @Transactional
     public OfferDtos.OfferResponse withdraw(Long offerId) {
         User current = currentUserService.requireCurrentUser();
-        Offer offer = requireById(offerId);
-        boolean isAuthor = offer.isFromSeller()
-                ? offer.getListing().getSeller().getId().equals(current.getId())
-                : offer.getBuyer().getId().equals(current.getId());
-        if (!isAuthor) {
-            throw new BusinessRuleException("You can only withdraw your own offers.");
-        }
+        Offer offer = offerRepository.findAuthoredBy(offerId, current)
+                .orElseThrow(() -> new ResourceNotFoundException("Offer not found."));
         if (offer.getStatus() != OfferStatus.PENDING) {
             throw new BusinessRuleException("Only pending offers can be withdrawn.");
         }
@@ -132,12 +127,10 @@ public class OfferService {
     @Transactional
     public OfferDtos.OfferResponse acceptCounter(Long offerId) {
         User current = currentUserService.requireCurrentUser();
-        Offer offer = requireById(offerId);
+        Offer offer = offerRepository.findByIdAndBuyer(offerId, current)
+                .orElseThrow(() -> new ResourceNotFoundException("Offer not found."));
         if (!offer.isFromSeller()) {
             throw new BusinessRuleException("Only counter-offers from the seller can be accepted here.");
-        }
-        if (!offer.getBuyer().getId().equals(current.getId())) {
-            throw new BusinessRuleException("Only the buyer in this thread can accept the counter.");
         }
         if (offer.getStatus() != OfferStatus.PENDING) {
             throw new BusinessRuleException("This counter-offer is no longer pending.");
@@ -164,9 +157,8 @@ public class OfferService {
         return PageResponse.from(result.map(OfferDtos.OfferResponse::from));
     }
 
-    @Transactional(readOnly = true)
-    public Offer requireById(Long id) {
-        return offerRepository.findById(id)
+    private Offer requireForSeller(Long id, User seller) {
+        return offerRepository.findByIdAndListing_Seller(id, seller)
                 .orElseThrow(() -> new ResourceNotFoundException("Offer not found."));
     }
 }

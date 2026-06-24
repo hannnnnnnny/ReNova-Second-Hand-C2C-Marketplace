@@ -39,7 +39,7 @@ public class ReviewService {
     @Transactional
     public ReviewDtos.ReviewResponse create(ReviewDtos.CreateReviewRequest request) {
         User reviewer = currentUserService.requireCurrentUser();
-        TradeOrder order = orderService.requireById(request.orderId());
+        TradeOrder order = orderService.requireParticipantById(request.orderId());
         if (order.getStatus() != OrderStatus.COMPLETED) {
             throw new BusinessRuleException("You can only review completed orders.");
         }
@@ -52,7 +52,7 @@ public class ReviewService {
             role = ReviewRole.SELLER_REVIEWS_BUYER;
             reviewee = order.getBuyer();
         } else {
-            throw new BusinessRuleException("You cannot review this order.");
+            throw new IllegalStateException("Participant query returned a non-participant.");
         }
         if (reviewRepository.existsByOrderAndRole(order, role)) {
             throw new BusinessRuleException("You have already reviewed this order.");
@@ -85,7 +85,7 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<ReviewDtos.ReviewResponse> listForOrder(Long orderId) {
-        TradeOrder order = orderService.requireById(orderId);
+        TradeOrder order = orderService.requireParticipantById(orderId);
         return reviewRepository.findByOrder(order).stream()
                 .map(ReviewDtos.ReviewResponse::from)
                 .toList();

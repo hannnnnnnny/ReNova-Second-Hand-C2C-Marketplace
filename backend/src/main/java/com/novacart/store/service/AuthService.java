@@ -27,7 +27,7 @@ public class AuthService {
     }
 
     @Transactional
-    public AuthDtos.AuthResponse signup(AuthDtos.SignupRequest request) {
+    public AuthenticatedSession signup(AuthDtos.SignupRequest request) {
         String email = request.email().trim().toLowerCase();
         if (userRepository.existsByEmailIgnoreCase(email)) {
             throw new DuplicateResourceException("An account with this email already exists.");
@@ -44,7 +44,7 @@ public class AuthService {
     }
 
     @Transactional
-    public AuthDtos.AuthResponse login(AuthDtos.LoginRequest request) {
+    public AuthenticatedSession login(AuthDtos.LoginRequest request) {
         User user = userRepository.findByEmailIgnoreCase(request.email().trim())
                 .orElseThrow(() -> new AuthenticationFailedException("Email or password is incorrect."));
         if (user.getStatus() != UserStatus.ACTIVE) {
@@ -58,12 +58,14 @@ public class AuthService {
         return buildResponse(user);
     }
 
-    private AuthDtos.AuthResponse buildResponse(User user) {
-        String token = jwtService.generateToken(user.getEmail(), user.getRole().name());
-        return new AuthDtos.AuthResponse(
-                token,
-                jwtService.getExpirationMinutes(),
+    private AuthenticatedSession buildResponse(User user) {
+        JwtService.IssuedToken issuedToken = jwtService.issueToken(user.getEmail(), user.getRole().name());
+        return new AuthenticatedSession(
+                issuedToken.value(),
+                issuedToken.expiresAt(),
                 UserDtos.UserSummary.from(user)
         );
     }
+
+    public record AuthenticatedSession(String token, Instant expiresAt, UserDtos.UserSummary user) {}
 }

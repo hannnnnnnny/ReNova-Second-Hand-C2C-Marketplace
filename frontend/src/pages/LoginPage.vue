@@ -21,7 +21,10 @@ async function submit() {
   try {
     await auth.login({ email: email.value.trim(), password: password.value })
     toast.success(t('auth.signIn'))
-    const redirect = route.query.redirect ? String(route.query.redirect) : '/'
+    const requestedRedirect = route.query.redirect ? String(route.query.redirect) : '/'
+    const redirect = requestedRedirect.startsWith('/') && !requestedRedirect.startsWith('//')
+      ? requestedRedirect
+      : '/'
     router.push(redirect)
   } catch (err) { toast.error(apiError(err)) } finally { submitting.value = false }
 }

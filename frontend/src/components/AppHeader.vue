@@ -28,10 +28,13 @@ function submitSearch() {
   router.push({ name: 'browse', query: query.value ? { keyword: query.value } : {} })
 }
 
-function logout() {
-  auth.logout()
-  menuOpen.value = false
-  router.push({ name: 'home' })
+async function logout() {
+  try {
+    await auth.logout()
+  } finally {
+    menuOpen.value = false
+    router.push({ name: 'home' })
+  }
 }
 
 watch(() => route.fullPath, () => { menuOpen.value = false; fetchUnread() })

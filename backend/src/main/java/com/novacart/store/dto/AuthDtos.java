@@ -3,6 +3,7 @@ package com.novacart.store.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.time.Instant;
 
 public final class AuthDtos {
 
@@ -21,8 +22,7 @@ public final class AuthDtos {
     ) {}
 
     public record AuthResponse(
-            String token,
-            long expiresInMinutes,
+            Instant expiresAt,
             UserDtos.UserSummary user
     ) {}
 }

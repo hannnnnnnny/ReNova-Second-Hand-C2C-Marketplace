@@ -1,65 +1,59 @@
 import { defineStore } from 'pinia'
 import { authApi } from '../api/endpoints'
-import { TOKEN_KEY } from '../api/client'
-import { readStorageItem, readStorageJson, removeStorageItem, writeStorageItem, writeStorageJson } from '../utils/browserStorage'
-
-const USER_KEY = 'renova.user'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: readStorageItem(TOKEN_KEY),
-    user: readStorageJson(USER_KEY)
+    user: null,
+    initialized: false
   }),
   getters: {
-    isAuthenticated: (state) => Boolean(state.token && state.user)
+    isAuthenticated: (state) => Boolean(state.user)
   },
   actions: {
-    persist() {
-      if (this.token) {
-        writeStorageItem(TOKEN_KEY, this.token)
-      } else {
-        removeStorageItem(TOKEN_KEY)
+    async initialize() {
+      if (this.initialized) return this.user
+      try {
+        await authApi.csrf()
+        await this.refresh()
+      } catch {
+        this.user = null
+      } finally {
+        this.initialized = true
       }
-      if (this.user) {
-        writeStorageJson(USER_KEY, this.user)
-      } else {
-        removeStorageItem(USER_KEY)
-      }
+      return this.user
     },
     async signup(payload) {
+      await authApi.csrf()
       const result = await authApi.signup(payload)
-      this.token = result.token
       this.user = result.user
-      this.persist()
       return result
     },
     async login(payload) {
+      await authApi.csrf()
       const result = await authApi.login(payload)
-      this.token = result.token
       this.user = result.user
-      this.persist()
       return result
     },
     async refresh() {
-      if (!this.token) return null
       try {
         const user = await authApi.me()
         this.user = user
-        this.persist()
         return user
       } catch {
-        this.logout()
+        this.user = null
         return null
       }
     },
-    logout() {
-      this.token = ''
-      this.user = null
-      this.persist()
+    async logout() {
+      try {
+        await authApi.csrf()
+        await authApi.logout()
+      } finally {
+        this.user = null
+      }
     },
     setUser(user) {
       this.user = user
-      this.persist()
     }
   }
 })

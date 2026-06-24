@@ -125,11 +125,7 @@ public class MessagingService {
     }
 
     private Conversation requireParticipant(Long id, User user) {
-        Conversation c = conversationRepository.findById(id)
+        return conversationRepository.findByIdAndParticipant(id, user)
                 .orElseThrow(() -> new ResourceNotFoundException("Conversation not found."));
-        if (!c.getBuyer().getId().equals(user.getId()) && !c.getSeller().getId().equals(user.getId())) {
-            throw new BusinessRuleException("You are not a participant in this conversation.");
-        }
-        return c;
     }
 }

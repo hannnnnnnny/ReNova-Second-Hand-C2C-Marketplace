@@ -30,13 +30,13 @@ describe('browserStorage', () => {
   it('reads, writes, and removes plain values', () => {
     const { storage } = installStorage()
 
-    writeStorageItem('renova.token', 'token-123')
-    expect(storage.setItem).toHaveBeenCalledWith('renova.token', 'token-123')
-    expect(readStorageItem('renova.token')).toBe('token-123')
+    writeStorageItem('renova.locale', 'zh')
+    expect(storage.setItem).toHaveBeenCalledWith('renova.locale', 'zh')
+    expect(readStorageItem('renova.locale')).toBe('zh')
 
-    removeStorageItem('renova.token')
-    expect(storage.removeItem).toHaveBeenCalledWith('renova.token')
-    expect(readStorageItem('renova.token')).toBe('')
+    removeStorageItem('renova.locale')
+    expect(storage.removeItem).toHaveBeenCalledWith('renova.locale')
+    expect(readStorageItem('renova.locale')).toBe('')
   })
 
   it('serializes JSON values and removes empty values', () => {

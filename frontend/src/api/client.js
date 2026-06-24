@@ -1,43 +1,17 @@
 import axios from 'axios'
-import { readStorageItem, removeStorageItem } from '../utils/browserStorage'
 
-const TOKEN_KEY = 'renova.token'
 const DEFAULT_ERROR_MESSAGE = 'The request could not be completed.'
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  withCredentials: true,
+  withXSRFToken: true,
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
   headers: {
     'Content-Type': 'application/json'
   }
 })
-
-apiClient.interceptors.request.use((config) => {
-  const token = getStoredAuthToken()
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  } else if (config.headers.Authorization) {
-    delete config.headers.Authorization
-  }
-  return config
-})
-
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      clearStoredAuthToken()
-    }
-    return Promise.reject(error)
-  }
-)
-
-export function getStoredAuthToken() {
-  return readStorageItem(TOKEN_KEY)
-}
-
-export function clearStoredAuthToken() {
-  removeStorageItem(TOKEN_KEY)
-}
 
 export function unwrap(response) {
   return response.data?.data ?? response.data
@@ -86,5 +60,4 @@ function humanizeField(field) {
     .replace(/\b\w/g, (letter) => letter.toUpperCase())
 }
 
-export { TOKEN_KEY }
 export default apiClient

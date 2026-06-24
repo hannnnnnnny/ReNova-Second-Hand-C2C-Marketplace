@@ -62,11 +62,8 @@ public class OrderService {
 
         BigDecimal price = listing.getPrice();
         if (request.acceptedOfferId() != null) {
-            Offer offer = offerRepository.findById(request.acceptedOfferId())
+            Offer offer = offerRepository.findByIdAndBuyer(request.acceptedOfferId(), buyer)
                     .orElseThrow(() -> new ResourceNotFoundException("Offer not found."));
-            if (!offer.getBuyer().getId().equals(buyer.getId())) {
-                throw new BusinessRuleException("This offer is not yours.");
-            }
             if (!offer.getListing().getId().equals(listing.getId())) {
                 throw new BusinessRuleException("Offer does not match listing.");
             }
@@ -104,10 +101,7 @@ public class OrderService {
     @Transactional
     public OrderDtos.OrderResponse pay(Long orderId) {
         User current = currentUserService.requireCurrentUser();
-        TradeOrder order = requireById(orderId);
-        if (!order.getBuyer().getId().equals(current.getId())) {
-            throw new BusinessRuleException("Only the buyer can pay this order.");
-        }
+        TradeOrder order = requireForBuyer(orderId, current);
         if (order.getStatus() != OrderStatus.PENDING_PAYMENT) {
             throw new BusinessRuleException("Order is not awaiting payment.");
         }
@@ -119,10 +113,7 @@ public class OrderService {
     @Transactional
     public OrderDtos.OrderResponse ship(Long orderId, OrderDtos.ShipOrderRequest request) {
         User current = currentUserService.requireCurrentUser();
-        TradeOrder order = requireById(orderId);
-        if (!order.getSeller().getId().equals(current.getId())) {
-            throw new BusinessRuleException("Only the seller can ship this order.");
-        }
+        TradeOrder order = requireForSeller(orderId, current);
         if (order.getStatus() != OrderStatus.PAID) {
             throw new BusinessRuleException("Order must be paid before shipping.");
         }
@@ -136,10 +127,7 @@ public class OrderService {
     @Transactional
     public OrderDtos.OrderResponse confirmReceipt(Long orderId) {
         User current = currentUserService.requireCurrentUser();
-        TradeOrder order = requireById(orderId);
-        if (!order.getBuyer().getId().equals(current.getId())) {
-            throw new BusinessRuleException("Only the buyer can confirm receipt.");
-        }
+        TradeOrder order = requireForBuyer(orderId, current);
         if (order.getStatus() != OrderStatus.SHIPPED) {
             throw new BusinessRuleException("Order has not been shipped yet.");
         }
@@ -153,12 +141,7 @@ public class OrderService {
     @Transactional
     public OrderDtos.OrderResponse cancel(Long orderId, OrderDtos.CancelOrderRequest request) {
         User current = currentUserService.requireCurrentUser();
-        TradeOrder order = requireById(orderId);
-        boolean isParticipant = order.getBuyer().getId().equals(current.getId())
-                || order.getSeller().getId().equals(current.getId());
-        if (!isParticipant) {
-            throw new BusinessRuleException("You are not a participant in this order.");
-        }
+        TradeOrder order = requireForParticipant(orderId, current);
         if (order.getStatus() == OrderStatus.COMPLETED || order.getStatus() == OrderStatus.CANCELLED) {
             throw new BusinessRuleException("Order cannot be cancelled in its current state.");
         }
@@ -175,10 +158,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public OrderDtos.OrderResponse get(Long orderId) {
         User current = currentUserService.requireCurrentUser();
-        TradeOrder order = requireById(orderId);
-        if (!order.getBuyer().getId().equals(current.getId()) && !order.getSeller().getId().equals(current.getId())) {
-            throw new BusinessRuleException("You cannot view this order.");
-        }
+        TradeOrder order = requireForParticipant(orderId, current);
         return OrderDtos.OrderResponse.from(order);
     }
 
@@ -205,8 +185,22 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public TradeOrder requireById(Long id) {
-        return orderRepository.findById(id)
+    public TradeOrder requireParticipantById(Long id) {
+        return requireForParticipant(id, currentUserService.requireCurrentUser());
+    }
+
+    private TradeOrder requireForBuyer(Long id, User buyer) {
+        return orderRepository.findByIdAndBuyer(id, buyer)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found."));
+    }
+
+    private TradeOrder requireForSeller(Long id, User seller) {
+        return orderRepository.findByIdAndSeller(id, seller)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found."));
+    }
+
+    private TradeOrder requireForParticipant(Long id, User participant) {
+        return orderRepository.findByIdAndParticipant(id, participant)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found."));
     }
 

@@ -1,9 +1,11 @@
 import client, { unwrap } from './client'
 
 export const authApi = {
+  csrf: () => client.get('/auth/csrf').then(unwrap),
   signup: (payload) => client.post('/auth/signup', payload).then(unwrap),
   login: (payload) => client.post('/auth/login', payload).then(unwrap),
-  me: () => client.get('/auth/me').then(unwrap)
+  me: () => client.get('/auth/me').then(unwrap),
+  logout: () => client.post('/auth/logout').then(unwrap)
 }
 
 export const categoryApi = {

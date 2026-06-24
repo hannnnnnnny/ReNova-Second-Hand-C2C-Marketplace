@@ -1,30 +1,6 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
-import apiClient, {
-  TOKEN_KEY,
-  apiError,
-  clearStoredAuthToken,
-  getStoredAuthToken,
-  unwrap
-} from './client'
+import { describe, expect, it } from 'vitest'
+import apiClient, { apiError, unwrap } from './client'
 
-afterEach(() => {
-  vi.unstubAllGlobals()
-})
-
-function installStorage(initial = {}) {
-  const store = { ...initial }
-  const storage = {
-    getItem: vi.fn((key) => store[key] ?? null),
-    setItem: vi.fn((key, value) => {
-      store[key] = String(value)
-    }),
-    removeItem: vi.fn((key) => {
-      delete store[key]
-    })
-  }
-  vi.stubGlobal('localStorage', storage)
-  return { storage, store }
-}
 
 describe('api client', () => {
   it('unwraps standard API envelopes without hiding raw responses', () => {
@@ -59,26 +35,11 @@ describe('api client', () => {
     expect(apiError(new Error('Network Error'))).toBe('Cannot reach the server. Check that the backend is running.')
   })
 
-  it('keeps token storage behind one API boundary', async () => {
-    const { storage } = installStorage({ [TOKEN_KEY]: 'token-123' })
-
-    expect(getStoredAuthToken()).toBe('token-123')
-    const requestHandler = apiClient.interceptors.request.handlers[0].fulfilled
-    const config = await requestHandler({ headers: {} })
-    expect(config.headers.Authorization).toBe('Bearer token-123')
-
-    clearStoredAuthToken()
-    expect(storage.removeItem).toHaveBeenCalledWith(TOKEN_KEY)
-  })
-
-  it('clears stale auth tokens after 401 responses', async () => {
-    const { storage } = installStorage({ [TOKEN_KEY]: 'expired-token' })
-    const responseHandler = apiClient.interceptors.response.handlers[0].rejected
-
-    await expect(responseHandler({ response: { status: 401, data: {} } })).rejects.toEqual({
-      response: { status: 401, data: {} }
-    })
-
-    expect(storage.removeItem).toHaveBeenCalledWith(TOKEN_KEY)
+  it('uses credentialed cookies and the standard CSRF cookie/header pair', () => {
+    expect(apiClient.defaults.withCredentials).toBe(true)
+    expect(apiClient.defaults.withXSRFToken).toBe(true)
+    expect(apiClient.defaults.xsrfCookieName).toBe('XSRF-TOKEN')
+    expect(apiClient.defaults.xsrfHeaderName).toBe('X-XSRF-TOKEN')
+    expect(apiClient.interceptors.request.handlers).toHaveLength(0)
   })
 })

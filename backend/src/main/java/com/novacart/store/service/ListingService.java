@@ -22,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -115,7 +116,7 @@ public class ListingService {
         User current = currentUserService.requireCurrentUser();
         Listing listing = requireById(id);
         if (!listing.getSeller().getId().equals(current.getId())) {
-            throw new BusinessRuleException("You can only edit your own listings.");
+            throw new AccessDeniedException("You can only edit your own listings.");
         }
         if (listing.getStatus() == ListingStatus.SOLD) {
             throw new BusinessRuleException("Sold listings cannot be edited.");
@@ -151,7 +152,7 @@ public class ListingService {
         User current = currentUserService.requireCurrentUser();
         Listing listing = requireById(id);
         if (!listing.getSeller().getId().equals(current.getId())) {
-            throw new BusinessRuleException("You can only remove your own listings.");
+            throw new AccessDeniedException("You can only remove your own listings.");
         }
         listing.setStatus(ListingStatus.REMOVED);
         listing.setUpdatedAt(Instant.now());

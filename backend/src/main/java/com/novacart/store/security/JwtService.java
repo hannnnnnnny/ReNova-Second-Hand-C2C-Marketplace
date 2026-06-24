@@ -27,17 +27,18 @@ public class JwtService {
         this.expirationMinutes = expirationMinutes;
     }
 
-    public String generateToken(String subject, String role) {
+    public IssuedToken issueToken(String subject, String role) {
         Instant now = Instant.now();
         Instant expiresAt = now.plus(expirationMinutes, ChronoUnit.MINUTES);
 
-        return Jwts.builder()
+        String value = Jwts.builder()
                 .subject(subject)
                 .claim("role", role)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiresAt))
                 .signWith(secretKey)
                 .compact();
+        return new IssuedToken(value, expiresAt);
     }
 
     public String extractSubject(String token) {
@@ -64,10 +65,6 @@ public class JwtService {
         return subject != null && subject.equalsIgnoreCase(expectedSubject);
     }
 
-    public long getExpirationMinutes() {
-        return expirationMinutes;
-    }
-
     private Claims parseClaims(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)
@@ -75,4 +72,6 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
+    public record IssuedToken(String value, Instant expiresAt) {}
 }

@@ -1,6 +1,7 @@
 package com.novacart.store.controller;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -11,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,6 +52,7 @@ class ReNovaApiControllerTests {
     @Test
     void validationErrorsReturnFieldLevelMessages() throws Exception {
         mockMvc.perform(post("/api/auth/signup")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isBadRequest())
@@ -68,15 +71,15 @@ class ReNovaApiControllerTests {
     }
 
     @Test
-    void authenticatedSessionUsesJwtForProtectedRoutes() throws Exception {
+    void authenticatedSessionUsesHttpOnlyCookieForProtectedRoutes() throws Exception {
         mockMvc.perform(get("/api/auth/me"))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.message").value("Authentication is required."));
 
         TestAccount account = register("Session Test User");
-        String token = login(account.email(), account.password());
+        Cookie sessionCookie = login(account.email(), account.password());
 
-        mockMvc.perform(get("/api/auth/me").header("Authorization", "Bearer " + token))
+        mockMvc.perform(get("/api/auth/me").cookie(sessionCookie))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.email").value(account.email()))
                 .andExpect(jsonPath("$.data.displayName").value(account.displayName()));
@@ -98,13 +101,14 @@ class ReNovaApiControllerTests {
         mockMvc.perform(post("/api/listings")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(payload)))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
 
         TestAccount account = register("Listing Test User");
-        String token = login(account.email(), account.password());
+        Cookie sessionCookie = login(account.email(), account.password());
 
         mockMvc.perform(post("/api/listings")
-                        .header("Authorization", "Bearer " + token)
+                        .cookie(sessionCookie)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(payload)))
                 .andExpect(status().isOk())
@@ -120,6 +124,7 @@ class ReNovaApiControllerTests {
         String password = "T!" + UUID.randomUUID() + "a1";
 
         mockMvc.perform(post("/api/auth/signup")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "email", email,
@@ -134,19 +139,21 @@ class ReNovaApiControllerTests {
         return new TestAccount(email, password, displayName);
     }
 
-    private String login(String email, String password) throws Exception {
+    private Cookie login(String email, String password) throws Exception {
         MvcResult result = mockMvc.perform(post("/api/auth/login")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "email", email,
                                 "password", password
                         ))))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.token").isString())
+                .andExpect(jsonPath("$.data.token").doesNotExist())
                 .andReturn();
 
-        JsonNode root = objectMapper.readTree(result.getResponse().getContentAsString());
-        return root.path("data").path("token").asText();
+        String setCookie = result.getResponse().getHeader("Set-Cookie");
+        String prefix = "RENOVA_SESSION=";
+        return new Cookie("RENOVA_SESSION", setCookie.substring(prefix.length(), setCookie.indexOf(';')));
     }
 
     private long firstCategoryId() throws Exception {

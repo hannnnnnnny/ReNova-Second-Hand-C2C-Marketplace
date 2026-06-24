@@ -15,6 +15,12 @@ public interface ConversationRepository extends JpaRepository<Conversation, Long
 
     @Query("""
             SELECT c FROM Conversation c
+            WHERE c.id = :id AND (c.buyer = :participant OR c.seller = :participant)
+            """)
+    Optional<Conversation> findByIdAndParticipant(@Param("id") Long id, @Param("participant") User participant);
+
+    @Query("""
+            SELECT c FROM Conversation c
             WHERE c.buyer = :user OR c.seller = :user
             ORDER BY c.lastMessageAt DESC
             """)

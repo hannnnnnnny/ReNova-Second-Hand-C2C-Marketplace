@@ -34,8 +34,14 @@ beforeEach(() => {
 
 describe('endpoint contracts', () => {
   it('maps authentication and catalog reads to real backend routes', async () => {
+    await authApi.csrf()
+    expect(client.get).toHaveBeenCalledWith('/auth/csrf')
+
     await expect(authApi.login({ email: 'ava@renova.local' })).resolves.toEqual({ ok: true })
     expect(client.post).toHaveBeenCalledWith('/auth/login', { email: 'ava@renova.local' })
+
+    await authApi.logout()
+    expect(client.post).toHaveBeenCalledWith('/auth/logout')
 
     await categoryApi.list()
     expect(client.get).toHaveBeenCalledWith('/public/categories')

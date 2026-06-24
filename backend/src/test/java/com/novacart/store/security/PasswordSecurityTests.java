@@ -1,6 +1,7 @@
 package com.novacart.store.security;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -69,6 +70,7 @@ class PasswordSecurityTests {
         User remediated = userRepository.findByEmailIgnoreCase(legacyUser.getEmail()).orElseThrow();
         assertThat(remediated.getStatus()).isEqualTo(UserStatus.DEACTIVATED);
         mockMvc.perform(post("/api/auth/login")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "email", legacyUser.getEmail(),
@@ -110,13 +112,14 @@ class PasswordSecurityTests {
         signup(email, password).andExpect(status().isOk());
 
         MvcResult result = mockMvc.perform(post("/api/auth/login")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "email", email,
                                 "password", password
                         ))))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.token").isString())
+                .andExpect(jsonPath("$.data.token").doesNotExist())
                 .andExpect(jsonPath("$.data.password").doesNotExist())
                 .andExpect(jsonPath("$.data.passwordHash").doesNotExist())
                 .andExpect(jsonPath("$.data.user.password").doesNotExist())
@@ -129,6 +132,7 @@ class PasswordSecurityTests {
 
     private org.springframework.test.web.servlet.ResultActions signup(String email, String password) throws Exception {
         return mockMvc.perform(post("/api/auth/signup")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(Map.of(
                         "email", email,

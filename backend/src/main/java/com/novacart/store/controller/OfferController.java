@@ -29,6 +29,11 @@ public class OfferController {
         return ResponseEntity.ok(ApiResponse.success("Offer submitted.", offerService.create(request)));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<OfferDtos.OfferResponse>> get(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.success("Offer.", offerService.get(id)));
+    }
+
     @PostMapping("/{id}/accept")
     public ResponseEntity<ApiResponse<OfferDtos.OfferResponse>> accept(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.success("Offer accepted.", offerService.accept(id)));

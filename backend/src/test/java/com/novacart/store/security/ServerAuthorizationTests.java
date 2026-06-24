@@ -8,6 +8,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.novacart.store.repository.MediaAssetRepository;
+import com.novacart.store.repository.UserRepository;
+import com.novacart.store.support.TestMediaAssets;
 import jakarta.servlet.http.Cookie;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -38,6 +41,12 @@ class ServerAuthorizationTests {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private MediaAssetRepository mediaRepository;
 
     @Test
     void sessionCookieIsHttpOnlyAndStateChangesRequireCsrf() throws Exception {
@@ -179,7 +188,7 @@ class ServerAuthorizationTests {
                 .contains("SameSite=Lax")
                 .contains("Path=/api");
         String value = setCookie.substring((SESSION_COOKIE + "=").length(), setCookie.indexOf(';'));
-        return new Session(new Cookie(SESSION_COOKIE, value));
+        return new Session(new Cookie(SESSION_COOKIE, value), account.email());
     }
 
     private long createListing(Session session, String title) throws Exception {
@@ -187,7 +196,7 @@ class ServerAuthorizationTests {
                         .cookie(session.cookie())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(listingPayload(title))))
+                        .content(objectMapper.writeValueAsString(listingPayload(title, session.email()))))
                 .andExpect(status().isOk())
                 .andReturn();
         return dataId(result);
@@ -212,6 +221,7 @@ class ServerAuthorizationTests {
         MvcResult result = mockMvc.perform(post("/api/orders")
                         .cookie(session.cookie())
                         .with(csrf())
+                        .header("Idempotency-Key", UUID.randomUUID().toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "listingId", listingId,
@@ -240,6 +250,10 @@ class ServerAuthorizationTests {
     }
 
     private Map<String, Object> listingPayload(String title) throws Exception {
+        return listingPayload(title, null);
+    }
+
+    private Map<String, Object> listingPayload(String title, String ownerEmail) throws Exception {
         Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("title", title);
         payload.put("description", "A database-backed listing used to verify server authorization boundaries.");
@@ -249,7 +263,9 @@ class ServerAuthorizationTests {
         payload.put("location", "Test City");
         payload.put("negotiable", true);
         payload.put("shippingFee", BigDecimal.ZERO);
-        payload.put("imageUrls", List.of("https://images.example.test/listing.jpg"));
+        payload.put("mediaIds", ownerEmail == null
+                ? List.of(999999L)
+                : List.of(TestMediaAssets.readyImage(ownerEmail, userRepository, mediaRepository)));
         return payload;
     }
 
@@ -268,5 +284,5 @@ class ServerAuthorizationTests {
 
     private record TestAccount(String email, String password, String displayName, long userId) {}
 
-    private record Session(Cookie cookie) {}
+    private record Session(Cookie cookie, String email) {}
 }

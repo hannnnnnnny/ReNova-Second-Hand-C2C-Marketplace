@@ -19,6 +19,7 @@ import {
   categoryApi,
   conversationApi,
   listingApi,
+  mediaApi,
   offerApi,
   orderApi,
   reviewApi,
@@ -30,6 +31,7 @@ const apiResponse = { data: { data: { ok: true } } }
 beforeEach(() => {
   vi.clearAllMocks()
   Object.values(client).forEach((method) => method.mockResolvedValue(apiResponse))
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true }))
 })
 
 describe('endpoint contracts', () => {
@@ -63,12 +65,44 @@ describe('endpoint contracts', () => {
     expect(client.delete).toHaveBeenCalledWith('/listings/7')
   })
 
+  it('uploads listing images through a server-issued storage intent', async () => {
+    const file = new File(['image-bytes'], 'chair.png', { type: 'image/png' })
+    client.post
+      .mockResolvedValueOnce({ data: { data: {
+        mediaId: 44,
+        uploadUrl: 'https://storage.example/upload',
+        requiredHeaders: { 'Content-Type': 'image/png' }
+      } } })
+      .mockResolvedValueOnce({ data: { data: { id: 44, status: 'READY' } } })
+
+    await expect(mediaApi.upload(file)).resolves.toEqual({ id: 44, status: 'READY' })
+    expect(client.post).toHaveBeenNthCalledWith(1, '/media/upload-intents', {
+      fileName: 'chair.png',
+      contentType: 'image/png',
+      sizeBytes: file.size
+    })
+    expect(fetch).toHaveBeenCalledWith('https://storage.example/upload', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'image/png' },
+      body: file
+    })
+    expect(client.post).toHaveBeenNthCalledWith(2, '/media/44/complete')
+  })
+
   it('covers trading workflows without local mock fallbacks', async () => {
     await offerApi.counter(5, { amount: 25 })
     expect(client.post).toHaveBeenCalledWith('/offers/5/counter', { amount: 25 })
 
     await conversationApi.send(9, { body: 'Still available?' })
     expect(client.post).toHaveBeenCalledWith('/conversations/9/messages', { body: 'Still available?' })
+
+    await offerApi.get(5)
+    expect(client.get).toHaveBeenCalledWith('/offers/5')
+
+    await orderApi.create({ listingId: 3 }, '6ba7b810-9dad-41d1-80b4-00c04fd430c8')
+    expect(client.post).toHaveBeenCalledWith('/orders', { listingId: 3 }, {
+      headers: { 'Idempotency-Key': '6ba7b810-9dad-41d1-80b4-00c04fd430c8' }
+    })
 
     await orderApi.ship(3, { carrier: 'UPS', trackingNumber: '1Z' })
     expect(client.post).toHaveBeenCalledWith('/orders/3/ship', { carrier: 'UPS', trackingNumber: '1Z' })

@@ -157,11 +157,19 @@ export const messages = {
       shippingFreeHint: 'Leave 0 if you offer free shipping or pickup only.',
       descriptionLabel: 'Description',
       descriptionPlaceholder: 'Tell buyers about its history, any wear, what is included…',
-      imagesLabel: 'Photo URLs',
-      imagesHint: 'One photo URL per line. Demo accepts any HTTPS URL.',
+      imagesLabel: 'Photos',
+      imagesHint: 'JPEG, PNG or WebP, up to 10 MB each. Maximum 8.',
+      addPhotos: 'Add photos',
+      photo: 'Photo',
+      cover: 'Cover',
+      uploading: 'Uploading photo',
+      moveLeft: 'Move left',
+      moveRight: 'Move right',
+      imageLimit: 'You can add up to 8 photos.',
+      invalidImage: 'Choose a JPEG, PNG or WebP image under 10 MB.',
       submit: 'Publish listing',
       created: 'Your listing is live.',
-      validationImages: 'Please add at least one photo URL.'
+      validationImages: 'Please add at least one photo and wait for uploads to finish.'
     },
     offer: {
       makeOfferTitle: 'Make an offer',
@@ -198,8 +206,8 @@ export const messages = {
       note: 'Note to seller (optional)',
       orderSummary: 'Order summary',
       payNow: 'Place order',
-      orderCreated: 'Order placed. Awaiting payment.',
-      simulatedPay: 'Demo: Pay now (no real card needed)'
+      orderCreated: 'Order reserved. Online payment is not enabled yet.',
+      invalidOffer: 'This accepted offer is unavailable or does not match the listing.'
     },
     orders: {
       title: 'My orders',
@@ -207,7 +215,6 @@ export const messages = {
       tabSelling: 'Selling',
       empty: 'No orders yet.',
       orderNumber: 'Order #',
-      pay: 'Pay now (demo)',
       ship: 'Mark shipped',
       shipping: 'Carrier',
       tracking: 'Tracking number',
@@ -226,7 +233,8 @@ export const messages = {
       deliveredOn: 'Delivered',
       completedOn: 'Completed',
       cancelledOn: 'Cancelled',
-      escrowHint: 'Demo only — no real payment will be charged. Buyer funds are held until receipt confirmation.'
+      paymentUnavailable: 'Online payment is not enabled. Do not send money outside ReNova.',
+      paymentVerified: 'Payment status can change only after provider verification.'
     },
     profile: {
       memberSince: 'Member since',
@@ -403,11 +411,19 @@ export const messages = {
       shippingFreeHint: '免运费或同城自取请填 0。',
       descriptionLabel: '描述',
       descriptionPlaceholder: '介绍一下使用历史、磨损情况、包含的配件…',
-      imagesLabel: '图片地址',
-      imagesHint: '一行一个图片 URL，demo 支持任意 HTTPS 链接。',
+      imagesLabel: '商品图片',
+      imagesHint: '支持 JPEG、PNG、WebP，每张不超过 10 MB，最多 8 张。',
+      addPhotos: '添加图片',
+      photo: '图片',
+      cover: '封面',
+      uploading: '正在上传图片',
+      moveLeft: '向左移动',
+      moveRight: '向右移动',
+      imageLimit: '最多可以添加 8 张图片。',
+      invalidImage: '请选择不超过 10 MB 的 JPEG、PNG 或 WebP 图片。',
       submit: '发布闲置',
       created: '闲置已成功发布。',
-      validationImages: '请至少添加一张图片。'
+      validationImages: '请至少添加一张图片，并等待上传完成。'
     },
     offer: {
       makeOfferTitle: '出价',
@@ -444,8 +460,8 @@ export const messages = {
       note: '给卖家的留言（可选）',
       orderSummary: '订单摘要',
       payNow: '提交订单',
-      orderCreated: '订单已创建，等待付款。',
-      simulatedPay: 'Demo：模拟付款（不会真实扣款）'
+      orderCreated: '商品已为你保留，在线支付尚未启用。',
+      invalidOffer: '该已接受报价不可用，或与当前商品不匹配。'
     },
     orders: {
       title: '我的订单',
@@ -453,7 +469,6 @@ export const messages = {
       tabSelling: '我卖的',
       empty: '还没有订单。',
       orderNumber: '订单号',
-      pay: '模拟付款',
       ship: '标记发货',
       shipping: '快递公司',
       tracking: '物流单号',
@@ -472,7 +487,8 @@ export const messages = {
       deliveredOn: '送达时间',
       completedOn: '完成时间',
       cancelledOn: '取消时间',
-      escrowHint: '仅 Demo —— 不会真实扣款。资金在确认收货前由平台暂为托管。'
+      paymentUnavailable: '在线支付尚未启用，请勿在 ReNova 之外转账。',
+      paymentVerified: '只有支付服务商验证成功后，付款状态才会改变。'
     },
     profile: {
       memberSince: '加入时间',

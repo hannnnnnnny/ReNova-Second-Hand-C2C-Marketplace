@@ -147,19 +147,29 @@ Create listing request:
   "location": "Auckland, NZ",
   "negotiable": true,
   "shippingFee": 0,
-  "imageUrls": [
-    "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=900"
-  ]
+  "mediaIds": [41, 42]
 }
 ```
 
-Update listing accepts partial fields plus `status`. Listings marked `SOLD` must move through order completion, not manual editing.
+Update listing accepts partial fields plus `status`. `mediaIds` must contain one to eight completed images owned by the seller. Listings marked `SOLD` must move through order completion, not manual editing.
+
+## Listing Media
+
+Media mutation endpoints require authentication. Stored objects remain private; public listing image URLs redirect to short-lived signed reads.
+
+1. `POST /api/media/upload-intents` with `fileName`, `contentType`, and `sizeBytes`.
+2. `PUT` the file to the returned `uploadUrl` with every returned `requiredHeaders` value.
+3. `POST /api/media/{id}/complete` to decode, validate, and normalize the image.
+4. Include the completed media ID in the listing's `mediaIds` array.
+
+Accepted formats are JPEG, PNG, and WebP. Each source image is limited to 10 MB and 20 megapixels; listings accept at most eight images.
 
 ## Offers
 
 Offer endpoints require authentication.
 
 - `POST /api/offers`
+- `GET /api/offers/{id}`
 - `POST /api/offers/{id}/accept`
 - `POST /api/offers/{id}/reject`
 - `POST /api/offers/{id}/counter`
@@ -188,12 +198,13 @@ Order endpoints require authentication.
 
 - `POST /api/orders`
 - `GET /api/orders/{id}`
-- `POST /api/orders/{id}/pay`
 - `POST /api/orders/{id}/ship`
 - `POST /api/orders/{id}/confirm-receipt`
 - `POST /api/orders/{id}/cancel`
 - `GET /api/orders/buying`
 - `GET /api/orders/selling`
+
+`POST /api/orders` requires an `Idempotency-Key` header containing a canonical UUID. Replaying the same key and payload returns the original order; reusing the key for a different payload returns `409 Conflict`. Creating an order reserves the listing for a configurable payment window. ReNova does not expose a client-triggered payment endpoint; only a future verified provider webhook may mark an order paid.
 
 Create order request:
 

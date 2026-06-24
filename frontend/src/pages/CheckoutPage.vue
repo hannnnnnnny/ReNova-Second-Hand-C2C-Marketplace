@@ -7,6 +7,7 @@ import { useAuthStore } from '../stores/auth'
 import { useToastStore } from '../stores/toast'
 import { apiError } from '../api/client'
 import { formatPrice } from '../utils/format'
+import { createIdempotencyKey } from '../utils/idempotency'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -17,6 +18,7 @@ const toast = useToastStore()
 const listing = ref(null)
 const acceptedOffer = ref(null)
 const submitting = ref(false)
+const orderAttempt = ref(null)
 
 const form = ref({
   shippingName: auth.user?.displayName || '',
@@ -31,8 +33,13 @@ onMounted(async () => {
   try {
     listing.value = await listingApi.get(route.params.listingId)
     if (offerId.value) {
-      const sent = await offerApi.sent({ page: 0, size: 100 })
-      acceptedOffer.value = (sent.content || []).find((o) => o.id === offerId.value && o.status === 'ACCEPTED')
+      const offer = await offerApi.get(offerId.value)
+      if (offer.status !== 'ACCEPTED' || offer.listingId !== listing.value.id) {
+        toast.error(t('checkout.invalidOffer'))
+        router.back()
+        return
+      }
+      acceptedOffer.value = offer
     }
   } catch (err) { toast.error(apiError(err)); router.back() }
 })
@@ -44,14 +51,19 @@ const total = computed(() => price.value + shipping.value)
 async function placeOrder() {
   submitting.value = true
   try {
-    const order = await orderApi.create({
+    const payload = {
       listingId: listing.value.id,
       acceptedOfferId: acceptedOffer.value?.id || null,
       shippingName: form.value.shippingName,
       shippingPhone: form.value.shippingPhone,
       shippingAddress: form.value.shippingAddress,
       buyerNote: form.value.buyerNote
-    })
+    }
+    const fingerprint = JSON.stringify(payload)
+    if (!orderAttempt.value || orderAttempt.value.fingerprint !== fingerprint) {
+      orderAttempt.value = { fingerprint, key: createIdempotencyKey() }
+    }
+    const order = await orderApi.create(payload, orderAttempt.value.key)
     toast.success(t('checkout.orderCreated'))
     router.push({ name: 'order-detail', params: { id: order.id } })
   } catch (err) { toast.error(apiError(err)) } finally { submitting.value = false }
@@ -98,7 +110,7 @@ async function placeOrder() {
           <div class="between"><span class="muted">{{ t('common.shipping') }}</span><span>{{ shipping > 0 ? formatPrice(shipping) : t('common.free') }}</span></div>
           <div class="divider"></div>
           <div class="between"><span class="bold">{{ t('common.total') }}</span><span class="bold" style="font-family:var(--font-display); font-size:22px">{{ formatPrice(total) }}</span></div>
-          <div class="soft" style="margin-top: 16px; font-size: 12px">{{ t('orders.escrowHint') }}</div>
+          <div class="soft" style="margin-top: 16px; font-size: 12px">{{ t('orders.paymentUnavailable') }}</div>
         </aside>
       </div>
     </div>

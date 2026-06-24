@@ -19,7 +19,7 @@ export function unwrap(response) {
 
 export function apiError(error, fallback = DEFAULT_ERROR_MESSAGE) {
   if (!error.response) {
-    return 'Cannot reach the server. Check that the backend is running.'
+    return error.userMessage || 'Cannot reach the server. Check that the backend is running.'
   }
 
   const data = error.response.data

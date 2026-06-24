@@ -11,13 +11,21 @@ import com.novacart.store.entity.TradeOrder;
 import com.novacart.store.entity.User;
 import com.novacart.store.exception.BusinessRuleException;
 import com.novacart.store.exception.ResourceNotFoundException;
+import com.novacart.store.exception.ResourceConflictException;
 import com.novacart.store.repository.OfferRepository;
 import com.novacart.store.repository.TradeOrderRepository;
 import com.novacart.store.security.CurrentUserService;
 import com.novacart.store.util.EnumParsers;
 import java.math.BigDecimal;
-import java.security.SecureRandom;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.time.Instant;
+import java.util.HexFormat;
+import java.util.List;
+import java.util.UUID;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,29 +35,54 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OrderService {
 
-    private static final SecureRandom RANDOM = new SecureRandom();
+    private static final List<OrderStatus> ACTIVE_ORDER_STATUSES = List.of(
+            OrderStatus.PENDING_PAYMENT,
+            OrderStatus.PAID,
+            OrderStatus.SHIPPED,
+            OrderStatus.DELIVERED,
+            OrderStatus.DISPUTED
+    );
 
     private final TradeOrderRepository orderRepository;
     private final OfferRepository offerRepository;
     private final ListingService listingService;
     private final CurrentUserService currentUserService;
+    private final Duration reservationDuration;
 
     public OrderService(
             TradeOrderRepository orderRepository,
             OfferRepository offerRepository,
             ListingService listingService,
-            CurrentUserService currentUserService
+            CurrentUserService currentUserService,
+            @Value("${novacart.orders.reservation-minutes}") long reservationMinutes
     ) {
         this.orderRepository = orderRepository;
         this.offerRepository = offerRepository;
         this.listingService = listingService;
         this.currentUserService = currentUserService;
+        this.reservationDuration = Duration.ofMinutes(reservationMinutes);
     }
 
     @Transactional
-    public OrderDtos.OrderResponse create(OrderDtos.CreateOrderRequest request) {
+    public OrderDtos.OrderResponse create(String rawIdempotencyKey, OrderDtos.CreateOrderRequest request) {
         User buyer = currentUserService.requireCurrentUser();
-        Listing listing = listingService.requireById(request.listingId());
+        String idempotencyKey = validateIdempotencyKey(rawIdempotencyKey);
+        String fingerprint = fingerprint(request);
+
+        TradeOrder replay = orderRepository.findByBuyerAndIdempotencyKey(buyer, idempotencyKey).orElse(null);
+        if (replay != null) {
+            return replayOrConflict(replay, fingerprint);
+        }
+
+        Listing listing = listingService.requireByIdForUpdate(request.listingId());
+        replay = orderRepository.findByBuyerAndIdempotencyKey(buyer, idempotencyKey).orElse(null);
+        if (replay != null) {
+            return replayOrConflict(replay, fingerprint);
+        }
+
+        if (orderRepository.existsByListingAndStatusIn(listing, ACTIVE_ORDER_STATUSES)) {
+            throw new ResourceConflictException("This listing already has an active order.");
+        }
         if (listing.getSeller().getId().equals(buyer.getId())) {
             throw new BusinessRuleException("You cannot buy your own listing.");
         }
@@ -84,30 +117,22 @@ public class OrderService {
         order.setListing(listing);
         order.setBuyer(buyer);
         order.setSeller(listing.getSeller());
+        order.setIdempotencyKey(idempotencyKey);
+        order.setRequestFingerprint(fingerprint);
         order.setAgreedPrice(price);
         order.setShippingFee(shippingFee);
         order.setTotalAmount(price.add(shippingFee));
-        order.setShippingName(request.shippingName());
-        order.setShippingPhone(request.shippingPhone());
-        order.setShippingAddress(request.shippingAddress());
-        order.setBuyerNote(request.buyerNote());
+        order.setShippingName(request.shippingName().trim());
+        order.setShippingPhone(request.shippingPhone().trim());
+        order.setShippingAddress(request.shippingAddress().trim());
+        order.setBuyerNote(trimToNull(request.buyerNote()));
         order.setStatus(OrderStatus.PENDING_PAYMENT);
-        order.setCreatedAt(Instant.now());
+        Instant now = Instant.now();
+        order.setCreatedAt(now);
+        order.setReservationExpiresAt(now.plus(reservationDuration));
 
         listingService.markReserved(listing);
         return OrderDtos.OrderResponse.from(orderRepository.save(order));
-    }
-
-    @Transactional
-    public OrderDtos.OrderResponse pay(Long orderId) {
-        User current = currentUserService.requireCurrentUser();
-        TradeOrder order = requireForBuyer(orderId, current);
-        if (order.getStatus() != OrderStatus.PENDING_PAYMENT) {
-            throw new BusinessRuleException("Order is not awaiting payment.");
-        }
-        order.setStatus(OrderStatus.PAID);
-        order.setPaidAt(Instant.now());
-        return OrderDtos.OrderResponse.from(order);
     }
 
     @Transactional
@@ -205,6 +230,55 @@ public class OrderService {
     }
 
     private String generateOrderNumber() {
-        return "RN" + System.currentTimeMillis() + String.format("%04d", RANDOM.nextInt(10000));
+        return "RN" + UUID.randomUUID().toString().replace("-", "").substring(0, 20).toUpperCase();
+    }
+
+    private String validateIdempotencyKey(String rawKey) {
+        if (rawKey == null) {
+            throw new BusinessRuleException("Idempotency-Key header is required.");
+        }
+        String key = rawKey.trim().toLowerCase();
+        try {
+            UUID parsed = UUID.fromString(key);
+            if (!parsed.toString().equals(key)) {
+                throw new IllegalArgumentException("Non-canonical UUID");
+            }
+            return key;
+        } catch (IllegalArgumentException exception) {
+            throw new BusinessRuleException("Idempotency-Key must be a canonical UUID.");
+        }
+    }
+
+    private String fingerprint(OrderDtos.CreateOrderRequest request) {
+        String buyerNote = trimToNull(request.buyerNote());
+        String canonical = String.join("\u001f",
+                String.valueOf(request.listingId()),
+                String.valueOf(request.acceptedOfferId()),
+                request.shippingName().trim(),
+                request.shippingPhone().trim(),
+                request.shippingAddress().trim(),
+                buyerNote == null ? "" : buyerNote
+        );
+        try {
+            byte[] digest = MessageDigest.getInstance("SHA-256")
+                    .digest(canonical.getBytes(StandardCharsets.UTF_8));
+            return HexFormat.of().formatHex(digest);
+        } catch (NoSuchAlgorithmException exception) {
+            throw new IllegalStateException("SHA-256 is unavailable.", exception);
+        }
+    }
+
+    private OrderDtos.OrderResponse replayOrConflict(TradeOrder existing, String fingerprint) {
+        if (!existing.getRequestFingerprint().equals(fingerprint)) {
+            throw new ResourceConflictException("Idempotency-Key was already used for a different order request.");
+        }
+        return OrderDtos.OrderResponse.from(existing);
+    }
+
+    private String trimToNull(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        return value.trim();
     }
 }

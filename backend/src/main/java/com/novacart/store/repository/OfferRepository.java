@@ -29,6 +29,13 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
     @Query("""
             SELECT o FROM Offer o
             WHERE o.id = :id
+              AND (o.buyer = :participant OR o.listing.seller = :participant)
+            """)
+    Optional<Offer> findByIdAndParticipant(@Param("id") Long id, @Param("participant") User participant);
+
+    @Query("""
+            SELECT o FROM Offer o
+            WHERE o.id = :id
               AND ((o.fromSeller = true AND o.listing.seller = :actor)
                    OR (o.fromSeller = false AND o.buyer = :actor))
             """)

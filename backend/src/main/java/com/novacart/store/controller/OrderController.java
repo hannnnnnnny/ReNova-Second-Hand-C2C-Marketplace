@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,18 +26,16 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<OrderDtos.OrderResponse>> create(@Valid @RequestBody OrderDtos.CreateOrderRequest request) {
-        return ResponseEntity.ok(ApiResponse.success("Order created.", orderService.create(request)));
+    public ResponseEntity<ApiResponse<OrderDtos.OrderResponse>> create(
+            @RequestHeader("Idempotency-Key") String idempotencyKey,
+            @Valid @RequestBody OrderDtos.CreateOrderRequest request
+    ) {
+        return ResponseEntity.ok(ApiResponse.success("Order created.", orderService.create(idempotencyKey, request)));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<OrderDtos.OrderResponse>> get(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.success("Order.", orderService.get(id)));
-    }
-
-    @PostMapping("/{id}/pay")
-    public ResponseEntity<ApiResponse<OrderDtos.OrderResponse>> pay(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.success("Payment recorded.", orderService.pay(id)));
     }
 
     @PostMapping("/{id}/ship")

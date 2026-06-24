@@ -23,7 +23,30 @@ export const listingApi = {
   favorites: (params) => client.get('/listings/favorites', { params }).then(unwrap)
 }
 
+export const mediaApi = {
+  upload: async (file) => {
+    const intent = await client.post('/media/upload-intents', {
+      fileName: file.name,
+      contentType: file.type,
+      sizeBytes: file.size
+    }).then(unwrap)
+
+    const upload = await fetch(intent.uploadUrl, {
+      method: 'PUT',
+      headers: intent.requiredHeaders,
+      body: file
+    })
+    if (!upload.ok) {
+      const error = new Error('Image upload was rejected by object storage.')
+      error.userMessage = 'The image could not be uploaded. Please try again.'
+      throw error
+    }
+    return client.post(`/media/${intent.mediaId}/complete`).then(unwrap)
+  }
+}
+
 export const offerApi = {
+  get: (id) => client.get(`/offers/${id}`).then(unwrap),
   create: (payload) => client.post('/offers', payload).then(unwrap),
   accept: (id) => client.post(`/offers/${id}/accept`).then(unwrap),
   reject: (id) => client.post(`/offers/${id}/reject`).then(unwrap),
@@ -43,9 +66,10 @@ export const conversationApi = {
 }
 
 export const orderApi = {
-  create: (payload) => client.post('/orders', payload).then(unwrap),
+  create: (payload, idempotencyKey) => client.post('/orders', payload, {
+    headers: { 'Idempotency-Key': idempotencyKey }
+  }).then(unwrap),
   get: (id) => client.get(`/orders/${id}`).then(unwrap),
-  pay: (id) => client.post(`/orders/${id}/pay`).then(unwrap),
   ship: (id, payload) => client.post(`/orders/${id}/ship`, payload).then(unwrap),
   confirmReceipt: (id) => client.post(`/orders/${id}/confirm-receipt`).then(unwrap),
   cancel: (id, payload) => client.post(`/orders/${id}/cancel`, payload).then(unwrap),

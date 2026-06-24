@@ -86,5 +86,5 @@ Serving 100,000 simultaneous form clicks still requires deployment architecture 
 ## Test Strategy
 
 - Frontend unit tests cover formatting, i18n bundle shape, browser storage resilience, API error normalization, and endpoint route contracts.
-- Backend MockMvc tests cover public catalog reads, validation errors, real Cookie/CSRF exchange, authenticated listing creation, and direct cross-user authorization failures.
+- Backend tests cover public catalog reads, validation errors, real Cookie/CSRF exchange, password handling, cross-user authorization, image decoding and ownership, the persisted marketplace loop, idempotent checkout, concurrent buyers, and reservation expiry.
 - Build checks run the Vite production build and the Spring Boot test profile.

@@ -13,6 +13,8 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.Version;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -24,13 +26,23 @@ import java.time.Instant;
 @Table(name = "trade_orders", indexes = {
         @Index(name = "idx_order_buyer", columnList = "buyer_id"),
         @Index(name = "idx_order_seller", columnList = "seller_id"),
-        @Index(name = "idx_order_status", columnList = "status")
+        @Index(name = "idx_order_status", columnList = "status"),
+        @Index(name = "idx_order_listing_status", columnList = "listing_id,status"),
+        @Index(name = "idx_order_reservation_expiry", columnList = "status,reservation_expires_at")
+}, uniqueConstraints = {
+        @UniqueConstraint(
+                name = "uk_order_buyer_idempotency",
+                columnNames = {"buyer_id", "idempotency_key"}
+        )
 })
 public class TradeOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Version
+    private long version;
 
     @Column(name = "order_number", nullable = false, length = 32, unique = true)
     private String orderNumber;
@@ -46,6 +58,12 @@ public class TradeOrder {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "seller_id", nullable = false, foreignKey = @ForeignKey(name = "fk_order_seller"))
     private User seller;
+
+    @Column(name = "idempotency_key", nullable = false, length = 36)
+    private String idempotencyKey;
+
+    @Column(name = "request_fingerprint", nullable = false, length = 64)
+    private String requestFingerprint;
 
     @Column(name = "agreed_price", nullable = false, precision = 12, scale = 2)
     private BigDecimal agreedPrice;
@@ -81,6 +99,9 @@ public class TradeOrder {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
+    @Column(name = "reservation_expires_at", nullable = false)
+    private Instant reservationExpiresAt;
+
     @Column(name = "paid_at")
     private Instant paidAt;
 
@@ -105,6 +126,8 @@ public class TradeOrder {
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+    public long getVersion() { return version; }
+    public void setVersion(long version) { this.version = version; }
     public String getOrderNumber() { return orderNumber; }
     public void setOrderNumber(String orderNumber) { this.orderNumber = orderNumber; }
     public Listing getListing() { return listing; }
@@ -113,6 +136,10 @@ public class TradeOrder {
     public void setBuyer(User buyer) { this.buyer = buyer; }
     public User getSeller() { return seller; }
     public void setSeller(User seller) { this.seller = seller; }
+    public String getIdempotencyKey() { return idempotencyKey; }
+    public void setIdempotencyKey(String idempotencyKey) { this.idempotencyKey = idempotencyKey; }
+    public String getRequestFingerprint() { return requestFingerprint; }
+    public void setRequestFingerprint(String requestFingerprint) { this.requestFingerprint = requestFingerprint; }
     public BigDecimal getAgreedPrice() { return agreedPrice; }
     public void setAgreedPrice(BigDecimal agreedPrice) { this.agreedPrice = agreedPrice; }
     public BigDecimal getShippingFee() { return shippingFee; }
@@ -135,6 +162,8 @@ public class TradeOrder {
     public void setStatus(OrderStatus status) { this.status = status; }
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Instant getReservationExpiresAt() { return reservationExpiresAt; }
+    public void setReservationExpiresAt(Instant reservationExpiresAt) { this.reservationExpiresAt = reservationExpiresAt; }
     public Instant getPaidAt() { return paidAt; }
     public void setPaidAt(Instant paidAt) { this.paidAt = paidAt; }
     public Instant getShippedAt() { return shippedAt; }

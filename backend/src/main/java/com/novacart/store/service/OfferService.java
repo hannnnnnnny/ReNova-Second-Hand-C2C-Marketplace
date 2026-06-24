@@ -157,6 +157,14 @@ public class OfferService {
         return PageResponse.from(result.map(OfferDtos.OfferResponse::from));
     }
 
+    @Transactional(readOnly = true)
+    public OfferDtos.OfferResponse get(Long offerId) {
+        User participant = currentUserService.requireCurrentUser();
+        Offer offer = offerRepository.findByIdAndParticipant(offerId, participant)
+                .orElseThrow(() -> new ResourceNotFoundException("Offer not found."));
+        return OfferDtos.OfferResponse.from(offer);
+    }
+
     private Offer requireForSeller(Long id, User seller) {
         return offerRepository.findByIdAndListing_Seller(id, seller)
                 .orElseThrow(() -> new ResourceNotFoundException("Offer not found."));

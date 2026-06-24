@@ -7,6 +7,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.novacart.store.repository.MediaAssetRepository;
+import com.novacart.store.repository.UserRepository;
+import com.novacart.store.support.TestMediaAssets;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,6 +37,12 @@ class ReNovaApiControllerTests {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private MediaAssetRepository mediaRepository;
 
     @Test
     void publicCatalogReadsDatabaseBackedCategoriesAndListings() throws Exception {
@@ -96,7 +105,7 @@ class ReNovaApiControllerTests {
         payload.put("location", "Test City");
         payload.put("negotiable", true);
         payload.put("shippingFee", BigDecimal.ZERO);
-        payload.put("imageUrls", List.of("https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=900"));
+        payload.put("mediaIds", List.of(999999L));
 
         mockMvc.perform(post("/api/listings")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -105,6 +114,9 @@ class ReNovaApiControllerTests {
 
         TestAccount account = register("Listing Test User");
         Cookie sessionCookie = login(account.email(), account.password());
+        payload.put("mediaIds", List.of(TestMediaAssets.readyImage(
+                account.email(), userRepository, mediaRepository
+        )));
 
         mockMvc.perform(post("/api/listings")
                         .cookie(sessionCookie)

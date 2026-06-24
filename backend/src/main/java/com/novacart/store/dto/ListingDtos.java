@@ -23,7 +23,7 @@ public final class ListingDtos {
             @Size(max = 120) String location,
             boolean negotiable,
             @DecimalMin(value = "0.00") BigDecimal shippingFee,
-            @NotNull @Size(min = 1, max = 8) List<@NotBlank @Size(max = 500) String> imageUrls
+            @NotNull @Size(min = 1, max = 8) List<@NotNull Long> mediaIds
     ) {}
 
     public record ListingUpdateRequest(
@@ -36,7 +36,7 @@ public final class ListingDtos {
             @Size(max = 120) String location,
             Boolean negotiable,
             @DecimalMin(value = "0.00") BigDecimal shippingFee,
-            List<@NotBlank @Size(max = 500) String> imageUrls,
+            @Size(min = 1, max = 8) List<@NotNull Long> mediaIds,
             String status
     ) {}
 
@@ -88,6 +88,7 @@ public final class ListingDtos {
             boolean negotiable,
             BigDecimal shippingFee,
             List<String> imageUrls,
+            List<Long> mediaIds,
             String status,
             int viewCount,
             int favoriteCount,
@@ -97,7 +98,7 @@ public final class ListingDtos {
             UserDtos.PublicUser seller,
             boolean favorited
     ) {
-        public static ListingDetail from(Listing l, boolean favorited) {
+        public static ListingDetail from(Listing l, boolean favorited, List<Long> mediaIds) {
             return new ListingDetail(
                     l.getId(),
                     l.getTitle(),
@@ -109,6 +110,7 @@ public final class ListingDtos {
                     l.isNegotiable(),
                     l.getShippingFee(),
                     List.copyOf(l.getImageUrls()),
+                    List.copyOf(mediaIds),
                     l.getStatus().name(),
                     l.getViewCount(),
                     l.getFavoriteCount(),

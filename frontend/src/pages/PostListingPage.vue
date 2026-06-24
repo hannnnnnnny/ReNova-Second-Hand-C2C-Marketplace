@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 import { listingApi, categoryApi } from '../api/endpoints'
 import { useToastStore } from '../stores/toast'
 import { apiError } from '../api/client'
+import ListingImageUploader from '../components/ListingImageUploader.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -23,7 +24,7 @@ const form = ref({
   location: '',
   negotiable: true,
   shippingFee: '0',
-  imagesText: ''
+  images: []
 })
 
 onMounted(async () => {
@@ -34,8 +35,11 @@ onMounted(async () => {
 })
 
 async function submit() {
-  const imageUrls = form.value.imagesText.split(/\r?\n/).map((s) => s.trim()).filter(Boolean)
-  if (!imageUrls.length) { toast.error(t('post.validationImages')); return }
+  const mediaIds = form.value.images.filter((image) => image.id && !image.uploading).map((image) => image.id)
+  if (!mediaIds.length || mediaIds.length !== form.value.images.length) {
+    toast.error(t('post.validationImages'))
+    return
+  }
   submitting.value = true
   try {
     const payload = {
@@ -48,7 +52,7 @@ async function submit() {
       location: form.value.location,
       negotiable: form.value.negotiable,
       shippingFee: form.value.shippingFee ? Number(form.value.shippingFee) : 0,
-      imageUrls
+      mediaIds
     }
     const created = await listingApi.create(payload)
     toast.success(t('post.created'))
@@ -116,8 +120,7 @@ async function submit() {
 
         <div class="field">
           <label class="label">{{ t('post.imagesLabel') }}</label>
-          <textarea class="textarea" v-model="form.imagesText" placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg"></textarea>
-          <span class="help">{{ t('post.imagesHint') }}</span>
+          <ListingImageUploader v-model="form.images" />
         </div>
 
         <div class="row" style="justify-content: flex-end">

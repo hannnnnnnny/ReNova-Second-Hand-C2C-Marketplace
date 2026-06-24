@@ -46,11 +46,6 @@ async function load() {
   finally { loading.value = false }
 }
 
-async function pay() {
-  try { order.value = await orderApi.pay(order.value.id); toast.success(t('orderStatus.PAID')) }
-  catch (err) { toast.error(apiError(err)) }
-}
-
 async function ship() {
   if (!shipForm.value.carrier || !shipForm.value.trackingNumber) return
   try {
@@ -149,12 +144,11 @@ onMounted(load)
             <div class="between"><span class="muted">{{ t('common.shipping') }}</span><span>{{ Number(order.shippingFee) > 0 ? formatPrice(order.shippingFee) : t('common.free') }}</span></div>
             <div class="divider"></div>
             <div class="between"><span class="bold">{{ t('common.total') }}</span><span class="bold" style="font-family:var(--font-display); font-size:22px">{{ formatPrice(order.totalAmount) }}</span></div>
-            <div class="soft" style="margin-top: 12px; font-size: 12px">{{ t('orders.escrowHint') }}</div>
+            <div class="soft" style="margin-top: 12px; font-size: 12px">{{ order.status === 'PENDING_PAYMENT' ? t('orders.paymentUnavailable') : t('orders.paymentVerified') }}</div>
 
             <div class="divider"></div>
 
             <div class="actions">
-              <button v-if="role === 'buyer' && order.status === 'PENDING_PAYMENT'" class="btn btn-primary" @click="pay" type="button">{{ t('orders.pay') }}</button>
               <button v-if="role === 'seller' && order.status === 'PAID'" class="btn btn-primary" @click="showShipModal = true" type="button">{{ t('orders.ship') }}</button>
               <button v-if="role === 'buyer' && order.status === 'SHIPPED'" class="btn btn-primary" @click="confirmReceipt" type="button">{{ t('orders.confirmReceipt') }}</button>
               <button v-if="['PENDING_PAYMENT', 'PAID'].includes(order.status)" class="btn btn-outline" @click="cancel" type="button">{{ t('orders.cancel') }}</button>

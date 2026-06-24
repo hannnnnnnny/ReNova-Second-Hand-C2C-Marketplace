@@ -16,7 +16,6 @@ import com.novacart.store.security.CurrentUserService;
 import com.novacart.store.util.EnumParsers;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.ArrayList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,17 +31,20 @@ public class ListingService {
     private final FavoriteRepository favoriteRepository;
     private final CategoryService categoryService;
     private final CurrentUserService currentUserService;
+    private final MediaService mediaService;
 
     public ListingService(
             ListingRepository listingRepository,
             FavoriteRepository favoriteRepository,
             CategoryService categoryService,
-            CurrentUserService currentUserService
+            CurrentUserService currentUserService,
+            MediaService mediaService
     ) {
         this.listingRepository = listingRepository;
         this.favoriteRepository = favoriteRepository;
         this.categoryService = categoryService;
         this.currentUserService = currentUserService;
+        this.mediaService = mediaService;
     }
 
     @Transactional(readOnly = true)
@@ -84,7 +86,7 @@ public class ListingService {
         listing.setViewCount(listing.getViewCount() + 1);
         User current = currentUserService.getCurrentUserOrNull();
         boolean favorited = current != null && favoriteRepository.existsByUserAndListing(current, listing);
-        return ListingDtos.ListingDetail.from(listing, favorited);
+        return detail(listing, favorited);
     }
 
     @Transactional
@@ -103,12 +105,12 @@ public class ListingService {
         listing.setLocation(request.location());
         listing.setNegotiable(request.negotiable());
         listing.setShippingFee(request.shippingFee() == null ? BigDecimal.ZERO : request.shippingFee());
-        listing.setImageUrls(new ArrayList<>(request.imageUrls()));
         listing.setStatus(ListingStatus.ACTIVE);
         listing.setCreatedAt(Instant.now());
         listing.setUpdatedAt(Instant.now());
         Listing saved = listingRepository.save(listing);
-        return ListingDtos.ListingDetail.from(saved, false);
+        mediaService.attach(saved, seller, request.mediaIds());
+        return detail(saved, false);
     }
 
     @Transactional
@@ -130,10 +132,7 @@ public class ListingService {
         if (request.location() != null) listing.setLocation(request.location());
         if (request.negotiable() != null) listing.setNegotiable(request.negotiable());
         if (request.shippingFee() != null) listing.setShippingFee(request.shippingFee());
-        if (request.imageUrls() != null && !request.imageUrls().isEmpty()) {
-            listing.getImageUrls().clear();
-            listing.getImageUrls().addAll(request.imageUrls());
-        }
+        if (request.mediaIds() != null) mediaService.attach(listing, current, request.mediaIds());
         if (request.status() != null) {
             ListingStatus next = EnumParsers.required(ListingStatus.class, request.status(), "status");
             if (next == ListingStatus.SOLD) {
@@ -144,7 +143,7 @@ public class ListingService {
         listing.setUpdatedAt(Instant.now());
         User current2 = currentUserService.getCurrentUserOrNull();
         boolean favorited = current2 != null && favoriteRepository.existsByUserAndListing(current2, listing);
-        return ListingDtos.ListingDetail.from(listing, favorited);
+        return detail(listing, favorited);
     }
 
     @Transactional
@@ -204,6 +203,12 @@ public class ListingService {
     }
 
     @Transactional
+    public Listing requireByIdForUpdate(Long id) {
+        return listingRepository.findByIdForUpdate(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Listing not found."));
+    }
+
+    @Transactional
     public void markSold(Listing listing) {
         listing.setStatus(ListingStatus.SOLD);
         listing.setSoldAt(Instant.now());
@@ -222,5 +227,9 @@ public class ListingService {
             listing.setStatus(ListingStatus.ACTIVE);
             listing.setUpdatedAt(Instant.now());
         }
+    }
+
+    private ListingDtos.ListingDetail detail(Listing listing, boolean favorited) {
+        return ListingDtos.ListingDetail.from(listing, favorited, mediaService.mediaIdsFor(listing));
     }
 }

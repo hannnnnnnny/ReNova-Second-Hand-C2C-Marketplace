@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { readStorageItem, removeStorageItem } from '../utils/browserStorage'
+import { DEMO_MODE, demoAdapter } from './demo'
 
 const TOKEN_KEY = 'renova.token'
 const DEFAULT_ERROR_MESSAGE = 'The request could not be completed.'
@@ -10,6 +11,11 @@ const apiClient = axios.create({
     'Content-Type': 'application/json'
   }
 })
+
+// No backend on GitHub Pages: serve seeded data from an in-browser adapter.
+if (DEMO_MODE) {
+  apiClient.defaults.adapter = demoAdapter
+}
 
 apiClient.interceptors.request.use((config) => {
   const token = getStoredAuthToken()

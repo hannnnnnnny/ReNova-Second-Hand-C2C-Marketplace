@@ -42,6 +42,7 @@ jobs:
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
+          VITE_RENOVA_DEMO: 'true'
 
       - name: Add SPA fallback
         run: |

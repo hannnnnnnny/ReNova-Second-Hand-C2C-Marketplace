@@ -36,6 +36,42 @@ const users = {
     averageRating: 4.6,
     ratingCount: 15,
     memberSince: daysAgo(210)
+  },
+  3: {
+    id: 3,
+    email: 'maya@renova.local',
+    displayName: 'Maya Flores',
+    avatarUrl: null,
+    location: 'Christchurch',
+    role: 'USER',
+    bio: 'Vintage finds and camera gear. Fast shipper.',
+    averageRating: 4.9,
+    ratingCount: 11,
+    memberSince: daysAgo(160)
+  },
+  4: {
+    id: 4,
+    email: 'theo@renova.local',
+    displayName: 'Theo Novak',
+    avatarUrl: null,
+    location: 'Hamilton',
+    role: 'USER',
+    bio: 'Always open to a fair offer.',
+    averageRating: 4.5,
+    ratingCount: 8,
+    memberSince: daysAgo(95)
+  },
+  5: {
+    id: 5,
+    email: 'ivy@renova.local',
+    displayName: 'Ivy Bennett',
+    avatarUrl: null,
+    location: 'Dunedin',
+    role: 'USER',
+    bio: 'Plants, ceramics, and cosy knitwear.',
+    averageRating: 5.0,
+    ratingCount: 6,
+    memberSince: daysAgo(70)
   }
 }
 
@@ -118,6 +154,170 @@ const toDetail = (l) => ({
   favorited: favorites.has(l.id)
 })
 
+const listingById = (id) => rawListings.find((l) => l.id === Number(id))
+
+// ---------------------------------------------------------------------------
+// Transaction graph for the static demo (no backend). Built so a visitor who
+// "logs in" as ava@renova.local sees populated messages, offers, orders, and
+// reviews — mirroring the backend seed. Records are stored raw and projected
+// relative to the current user, so logging in as anyone else still works.
+// ---------------------------------------------------------------------------
+
+// Conversations: each has a buyer, a seller, a listing, and a message thread.
+const rawConversations = [
+  {
+    id: 1, listingId: 6, buyerId: 1, sellerId: 2,
+    messages: [
+      { senderId: 1, body: 'Hi! Are the running sneakers still available?', days: 2, mins: 0 },
+      { senderId: 2, body: 'Yep, barely 120km on them. Cleaned and ready to post.', days: 2, mins: 35 },
+      { senderId: 1, body: 'Great — I just sent an offer at $50.', days: 1, mins: 0 },
+      { senderId: 2, body: 'Accepted! I\'ll ship tomorrow and send tracking.', days: 1, mins: 20, unreadFor: 'buyer' }
+    ]
+  },
+  {
+    id: 2, listingId: 1, buyerId: 3, sellerId: 1,
+    messages: [
+      { senderId: 3, body: 'Is the silk wrap dress true to a size 10?', days: 1, mins: 0 },
+      { senderId: 1, body: 'Runs slightly small — a comfy 8 to 10.', days: 1, mins: 25 },
+      { senderId: 3, body: 'Perfect, putting an offer in now!', days: 0, mins: 90, unreadFor: 'seller' }
+    ]
+  },
+  {
+    id: 3, listingId: 2, buyerId: 4, sellerId: 1,
+    messages: [
+      { senderId: 4, body: 'Would you ship the leather tote to Hamilton?', days: 3, mins: 0 },
+      { senderId: 1, body: 'Absolutely — free shipping on this one.', days: 3, mins: 40 }
+    ]
+  }
+]
+
+const convLastMsg = (c) => c.messages[c.messages.length - 1]
+const convUnreadFor = (c, uid) => {
+  const side = uid === c.buyerId ? 'buyer' : uid === c.sellerId ? 'seller' : null
+  if (!side) return 0
+  return c.messages.filter((m) => m.unreadFor === side).length
+}
+const msgTime = (m) => new Date(now - m.days * 86400000 + (m.mins || 0) * 60000).toISOString()
+
+function conversationSummary(c, uid) {
+  const l = listingById(c.listingId)
+  const counterpartyId = uid === c.buyerId ? c.sellerId : c.buyerId
+  const last = convLastMsg(c)
+  return {
+    id: c.id,
+    listingId: c.listingId,
+    listingTitle: l ? l.title : 'Listing',
+    listingCoverImageUrl: l ? asset(l.img) : null,
+    listingStatus: l ? l.status : 'ACTIVE',
+    counterparty: publicUser(users[counterpartyId]),
+    role: uid === c.buyerId ? 'BUYER' : 'SELLER',
+    lastMessagePreview: last ? last.body : '',
+    lastMessageAt: last ? msgTime(last) : daysAgo(1),
+    unreadCount: convUnreadFor(c, uid)
+  }
+}
+function conversationDetail(c, uid) {
+  return {
+    conversation: conversationSummary(c, uid),
+    messages: c.messages.map((m, i) => ({
+      id: c.id * 100 + i,
+      conversationId: c.id,
+      senderId: m.senderId,
+      senderName: users[m.senderId] ? users[m.senderId].displayName : 'User',
+      body: m.body,
+      createdAt: msgTime(m),
+      readAt: m.unreadFor ? null : msgTime(m)
+    }))
+  }
+}
+
+// Offers: buyer makes an offer on a listing (the seller is the listing owner).
+const rawOffers = [
+  { id: 1, listingId: 1, buyerId: 3, amount: 55, message: 'Love this dress! Would $55 work?', status: 'PENDING', fromSeller: false, days: 1 },
+  { id: 2, listingId: 2, buyerId: 4, amount: 80, message: '$80 shipped to Hamilton?', status: 'PENDING', fromSeller: false, days: 2 },
+  { id: 3, listingId: 6, buyerId: 1, amount: 50, message: 'Would you take $50?', status: 'ACCEPTED', fromSeller: false, days: 1, respondedDays: 1 },
+  { id: 4, listingId: 7, buyerId: 1, amount: 14, message: '$14 for the yoga mat?', status: 'PENDING', fromSeller: false, days: 0 }
+]
+function offerResponse(o) {
+  const l = listingById(o.listingId)
+  return {
+    id: o.id,
+    listingId: o.listingId,
+    listingTitle: l ? l.title : 'Listing',
+    listingCoverImageUrl: l ? asset(l.img) : null,
+    buyer: publicUser(users[o.buyerId]),
+    seller: publicUser(users[l ? l.sellerId : 1]),
+    amount: o.amount,
+    message: o.message,
+    status: o.status,
+    fromSeller: o.fromSeller,
+    parentOfferId: null,
+    createdAt: daysAgo(o.days),
+    respondedAt: o.respondedDays != null ? daysAgo(o.respondedDays) : null
+  }
+}
+
+// Orders: a buyer's purchase from a seller, in various lifecycle states.
+const rawOrders = [
+  { id: 1, num: 'RN10231007', listingId: 6, buyerId: 1, sellerId: 2, agreed: 50, ship: 0, status: 'SHIPPED', days: 2, carrier: 'NZ Post', tracking: 'NZ1234567', name: 'Ava Thompson', phone: '+64 21 555 0142', addr: '14 Ponsonby Rd, Auckland 1011' },
+  { id: 2, num: 'RN10240412', listingId: 9, buyerId: 1, sellerId: 2, agreed: 24, ship: 0, status: 'COMPLETED', days: 14, carrier: 'CourierPost', tracking: 'NZ9988776', name: 'Ava Thompson', phone: '+64 21 555 0142', addr: '14 Ponsonby Rd, Auckland 1011' },
+  { id: 3, num: 'RN10255533', listingId: 3, buyerId: 3, sellerId: 1, agreed: 54, ship: 0, status: 'PAID', days: 2, name: 'Maya Flores', phone: '+64 21 555 0188', addr: '5 Colombo St, Christchurch 8011' },
+  { id: 4, num: 'RN10260088', listingId: 4, buyerId: 5, sellerId: 1, agreed: 28, ship: 0, status: 'COMPLETED', days: 10, carrier: 'NZ Post', tracking: 'NZ5544332', name: 'Ivy Bennett', phone: '+64 21 555 0170', addr: '88 George St, Dunedin 9016' }
+]
+function orderResponse(o) {
+  const l = listingById(o.listingId)
+  const paid = ['PAID', 'SHIPPED', 'DELIVERED', 'COMPLETED'].includes(o.status)
+  const shipped = ['SHIPPED', 'DELIVERED', 'COMPLETED'].includes(o.status)
+  const done = o.status === 'COMPLETED'
+  return {
+    id: o.id,
+    orderNumber: o.num,
+    listingId: o.listingId,
+    listingTitle: l ? l.title : 'Listing',
+    listingCoverImageUrl: l ? asset(l.img) : null,
+    buyer: publicUser(users[o.buyerId]),
+    seller: publicUser(users[o.sellerId]),
+    agreedPrice: o.agreed,
+    shippingFee: o.ship,
+    totalAmount: o.agreed + o.ship,
+    shippingName: o.name,
+    shippingPhone: o.phone,
+    shippingAddress: o.addr,
+    buyerNote: null,
+    trackingNumber: shipped ? o.tracking || null : null,
+    carrier: shipped ? o.carrier || null : null,
+    status: o.status,
+    createdAt: daysAgo(o.days),
+    paidAt: paid ? daysAgo(o.days) : null,
+    shippedAt: shipped ? daysAgo(Math.max(0, o.days - 1)) : null,
+    deliveredAt: done ? daysAgo(Math.max(0, o.days - 3)) : null,
+    completedAt: done ? daysAgo(Math.max(0, o.days - 3)) : null,
+    cancelledAt: null,
+    cancelReason: null
+  }
+}
+
+// Reviews left on completed orders (reviewee gets the rating).
+const rawReviews = [
+  { id: 1, orderId: 4, listingId: 4, reviewerId: 5, revieweeId: 1, rating: 5, comment: 'Beautiful clutch, even nicer in person. Fast shipping!', role: 'BUYER_REVIEWS_SELLER', days: 9 },
+  { id: 2, orderId: 2, listingId: 9, reviewerId: 1, revieweeId: 2, rating: 5, comment: 'Mugs arrived perfectly packed. Thanks Liam!', role: 'BUYER_REVIEWS_SELLER', days: 12 },
+  { id: 3, orderId: 4, listingId: 4, reviewerId: 1, revieweeId: 5, rating: 5, comment: 'Smooth, friendly buyer. Recommended.', role: 'SELLER_REVIEWS_BUYER', days: 9 }
+]
+function reviewResponse(r) {
+  const l = listingById(r.listingId)
+  return {
+    id: r.id,
+    orderId: r.orderId,
+    listingTitle: l ? l.title : 'Listing',
+    reviewer: publicUser(users[r.reviewerId]),
+    reviewee: publicUser(users[r.revieweeId]),
+    rating: r.rating,
+    comment: r.comment,
+    role: r.role,
+    createdAt: daysAgo(r.days)
+  }
+}
+
 function paginate(items, params = {}) {
   const page = Number(params.page ?? 0)
   const size = Number(params.size ?? 12)
@@ -153,8 +353,6 @@ function currentUserId(config) {
   const m = /demo\.(\d+)/.exec(auth)
   return m ? Number(m[1]) : 1
 }
-
-const emptyPage = (params) => paginate([], params)
 
 // Returns the unwrapped payload for a request, or throws { status } for 404.
 function route(config) {
@@ -192,7 +390,9 @@ function route(config) {
   if ((m = /^\/public\/users\/(\d+)\/listings$/.exec(path))) {
     return paginate(rawListings.filter((l) => l.sellerId === Number(m[1])).map(toSummary), params)
   }
-  if ((m = /^\/public\/users\/(\d+)\/reviews$/.exec(path))) return []
+  if ((m = /^\/public\/users\/(\d+)\/reviews$/.exec(path))) {
+    return rawReviews.filter((r) => r.revieweeId === Number(m[1])).map(reviewResponse)
+  }
   if ((m = /^\/public\/users\/(\d+)$/.exec(path))) {
     const u = users[Number(m[1])]
     if (!u) throw { status: 404, message: 'User not found' }
@@ -211,12 +411,74 @@ function route(config) {
   if (path === '/listings' && method === 'POST') return { ...toDetail(rawListings[0]), id: 999, title: body.title || 'New listing' }
   if ((m = /^\/listings\/(\d+)$/.exec(path))) return { id: Number(m[1]) }
 
-  // ---- offers / orders / conversations / reviews (read = empty, write = ok) ----
-  if (path === '/offers/received' || path === '/offers/sent') return emptyPage(params)
-  if (path === '/orders/buying' || path === '/orders/selling') return emptyPage(params)
-  if (path === '/conversations') return method === 'POST' ? { id: 1 } : []
-  if (path === '/conversations/unread-count') return { count: 0 }
-  if ((m = /^\/orders\/(\d+)$/.exec(path))) return { id: Number(m[1]), status: 'PAID' }
+  // ---- offers (relative to the logged-in user) ----
+  const uid = currentUserId(config)
+  if (path === '/offers/received') {
+    // offers on listings the current user is selling
+    const mine = rawOffers.filter((o) => { const l = listingById(o.listingId); return l && l.sellerId === uid })
+    return paginate(mine.map(offerResponse), params)
+  }
+  if (path === '/offers/sent') {
+    const mine = rawOffers.filter((o) => o.buyerId === uid)
+    return paginate(mine.map(offerResponse), params)
+  }
+  if (/^\/offers\/\d+\/(accept|reject|counter|withdraw|accept-counter)$/.test(path) && method === 'POST') {
+    return { ok: true } // demo: offer actions are no-ops
+  }
+
+  // ---- orders ----
+  if (path === '/orders/buying') {
+    return paginate(rawOrders.filter((o) => o.buyerId === uid).map(orderResponse), params)
+  }
+  if (path === '/orders/selling') {
+    return paginate(rawOrders.filter((o) => o.sellerId === uid).map(orderResponse), params)
+  }
+  if ((m = /^\/orders\/(\d+)\/reviews$/.exec(path))) {
+    return rawReviews.filter((r) => r.orderId === Number(m[1])).map(reviewResponse)
+  }
+  if (/^\/orders\/\d+\/(pay|ship|confirm-receipt|cancel)$/.test(path) && method === 'POST') {
+    return { ok: true } // demo: order actions are no-ops
+  }
+  if ((m = /^\/orders\/(\d+)$/.exec(path))) {
+    const o = rawOrders.find((x) => x.id === Number(m[1]))
+    if (!o) throw { status: 404, message: 'Order not found' }
+    return orderResponse(o)
+  }
+  if (path === '/orders' && method === 'POST') {
+    return orderResponse(rawOrders[0]) // demo checkout returns a sample order
+  }
+
+  // ---- conversations ----
+  if (path === '/conversations') {
+    if (method === 'POST') {
+      // starting/continuing a conversation: return the matching thread or the first one
+      const lid = Number(body.listingId)
+      const c = rawConversations.find((x) => x.listingId === lid) || rawConversations[0]
+      return conversationDetail(c, uid)
+    }
+    const mine = rawConversations
+      .filter((c) => c.buyerId === uid || c.sellerId === uid)
+      .sort((a, b) => new Date(conversationSummary(b, uid).lastMessageAt) - new Date(conversationSummary(a, uid).lastMessageAt))
+    return mine.map((c) => conversationSummary(c, uid))
+  }
+  if (path === '/conversations/unread-count') {
+    const total = rawConversations
+      .filter((c) => c.buyerId === uid || c.sellerId === uid)
+      .reduce((sum, c) => sum + convUnreadFor(c, uid), 0)
+    return { count: total }
+  }
+  if ((m = /^\/conversations\/(\d+)\/messages$/.exec(path)) && method === 'POST') {
+    return {
+      id: Date.now(), conversationId: Number(m[1]), senderId: uid,
+      senderName: users[uid] ? users[uid].displayName : 'You',
+      body: body.body || '', createdAt: new Date().toISOString(), readAt: null
+    }
+  }
+  if ((m = /^\/conversations\/(\d+)$/.exec(path))) {
+    const c = rawConversations.find((x) => x.id === Number(m[1]))
+    if (!c) throw { status: 404, message: 'Conversation not found' }
+    return conversationDetail(c, uid)
+  }
 
   // default: succeed quietly so the demo never shows a hard error
   if (method === 'GET') return null

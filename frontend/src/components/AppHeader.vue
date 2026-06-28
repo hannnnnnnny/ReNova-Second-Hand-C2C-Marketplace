@@ -11,7 +11,8 @@ const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()
-const menuOpen = ref(false)
+const accountMenuOpen = ref(false)
+const mobileNavOpen = ref(false)
 const unread = ref(0)
 
 const query = ref(route.query.keyword || '')
@@ -26,15 +27,22 @@ async function fetchUnread() {
 
 function submitSearch() {
   router.push({ name: 'browse', query: query.value ? { keyword: query.value } : {} })
+  mobileNavOpen.value = false
 }
 
 function logout() {
   auth.logout()
-  menuOpen.value = false
+  accountMenuOpen.value = false
+  mobileNavOpen.value = false
   router.push({ name: 'home' })
 }
 
-watch(() => route.fullPath, () => { menuOpen.value = false; fetchUnread() })
+// Close both menus on any route change.
+watch(() => route.fullPath, () => {
+  accountMenuOpen.value = false
+  mobileNavOpen.value = false
+  fetchUnread()
+})
 onMounted(fetchUnread)
 </script>
 
@@ -51,7 +59,18 @@ onMounted(fetchUnread)
         <button type="submit" class="btn btn-primary btn-sm">{{ t('common.search') }}</button>
       </form>
 
-      <div class="nav-actions">
+      <!-- Mobile-only hamburger: opens/closes the nav drawer. -->
+      <button
+        class="topbar-menu-toggle"
+        type="button"
+        :aria-expanded="mobileNavOpen"
+        aria-label="Menu"
+        @click="mobileNavOpen = !mobileNavOpen"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-actions" :class="{ 'is-open': mobileNavOpen }">
         <LocaleSwitcher />
         <RouterLink :to="{ name: 'browse' }" class="btn btn-ghost btn-sm">{{ t('common.browse') }}</RouterLink>
         <template v-if="auth.isAuthenticated">
@@ -60,18 +79,18 @@ onMounted(fetchUnread)
             {{ t('common.messages') }}
             <span v-if="unread > 0" class="badge badge-danger" style="margin-left:4px">{{ unread }}</span>
           </RouterLink>
-          <div style="position: relative">
-            <button class="btn btn-ghost btn-sm" @click="menuOpen = !menuOpen" type="button">
+          <div class="nav-account">
+            <button class="btn btn-ghost btn-sm nav-account-trigger" @click="accountMenuOpen = !accountMenuOpen" type="button">
               <Avatar :user="auth.user" />
               <span>{{ auth.user?.displayName }}</span>
             </button>
-            <div v-if="menuOpen" class="card" style="position:absolute; top: 110%; right: 0; min-width: 220px; padding: 8px; z-index: 60;">
-              <RouterLink :to="{ name: 'profile-mine' }" class="btn btn-ghost btn-sm" style="justify-content:flex-start; width:100%">{{ t('common.profile') }}</RouterLink>
-              <RouterLink :to="{ name: 'my-listings' }" class="btn btn-ghost btn-sm" style="justify-content:flex-start; width:100%">{{ t('post.title') }}</RouterLink>
-              <RouterLink :to="{ name: 'offers' }" class="btn btn-ghost btn-sm" style="justify-content:flex-start; width:100%">{{ t('common.offers') }}</RouterLink>
-              <RouterLink :to="{ name: 'orders' }" class="btn btn-ghost btn-sm" style="justify-content:flex-start; width:100%">{{ t('common.orders') }}</RouterLink>
-              <RouterLink :to="{ name: 'favorites' }" class="btn btn-ghost btn-sm" style="justify-content:flex-start; width:100%">{{ t('common.favorites') }}</RouterLink>
-              <button class="btn btn-ghost btn-sm" style="justify-content:flex-start; width:100%" type="button" @click="logout">{{ t('common.logout') }}</button>
+            <div v-if="accountMenuOpen" class="card nav-account-menu">
+              <RouterLink :to="{ name: 'profile-mine' }" class="btn btn-ghost btn-sm">{{ t('common.profile') }}</RouterLink>
+              <RouterLink :to="{ name: 'my-listings' }" class="btn btn-ghost btn-sm">{{ t('post.title') }}</RouterLink>
+              <RouterLink :to="{ name: 'offers' }" class="btn btn-ghost btn-sm">{{ t('common.offers') }}</RouterLink>
+              <RouterLink :to="{ name: 'orders' }" class="btn btn-ghost btn-sm">{{ t('common.orders') }}</RouterLink>
+              <RouterLink :to="{ name: 'favorites' }" class="btn btn-ghost btn-sm">{{ t('common.favorites') }}</RouterLink>
+              <button class="btn btn-ghost btn-sm" type="button" @click="logout">{{ t('common.logout') }}</button>
             </div>
           </div>
         </template>
@@ -83,3 +102,15 @@ onMounted(fetchUnread)
     </div>
   </header>
 </template>
+
+<style scoped>
+/* The account dropdown was previously inline-styled. Anchor it here
+   so it can be repositioned on mobile by the global media query. */
+.nav-account { position: relative; }
+.nav-account-menu {
+  position: absolute; top: calc(100% + 6px); right: 0;
+  min-width: 220px; padding: 8px; z-index: 60;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.nav-account-menu .btn { justify-content: flex-start; width: 100%; }
+</style>

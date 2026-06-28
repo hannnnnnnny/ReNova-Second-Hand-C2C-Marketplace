@@ -575,3 +575,113 @@ p { margin: 0 0 .8rem; }
   width: 100%; max-width: 480px; padding: 30px;
   box-shadow: 0 8px 0 var(--border-strong), var(--shadow-lg);
 }
+
+/* Hamburger button — desktop hides it, mobile shows it. */
+.topbar-menu-toggle {
+  display: none;
+  width: 44px; height: 44px;
+  background: var(--bg-elevated);
+  border: 2px solid var(--border-strong);
+  border-radius: 14px;
+  box-shadow: 0 2px 0 var(--border-strong);
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 4px;
+  padding: 0;
+}
+.topbar-menu-toggle span {
+  display: block; width: 18px; height: 2px;
+  background: var(--text); border-radius: 999px;
+}
+
+/* ============================================
+   Mobile pass — tablet & phone
+   ============================================ */
+@media (max-width: 760px) {
+  :root { --topbar-h: 132px; }
+
+  .container { padding: 0 16px; }
+  .page { padding: 20px 0 64px; }
+
+  /* Topbar reshuffles into:
+     row 1: brand .................. hamburger
+     row 2: search (full width)
+     The nav-actions becomes a drawer that slides down from the topbar. */
+  .topbar { height: var(--topbar-h); padding: 10px 0; align-items: flex-start; }
+  .topbar-inner {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "brand toggle"
+      "search search";
+    row-gap: 10px;
+    padding: 6px 0;
+  }
+  .brand { grid-area: brand; font-size: 20px; }
+  .brand-mark { width: 32px; height: 32px; font-size: 14px; }
+  .search-wrap { grid-area: search; max-width: 100%; margin: 0; }
+  .topbar-menu-toggle { grid-area: toggle; display: inline-flex; }
+
+  /* Drawer */
+  .nav-actions {
+    position: fixed; left: 0; right: 0; top: var(--topbar-h);
+    background: var(--bg-elevated);
+    border-bottom: 3px solid var(--border-strong);
+    box-shadow: 0 12px 28px rgba(74, 58, 34, 0.18);
+    padding: 18px 20px 24px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    z-index: 49;
+    transform: translateY(-150%);
+    visibility: hidden;
+    transition: transform 220ms ease, visibility 0s linear 220ms;
+    max-height: calc(100vh - var(--topbar-h));
+    overflow-y: auto;
+  }
+  .nav-actions.is-open {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform 220ms ease, visibility 0s linear 0s;
+  }
+  .nav-actions .btn { width: 100%; justify-content: flex-start; }
+  .nav-actions .locale-switch { align-self: center; }
+
+  /* Account dropdown floats in-place inside the drawer instead of overlaying */
+  .nav-account { width: 100%; }
+  .nav-account-menu {
+    position: static !important;
+    width: 100%;
+    margin-top: 6px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Hero gets cosier */
+  .hero { padding: 28px 22px; border-radius: var(--radius); }
+  h1 { font-size: 1.7rem; }
+
+  /* Listing detail: gallery + buy panel stack, sticky aside relaxes */
+  .listing-detail aside .panel { position: static !important; }
+
+  /* Buttons in the actions column stack snugly */
+  .actions { gap: 8px; }
+
+  /* Tabs scroll horizontally instead of wrapping */
+  .tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+  .tab { white-space: nowrap; }
+
+  /* Chat shell: list above, thread below; cap the list height */
+  .chat-shell { grid-template-columns: 1fr; }
+  .chat-list { max-height: 38vh; }
+
+  /* Compose: shrink other-cards a little */
+  .compose-other-card { flex-basis: 110px; }
+}
+
+@media (max-width: 420px) {
+  /* Extra-narrow: small tweaks for older phones */
+  .grid-listings { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .listing-card .title { font-size: 14px; min-height: 36px; }
+  .listing-card .price { font-size: 17px; }
+  .grid-categories { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .panel { padding: 20px; }
+  .auth-card { padding: 28px 24px; }
+}

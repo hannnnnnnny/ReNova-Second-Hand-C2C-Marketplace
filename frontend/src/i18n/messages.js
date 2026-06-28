@@ -247,7 +247,15 @@ export const messages = {
       displayName: 'Display name',
       location: 'City',
       save: 'Save changes',
-      noListings: 'No active listings.'
+      noListings: 'No active listings.',
+      kicker: 'On ReNova since day one',
+      statListings: 'Active listings',
+      statRating: 'Average rating',
+      statSold: 'Items sold',
+      statReviews: 'Reviews received',
+      currentlySelling: 'Currently selling',
+      whatBuyersSaid: 'What buyers said',
+      noComment: 'No comment left.'
     },
     errors: {
       generic: 'Something went wrong. Please try again.',
@@ -502,7 +510,15 @@ export const messages = {
       displayName: '昵称',
       location: '城市',
       save: '保存修改',
-      noListings: '暂无在售物品。'
+      noListings: '暂无在售物品。',
+      kicker: 'ReNova 老朋友',
+      statListings: '在售物品',
+      statRating: '平均评分',
+      statSold: '已售出',
+      statReviews: '收到评价',
+      currentlySelling: '正在出售',
+      whatBuyersSaid: '买家是这么说的',
+      noComment: '没有留言。'
     },
     errors: {
       generic: '出了点问题，请稍后再试。',

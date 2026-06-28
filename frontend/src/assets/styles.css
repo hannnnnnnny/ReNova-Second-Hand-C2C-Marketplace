@@ -613,7 +613,9 @@ p { margin: 0 0 .8rem; }
       "brand toggle"
       "search search";
     row-gap: 10px;
-    padding: 6px 0;
+    /* Keep the container's side gutter — a bare "6px 0" here zeroed the
+       horizontal padding and made the search bar sit flush to both edges. */
+    padding: 6px 16px;
   }
   .brand { grid-area: brand; font-size: 20px; }
   .brand-mark { width: 32px; height: 32px; font-size: 14px; }

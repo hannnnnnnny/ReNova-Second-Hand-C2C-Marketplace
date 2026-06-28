@@ -56,6 +56,11 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // /uploads/** serves user-uploaded images from disk via
+                        // the static resource handler in WebMvcConfig. The
+                        // write endpoint (/api/uploads/**) stays behind
+                        // .anyRequest().authenticated() below.
+                        .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
                         .requestMatchers("/api/auth/signup", "/api/auth/login", "/api/public/**", "/actuator/health", "/actuator/info").permitAll()
                         .anyRequest().authenticated()
                 )

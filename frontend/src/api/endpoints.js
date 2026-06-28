@@ -63,3 +63,21 @@ export const userApi = {
   publicProfile: (id) => client.get(`/public/users/${id}`).then(unwrap),
   publicListings: (id, params) => client.get(`/public/users/${id}/listings`, { params }).then(unwrap)
 }
+
+export const uploadApi = {
+  /**
+   * Upload one or more image files via multipart form data.
+   * Returns the parsed `UploadedImagesResponse` (`{ images: [{url, …}] }`).
+   *
+   * Axios picks the right multipart boundary automatically when the
+   * payload is FormData, so we explicitly drop the JSON Content-Type
+   * the global client sets — letting axios set the boundary header.
+   */
+  images: (files) => {
+    const fd = new FormData()
+    for (const f of files) fd.append('files', f)
+    return client.post('/uploads/images', fd, {
+      headers: { 'Content-Type': undefined }
+    }).then(unwrap)
+  }
+}

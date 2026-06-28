@@ -14,6 +14,13 @@ spring:
         format_sql: true
   jackson:
     default-property-inclusion: non_null
+  servlet:
+    multipart:
+      enabled: true
+      # Per-file cap. The upload service enforces this again at the byte level
+      # so a misconfigured proxy can never accept a larger file.
+      max-file-size: 5MB
+      max-request-size: 50MB
 
 server:
   port: ${SERVER_PORT:8080}
@@ -33,3 +40,12 @@ novacart:
     jwt-expiration-minutes: ${JWT_EXPIRATION_MINUTES:120}
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
+  uploads:
+    # Directory the upload service writes to. Must be writable by the
+    # JVM user. Outside dev/test/demo this should be a persistent volume.
+    dir: ${RENOVA_UPLOAD_DIR:./uploads}
+    max-file-bytes: ${RENOVA_UPLOAD_MAX_BYTES:5242880}      # 5 MB
+    max-files-per-request: ${RENOVA_UPLOAD_MAX_FILES:8}
+    # URL path the static handler exposes the files under. The frontend
+    # treats the returned URLs as opaque so this is safe to change.
+    public-path: ${RENOVA_UPLOAD_PUBLIC_PATH:/uploads}

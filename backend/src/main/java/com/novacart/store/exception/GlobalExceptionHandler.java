@@ -17,6 +17,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -144,6 +145,18 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         return build(HttpStatus.FORBIDDEN, "You do not have permission to perform this action.", request);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ErrorResponse> handleMaxUpload(
+            MaxUploadSizeExceededException exception,
+            HttpServletRequest request
+    ) {
+        return build(
+                HttpStatus.BAD_REQUEST,
+                "One of the uploaded files is too large.",
+                request
+        );
     }
 
     @ExceptionHandler(Exception.class)

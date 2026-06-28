@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { listingApi, categoryApi } from '../api/endpoints'
 import { useToastStore } from '../stores/toast'
 import { apiError } from '../api/client'
+import ImageUploader from '../components/ImageUploader.vue'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -18,7 +19,7 @@ const CONDITIONS = ['NEW', 'LIKE_NEW', 'GOOD', 'FAIR', 'FOR_PARTS']
 const form = ref({
   title: '', description: '', price: '', originalPrice: '',
   condition: 'GOOD', categoryId: '', location: '',
-  negotiable: true, shippingFee: '0', imagesText: '', status: 'ACTIVE'
+  negotiable: true, shippingFee: '0', imageUrls: [], status: 'ACTIVE'
 })
 
 onMounted(async () => {
@@ -38,7 +39,7 @@ onMounted(async () => {
       location: listing.location || '',
       negotiable: listing.negotiable,
       shippingFee: listing.shippingFee ?? 0,
-      imagesText: (listing.imageUrls || []).join('\n'),
+      imageUrls: (listing.imageUrls || []).slice(),
       status: listing.status === 'SOLD' ? 'ACTIVE' : listing.status
     })
   } catch (err) {
@@ -48,7 +49,6 @@ onMounted(async () => {
 })
 
 async function submit() {
-  const imageUrls = form.value.imagesText.split(/\r?\n/).map((s) => s.trim()).filter(Boolean)
   submitting.value = true
   try {
     const payload = {
@@ -61,7 +61,7 @@ async function submit() {
       location: form.value.location,
       negotiable: form.value.negotiable,
       shippingFee: form.value.shippingFee === '' ? null : Number(form.value.shippingFee),
-      imageUrls: imageUrls.length ? imageUrls : null,
+      imageUrls: form.value.imageUrls.length ? form.value.imageUrls : null,
       status: form.value.status
     }
     const updated = await listingApi.update(route.params.id, payload)
@@ -133,7 +133,7 @@ async function archive() {
         </div>
         <div class="field">
           <label class="label">{{ t('post.imagesLabel') }}</label>
-          <textarea class="textarea" v-model="form.imagesText"></textarea>
+          <ImageUploader v-model="form.imageUrls" :max="8" />
         </div>
         <div class="row" style="justify-content: space-between">
           <button class="btn btn-danger" type="button" @click="archive">{{ t('common.delete') }}</button>

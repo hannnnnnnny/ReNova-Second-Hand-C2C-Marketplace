@@ -240,7 +240,7 @@ p { margin: 0 0 .8rem; }
   box-shadow: var(--shadow-sm);
 }
 .search-wrap input {
-  flex: 1; border: 0; outline: none; background: transparent;
+  flex: 1; min-width: 0; border: 0; outline: none; background: transparent;
   padding: 8px 0; color: var(--text);
 }
 .search-wrap button { border-radius: 999px; padding: 7px 16px; }
@@ -478,7 +478,7 @@ p { margin: 0 0 .8rem; }
 }
 .bubble-time { font-size: 11px; opacity: .8; margin-top: 4px; }
 .chat-input { border-top: 2px dashed var(--border); padding: 14px; display: flex; gap: 10px; }
-.chat-input .input { border-radius: 999px; }
+.chat-input .input { border-radius: 999px; min-width: 0; }
 
 /* Toast — Nook delivery bubble */
 .toast-wrap { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
@@ -674,6 +674,17 @@ p { margin: 0 0 .8rem; }
 
   /* Compose: shrink other-cards a little */
   .compose-other-card { flex-basis: 110px; }
+
+  /* Offer cards: the action column has an inline min-width:160px that
+     cramps the row at phone widths. Let the card wrap so the buttons
+     drop to a full-width second row, and let the text column shrink. */
+  .offer-card { flex-wrap: wrap; }
+  .offer-card .grow { min-width: 0; }
+  .offer-card .actions { min-width: 0 !important; flex-basis: 100%; }
+  .offer-card .amount { font-size: 20px; }
+
+  /* Long unbroken titles/words should wrap rather than force overflow. */
+  .listing-detail h1, .offer-card .bold { overflow-wrap: anywhere; }
 }
 
 @media (max-width: 420px) {

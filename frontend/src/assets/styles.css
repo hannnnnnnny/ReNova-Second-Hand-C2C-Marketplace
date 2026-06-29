@@ -186,7 +186,20 @@ p { margin: 0 0 .8rem; }
 
 /* Grid utilities */
 .grid { display: grid; gap: 22px; }
-.grid-listings  { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px; }
+/* Masonry waterfall via CSS multi-column: cards keep their natural image
+   height and stagger across columns (Xianyu-style). column-width makes the
+   column count responsive; cards must not break across a column. */
+.grid-listings {
+  display: block;
+  column-width: 210px;
+  column-gap: 18px;
+}
+.grid-listings > * {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin-bottom: 18px;
+  width: 100%;
+}
 .grid-categories { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 .grid-2 { grid-template-columns: 1fr 1fr; }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -276,10 +289,16 @@ p { margin: 0 0 .8rem; }
   border-color: var(--border-strong);
 }
 .listing-card .photo {
-  width: 100%; aspect-ratio: 1 / 1;
-  background: var(--bg-muted) center/cover no-repeat;
+  width: 100%;
   position: relative;
+  line-height: 0;
+  background: var(--bg-muted);
+  overflow: hidden;
+  /* aspect-ratio is set inline per card (see ListingCard) so heights
+     vary and the cards stagger into a waterfall. */
 }
+.listing-card .photo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.listing-card .photo-ph { width: 100%; height: 100%; background: var(--bg-muted); }
 .listing-card .photo .status-pill {
   position: absolute; top: 12px; left: 12px;
   background: var(--bg-deep); color: #fff;
@@ -688,9 +707,10 @@ p { margin: 0 0 .8rem; }
   /* Long unbroken titles/words should wrap rather than force overflow. */
   .listing-detail h1, .offer-card .bold { overflow-wrap: anywhere; }
 
-  /* Xianyu-style product grid: fixed two columns, tight gutters, and a
-     more compact card so listings stop eating the whole screen. */
-  .grid-listings { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  /* Xianyu-style waterfall: force exactly two columns (column-width alone
+     would collapse to one at phone widths), tight gutter. */
+  .grid-listings { column-count: 2; column-width: auto; column-gap: 12px; }
+  .grid-listings > * { margin-bottom: 12px; }
   .listing-card { border-radius: var(--radius); }
   .listing-card .body { padding: 9px 11px 11px; gap: 4px; }
   .listing-card .title { font-size: 13px; min-height: 34px; }

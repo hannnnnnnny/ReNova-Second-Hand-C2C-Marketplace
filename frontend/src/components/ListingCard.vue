@@ -16,6 +16,15 @@ const router = useRouter()
 const cover = computed(() => props.listing.coverImageUrl || (props.listing.imageUrls?.[0]))
 const status = computed(() => props.listing.status)
 
+// Deterministic per-listing photo ratio so cards stagger into a waterfall
+// regardless of the source image's real dimensions (the demo assets are all
+// square). Mix of square and taller crops; stable per id, so no reflow.
+const PHOTO_RATIOS = ['1 / 1', '4 / 5', '5 / 6', '1 / 1', '5 / 4', '3 / 4', '4 / 5', '1 / 1']
+const photoRatio = computed(() => {
+  const id = Number(props.listing.id) || 0
+  return PHOTO_RATIOS[id % PHOTO_RATIOS.length]
+})
+
 function goDetail() {
   router.push({ name: 'listing-detail', params: { id: props.listing.id } })
 }
@@ -27,7 +36,9 @@ function toggleFav(e) {
 
 <template>
   <article class="listing-card" @click="goDetail">
-    <div class="photo" :style="{ backgroundImage: cover ? `url('${cover}')` : '' }">
+    <div class="photo" :style="{ aspectRatio: photoRatio }">
+      <img v-if="cover" class="photo-img" :src="cover" :alt="listing.title" loading="lazy" />
+      <div v-else class="photo-ph"></div>
       <span v-if="status && status !== 'ACTIVE'" class="status-pill">{{ t(`listingStatus.${status}`) }}</span>
       <button v-if="showFav" class="fav" :class="{ 'is-on': favorited }" @click="toggleFav" aria-label="favorite">
         {{ favorited ? '♥' : '♡' }}

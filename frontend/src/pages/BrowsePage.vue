@@ -17,6 +17,9 @@ const listings = ref([])
 const loading = ref(false)
 const total = ref(0)
 const page = ref(0)
+// Mobile: filters live behind a toggle so they don't bury the results.
+// Desktop ignores this (the sidebar is always shown via CSS).
+const showFilters = ref(false)
 
 const filters = ref({
   keyword: route.query.keyword || '',
@@ -65,6 +68,7 @@ async function search() {
 
 function applyFilters() {
   page.value = 0
+  showFilters.value = false // collapse the mobile panel so results are visible
   const nextQuery = cleanQuery()
   if (queriesMatch(route.query, nextQuery)) {
     search()
@@ -114,8 +118,11 @@ onMounted(async () => {
   <main class="page">
     <div class="container">
       <h1 style="margin-bottom: 24px">{{ t('common.browse') }}</h1>
+      <button class="btn btn-outline filters-toggle" type="button" @click="showFilters = !showFilters">
+        {{ t('common.filters') }}{{ showFilters ? ' ▲' : ' ▼' }}
+      </button>
       <div class="two-col">
-        <aside class="filters">
+        <aside class="filters" :class="{ 'filters-collapsed': !showFilters }">
           <div class="card">
             <div class="field">
               <label class="label">{{ t('common.categories') }}</label>
@@ -151,7 +158,7 @@ onMounted(async () => {
 
         <section>
           <div class="between" style="margin-bottom: 16px">
-            <div class="muted">{{ total }} {{ t('common.browse').toLowerCase() }}</div>
+            <div class="muted">{{ total }} {{ t('common.results') }}</div>
             <select class="select" style="max-width: 220px" v-model="filters.sort" @change="applyFilters">
               <option v-for="s in SORTS" :key="s" :value="s">{{ t(`sort.${s}`) }}</option>
             </select>

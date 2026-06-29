@@ -338,12 +338,22 @@ function paginate(items, params = {}) {
 function searchListings(params = {}) {
   let items = rawListings.filter((l) => l.status !== 'REMOVED')
   if (params.categoryId) items = items.filter((l) => l.categoryId === Number(params.categoryId))
-  if (params.q) {
-    const q = String(params.q).toLowerCase()
+  // The real API uses `keyword`; match title + description.
+  const kw = params.keyword ?? params.q
+  if (kw) {
+    const q = String(kw).toLowerCase()
     items = items.filter((l) => l.title.toLowerCase().includes(q) || l.desc.toLowerCase().includes(q))
+  }
+  if (params.condition) items = items.filter((l) => l.condition === params.condition)
+  if (params.minPrice != null && params.minPrice !== '') items = items.filter((l) => l.price >= Number(params.minPrice))
+  if (params.maxPrice != null && params.maxPrice !== '') items = items.filter((l) => l.price <= Number(params.maxPrice))
+  if (params.location) {
+    const loc = String(params.location).toLowerCase()
+    items = items.filter((l) => (l.loc || '').toLowerCase().includes(loc))
   }
   if (params.sort === 'price_asc') items = [...items].sort((a, b) => a.price - b.price)
   else if (params.sort === 'price_desc') items = [...items].sort((a, b) => b.price - a.price)
+  else if (params.sort === 'popular') items = [...items].sort((a, b) => b.favs - a.favs)
   else items = [...items].sort((a, b) => b.id - a.id)
   return paginate(items.map(toSummary), params)
 }

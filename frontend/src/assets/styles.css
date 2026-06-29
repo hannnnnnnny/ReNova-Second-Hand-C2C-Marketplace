@@ -416,11 +416,18 @@ p { margin: 0 0 .8rem; }
 /* Filter sidebar */
 .filters { display: flex; flex-direction: column; gap: 18px; position: sticky; top: calc(var(--topbar-h) + 24px); }
 
+/* The "Filters" toggle is desktop-hidden; the sidebar is always shown there. */
+.filters-toggle { display: none; }
+
 /* Two-col page */
 .two-col { display: grid; grid-template-columns: 260px 1fr; gap: 32px; }
 @media (max-width: 920px) {
   .two-col { grid-template-columns: 1fr; }
   .filters { position: relative; top: 0; }
+  /* On mobile the sidebar would otherwise bury the results, so it's
+     collapsed behind the toggle until the user opens it. */
+  .filters-toggle { display: inline-flex; justify-content: center; width: 100%; margin-bottom: 16px; }
+  .filters.filters-collapsed { display: none; }
 }
 
 /* Listing detail */

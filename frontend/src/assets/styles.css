@@ -186,7 +186,7 @@ p { margin: 0 0 .8rem; }
 
 /* Grid utilities */
 .grid { display: grid; gap: 22px; }
-.grid-listings  { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.grid-listings  { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px; }
 .grid-categories { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 .grid-2 { grid-template-columns: 1fr 1fr; }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -297,12 +297,12 @@ p { margin: 0 0 .8rem; }
   box-shadow: 0 2px 0 var(--border-strong);
 }
 .listing-card .photo .fav.is-on { color: var(--accent); }
-.listing-card .body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; }
-.listing-card .title { font-weight: 700; font-size: 15px; line-height: 1.35; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 40px; }
-.listing-card .price-row { display: flex; align-items: baseline; gap: 8px; }
-.listing-card .price { font-weight: 800; font-size: 19px; color: var(--primary-strong); font-family: var(--font-display); }
-.listing-card .price-orig { color: var(--text-soft); text-decoration: line-through; font-size: 13px; }
-.listing-card .meta { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-soft); }
+.listing-card .body { padding: 11px 13px 13px; display: flex; flex-direction: column; gap: 5px; }
+.listing-card .title { font-weight: 700; font-size: 14px; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 36px; }
+.listing-card .price-row { display: flex; align-items: baseline; gap: 6px; }
+.listing-card .price { font-weight: 800; font-size: 18px; color: var(--primary-strong); font-family: var(--font-display); }
+.listing-card .price-orig { color: var(--text-soft); text-decoration: line-through; font-size: 12px; }
+.listing-card .meta { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-soft); }
 
 /* Hero — sunny island bay */
 .hero {
@@ -687,13 +687,22 @@ p { margin: 0 0 .8rem; }
 
   /* Long unbroken titles/words should wrap rather than force overflow. */
   .listing-detail h1, .offer-card .bold { overflow-wrap: anywhere; }
+
+  /* Xianyu-style product grid: fixed two columns, tight gutters, and a
+     more compact card so listings stop eating the whole screen. */
+  .grid-listings { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .listing-card { border-radius: var(--radius); }
+  .listing-card .body { padding: 9px 11px 11px; gap: 4px; }
+  .listing-card .title { font-size: 13px; min-height: 34px; }
+  .listing-card .price { font-size: 16px; }
+  .listing-card .meta { font-size: 11px; gap: 4px; }
+  .listing-card .photo .fav { width: 30px; height: 30px; top: 8px; right: 8px; }
+  .listing-card .photo .status-pill { font-size: 10px; padding: 3px 8px; top: 8px; left: 8px; }
 }
 
 @media (max-width: 420px) {
-  /* Extra-narrow: small tweaks for older phones */
-  .grid-listings { grid-template-columns: 1fr 1fr; gap: 14px; }
-  .listing-card .title { font-size: 14px; min-height: 36px; }
-  .listing-card .price { font-size: 17px; }
+  /* Extra-narrow phones: tighten the gutter a touch more. */
+  .grid-listings { gap: 10px; }
   .grid-categories { grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .panel { padding: 20px; }
   .auth-card { padding: 28px 24px; }

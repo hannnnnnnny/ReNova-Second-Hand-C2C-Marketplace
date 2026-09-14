@@ -21,6 +21,14 @@ All resources are in `rg-renova-student`, New Zealand North.
 
 The budget uses the subscription billing currency, NZD. It is an alert, not a hard cap. Student MySQL allowances are 750 B1ms hours/month plus 32 GB data and 32 GB backup; Standard registry allowance is 31 days/month. These benefits expire on 9 September 2027. Container Apps has a monthly free compute grant. Usage above allowances and storage transactions can consume the USD 100 student credit. The low-traffic budget target is not a price guarantee. The frontend now sleeps with the API, so first access after inactivity can take longer.
 
+## Cost audit — 15 September 2026
+
+Azure Consumption usage details for 9–14 September show NZD 5.655713 in `Paid IO LRS IO Rate Operations`, all on the MySQL server. The B1MS compute, data storage and Standard registry meters were free. Other storage transactions total less than NZD 0.00001. Full-day MySQL I/O costs were approximately NZD 1/day despite light app usage.
+
+The server had `autoIoScaling=Enabled`: the CLI defaults to autoscale IOPS unless explicitly disabled. Disabling storage auto-grow alone does not disable paid I/O. On 15 September, autoscale IOPS was disabled and verified: `state=Ready`, `storage.autoIoScaling=Disabled`, `storage.iops=396`. Future provisioning explicitly passes `--auto-scale-iops Disabled`. Azure CLI identifies 396 IOPS as the base/free configuration for this server's SKU and 32 GB storage.
+
+Previously incurred costs are not reversed by configuration changes. Usage reports arrive with a delay, so later displayed increases may include earlier usage. A budget is an alert, not an automatic spending cap; the earlier NZD 5 monthly target was not a reliable estimate under autoscale IOPS.
+
 ## Security and persistence
 
 - HTTPS-only ingress, with Nginx forwarding to the API on localhost inside the app.

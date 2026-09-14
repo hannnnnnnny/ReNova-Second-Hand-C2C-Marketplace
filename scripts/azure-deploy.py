@@ -53,6 +53,7 @@ def provision():
        "--admin-password", os.environ["RENOVA_DB_ADMIN_PASSWORD"],
        "--sku-name", "Standard_B1ms", "--tier", "Burstable", "--version", "8.4",
        "--storage-size", "32", "--storage-auto-grow", "Disabled",
+       "--auto-scale-iops", "Disabled",
        "--backup-retention", "7", "--geo-redundant-backup", "Disabled",
        "--high-availability", "Disabled", "--public-access", "None", "--yes")
     az("acr", "create", "-g", GROUP, "-n", REGISTRY, "-l", REGION, "--sku", "Standard")

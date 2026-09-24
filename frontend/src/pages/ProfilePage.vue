@@ -203,10 +203,10 @@ onMounted(load)
 }
 .profile-hero-quote .quote-mark {
   font-family: var(--font-display);
-  font-size: 1.6em;
-  font-weight: 800;
-  margin-right: 4px;
-  color: var(--primary-strong);
+  font-size: 1.4em;
+  font-weight: 600;
+  margin-right: 2px;
+  color: var(--border-strong);
   vertical-align: -0.2em;
 }
 

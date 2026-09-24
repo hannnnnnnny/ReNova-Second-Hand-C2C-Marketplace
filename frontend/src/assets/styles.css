@@ -631,8 +631,9 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .account-submit:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .account-submit:active:not(:disabled) { transform: scale(0.98); }
 .account-submit:disabled { cursor: wait; opacity: .5; }
-.account-switch { margin: 22px 0 0; color: var(--text-soft); font-size: 12px; line-height: 1.5; text-align: center; }
-.account-switch a { color: var(--primary-strong); font-weight: 800; }
+.account-switch { margin: 28px 0 0; color: var(--text-soft); font-size: 14px; line-height: 1.5; text-align: center; max-width: none; }
+.account-switch a { color: var(--primary-strong); font-weight: 400; }
+.account-switch a:hover { text-decoration: underline; }
 .account-submit { transition: background-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease); }
 
 @media (prefers-reduced-motion: reduce) {

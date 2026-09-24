@@ -233,7 +233,7 @@ function moveTo(index, dir) {
 .thumb-actions {
   display: flex; gap: 4px;
   padding: 6px;
-  border-top: 2px dashed var(--border);
+  border-top: 1px solid var(--border);
   background: var(--bg-elevated);
 }
 .thumb-btn {

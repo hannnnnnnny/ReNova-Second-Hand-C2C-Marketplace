@@ -136,7 +136,7 @@ function toggleFavorite() {
   line-height: 1.2;
 }
 
-.rn-product-body { display: flex; flex-direction: column; gap: 7px; padding: 12px 13px 14px; }
+.rn-product-body { display: flex; flex-direction: column; gap: 6px; padding: 16px 16px 18px; }
 .rn-product-title {
   display: -webkit-box;
   min-height: 38px;

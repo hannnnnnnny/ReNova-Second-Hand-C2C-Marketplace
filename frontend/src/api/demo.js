@@ -152,7 +152,9 @@ const rawListings = [
   { id: 23, sellerId: 3, categoryId: 3, title: 'Converse Chuck Taylor High-Tops', img: 'converse-high-tops.jpg', price: 45, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 83, favs: 11, age: 21,
     desc: 'Black canvas Converse Chuck Taylor All Star high-tops, men\'s US 7 / women\'s US 9. Canvas and laces are clean; light scuffs on the rubber toe caps.' },
   { id: 24, sellerId: 4, categoryId: 3, title: 'Brown Leather Penny Loafers', img: 'brown-penny-loafers.jpg', price: 70, originalPrice: 210, condition: 'GOOD', status: 'RESERVED', loc: 'Hamilton', views: 68, favs: 9, age: 12,
-    desc: 'Chestnut brown leather penny loafers with a stacked heel, men\'s UK 8. Worn to a few events, then conditioned and polished. Small scuff on the left heel counter.' }
+    desc: 'Chestnut brown leather penny loafers with a stacked heel, men\'s UK 8. Worn to a few events, then conditioned and polished. Small scuff on the left heel counter.' },
+  { id: 25, sellerId: 2, categoryId: 3, title: 'Leather Hiking Boots', img: 'leather-hiking-boots.jpg', price: 80, originalPrice: 260, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 74, favs: 10, age: 9,
+    desc: 'Brown leather and suede hiking boots with lugged soles, men\'s US 10. About two seasons of weekend tramping; waterproofing reapplied and laces replaced.' }
 ]
 
 const favorites = new Set([2, 5])

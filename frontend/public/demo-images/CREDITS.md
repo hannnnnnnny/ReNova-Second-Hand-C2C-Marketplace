@@ -32,3 +32,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `white-leather-sneakers.jpg` | SJ ([@uxsj_ph](https://unsplash.com/@uxsj_ph)) | https://unsplash.com/photos/0Xu_fMEc_iw |
 | `converse-high-tops.jpg` | Maria Fernanda Pissioli ([@mxpissioli](https://unsplash.com/@mxpissioli)) | https://unsplash.com/photos/sd-VmUUrdrw |
 | `brown-penny-loafers.jpg` | Husien Bisky ([@husien_bisky1](https://unsplash.com/@husien_bisky1)) | https://unsplash.com/photos/xPpfEQe0ZiY |
+| `leather-hiking-boots.jpg` | Clay Banks ([@claybanks](https://unsplash.com/@claybanks)) | https://unsplash.com/photos/BSL837tTPAw |

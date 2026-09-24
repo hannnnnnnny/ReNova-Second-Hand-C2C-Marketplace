@@ -23,7 +23,7 @@ const { t } = useI18n()
 
   <div v-else-if="error" class="empty-state data-state-error" role="alert">
     <p style="margin-bottom: 12px">{{ typeof error === 'string' && error ? error : t('errors.generic') }}</p>
-    <button class="btn btn-outline btn-sm" type="button" @click="emit('retry')">{{ t('common.retry') }}</button>
+    <button class="btn btn-primary btn-sm" type="button" @click="emit('retry')">{{ t('common.retry') }}</button>
   </div>
 
   <div v-else-if="empty" class="empty-state">{{ emptyText || t('common.empty') }}</div>

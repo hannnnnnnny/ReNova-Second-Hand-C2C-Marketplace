@@ -100,9 +100,9 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
               opacity var(--dur-fast) var(--ease);
   white-space: nowrap;
 }
-.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); background: var(--bg-muted); }
-.btn:active { transform: translateY(1px); box-shadow: var(--shadow-sm); }
-.btn:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: var(--shadow-sm); }
+.btn:hover { background: #dcdce1; }
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 
 .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary-strong); box-shadow: var(--shadow-sm); }
 .btn-primary:hover { background: var(--primary-strong); color: #fff; border-color: #246e3a; box-shadow: 0 4px 0 #246e3a; }

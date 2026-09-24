@@ -160,7 +160,9 @@ const rawListings = [
   { id: 27, sellerId: 3, categoryId: 4, title: 'Brown Leather Bifold Wallet', img: 'brown-leather-wallet.jpg', price: 25, originalPrice: 80, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 37, favs: 5, age: 22,
     desc: 'Slim bifold wallet in brown pull-up leather with six card slots and a note pocket. Used for a month before I switched to a phone-case wallet.' },
   { id: 28, sellerId: 4, categoryId: 4, title: 'Black Square Sunglasses', img: 'black-sunglasses.jpg', price: 30, originalPrice: 90, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 42, favs: 6, age: 25,
-    desc: 'Black square-frame sunglasses with dark grey tinted lenses. No scratches on the lenses and the hinges are tight. Comes with a soft pouch.' }
+    desc: 'Black square-frame sunglasses with dark grey tinted lenses. No scratches on the lenses and the hinges are tight. Comes with a soft pouch.' },
+  { id: 29, sellerId: 4, categoryId: 4, title: 'Minimalist Watch, Black Strap', img: 'minimalist-black-watch.jpg', price: 65, originalPrice: 190, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Hamilton', views: 89, favs: 14, age: 4,
+    desc: 'Minimalist quartz watch with a silver case, white dial and black leather strap. New battery fitted this month; glass unscratched.' }
 ]
 
 const favorites = new Set([2, 5])

@@ -76,9 +76,9 @@ h1, h2, h3, h4 {
   font-weight: 600; margin: 0;
   letter-spacing: -0.022em; line-height: 1.12;
 }
-h1 { font-size: clamp(1.9rem, 3.5vw, 2.6rem); }
-h2 { font-size: clamp(1.4rem, 2.5vw, 1.85rem); }
-h3 { font-size: 1.2rem; }
+h1 { font-size: clamp(2rem, 4.5vw, 3rem); }
+h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); }
+h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 p { margin: 0 0 .8rem; }
 
 .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }

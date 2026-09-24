@@ -241,7 +241,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 }
 .search-wrap button { border-radius: 999px; padding: 7px 16px; }
 .nav-actions { display: flex; gap: 8px; align-items: center; }
-.nav-actions .btn { font-weight: 700; }
+.nav-actions .btn { font-weight: 400; }
 
 .locale-switch {
   display: inline-flex;

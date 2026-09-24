@@ -236,7 +236,7 @@ onMounted(load)
 }
 .stat-num {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(2rem, 4vw, 2.6rem);
   line-height: 1;
   letter-spacing: -0.03em;

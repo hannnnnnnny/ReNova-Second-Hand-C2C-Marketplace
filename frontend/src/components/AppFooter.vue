@@ -24,9 +24,9 @@ const year = new Date().getFullYear()
 .site-footer { padding: 56px 0 32px; background: var(--bg); border-top: 1px solid var(--border); }
 .footer-top { display: flex; justify-content: space-between; gap: 24px; align-items: center; padding-bottom: 25px; }
 .footer-tagline { color: var(--text-muted); font-size: 13px; margin: 10px 0 0; }
-.footer-links { display: flex; gap: 26px; font-size: 13px; font-weight: 500; }
+.footer-links { display: flex; gap: 28px; font-size: 13px; font-weight: 400; color: var(--text-muted); }
 .footer-links a { padding: 8px 0; }
-.footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.footer-links a:hover { color: var(--primary-strong); text-decoration: underline; text-underline-offset: 4px; }
 .footer-bottom { border-top: 1px solid var(--border); padding-top: 18px; display: flex; justify-content: space-between; gap: 20px; color: var(--text-muted); font-size: 11px; }
 @media (max-width: 760px) {
   .footer-top { align-items: flex-start; flex-direction: column; gap: 16px; }

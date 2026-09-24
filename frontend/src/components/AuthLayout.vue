@@ -50,7 +50,7 @@ h1 { margin: 0; font-size: clamp(34px, 5vw, 48px); line-height: 1.05; letter-spa
 @media (max-width: 700px) {
   .auth-page { padding: 20px 14px 32px; place-items: start center; }
   .auth-panel { grid-template-columns: 1fr; border-radius: 20px; }
-  .auth-intro { padding: 26px 24px 24px; }
+  .auth-intro { padding: 28px 24px 24px; border-right: 0; border-bottom: 1px solid var(--border); }
   .auth-eyebrow { margin-top: 24px; }
   .auth-note { display: none; }
   .auth-form-card { padding: 28px 24px 30px; }

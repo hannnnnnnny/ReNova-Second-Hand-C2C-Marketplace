@@ -164,12 +164,12 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   background: var(--bg-muted); color: var(--text);
   border: 0;
 }
-.badge-success { background: var(--primary-soft); color: var(--primary-strong); border-color: rgba(47, 138, 74, 0.25); }
-.badge-warning { background: #fbe9c0; color: #8a6315; border-color: rgba(138, 99, 21, 0.2); }
-.badge-danger  { background: var(--accent-soft); color: #a14322; border-color: rgba(161, 67, 34, 0.2); }
-.badge-info    { background: #d9eef5; color: #2c6480; border-color: rgba(44, 100, 128, 0.2); }
+.badge-success { background: var(--success-soft); color: var(--success); }
+.badge-warning { background: var(--warning-soft); color: var(--warning); }
+.badge-danger  { background: var(--danger-soft); color: var(--danger); }
+.badge-info    { background: var(--primary-soft); color: var(--primary-strong); }
 .badge-muted   { background: var(--bg-muted); color: var(--text-soft); }
-.badge-accent  { background: var(--accent-soft); color: #a14322; border-color: rgba(161, 67, 34, 0.2); }
+.badge-accent  { background: var(--accent); color: #fff; }
 
 /* Layout helpers */
 .row { display: flex; gap: 12px; align-items: center; }

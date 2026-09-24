@@ -61,18 +61,3 @@ const loginLink = computed(() => ({
   </AuthLayout>
 </template>
 
-<style scoped>
-.account-form { display: grid; }
-.account-field { display: grid; gap: 7px; margin-bottom: 17px; }
-.account-field label { color: var(--text); font-size: 13px; font-weight: 750; }
-.account-field input { width: 100%; min-width: 0; height: 46px; padding: 0 13px; border: 1px solid var(--border-strong); border-radius: 11px; background: var(--bg-elevated); color: var(--text); font: inherit; }
-.account-field input:focus { outline: 3px solid var(--primary-soft); border-color: var(--primary); }
-.account-error { margin: 0 0 16px; padding: 11px 13px; border: 1px solid #c96755; border-radius: 10px; background: #fff1ed; color: #8e3022; font-size: 13px; line-height: 1.45; }
-.account-submit { min-height: 46px; border: 1px solid var(--primary-strong); border-radius: 11px; background: var(--primary); color: white; font: inherit; font-weight: 800; cursor: pointer; }
-.account-submit:hover:not(:disabled) { background: var(--primary-strong); }
-.account-submit:focus-visible { outline: 3px solid var(--primary-soft); outline-offset: 2px; }
-.account-submit:disabled { cursor: wait; opacity: .65; }
-.account-switch { margin: 22px 0 0; color: var(--text-soft); font-size: 12px; line-height: 1.5; text-align: center; }
-.account-switch a { color: var(--primary-strong); font-weight: 800; }
-@media (prefers-reduced-motion: no-preference) { .account-submit { transition: background .16s ease; } }
-</style>

@@ -36,8 +36,8 @@ const visible = ref(false)
 </template>
 
 <style scoped>
-.password-field { display: grid; gap: 7px; margin-bottom: 17px; }
-label { color: var(--text); font-size: 13px; font-weight: 750; }
+.password-field { display: grid; gap: 8px; margin-bottom: 20px; }
+label { color: var(--text); font-size: 14px; font-weight: 600; }
 .password-control { position: relative; }
 input {
   width: 100%; min-width: 0; height: 46px; padding: 0 48px 0 13px;

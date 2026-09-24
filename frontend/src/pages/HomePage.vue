@@ -23,7 +23,7 @@ onMounted(load)
           <h1 id="home-title">{{ t('marketplaceUi.heroTitle') }}</h1>
           <p class="intro-body">{{ t('marketplaceUi.heroBody') }}</p>
           <div class="intro-actions">
-            <RouterLink :to="{ name: 'browse' }" class="btn btn-primary">{{ t('marketplaceUi.browse') }}<ArrowUpRight :size="18" aria-hidden="true" /></RouterLink>
+            <RouterLink :to="{ name: 'browse' }" class="btn btn-primary btn-lg">{{ t('marketplaceUi.browse') }}</RouterLink>
             <RouterLink :to="{ name: 'post-listing' }" class="text-link">{{ t('marketplaceUi.sell') }}<ArrowRight :size="16" aria-hidden="true" /></RouterLink>
           </div>
         </div>

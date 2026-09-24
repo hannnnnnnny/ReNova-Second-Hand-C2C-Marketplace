@@ -136,7 +136,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
               background-color var(--dur-fast) var(--ease);
 }
 .input:focus, .textarea:focus, .select:focus {
-  outline: none; border-color: var(--primary); background: var(--bg-elevated);
+  outline: none; border-color: var(--primary); background-color: var(--bg-elevated);
   box-shadow: var(--focus-ring);
 }
 .textarea { min-height: 130px; resize: vertical; }

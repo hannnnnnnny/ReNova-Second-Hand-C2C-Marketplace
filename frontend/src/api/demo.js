@@ -134,7 +134,9 @@ const rawListings = [
   { id: 14, sellerId: 5, categoryId: 1, title: 'Blush Tie-Front Blouse', img: 'blush-tie-front-blouse.jpg', price: 26, originalPrice: 69, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 33, favs: 4, age: 11,
     desc: 'Sheer blush chiffon blouse with pintuck detail, a front tie and relaxed long sleeves. Worn a handful of times with no marks. Size 10.' },
   { id: 15, sellerId: 4, categoryId: 2, title: 'Denim Jacket with Cord Collar', img: 'denim-jacket-cord-collar.jpg', price: 85, originalPrice: 220, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Hamilton', views: 104, favs: 16, age: 1,
-    desc: 'Dark indigo denim jacket with a brown corduroy collar. Worn a few times, so the denim is still crisp and dark. Men\'s M, chest 112 cm.' }
+    desc: 'Dark indigo denim jacket with a brown corduroy collar. Worn a few times, so the denim is still crisp and dark. Men\'s M, chest 112 cm.' },
+  { id: 16, sellerId: 4, categoryId: 2, title: 'Button-down Shirts (bundle of 3)', img: 'button-down-shirts-bundle.jpg', price: 40, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 41, favs: 5, age: 13,
+    desc: 'Three cotton button-down shirts: white, pale blue and navy micro-print. Regular fit, men\'s M (39 cm collar). Freshly laundered and pressed; no stains or missing buttons.' }
 ]
 
 const favorites = new Set([2, 5])

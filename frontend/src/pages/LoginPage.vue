@@ -72,9 +72,9 @@ const signupLink = computed(() => ({
 </template>
 
 <style scoped>
-.demo-block { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
-.demo-block h2 { margin: 0 0 5px; font-size: 14px; }
-.demo-block p { color: var(--text-soft); font-size: 12px; line-height: 1.5; }
+.demo-block { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+.demo-block h2 { margin: 0 0 6px; font-size: 15px; letter-spacing: -.01em; }
+.demo-block p { color: var(--text-soft); font-size: 14px; line-height: 1.5; }
 .demo-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .demo-actions button { min-height: 36px; padding: 6px 16px; border: 0; border-radius: 999px; background: var(--bg-muted); color: var(--text); cursor: pointer; font: inherit; font-size: 14px; }
 .demo-actions button:hover { background: #dcdce1; }

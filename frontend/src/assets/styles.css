@@ -20,10 +20,14 @@
   /* Accent collapses onto black so the palette stays black/white/gray + blue. */
   --accent: #1d1d1f;
   --accent-soft: #e8e8ed;
-  --danger: #d05f5a;
-  --warning: #e2a13a;
-  --success: #28754c;
-  --info: #6bb1cf;             /* sky-on-clear-day */
+  /* Darker variants of Apple red/green/orange so text meets WCAG AA. */
+  --danger: #d70015;
+  --danger-soft: #fff0f0;
+  --warning: #b25000;
+  --warning-soft: #fff4e5;
+  --success: #248a3d;
+  --success-soft: #eaf7ee;
+  --info: #0066cc;
 
   /* Nested surfaces use progressively tighter radii. */
   --radius-sm: 8px;

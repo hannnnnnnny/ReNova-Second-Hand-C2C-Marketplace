@@ -92,7 +92,7 @@ onMounted(load)
 .intro-copy { align-self: center; padding: 80px 32px 24px; display: flex; flex-direction: column; align-items: center; }
 .eyebrow { display: flex; align-items: center; gap: 8px; color: var(--primary-strong); font-size: 12px; font-weight: 600; letter-spacing: .055em; margin: 0 0 14px; }
 .intro-copy h1 { max-width: 760px; font-size: clamp(44px, 7vw, 80px); line-height: 1.05; letter-spacing: -.03em; text-wrap: balance; }
-.intro-body { margin: 14px 0 24px; max-width: 380px; color: var(--text-muted); font-size: 16px; line-height: 1.65; }
+.intro-body { margin: 20px auto 32px; max-width: 560px; color: var(--text-muted); font-size: 21px; line-height: 1.45; }
 .intro-actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
 .intro-visual { margin: 0; position: relative; background: #efeee9; min-width: 0; }
 .intro-visual img { width: 100%; height: 100%; max-height: 340px; object-fit: contain; mix-blend-mode: multiply; padding: 15px 50px 35px; }

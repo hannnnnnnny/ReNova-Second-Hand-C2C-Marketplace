@@ -1,105 +1,146 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import { listingApi, categoryApi } from '../api/endpoints'
-import { useToastStore } from '../stores/toast'
-import { apiError } from '../api/client'
+import { ArrowUpRight, ArrowRight, Leaf, PackageOpen, RefreshCw } from 'lucide-vue-next'
 import ListingCard from '../components/ListingCard.vue'
+import { useHomeFeed } from '../composables/useHomeFeed'
+import { categoryLabel } from '../i18n/marketplace-ui'
 
-const { t } = useI18n()
-const router = useRouter()
-const toast = useToastStore()
-const featured = ref([])
-const categories = ref([])
-const loading = ref(true)
-
-const heroPhotos = [
-  'https://images.unsplash.com/photo-1542272604-787c3835535d?w=600',
-  'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600',
-  'https://images.unsplash.com/photo-1518155317743-a8ff43ea6a5f?w=600',
-  'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600'
-]
-
-onMounted(async () => {
-  try {
-    const [page, cats] = await Promise.all([
-      listingApi.search({ page: 0, size: 12, sort: 'newest' }),
-      categoryApi.list()
-    ])
-    featured.value = page.content || []
-    categories.value = cats || []
-  } catch (err) {
-    toast.error(apiError(err))
-  } finally {
-    loading.value = false
-  }
-})
-
-function browseCategory(category) {
-  router.push({ name: 'browse', query: { categoryId: category.id } })
-}
+const { t, te } = useI18n()
+const { listings, listingsLoading, listingsError, categories, categoriesLoading, categoriesError,
+  loadListings, loadCategories, load } = useHomeFeed()
+const heroImage = `${import.meta.env.BASE_URL}demo-images/products/boutique-vase.jpg`
+const steps = ['discover', 'connect', 'exchange']
+onMounted(load)
 </script>
 
 <template>
-  <main class="page">
+  <main class="page home-page">
     <div class="container">
-      <section class="hero">
-        <div>
-          <h1 style="margin-bottom: 16px">{{ t('home.heroTitle') }}</h1>
-          <p style="font-size: 18px; color: var(--text-muted); max-width: 480px">{{ t('home.heroSubtitle') }}</p>
-          <div class="row" style="margin-top: 24px; gap: 12px">
-            <RouterLink :to="{ name: 'browse' }" class="btn btn-primary btn-lg">{{ t('home.ctaStart') }}</RouterLink>
-            <RouterLink :to="{ name: 'post-listing' }" class="btn btn-outline btn-lg">{{ t('home.ctaSell') }}</RouterLink>
+      <section class="home-intro" aria-labelledby="home-title">
+        <div class="intro-copy">
+          <p class="eyebrow"><Leaf :size="15" aria-hidden="true" />{{ t('marketplaceUi.eyebrow') }}</p>
+          <h1 id="home-title">{{ t('marketplaceUi.heroTitle') }}</h1>
+          <p class="intro-body">{{ t('marketplaceUi.heroBody') }}</p>
+          <div class="intro-actions">
+            <RouterLink :to="{ name: 'browse' }" class="btn btn-primary">{{ t('marketplaceUi.browse') }}<ArrowUpRight :size="18" aria-hidden="true" /></RouterLink>
+            <RouterLink :to="{ name: 'post-listing' }" class="text-link">{{ t('marketplaceUi.sell') }}<ArrowRight :size="16" aria-hidden="true" /></RouterLink>
           </div>
         </div>
-        <div class="hero-art">
-          <div v-for="src in heroPhotos" :key="src" class="photo" :style="{ backgroundImage: `url('${src}')` }"></div>
-        </div>
+        <figure class="intro-visual">
+          <img :src="heroImage" :alt="t('marketplaceUi.photoAlt')" width="900" height="900" fetchpriority="high" />
+          <figcaption>{{ t('marketplaceUi.photoCaption') }}</figcaption>
+          <span class="visual-seal" aria-hidden="true"><Leaf :size="25" stroke-width="1.4" />RE / LOVE</span>
+        </figure>
       </section>
 
-      <section class="section">
-        <h2 style="margin-bottom: 18px">{{ t('home.categoriesTitle') }}</h2>
-        <div class="grid grid-categories">
-          <button v-for="c in categories" :key="c.id" class="category-tile" @click="browseCategory(c)" type="button">
-            <span class="emoji">{{ c.icon }}</span>
-            <span>{{ c.name }}</span>
-          </button>
+      <section class="home-categories" :aria-label="t('marketplaceUi.categories')">
+        <div v-if="categoriesLoading" class="category-skeletons" role="status" :aria-label="t('common.loading')">
+          <span v-for="n in 6" :key="n" class="skeleton category-skeleton" aria-hidden="true"></span>
         </div>
+        <div v-else-if="categoriesError" class="category-error" role="alert">
+          <span>{{ t('marketplaceUi.categoryError') }}</span>
+          <button type="button" class="text-link" @click="loadCategories">{{ t('common.retry') }}</button>
+        </div>
+        <nav v-else class="category-strip" :aria-label="t('marketplaceUi.categories')">
+          <RouterLink :to="{ name: 'browse' }" class="category-chip category-chip-all">{{ t('marketplaceUi.allCategories') }}<ArrowUpRight :size="15" aria-hidden="true" /></RouterLink>
+          <RouterLink v-for="category in categories" :key="category.id" :to="{ name: 'browse', query: { categoryId: category.id } }" class="category-chip">
+            {{ categoryLabel(category, t, te) }}
+          </RouterLink>
+        </nav>
       </section>
 
-      <section class="section">
-        <div class="between" style="margin-bottom: 18px">
-          <h2>{{ t('home.featured') }}</h2>
-          <RouterLink :to="{ name: 'browse' }" class="btn btn-ghost btn-sm">{{ t('common.seeAll') }}</RouterLink>
+      <section class="home-listings" aria-labelledby="latest-title" :aria-busy="listingsLoading">
+        <div class="section-heading">
+          <div><h2 id="latest-title">{{ t('marketplaceUi.latest') }}</h2><p>{{ t('marketplaceUi.latestBody') }}</p></div>
+          <RouterLink :to="{ name: 'browse' }" class="text-link">{{ t('common.seeAll') }}<ArrowRight :size="17" aria-hidden="true" /></RouterLink>
         </div>
-        <div v-if="loading" class="muted">{{ t('common.loading') }}</div>
-        <div v-else-if="featured.length === 0" class="empty-state">{{ t('common.empty') }}</div>
-        <div v-else class="grid grid-listings">
-          <ListingCard v-for="l in featured" :key="l.id" :listing="l" />
+        <div v-if="listingsLoading" class="grid grid-listings" role="status" :aria-label="t('common.loading')">
+          <div v-for="n in 4" :key="n" class="listing-skeleton" aria-hidden="true">
+            <div class="skeleton skeleton-photo"></div><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-price"></div>
+          </div>
         </div>
+        <div v-else-if="listingsError" class="home-feed-state" role="alert">
+          <RefreshCw :size="28" stroke-width="1.5" aria-hidden="true" />
+          <h3>{{ t('marketplaceUi.loadError') }}</h3><p>{{ t('marketplaceUi.loadErrorBody') }}</p>
+          <button class="btn btn-outline" type="button" @click="loadListings">{{ t('common.retry') }}</button>
+        </div>
+        <div v-else-if="!listings.length" class="home-feed-state">
+          <PackageOpen :size="34" stroke-width="1.4" aria-hidden="true" />
+          <h3>{{ t('marketplaceUi.emptyTitle') }}</h3><p>{{ t('marketplaceUi.emptyBody') }}</p>
+          <RouterLink :to="{ name: 'post-listing' }" class="btn btn-primary">{{ t('marketplaceUi.sell') }}<ArrowUpRight :size="17" aria-hidden="true" /></RouterLink>
+        </div>
+        <div v-else class="grid grid-listings"><ListingCard v-for="listing in listings" :key="listing.id" :listing="listing" /></div>
       </section>
 
-      <section class="section">
-        <h2 style="margin-bottom: 24px" class="text-center">{{ t('home.howItWorks') }}</h2>
-        <div class="grid grid-3">
-          <div class="step-card">
-            <div class="step-number">1</div>
-            <h3>{{ t('home.step1Title') }}</h3>
-            <p class="muted">{{ t('home.step1Body') }}</p>
-          </div>
-          <div class="step-card">
-            <div class="step-number">2</div>
-            <h3>{{ t('home.step2Title') }}</h3>
-            <p class="muted">{{ t('home.step2Body') }}</p>
-          </div>
-          <div class="step-card">
-            <div class="step-number">3</div>
-            <h3>{{ t('home.step3Title') }}</h3>
-            <p class="muted">{{ t('home.step3Body') }}</p>
-          </div>
-        </div>
+      <section class="home-how" aria-labelledby="how-title">
+        <div class="how-heading"><p class="eyebrow">{{ t('marketplaceUi.workflowLabel') }}</p><h2 id="how-title">{{ t('marketplaceUi.workflowTitle') }}</h2></div>
+        <ol class="how-steps">
+          <li v-for="(step, index) in steps" :key="step">
+            <span class="how-number" aria-hidden="true">0{{ index + 1 }}</span>
+            <div><h3>{{ t(`marketplaceUi.steps.${step}.title`) }}</h3><p>{{ t(`marketplaceUi.steps.${step}.body`) }}</p></div>
+          </li>
+        </ol>
       </section>
     </div>
   </main>
 </template>
+
+<style scoped>
+.home-page { padding-top: 24px; padding-bottom: 56px; min-height: auto; }
+.home-intro { display: grid; grid-template-columns: 1.4fr 1fr; overflow: hidden; border-radius: 22px; background: #ecefe4; min-height: 328px; }
+.intro-copy { align-self: center; padding: 32px 44px; }
+.eyebrow { display: flex; align-items: center; gap: 8px; color: var(--primary-strong); font-size: 12px; font-weight: 600; letter-spacing: .055em; margin: 0 0 14px; }
+.intro-copy h1 { max-width: 490px; font-size: clamp(32px, 3.5vw, 48px); line-height: 1.08; letter-spacing: -.035em; text-wrap: balance; }
+.intro-body { margin: 14px 0 24px; max-width: 380px; color: var(--text-muted); font-size: 16px; line-height: 1.65; }
+.intro-actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.intro-visual { margin: 0; position: relative; background: #efeee9; min-width: 0; }
+.intro-visual img { width: 100%; height: 100%; max-height: 340px; object-fit: contain; mix-blend-mode: multiply; padding: 15px 50px 35px; }
+.intro-visual figcaption { position: absolute; left: 28px; bottom: 22px; font-size: 12px; color: var(--text-muted); }
+.visual-seal { position: absolute; right: 24px; top: 22px; width: 70px; height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 1px solid #aebda7; border-radius: 50%; color: var(--primary-strong); font-size: 8px; letter-spacing: .07em; transform: rotate(12deg); }
+.home-categories { padding: 20px 0 28px; }
+.category-strip, .category-skeletons { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 10px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.category-chip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--border); background: var(--bg-elevated); padding: 10px 17px; border-radius: 30px; font-size: 13px; font-weight: 500; transition: background .15s ease, border-color .15s ease; }
+.category-chip:hover { background: var(--primary-soft); border-color: #b4c8b5; }
+.category-chip-all { background: var(--primary-soft); border-color: transparent; color: var(--primary-strong); }
+.category-error { display: flex; gap: 14px; flex-wrap: wrap; color: var(--text-muted); font-size: 13px; }
+.section-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 23px; }
+.section-heading h2 { font-size: 27px; letter-spacing: -.025em; }
+.section-heading p { font-size: 14px; color: var(--text-muted); margin: 6px 0 0; }
+.section-heading > .text-link { flex-shrink: 0; }
+.home-feed-state { min-height: 240px; padding: 30px 24px; display: flex; align-items: center; flex-direction: column; text-align: center; border-radius: 16px; border: 1px solid var(--border); background: var(--bg-elevated); }
+.home-feed-state > svg { color: var(--primary); margin-bottom: 14px; }
+.home-feed-state h3 { font-size: 21px; margin-bottom: 8px; }
+.home-feed-state p { max-width: 440px; color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+.skeleton { background: var(--bg-muted); animation: breathe 1.5s ease-in-out infinite alternate; border-radius: 8px; }
+.skeleton-photo { aspect-ratio: 4/5; border-radius: 15px; }
+.skeleton-title { width: 80%; height: 13px; margin-top: 16px; }
+.skeleton-price { width: 35%; height: 19px; margin-top: 12px; }
+.category-skeleton { width: 125px; height: 40px; flex-shrink: 0; border-radius: 30px; }
+.home-how { display: grid; grid-template-columns: 1fr 1.25fr; gap: 70px; border-top: 1px solid var(--border); margin-top: 64px; padding-top: 45px; }
+.how-heading h2 { font-size: 31px; max-width: 340px; letter-spacing: -.025em; text-wrap: balance; }
+.how-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; }
+.how-steps li { display: flex; gap: 22px; }
+.how-number { font-size: 12px; font-variant-numeric: tabular-nums; color: var(--primary); padding-top: 3px; }
+.how-steps h3 { font-family: var(--font-body); font-size: 15px; margin-bottom: 6px; }
+.how-steps p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin: 0; }
+@keyframes breathe { to { opacity: .45; } }
+@media (max-width: 760px) {
+  .home-page { padding-top: 16px; }
+  .home-intro { grid-template-columns: 1fr; min-height: auto; border-radius: 17px; }
+  .intro-copy { padding: 25px 24px 29px; }
+  .intro-copy h1 { max-width: 330px; font-size: 34px; }
+  .intro-body { font-size: 14px; margin-bottom: 20px; }
+  .intro-visual { display: none; }
+  .intro-actions { gap: 18px; }
+  .home-categories { padding: 14px 0 22px; }
+  .section-heading { align-items: flex-start; margin-bottom: 18px; }
+  .section-heading h2 { font-size: 24px; }
+  .section-heading p { font-size: 12px; }
+  .section-heading > .text-link { margin-top: 5px; font-size: 12px; }
+  .home-feed-state { padding: 28px 20px; }
+  .home-how { grid-template-columns: 1fr; gap: 28px; margin-top: 40px; padding-top: 30px; }
+  .how-heading h2 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
+</style>

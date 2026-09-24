@@ -128,11 +128,11 @@ onMounted(load)
 @keyframes breathe { to { opacity: .45; } }
 @media (max-width: 760px) {
   .home-page { padding-top: 16px; }
-  .home-intro { grid-template-columns: 1fr; min-height: auto; border-radius: 17px; }
-  .intro-copy { padding: 25px 24px 29px; }
-  .intro-copy h1 { max-width: 330px; font-size: 34px; }
-  .intro-body { font-size: 14px; margin-bottom: 20px; }
-  .intro-visual { display: none; }
+  .home-intro { min-height: auto; border-radius: 20px; }
+  .intro-copy { padding: 48px 20px 16px; }
+  .intro-copy h1 { max-width: 330px; font-size: 40px; }
+  .intro-body { font-size: 17px; margin-bottom: 24px; }
+  .intro-visual img { max-height: 260px; padding: 0 24px 56px; }
   .intro-actions { gap: 18px; }
   .home-categories { padding: 14px 0 22px; }
   .section-heading { align-items: flex-start; margin-bottom: 18px; }

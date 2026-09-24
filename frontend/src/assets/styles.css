@@ -395,9 +395,9 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 /* Timeline */
 .timeline { display: flex; flex-direction: column; gap: 20px; }
 .timeline .step { display: flex; gap: 14px; }
-.timeline .dot { width: 14px; height: 14px; background: var(--border-strong); border-radius: 50%; margin-top: 6px; flex-shrink: 0; border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--border-strong); }
-.timeline .step.done .dot { background: var(--primary); box-shadow: 0 0 0 1px var(--primary-strong); }
-.timeline .step.active .dot { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft), 0 0 0 5px var(--accent); }
+.timeline .dot { width: 12px; height: 12px; background: var(--border); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.timeline .step.done .dot { background: var(--text); }
+.timeline .step.active .dot { background: var(--primary); box-shadow: 0 0 0 4px var(--primary-soft); }
 .timeline .step .when { font-size: 12px; color: var(--text-soft); }
 
 /* Form grids */

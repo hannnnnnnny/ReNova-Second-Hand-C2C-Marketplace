@@ -7,7 +7,7 @@ import ToastContainer from '../components/ToastContainer.vue'
 <template>
   <div>
     <AppHeader />
-    <RouterView />
+    <div id="main-content" tabindex="-1"><RouterView /></div>
     <AppFooter />
     <ToastContainer />
   </div>

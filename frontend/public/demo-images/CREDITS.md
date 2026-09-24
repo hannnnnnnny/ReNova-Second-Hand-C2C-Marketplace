@@ -9,3 +9,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | File | Photographer | Source |
 | --- | --- | --- |
 | `satin-wrap-dress.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/J35muhi0am4 |
+| `tan-leather-tote.jpg` | Ugluk Potroshitel ([@uglug](https://unsplash.com/@uglug)) | https://unsplash.com/photos/XwjrPFW7xw0 |

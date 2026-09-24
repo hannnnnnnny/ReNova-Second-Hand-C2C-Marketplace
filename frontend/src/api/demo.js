@@ -107,8 +107,8 @@ const categoryById = (id) => categories.find((c) => c.id === id) || categories[0
 const rawListings = [
   { id: 1, sellerId: 1, categoryId: 1, title: 'Satin Wrap Dress', img: 'satin-wrap-dress.jpg', price: 68, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Auckland', views: 142, favs: 18, age: 3,
     desc: 'Chocolate-brown satin wrap dress with long sleeves and a tie waist. Worn twice to weddings and dry-cleaned since. Size 10, runs slightly small.' },
-  { id: 2, sellerId: 1, categoryId: 4, title: 'Leather Tote Bag', img: 'fashion-bag.jpg', price: 95, originalPrice: 240, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 98, favs: 12,
-    desc: 'Full-grain leather tote with a roomy interior. Light patina, all zips work perfectly.' },
+  { id: 2, sellerId: 1, categoryId: 4, title: 'Tan Leather Tote', img: 'tan-leather-tote.jpg', price: 95, originalPrice: 240, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 98, favs: 12, age: 6,
+    desc: 'Full-grain tan leather tote, about 38 x 34 cm, with long shoulder straps. The leather has softened into a natural patina; a couple of light scuffs on the base. Fits a 14-inch laptop.' },
   { id: 3, sellerId: 1, categoryId: 1, title: 'Tailored Wool Blazer', img: 'fashion-blazer.jpg', price: 54, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 76, favs: 7,
     desc: 'Structured wool blazer, great for work. Minor wear on lining, exterior immaculate.' },
   { id: 4, sellerId: 1, categoryId: 4, title: 'Beaded Clutch', img: 'fashion-clutch.jpg', price: 28, originalPrice: 70, condition: 'LIKE_NEW', status: 'RESERVED', loc: 'Auckland', views: 51, favs: 9,

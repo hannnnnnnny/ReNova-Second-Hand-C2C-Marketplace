@@ -42,3 +42,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `gooseneck-kettle.jpg` | Paul Esch-Laurent ([@pinjasaur](https://unsplash.com/@pinjasaur)) | https://unsplash.com/photos/tVeVHHWCfHM |
 | `cast-iron-skillet.jpg` | Anshu A ([@anshu18](https://unsplash.com/@anshu18)) | https://unsplash.com/photos/KusGQYgRgSE |
 | `birch-dining-chair.jpg` | Hongly Oung ([@hongly_9](https://unsplash.com/@hongly_9)) | https://unsplash.com/photos/iBxQvOLuKb4 |
+| `hex-dumbbells-5kg.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/H-qxKCedhcc |

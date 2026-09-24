@@ -172,7 +172,9 @@ const rawListings = [
   { id: 33, sellerId: 2, categoryId: 5, title: 'Cast Iron Skillet (26 cm)', img: 'cast-iron-skillet.jpg', price: 30, originalPrice: 79, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 45, favs: 6, age: 11,
     desc: 'Pre-seasoned 26 cm cast iron skillet. Well seasoned from regular use, with no rust or cracks. Great for flatbreads, steak and oven bakes.' },
   { id: 34, sellerId: 5, categoryId: 5, title: 'Birch Dining Chair', img: 'birch-dining-chair.jpg', price: 60, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 53, favs: 8, age: 6,
-    desc: 'Scandinavian-style dining chair with a solid birch frame and curved plywood seat and back. Sturdy with no wobble; one faint mark on the seat. Pickup preferred.' }
+    desc: 'Scandinavian-style dining chair with a solid birch frame and curved plywood seat and back. Sturdy with no wobble; one faint mark on the seat. Pickup preferred.' },
+  { id: 35, sellerId: 2, categoryId: 6, title: 'Hex Dumbbells 5 kg (pair)', img: 'hex-dumbbells-5kg.jpg', price: 40, originalPrice: 80, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 66, favs: 9, age: 2,
+    desc: 'Pair of 5 kg rubber-coated hex dumbbells with knurled chrome handles. Home use only; the hex ends stop them rolling. Pickup or courier at cost.' }
 ]
 
 const favorites = new Set([2, 5])

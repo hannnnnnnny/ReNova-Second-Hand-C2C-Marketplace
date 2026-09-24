@@ -170,7 +170,9 @@ const rawListings = [
   { id: 32, sellerId: 3, categoryId: 5, title: 'Matte Black Gooseneck Kettle', img: 'gooseneck-kettle.jpg', price: 40, originalPrice: 120, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 59, favs: 9, age: 8,
     desc: 'Matte black gooseneck kettle for pour-over coffee, about 1 litre, with a precise spout. Used for a few months, descaled, no dents.' },
   { id: 33, sellerId: 2, categoryId: 5, title: 'Cast Iron Skillet (26 cm)', img: 'cast-iron-skillet.jpg', price: 30, originalPrice: 79, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 45, favs: 6, age: 11,
-    desc: 'Pre-seasoned 26 cm cast iron skillet. Well seasoned from regular use, with no rust or cracks. Great for flatbreads, steak and oven bakes.' }
+    desc: 'Pre-seasoned 26 cm cast iron skillet. Well seasoned from regular use, with no rust or cracks. Great for flatbreads, steak and oven bakes.' },
+  { id: 34, sellerId: 5, categoryId: 5, title: 'Birch Dining Chair', img: 'birch-dining-chair.jpg', price: 60, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 53, favs: 8, age: 6,
+    desc: 'Scandinavian-style dining chair with a solid birch frame and curved plywood seat and back. Sturdy with no wobble; one faint mark on the seat. Pickup preferred.' }
 ]
 
 const favorites = new Set([2, 5])

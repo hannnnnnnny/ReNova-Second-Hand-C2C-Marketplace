@@ -253,9 +253,9 @@ onMounted(load)
 .profile-section { margin-bottom: 48px; }
 .section-rule {
   display: flex; align-items: baseline; gap: 14px;
-  margin: 0 0 22px;
-  padding-bottom: 12px;
-  border-bottom: 3px dashed var(--border-strong);
+  margin: 0 0 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
 }
 .section-label {
   font-family: var(--font-display);

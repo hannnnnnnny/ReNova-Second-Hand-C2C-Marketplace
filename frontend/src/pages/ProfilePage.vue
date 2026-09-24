@@ -218,17 +218,6 @@ onMounted(load)
   width: 128px; height: 128px;
   font-size: 44px;
 }
-/* a little pinned-paper "tape" accent under the avatar */
-.profile-hero-avatar::after {
-  content: "";
-  position: absolute;
-  inset: auto 50% -10px 50%;
-  transform: translateX(-50%) rotate(2deg);
-  width: 56px; height: 14px;
-  background: rgba(224, 122, 95, 0.55);
-  border-radius: 4px;
-  box-shadow: var(--shadow-sm);
-}
 
 /* ---- Sticker stat strip ---- */
 .stat-strip {

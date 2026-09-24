@@ -154,7 +154,9 @@ const rawListings = [
   { id: 24, sellerId: 4, categoryId: 3, title: 'Brown Leather Penny Loafers', img: 'brown-penny-loafers.jpg', price: 70, originalPrice: 210, condition: 'GOOD', status: 'RESERVED', loc: 'Hamilton', views: 68, favs: 9, age: 12,
     desc: 'Chestnut brown leather penny loafers with a stacked heel, men\'s UK 8. Worn to a few events, then conditioned and polished. Small scuff on the left heel counter.' },
   { id: 25, sellerId: 2, categoryId: 3, title: 'Leather Hiking Boots', img: 'leather-hiking-boots.jpg', price: 80, originalPrice: 260, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 74, favs: 10, age: 9,
-    desc: 'Brown leather and suede hiking boots with lugged soles, men\'s US 10. About two seasons of weekend tramping; waterproofing reapplied and laces replaced.' }
+    desc: 'Brown leather and suede hiking boots with lugged soles, men\'s US 10. About two seasons of weekend tramping; waterproofing reapplied and laces replaced.' },
+  { id: 26, sellerId: 3, categoryId: 4, title: 'Mustard Canvas Rucksack', img: 'mustard-canvas-rucksack.jpg', price: 45, originalPrice: 130, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 55, favs: 8, age: 18,
+    desc: 'Mustard canvas rucksack with leather trims, a drawstring top and two front pockets, about 25 litres. Some honest outdoor wear on the base; straps and buckles are solid.' }
 ]
 
 const favorites = new Set([2, 5])

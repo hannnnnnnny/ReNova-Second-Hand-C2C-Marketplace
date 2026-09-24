@@ -140,7 +140,9 @@ const rawListings = [
   { id: 17, sellerId: 4, categoryId: 2, title: 'Brown Leather Jacket', img: 'brown-leather-jacket.jpg', price: 120, originalPrice: 350, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 131, favs: 21, age: 6,
     desc: 'Tan-brown leather jacket with a shirt collar and zip front. Supple leather with some creasing at the elbows that suits the style. Men\'s L. Conditioned last month.' },
   { id: 18, sellerId: 4, categoryId: 2, title: 'Dark Wash Straight Jeans', img: 'dark-straight-jeans.jpg', price: 35, originalPrice: 110, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 52, favs: 4, age: 16,
-    desc: 'Dark wash straight-leg jeans in rigid cotton denim, men\'s 32 x 32. Light fading on the thighs; original hems with no fraying.' }
+    desc: 'Dark wash straight-leg jeans in rigid cotton denim, men\'s 32 x 32. Light fading on the thighs; original hems with no fraying.' },
+  { id: 19, sellerId: 3, categoryId: 2, title: 'Plaid Cotton Shirt', img: 'plaid-cotton-shirt.jpg', price: 22, originalPrice: 70, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 29, favs: 3, age: 19,
+    desc: 'Soft cotton shirt in a blue, tan and cream plaid. Men\'s M. Washed many times, so it is lovely and soft; no holes or stains.' }
 ]
 
 const favorites = new Set([2, 5])

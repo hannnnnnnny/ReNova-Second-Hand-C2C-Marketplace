@@ -354,8 +354,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .bubble {
   max-width: 70%; padding: 12px 16px;
   border-radius: 20px;
-  font-size: 14px; line-height: 1.4;
-  border: 1px solid var(--border-strong);
+  font-size: 15px; line-height: 1.4;
+  border: 0;
   position: relative;
 }
 .bubble.from-me {

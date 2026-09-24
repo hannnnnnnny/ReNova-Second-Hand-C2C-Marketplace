@@ -136,7 +136,9 @@ const rawListings = [
   { id: 15, sellerId: 4, categoryId: 2, title: 'Denim Jacket with Cord Collar', img: 'denim-jacket-cord-collar.jpg', price: 85, originalPrice: 220, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Hamilton', views: 104, favs: 16, age: 1,
     desc: 'Dark indigo denim jacket with a brown corduroy collar. Worn a few times, so the denim is still crisp and dark. Men\'s M, chest 112 cm.' },
   { id: 16, sellerId: 4, categoryId: 2, title: 'Button-down Shirts (bundle of 3)', img: 'button-down-shirts-bundle.jpg', price: 40, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 41, favs: 5, age: 13,
-    desc: 'Three cotton button-down shirts: white, pale blue and navy micro-print. Regular fit, men\'s M (39 cm collar). Freshly laundered and pressed; no stains or missing buttons.' }
+    desc: 'Three cotton button-down shirts: white, pale blue and navy micro-print. Regular fit, men\'s M (39 cm collar). Freshly laundered and pressed; no stains or missing buttons.' },
+  { id: 17, sellerId: 4, categoryId: 2, title: 'Brown Leather Jacket', img: 'brown-leather-jacket.jpg', price: 120, originalPrice: 350, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 131, favs: 21, age: 6,
+    desc: 'Tan-brown leather jacket with a shirt collar and zip front. Supple leather with some creasing at the elbows that suits the style. Men\'s L. Conditioned last month.' }
 ]
 
 const favorites = new Set([2, 5])

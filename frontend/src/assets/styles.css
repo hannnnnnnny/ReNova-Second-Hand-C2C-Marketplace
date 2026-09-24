@@ -199,12 +199,13 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
 }
 
-/* Topbar — pinned, with a soft grass-edge bottom */
+/* Topbar: pinned, translucent white with a hairline edge. */
 .topbar {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(250, 248, 241, 0.96);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   height: var(--topbar-h);
   display: flex; align-items: center;
 }

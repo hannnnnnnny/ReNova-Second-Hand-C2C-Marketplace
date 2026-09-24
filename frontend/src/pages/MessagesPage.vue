@@ -330,9 +330,9 @@ onMounted(async () => {
 .compose-section { display: flex; flex-direction: column; }
 .compose-anchor {
   display: flex; align-items: center; gap: 14px;
-  border: 1px solid var(--border-strong);
-  background: var(--bg-elevated);
-  border-radius: 14px;
+  border: 0;
+  background: var(--bg);
+  border-radius: var(--radius);
   padding: 12px 14px;
 }
 .compose-anchor .thumb {

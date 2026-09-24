@@ -372,16 +372,16 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .chat-input { border-top: 1px solid var(--border); padding: 14px; display: flex; gap: 10px; }
 .chat-input .input { border-radius: 999px; min-width: 0; }
 
-/* Toast — Nook delivery bubble */
+/* Toast: floating white notice. */
 .toast-wrap { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
 .toast {
   background: var(--bg-elevated); color: var(--text);
-  padding: 14px 18px;
-  border: 1px solid var(--border-strong);
-  border-radius: 18px;
-  font-size: 14px; font-weight: 600;
-  box-shadow: var(--shadow-sm);
-  min-width: 260px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: var(--radius-lg);
+  font-size: 15px; font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  min-width: 260px; max-width: min(380px, calc(100vw - 32px));
 }
 .toast.success { background: var(--primary-soft); color: var(--primary-strong); border-color: var(--primary-strong); box-shadow: var(--shadow-sm); }
 .toast.error   { background: var(--accent-soft); color: #8b3a26; border-color: #b85731; box-shadow: 0 4px 0 #b85731, var(--shadow-lg); }

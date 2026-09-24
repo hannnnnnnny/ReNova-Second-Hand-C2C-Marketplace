@@ -73,7 +73,7 @@ onMounted(load)
       </section>
 
       <section class="home-how" aria-labelledby="how-title">
-        <div class="how-heading"><p class="eyebrow">{{ t('marketplaceUi.workflowLabel') }}</p><h2 id="how-title">{{ t('marketplaceUi.workflowTitle') }}</h2></div>
+        <div class="how-heading"><h2 id="how-title">{{ t('marketplaceUi.workflowTitle') }}</h2><p>{{ t('marketplaceUi.workflowLabel') }}</p></div>
         <ol class="how-steps">
           <li v-for="(step, index) in steps" :key="step">
             <span class="how-number" aria-hidden="true">0{{ index + 1 }}</span>
@@ -118,7 +118,8 @@ onMounted(load)
 .skeleton-price { width: 35%; height: 19px; margin-top: 12px; }
 .category-skeleton { width: 120px; height: 42px; flex-shrink: 0; border-radius: 999px; }
 .home-how { display: grid; grid-template-columns: 1fr 1.25fr; gap: 70px; border-top: 1px solid var(--border); margin-top: 64px; padding-top: 45px; }
-.how-heading h2 { font-size: 31px; max-width: 340px; letter-spacing: -.025em; text-wrap: balance; }
+.how-heading h2 { font-size: clamp(28px, 4vw, 40px); max-width: 380px; letter-spacing: -.025em; text-wrap: balance; }
+.how-heading p { color: var(--text-muted); font-size: 17px; margin: 12px 0 0; }
 .how-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; }
 .how-steps li { display: flex; gap: 22px; }
 .how-number { font-size: 12px; font-variant-numeric: tabular-nums; color: var(--primary); padding-top: 3px; }

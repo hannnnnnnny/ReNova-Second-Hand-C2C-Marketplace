@@ -42,7 +42,7 @@ defineProps({
   width: 30px; height: 30px; display: grid; place-items: center; border-radius: 8px;
   color: white; background: var(--text); font-family: var(--font-display); font-size: 15px;
 }
-.auth-eyebrow { margin: 44px 0 12px; color: var(--primary-strong); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.auth-eyebrow { margin: 48px 0 12px; color: var(--text-muted); font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
 h1 { margin: 0; font-size: clamp(32px, 5vw, 48px); line-height: 1.05; }
 .auth-subtitle { margin: 16px 0 0; color: var(--text-soft); font-size: 17px; line-height: 1.55; }
 .auth-note { margin: 28px 0 0; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-soft); font-size: 13px; line-height: 1.6; }

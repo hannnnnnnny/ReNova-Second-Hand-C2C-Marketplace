@@ -107,7 +107,7 @@ function toggleFavorite() {
   background: var(--bg);
 }
 
-.rn-product-image { width: 100%; height: 100%; padding: 8px; object-fit: contain; transition: transform var(--dur) var(--ease); }
+.rn-product-image { width: 100%; height: 100%; padding: 0; object-fit: cover; transition: transform var(--dur) var(--ease); }
 .rn-product-card:hover .rn-product-image { transform: scale(1.05); }
 .rn-product-placeholder {
   display: flex;

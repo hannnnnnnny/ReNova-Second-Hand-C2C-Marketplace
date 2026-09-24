@@ -610,7 +610,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .search-wrap button { min-height: 34px; }
 .locale-switch button { min-height: 30px; padding: 4px 10px; }
 .nav-actions .btn-ghost.router-link-exact-active { color: var(--text); font-weight: 600; }
-.skip-link { position: fixed; top: -80px; left: 16px; z-index: 110; background: var(--primary); color: white; padding: 10px 20px; border-radius: 10px; }
+.skip-link { position: fixed; top: -80px; left: 16px; z-index: 110; background: var(--primary); color: white; padding: 10px 20px; border-radius: 999px; transition: top var(--dur-fast) var(--ease); }
 .skip-link:focus { top: 10px; color: white; }
 @media (min-width: 761px) and (max-width: 1060px) {
   .topbar-inner { gap: 10px; }

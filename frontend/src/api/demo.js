@@ -132,7 +132,9 @@ const rawListings = [
   { id: 13, sellerId: 5, categoryId: 1, title: 'Grey Ribbed Knit Cardigan', img: 'grey-knit-cardigan.jpg', price: 32, originalPrice: 85, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 46, favs: 6, age: 8,
     desc: 'Grey marl cardigan in a chunky rib knit with dark horn buttons. Wool blend, only ever hand-washed. Slight pilling under the arms. Size S-M.' },
   { id: 14, sellerId: 5, categoryId: 1, title: 'Blush Tie-Front Blouse', img: 'blush-tie-front-blouse.jpg', price: 26, originalPrice: 69, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 33, favs: 4, age: 11,
-    desc: 'Sheer blush chiffon blouse with pintuck detail, a front tie and relaxed long sleeves. Worn a handful of times with no marks. Size 10.' }
+    desc: 'Sheer blush chiffon blouse with pintuck detail, a front tie and relaxed long sleeves. Worn a handful of times with no marks. Size 10.' },
+  { id: 15, sellerId: 4, categoryId: 2, title: 'Denim Jacket with Cord Collar', img: 'denim-jacket-cord-collar.jpg', price: 85, originalPrice: 220, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Hamilton', views: 104, favs: 16, age: 1,
+    desc: 'Dark indigo denim jacket with a brown corduroy collar. Worn a few times, so the denim is still crisp and dark. Men\'s M, chest 112 cm.' }
 ]
 
 const favorites = new Set([2, 5])

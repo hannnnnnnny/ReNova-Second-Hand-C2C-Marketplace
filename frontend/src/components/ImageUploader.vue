@@ -238,18 +238,19 @@ function moveTo(index, dir) {
 }
 .thumb-btn {
   flex: 1;
-  background: var(--bg-elevated);
-  border: 2px solid var(--border-strong);
-  border-radius: 10px;
+  background: var(--bg-muted);
+  border: 0;
+  border-radius: 8px;
+  min-height: 32px;
   padding: 4px 0;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
   font-size: 13px;
-  box-shadow: 0 2px 0 var(--border-strong);
-  transition: transform 100ms ease;
+  color: var(--text);
+  transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
 }
-.thumb-btn:hover:not(:disabled) { transform: translateY(-1px); }
-.thumb-btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 1px 0 var(--border-strong); }
+.thumb-btn:hover:not(:disabled) { background: #dcdce1; }
+.thumb-btn:active:not(:disabled) { transform: scale(0.96); }
 .thumb-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .thumb-btn-danger {
   background: var(--accent-soft); border-color: #b85731; box-shadow: 0 2px 0 #b85731; color: #8b3a26;

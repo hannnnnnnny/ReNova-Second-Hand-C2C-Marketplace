@@ -162,7 +162,7 @@ function toggleFavorite() {
 .rn-product-original-price {
   overflow: hidden;
   color: var(--text-soft);
-  font-size: 11px;
+  font-size: 13px;
   text-decoration: line-through;
   text-overflow: ellipsis;
   white-space: nowrap;

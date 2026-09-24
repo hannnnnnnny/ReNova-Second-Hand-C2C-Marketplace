@@ -95,8 +95,9 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   border: 1px solid transparent;
   background: var(--bg-muted); color: var(--text);
   box-shadow: none;
-  transition: transform .12s ease, box-shadow .12s ease,
-              background .15s ease, border-color .15s ease, color .15s ease;
+  transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
+              opacity var(--dur-fast) var(--ease);
   white-space: nowrap;
 }
 .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); background: var(--bg-muted); }

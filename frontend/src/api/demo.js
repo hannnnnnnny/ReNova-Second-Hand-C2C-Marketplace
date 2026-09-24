@@ -146,7 +146,9 @@ const rawListings = [
   { id: 20, sellerId: 5, categoryId: 2, title: 'Chunky Knit Jumper', img: 'chunky-knit-jumper.jpg', price: 40, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 61, favs: 10, age: 14,
     desc: 'Oatmeal chunky knit crew-neck jumper with dropped shoulders. Wool blend, hand-washed and dried flat. Unisex: fits a men\'s S or women\'s M.' },
   { id: 21, sellerId: 4, categoryId: 3, title: 'Black Leather Chelsea Boots', img: 'black-chelsea-boots.jpg', price: 90, originalPrice: 260, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 96, favs: 15, age: 3,
-    desc: 'Black leather Chelsea boots with elastic side panels, men\'s UK 9. Resoled once; uppers polished, with light creasing across the toe.' }
+    desc: 'Black leather Chelsea boots with elastic side panels, men\'s UK 9. Resoled once; uppers polished, with light creasing across the toe.' },
+  { id: 22, sellerId: 3, categoryId: 3, title: 'Lacoste White Leather Sneakers', img: 'white-leather-sneakers.jpg', price: 55, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 77, favs: 12, age: 17,
+    desc: 'Lacoste white leather court sneakers with green embroidered branding, women\'s US 8. Worn a few times; soles still clean. Original box not included.' }
 ]
 
 const favorites = new Set([2, 5])

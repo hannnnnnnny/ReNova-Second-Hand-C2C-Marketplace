@@ -139,12 +139,8 @@ onMounted(load)
 </template>
 
 <style scoped>
-/* ====================================================================
-   Editorial profile — Anton-Skvortsov-flavored composition layered on
-   the existing Animal-Crossing palette. Big display type, asymmetric
-   hero, sticker-style stat tiles with subtle tilt, pull-quote reviews.
-   Stays usable on a 375px viewport.
-   ==================================================================== */
+/* Profile: large display name, flat stat tiles and quiet review cards.
+   Stays usable on a 375px viewport. */
 
 .profile-hero {
   position: relative;

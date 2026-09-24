@@ -93,8 +93,8 @@ onMounted(load)
 .intro-copy h1 { max-width: 760px; font-size: clamp(44px, 7vw, 80px); line-height: 1.05; letter-spacing: -.03em; text-wrap: balance; }
 .intro-body { margin: 20px auto 32px; max-width: 560px; color: var(--text-muted); font-size: 21px; line-height: 1.45; }
 .intro-actions { display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }
-.intro-visual { margin: 0; position: relative; background: #efeee9; min-width: 0; }
-.intro-visual img { width: 100%; height: 100%; max-height: 340px; object-fit: contain; mix-blend-mode: multiply; padding: 15px 50px 35px; }
+.intro-visual { margin: 0; position: relative; background: transparent; min-width: 0; width: 100%; max-width: 520px; }
+.intro-visual img { width: 100%; height: auto; max-height: 420px; object-fit: contain; mix-blend-mode: multiply; padding: 0 32px 64px; }
 .intro-visual figcaption { position: absolute; left: 28px; bottom: 22px; font-size: 12px; color: var(--text-muted); }
 .home-categories { padding: 20px 0 28px; }
 .category-strip, .category-skeletons { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 10px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }

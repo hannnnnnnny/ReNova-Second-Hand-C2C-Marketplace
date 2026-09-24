@@ -217,8 +217,6 @@ onMounted(load)
 .profile-hero-avatar :deep(.avatar-lg) {
   width: 128px; height: 128px;
   font-size: 44px;
-  border-width: 4px;
-  box-shadow: 0 6px 0 var(--border-strong);
 }
 /* a little pinned-paper "tape" accent under the avatar */
 .profile-hero-avatar::after {

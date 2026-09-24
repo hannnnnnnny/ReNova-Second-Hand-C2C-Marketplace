@@ -338,7 +338,7 @@ onMounted(async () => {
 .compose-anchor .thumb {
   width: 64px; height: 64px; border-radius: 10px;
   background-size: cover; background-position: center;
-  background-color: #efeae0;
+  background-color: var(--bg-muted);
   flex-shrink: 0;
 }
 .compose-other-row {
@@ -362,7 +362,7 @@ onMounted(async () => {
 .compose-other-card .thumb {
   width: 100%; aspect-ratio: 1; border-radius: 8px;
   background-size: cover; background-position: center;
-  background-color: #efeae0;
+  background-color: var(--bg-muted);
 }
 .compose-other-card .title {
   font-size: 12px; line-height: 1.35;

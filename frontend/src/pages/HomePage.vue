@@ -62,7 +62,7 @@ onMounted(load)
         <div v-else-if="listingsError" class="home-feed-state" role="alert">
           <RefreshCw :size="28" stroke-width="1.5" aria-hidden="true" />
           <h3>{{ t('marketplaceUi.loadError') }}</h3><p>{{ t('marketplaceUi.loadErrorBody') }}</p>
-          <button class="btn btn-outline" type="button" @click="loadListings">{{ t('common.retry') }}</button>
+          <button class="btn btn-primary" type="button" @click="loadListings">{{ t('common.retry') }}</button>
         </div>
         <div v-else-if="!listings.length" class="home-feed-state">
           <PackageOpen :size="34" stroke-width="1.4" aria-hidden="true" />

@@ -223,11 +223,9 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 
 .brand-mark {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px; border-radius: 12px;
-  background: var(--primary); color: #fff;
-  border: 1px solid var(--primary-strong);
-  font-family: var(--font-display); font-weight: 800;
-  box-shadow: var(--shadow-sm);
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--text); color: #fff;
+  font-family: var(--font-display); font-weight: 600; font-size: 15px;
 }
 .search-wrap {
   display: flex; background: var(--bg-elevated);

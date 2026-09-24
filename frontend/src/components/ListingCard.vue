@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { Heart, ImageOff } from 'lucide-vue-next'
 import { formatPrice } from '../utils/format'
 
 const props = defineProps({
@@ -11,50 +11,213 @@ const props = defineProps({
 })
 const emit = defineEmits(['favorite'])
 const { t } = useI18n()
-const router = useRouter()
 
-const cover = computed(() => props.listing.coverImageUrl || (props.listing.imageUrls?.[0]))
+const cover = computed(() => props.listing.coverImageUrl || props.listing.imageUrls?.[0])
+const imageAvailable = ref(true)
+const showImage = computed(() => Boolean(cover.value) && imageAvailable.value)
 const status = computed(() => props.listing.status)
+const detailTarget = computed(() => ({ name: 'listing-detail', params: { id: props.listing.id } }))
+const favoriteLabel = computed(() => t(
+  props.favorited ? 'cardUi.removeFavorite' : 'cardUi.addFavorite',
+  { title: props.listing.title }
+))
 
-// Deterministic per-listing photo ratio so cards stagger into a waterfall
-// regardless of the source image's real dimensions (the demo assets are all
-// square). Mix of square and taller crops; stable per id, so no reflow.
-const PHOTO_RATIOS = ['1 / 1', '4 / 5', '5 / 6', '1 / 1', '5 / 4', '3 / 4', '4 / 5', '1 / 1']
-const photoRatio = computed(() => {
-  const id = Number(props.listing.id) || 0
-  return PHOTO_RATIOS[id % PHOTO_RATIOS.length]
+watch(cover, () => {
+  imageAvailable.value = true
 })
 
-function goDetail() {
-  router.push({ name: 'listing-detail', params: { id: props.listing.id } })
+function handleImageError() {
+  imageAvailable.value = false
 }
-function toggleFav(e) {
-  e.stopPropagation()
+
+function toggleFavorite() {
   emit('favorite', props.listing)
 }
 </script>
 
 <template>
-  <article class="listing-card" @click="goDetail">
-    <div class="photo" :style="{ aspectRatio: photoRatio }">
-      <img v-if="cover" class="photo-img" :src="cover" :alt="listing.title" loading="lazy" />
-      <div v-else class="photo-ph"></div>
-      <span v-if="status && status !== 'ACTIVE'" class="status-pill">{{ t(`listingStatus.${status}`) }}</span>
-      <button v-if="showFav" class="fav" :class="{ 'is-on': favorited }" @click="toggleFav" aria-label="favorite">
-        {{ favorited ? '♥' : '♡' }}
-      </button>
-    </div>
-    <div class="body">
-      <div class="title">{{ listing.title }}</div>
-      <div class="price-row">
-        <span class="price">{{ formatPrice(listing.price) }}</span>
-        <span v-if="listing.originalPrice && Number(listing.originalPrice) > Number(listing.price)" class="price-orig">{{ formatPrice(listing.originalPrice) }}</span>
+  <article class="rn-product-card">
+    <RouterLink class="rn-product-link" :to="detailTarget">
+      <div class="rn-product-media">
+        <img v-if="showImage" class="rn-product-image" :src="cover" :alt="listing.title" loading="lazy" @error="handleImageError" />
+        <div v-else class="rn-product-placeholder" role="img" :aria-label="t('cardUi.imageUnavailable')">
+          <ImageOff :size="30" :stroke-width="1.6" aria-hidden="true" />
+          <span>{{ t('cardUi.imageUnavailable') }}</span>
+        </div>
+        <span v-if="status && status !== 'ACTIVE'" class="rn-product-status">{{ t(`listingStatus.${status}`) }}</span>
       </div>
-      <div class="meta">
-        <span>{{ t(`condition.${listing.condition}`) }}</span>
-        <span v-if="listing.location">·</span>
-        <span v-if="listing.location">{{ listing.location }}</span>
+
+      <div class="rn-product-body">
+        <h3 class="rn-product-title">{{ listing.title }}</h3>
+        <div class="rn-product-price-row">
+          <span class="rn-product-price">{{ formatPrice(listing.price) }}</span>
+          <span v-if="listing.originalPrice && Number(listing.originalPrice) > Number(listing.price)" class="rn-product-original-price">
+            {{ formatPrice(listing.originalPrice) }}
+          </span>
+        </div>
+        <div class="rn-product-meta">
+          <span class="rn-product-condition">{{ t(`condition.${listing.condition}`) }}</span>
+          <span v-if="listing.location" class="rn-product-location">{{ listing.location }}</span>
+        </div>
       </div>
-    </div>
+    </RouterLink>
+
+    <button
+      v-if="showFav"
+      class="rn-product-favorite"
+      :class="{ 'is-active': favorited }"
+      type="button"
+      :aria-label="favoriteLabel"
+      :aria-pressed="favorited"
+      @click="toggleFavorite"
+    >
+      <Heart :size="19" :stroke-width="2" :fill="favorited ? 'currentColor' : 'none'" aria-hidden="true" />
+    </button>
   </article>
 </template>
+
+<style scoped>
+.rn-product-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, transparent);
+  border-radius: 18px;
+  background: var(--bg-elevated);
+  box-shadow: 0 3px 12px rgba(74, 58, 34, 0.07);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.rn-product-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border);
+  box-shadow: 0 8px 22px rgba(74, 58, 34, 0.1);
+}
+
+.rn-product-link { display: block; color: inherit; }
+.rn-product-link:hover { color: inherit; }
+.rn-product-link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary) 62%, white);
+  outline-offset: -3px;
+  border-radius: inherit;
+}
+
+.rn-product-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #f1eadb;
+}
+
+.rn-product-image { width: 100%; height: 100%; padding: 8px; object-fit: contain; }
+.rn-product-placeholder {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.rn-product-status {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(74, 58, 34, 0.9);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.rn-product-body { display: flex; flex-direction: column; gap: 7px; padding: 12px 13px 14px; }
+.rn-product-title {
+  display: -webkit-box;
+  min-height: 38px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.rn-product-price-row { display: flex; min-width: 0; align-items: baseline; gap: 7px; }
+.rn-product-price {
+  color: var(--primary-strong);
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.rn-product-original-price {
+  overflow: hidden;
+  color: var(--text-soft);
+  font-size: 11px;
+  text-decoration: line-through;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rn-product-meta { display: flex; min-width: 0; align-items: center; gap: 8px; font-size: 11px; line-height: 1.3; }
+.rn-product-condition {
+  flex: none;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  font-weight: 700;
+}
+
+.rn-product-location {
+  overflow: hidden;
+  color: var(--text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rn-product-favorite {
+  position: absolute;
+  z-index: 2;
+  top: 9px;
+  right: 9px;
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(74, 58, 34, 0.13);
+  border-radius: 50%;
+  background: rgba(255, 250, 238, 0.94);
+  color: var(--text-muted);
+  box-shadow: 0 2px 8px rgba(74, 58, 34, 0.1);
+}
+
+.rn-product-favorite:hover,
+.rn-product-favorite.is-active { color: var(--accent); }
+.rn-product-favorite:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary) 62%, white);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .rn-product-body { gap: 6px; padding: 10px 10px 12px; }
+  .rn-product-title { min-height: 35px; font-size: 13px; }
+  .rn-product-price { font-size: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rn-product-card { transition: none; }
+}
+</style>

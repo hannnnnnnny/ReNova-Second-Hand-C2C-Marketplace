@@ -348,7 +348,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   min-height: 580px;
   box-shadow: var(--shadow);
 }
-.chat-thread-head { padding: 16px 20px; border-bottom: 2px dashed var(--border); display: flex; align-items: center; gap: 12px; }
+.chat-thread-head { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
 .chat-msgs { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; max-height: 60vh; }
 
 .bubble {
@@ -373,7 +373,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   box-shadow: var(--shadow-sm);
 }
 .bubble-time { font-size: 11px; opacity: .8; margin-top: 4px; }
-.chat-input { border-top: 2px dashed var(--border); padding: 14px; display: flex; gap: 10px; }
+.chat-input { border-top: 1px solid var(--border); padding: 14px; display: flex; gap: 10px; }
 .chat-input .input { border-radius: 999px; min-width: 0; }
 
 /* Toast — Nook delivery bubble */

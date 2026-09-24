@@ -112,11 +112,11 @@ onMounted(load)
 .home-feed-state > svg { color: var(--text-soft); margin-bottom: 16px; }
 .home-feed-state h3 { font-size: 21px; margin-bottom: 8px; }
 .home-feed-state p { max-width: 440px; color: var(--text-muted); font-size: 17px; margin-bottom: 24px; }
-.skeleton { background: var(--bg-muted); animation: breathe 1.5s ease-in-out infinite alternate; border-radius: 8px; }
-.skeleton-photo { aspect-ratio: 4/5; border-radius: 15px; }
+.skeleton { background: var(--bg-muted); animation: breathe 1.2s var(--ease) infinite alternate; border-radius: 8px; }
+.skeleton-photo { aspect-ratio: 4/5; border-radius: var(--radius-lg); }
 .skeleton-title { width: 80%; height: 13px; margin-top: 16px; }
 .skeleton-price { width: 35%; height: 19px; margin-top: 12px; }
-.category-skeleton { width: 125px; height: 40px; flex-shrink: 0; border-radius: 30px; }
+.category-skeleton { width: 120px; height: 42px; flex-shrink: 0; border-radius: 999px; }
 .home-how { display: grid; grid-template-columns: 1fr 1.25fr; gap: 70px; border-top: 1px solid var(--border); margin-top: 64px; padding-top: 45px; }
 .how-heading h2 { font-size: 31px; max-width: 340px; letter-spacing: -.025em; text-wrap: balance; }
 .how-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; }

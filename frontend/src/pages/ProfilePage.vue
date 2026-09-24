@@ -150,12 +150,10 @@ onMounted(load)
   align-items: end;
   padding: 36px 36px 28px;
   margin-bottom: 28px;
-  background:
-    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.5) 0%, transparent 45%),
-    linear-gradient(135deg, var(--bg-elevated) 0%, var(--primary-soft) 100%);
-  border: 2px solid var(--border-strong);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 6px 0 var(--border-strong), var(--shadow);
+  background: var(--bg-elevated);
+  border: 0;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
   overflow: hidden;
 }
 .profile-hero::before {

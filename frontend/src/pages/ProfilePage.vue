@@ -193,15 +193,12 @@ onMounted(load)
 
 .profile-hero-quote {
   position: relative;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
   line-height: 1.45;
   max-width: 620px;
-  color: var(--text);
-  padding-left: 14px;
-  border-left: 4px solid var(--primary);
+  color: var(--text-muted);
   margin: 0;
 }
 .profile-hero-quote .quote-mark {

@@ -144,9 +144,9 @@ function toggleFavorite() {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 650;
-  line-height: 1.35;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.33;
 }
 
 .rn-product-price-row { display: flex; min-width: 0; align-items: baseline; gap: 7px; }

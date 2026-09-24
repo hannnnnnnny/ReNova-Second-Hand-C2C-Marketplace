@@ -117,7 +117,7 @@ onMounted(load)
 .skeleton-title { width: 80%; height: 13px; margin-top: 16px; }
 .skeleton-price { width: 35%; height: 19px; margin-top: 12px; }
 .category-skeleton { width: 120px; height: 42px; flex-shrink: 0; border-radius: 999px; }
-.home-how { display: grid; grid-template-columns: 1fr 1.25fr; gap: 70px; border-top: 1px solid var(--border); margin-top: 64px; padding-top: 45px; }
+.home-how { display: grid; grid-template-columns: 1fr 1.25fr; gap: 64px; margin-top: 96px; padding: 64px; border-radius: 24px; background: var(--bg-elevated); }
 .how-heading h2 { font-size: clamp(28px, 4vw, 40px); max-width: 380px; letter-spacing: -.025em; text-wrap: balance; }
 .how-heading p { color: var(--text-muted); font-size: 17px; margin: 12px 0 0; }
 .how-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; }

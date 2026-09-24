@@ -111,8 +111,11 @@ onMounted(fetchUnread)
 .nav-account { position: relative; }
 .nav-account-menu {
   position: absolute; top: calc(100% + 6px); right: 0;
-  min-width: 220px; padding: 8px; z-index: 60;
-  display: flex; flex-direction: column; gap: 2px;
+  min-width: 220px; padding: 6px; z-index: 60;
+  display: flex; flex-direction: column; gap: 0;
+  border-radius: 14px; box-shadow: var(--shadow-lg);
+  animation: menu-in var(--dur-fast) var(--ease);
 }
-.nav-account-menu .btn { justify-content: flex-start; width: 100%; }
+.nav-account-menu .btn { justify-content: flex-start; width: 100%; border-radius: 8px; }
+@keyframes menu-in { from { opacity: 0; transform: translateY(-4px); } }
 </style>

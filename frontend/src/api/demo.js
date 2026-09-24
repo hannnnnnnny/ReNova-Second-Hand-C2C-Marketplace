@@ -142,7 +142,9 @@ const rawListings = [
   { id: 18, sellerId: 4, categoryId: 2, title: 'Dark Wash Straight Jeans', img: 'dark-straight-jeans.jpg', price: 35, originalPrice: 110, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 52, favs: 4, age: 16,
     desc: 'Dark wash straight-leg jeans in rigid cotton denim, men\'s 32 x 32. Light fading on the thighs; original hems with no fraying.' },
   { id: 19, sellerId: 3, categoryId: 2, title: 'Plaid Cotton Shirt', img: 'plaid-cotton-shirt.jpg', price: 22, originalPrice: 70, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 29, favs: 3, age: 19,
-    desc: 'Soft cotton shirt in a blue, tan and cream plaid. Men\'s M. Washed many times, so it is lovely and soft; no holes or stains.' }
+    desc: 'Soft cotton shirt in a blue, tan and cream plaid. Men\'s M. Washed many times, so it is lovely and soft; no holes or stains.' },
+  { id: 20, sellerId: 5, categoryId: 2, title: 'Chunky Knit Jumper', img: 'chunky-knit-jumper.jpg', price: 40, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 61, favs: 10, age: 14,
+    desc: 'Oatmeal chunky knit crew-neck jumper with dropped shoulders. Wool blend, hand-washed and dried flat. Unisex: fits a men\'s S or women\'s M.' }
 ]
 
 const favorites = new Set([2, 5])

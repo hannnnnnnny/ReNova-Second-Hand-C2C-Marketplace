@@ -27,3 +27,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `brown-leather-jacket.jpg` | Derick McKinney ([@derickray](https://unsplash.com/@derickray)) | https://unsplash.com/photos/3OFBcQQTN64 |
 | `dark-straight-jeans.jpg` | Matthew Moloney ([@mattmoloney](https://unsplash.com/@mattmoloney)) | https://unsplash.com/photos/5NPId7L1_p4 |
 | `plaid-cotton-shirt.jpg` | the blowup ([@theblowup](https://unsplash.com/@theblowup)) | https://unsplash.com/photos/AE-9l0oedcg |
+| `chunky-knit-jumper.jpg` | Toa Heftiba ([@heftiba](https://unsplash.com/@heftiba)) | https://unsplash.com/photos/mavrg7cLwbA |

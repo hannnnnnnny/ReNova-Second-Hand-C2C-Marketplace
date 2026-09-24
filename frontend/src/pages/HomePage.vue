@@ -99,7 +99,7 @@ onMounted(load)
 .intro-visual figcaption { position: absolute; left: 0; right: 0; bottom: 28px; font-size: 12px; color: var(--text-muted); }
 .home-categories { padding: 40px 0 56px; }
 .category-strip, .category-skeletons { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 10px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-.category-chip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--border); background: var(--bg-elevated); padding: 10px 17px; border-radius: 30px; font-size: 13px; font-weight: 500; transition: background .15s ease, border-color .15s ease; }
+.category-chip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; border: 0; background: var(--bg-elevated); padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 400; transition: background-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
 .category-chip:hover { background: var(--primary-soft); border-color: #b4c8b5; }
 .category-chip-all { background: var(--primary-soft); border-color: transparent; color: var(--primary-strong); }
 .category-error { display: flex; gap: 14px; flex-wrap: wrap; color: var(--text-muted); font-size: 13px; }

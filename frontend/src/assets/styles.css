@@ -186,6 +186,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .text-center { text-align: center; }
 .divider { border-top: 1px solid var(--border); margin: 24px 0; }
 .grow { flex: 1; }
+.price-display { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; font-size: 22px; }
+.price-display-xl { font-size: clamp(32px, 5vw, 40px); }
 
 /* Grid utilities */
 .grid { display: grid; gap: 24px; }

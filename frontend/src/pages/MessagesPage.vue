@@ -356,9 +356,10 @@ onMounted(async () => {
   text-align: left;
   transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
 }
-.compose-other-card:hover { border-color: var(--primary); transform: translateY(-1px); }
-.compose-other-card.is-active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(76, 175, 108, 0.20); }
-.compose-other-card.is-pinned { border-style: dashed; }
+.compose-other-card:hover { border-color: var(--border-strong); }
+.compose-other-card:active { transform: scale(0.98); }
+.compose-other-card.is-active { border-color: var(--primary); box-shadow: var(--focus-ring); }
+.compose-other-card.is-pinned { background: var(--bg); }
 .compose-other-card .thumb {
   width: 100%; aspect-ratio: 1; border-radius: 8px;
   background-size: cover; background-position: center;

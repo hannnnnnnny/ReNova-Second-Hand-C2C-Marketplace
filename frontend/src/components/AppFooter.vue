@@ -27,7 +27,7 @@ const year = new Date().getFullYear()
 .footer-links { display: flex; gap: 28px; font-size: 13px; font-weight: 400; color: var(--text-muted); }
 .footer-links a { padding: 8px 0; }
 .footer-links a:hover { color: var(--primary-strong); text-decoration: underline; text-underline-offset: 4px; }
-.footer-bottom { border-top: 1px solid var(--border); padding-top: 18px; display: flex; justify-content: space-between; gap: 20px; color: var(--text-muted); font-size: 11px; }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 18px; display: flex; justify-content: space-between; gap: 20px; color: var(--text-muted); font-size: 12px; }
 @media (max-width: 760px) {
   .footer-top { align-items: flex-start; flex-direction: column; gap: 16px; }
   .footer-links { gap: 24px; }

@@ -97,8 +97,8 @@ onMounted(load)
 .intro-visual { margin: 0; position: relative; background: transparent; min-width: 0; width: 100%; max-width: 520px; }
 .intro-visual img { width: 100%; height: auto; max-height: 420px; object-fit: contain; mix-blend-mode: multiply; padding: 0 32px 64px; }
 .intro-visual figcaption { position: absolute; left: 0; right: 0; bottom: 28px; font-size: 12px; color: var(--text-muted); }
-.home-categories { padding: 20px 0 28px; }
-.category-strip, .category-skeletons { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 10px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.home-categories { padding: 40px 0 56px; }
+.category-strip, .category-skeletons { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 10px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .category-chip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--border); background: var(--bg-elevated); padding: 10px 17px; border-radius: 30px; font-size: 13px; font-weight: 500; transition: background .15s ease, border-color .15s ease; }
 .category-chip:hover { background: var(--primary-soft); border-color: #b4c8b5; }
 .category-chip-all { background: var(--primary-soft); border-color: transparent; color: var(--primary-strong); }

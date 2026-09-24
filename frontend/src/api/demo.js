@@ -166,7 +166,9 @@ const rawListings = [
   { id: 30, sellerId: 5, categoryId: 5, title: 'Leafy Houseplant with Stand', img: 'houseplant-with-stand.jpg', price: 35, originalPrice: 75, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 64, favs: 12, age: 5,
     desc: 'Healthy leafy houseplant in a terracotta pot, about 70 cm tall, with the wooden plant stand included. Easy care: bright indirect light, water weekly. Pickup only.' },
   { id: 31, sellerId: 5, categoryId: 5, title: 'Ceramic Pineapple Table Lamp', img: 'pineapple-table-lamp.jpg', price: 35, originalPrice: 89, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 48, favs: 7, age: 15,
-    desc: 'Cream ceramic pineapple-base table lamp with a fabric shade, about 45 cm tall. E27 fitting, bulb included. Tested and working; tiny glaze nick at the back.' }
+    desc: 'Cream ceramic pineapple-base table lamp with a fabric shade, about 45 cm tall. E27 fitting, bulb included. Tested and working; tiny glaze nick at the back.' },
+  { id: 32, sellerId: 3, categoryId: 5, title: 'Matte Black Gooseneck Kettle', img: 'gooseneck-kettle.jpg', price: 40, originalPrice: 120, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 59, favs: 9, age: 8,
+    desc: 'Matte black gooseneck kettle for pour-over coffee, about 1 litre, with a precise spout. Used for a few months, descaled, no dents.' }
 ]
 
 const favorites = new Set([2, 5])

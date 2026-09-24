@@ -40,6 +40,11 @@
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
   --focus-ring: 0 0 0 4px rgba(0, 113, 227, 0.3);
 
+  /* Smooth deceleration instead of linear/basic ease. */
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --dur-fast: 200ms;
+  --dur: 500ms;
+
   --max-w: 1240px;
   --topbar-h: 68px;
 

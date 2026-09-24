@@ -168,10 +168,10 @@ onMounted(load)
 }
 .profile-hero-name {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(2.4rem, 7vw, 4.4rem);
-  line-height: 0.95;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  font-size: clamp(2.4rem, 7vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
   margin: 0 0 18px;
   color: var(--text);
   word-break: break-word;

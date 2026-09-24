@@ -107,9 +107,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .btn-primary { background: var(--primary); color: #fff; }
 .btn-primary:hover { background: var(--primary-hover); color: #fff; }
 
-.btn-accent { background: var(--accent); color: #fff; border-color: #b85731; box-shadow: 0 3px 0 #b85731; }
-.btn-accent:hover { background: #d76952; color: #fff; }
-.btn-accent:active { box-shadow: 0 1px 0 #b85731; }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { background: #333336; color: #fff; }
 
 .btn-outline { background: var(--bg-elevated); border-color: var(--border-strong); color: var(--text); }
 .btn-outline:hover { background: var(--bg-muted); }

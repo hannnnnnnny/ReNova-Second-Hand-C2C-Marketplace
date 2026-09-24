@@ -208,7 +208,7 @@ function toggleFavorite() {
 .rn-product-favorite:active { transform: scale(0.9); }
 
 .rn-product-favorite:hover,
-.rn-product-favorite.is-active { color: var(--accent); }
+.rn-product-favorite.is-active { color: #ff3b30; }
 .rn-product-favorite:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--primary) 62%, white);
   outline-offset: 2px;

@@ -310,7 +310,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .listing-detail { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; }
 @media (max-width: 920px) { .listing-detail { grid-template-columns: 1fr; } }
 .gallery { display: flex; flex-direction: column; gap: 14px; }
-.gallery .main { width: 100%; aspect-ratio: 1 / 1; border-radius: var(--radius-lg); background: var(--bg-muted) center/cover no-repeat; border: 1px solid var(--border-strong); }
+.gallery .main { width: 100%; aspect-ratio: 1 / 1; border-radius: var(--radius-lg); background: var(--bg-elevated) center/cover no-repeat; border: 0; }
 .gallery .thumbs { display: flex; gap: 8px; overflow-x: auto; }
 .gallery .thumb { width: 80px; height: 80px; border-radius: 12px; background: var(--bg-muted) center/cover no-repeat; border: 2px solid transparent; flex-shrink: 0; cursor: pointer; }
 .gallery .thumb.is-active { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }

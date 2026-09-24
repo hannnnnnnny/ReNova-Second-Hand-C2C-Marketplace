@@ -215,10 +215,11 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 }
 .brand {
   display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--font-display); font-weight: 800;
-  font-size: 24px; color: var(--text);
-  letter-spacing: -0.01em;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 21px; color: var(--text);
+  letter-spacing: -0.02em;
 }
+.brand:hover { color: var(--text); }
 
 .brand-mark {
   display: inline-flex; align-items: center; justify-content: center;

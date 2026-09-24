@@ -36,6 +36,12 @@ describe('demo adapter', () => {
     expect(res).toHaveProperty('totalElements')
   })
 
+  it('sorts listings newest first by default', async () => {
+    const res = await call({ method: 'get', url: '/public/listings', params: { page: 0, size: 50 } })
+    const times = res.content.map((l) => Date.parse(l.createdAt))
+    expect(times).toEqual([...times].sort((a, b) => b - a))
+  })
+
   it('filters listings by category', async () => {
     const res = await call({ method: 'get', url: '/public/listings', params: { categoryId: 6 } })
     expect(res.content.every((l) => l.category.id === 6)).toBe(true)

@@ -187,6 +187,9 @@ const rawListings = [
 
 const favorites = new Set([2, 5])
 
+// Days since the listing was posted; drives createdAt and the default "newest" sort.
+const listingAge = (l) => l.age ?? l.id * 3
+
 const toSummary = (l) => ({
   id: l.id,
   title: l.title,
@@ -199,7 +202,7 @@ const toSummary = (l) => ({
   status: l.status,
   viewCount: l.views,
   favoriteCount: l.favs,
-  createdAt: daysAgo(l.age ?? l.id * 3),
+  createdAt: daysAgo(listingAge(l)),
   category: categoryById(l.categoryId),
   seller: publicUser(users[l.sellerId])
 })
@@ -412,7 +415,7 @@ function searchListings(params = {}) {
   if (params.sort === 'price_asc') items = [...items].sort((a, b) => a.price - b.price)
   else if (params.sort === 'price_desc') items = [...items].sort((a, b) => b.price - a.price)
   else if (params.sort === 'popular') items = [...items].sort((a, b) => b.favs - a.favs)
-  else items = [...items].sort((a, b) => b.id - a.id)
+  else items = [...items].sort((a, b) => listingAge(a) - listingAge(b) || b.id - a.id)
   return paginate(items.map(toSummary), params)
 }
 

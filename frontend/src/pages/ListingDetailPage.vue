@@ -141,7 +141,7 @@ function checkout() {
             </div>
             <h1 style="margin-bottom: 14px">{{ listing.title }}</h1>
             <div class="row" style="gap: 14px; align-items: baseline; margin-bottom: 8px">
-              <span style="font-family: var(--font-display); font-size: 36px; font-weight: 700;">{{ formatPrice(listing.price) }}</span>
+              <span class="price-display price-display-xl">{{ formatPrice(listing.price) }}</span>
               <span v-if="listing.originalPrice && Number(listing.originalPrice) > Number(listing.price)" class="muted" style="text-decoration: line-through">{{ formatPrice(listing.originalPrice) }}</span>
             </div>
             <div class="soft" style="margin-bottom: 24px">

@@ -33,8 +33,8 @@ defineProps({
 }
 .auth-panel {
   width: min(100%, 850px); display: grid; grid-template-columns: minmax(0, .9fr) minmax(320px, 1.1fr);
-  overflow: hidden; border: 1px solid var(--border); border-radius: 24px;
-  background: var(--bg-elevated); box-shadow: 0 18px 50px rgba(48, 61, 45, .1);
+  overflow: hidden; border: 0; border-radius: 24px;
+  background: var(--bg-elevated); box-shadow: var(--shadow);
 }
 .auth-intro { padding: clamp(30px, 5vw, 56px); background: var(--primary-soft); }
 .auth-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font-weight: 800; }

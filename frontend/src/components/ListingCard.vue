@@ -196,12 +196,16 @@ function toggleFavorite() {
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 1px solid rgba(74, 58, 34, 0.13);
+  border: 0;
   border-radius: 50%;
-  background: rgba(255, 250, 238, 0.94);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: var(--text-muted);
-  box-shadow: 0 2px 8px rgba(74, 58, 34, 0.1);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
+.rn-product-favorite:active { transform: scale(0.9); }
 
 .rn-product-favorite:hover,
 .rn-product-favorite.is-active { color: var(--accent); }

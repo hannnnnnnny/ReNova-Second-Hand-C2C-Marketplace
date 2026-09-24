@@ -174,7 +174,9 @@ const rawListings = [
   { id: 34, sellerId: 5, categoryId: 5, title: 'Birch Dining Chair', img: 'birch-dining-chair.jpg', price: 60, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 53, favs: 8, age: 6,
     desc: 'Scandinavian-style dining chair with a solid birch frame and curved plywood seat and back. Sturdy with no wobble; one faint mark on the seat. Pickup preferred.' },
   { id: 35, sellerId: 2, categoryId: 6, title: 'Hex Dumbbells 5 kg (pair)', img: 'hex-dumbbells-5kg.jpg', price: 40, originalPrice: 80, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 66, favs: 9, age: 2,
-    desc: 'Pair of 5 kg rubber-coated hex dumbbells with knurled chrome handles. Home use only; the hex ends stop them rolling. Pickup or courier at cost.' }
+    desc: 'Pair of 5 kg rubber-coated hex dumbbells with knurled chrome handles. Home use only; the hex ends stop them rolling. Pickup or courier at cost.' },
+  { id: 36, sellerId: 2, categoryId: 6, title: 'Mint Bike Helmet', img: 'mint-bike-helmet.jpg', price: 30, originalPrice: 99, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Wellington', views: 38, favs: 4, age: 13,
+    desc: 'Mint green commuter bike helmet with a rear dial adjuster, size M (54-58 cm). No crashes or knocks; pads recently washed.' }
 ]
 
 const favorites = new Set([2, 5])

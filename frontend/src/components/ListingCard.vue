@@ -168,14 +168,14 @@ function toggleFavorite() {
   white-space: nowrap;
 }
 
-.rn-product-meta { display: flex; min-width: 0; align-items: center; gap: 8px; font-size: 11px; line-height: 1.3; }
+.rn-product-meta { display: flex; min-width: 0; align-items: center; gap: 8px; font-size: 12px; line-height: 1.3; }
 .rn-product-condition {
   flex: none;
-  padding: 3px 7px;
+  padding: 3px 8px;
   border-radius: 999px;
-  background: var(--primary-soft);
-  color: var(--primary-strong);
-  font-weight: 700;
+  background: var(--bg-muted);
+  color: var(--text);
+  font-weight: 500;
 }
 
 .rn-product-location {

@@ -191,8 +191,9 @@ function moveTo(index, dir) {
 .dropzone-art { font-size: 38px; line-height: 1; margin-bottom: 4px; }
 .dropzone-headline {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: 1.1rem;
+  letter-spacing: -0.01em;
   color: var(--text);
 }
 .dropzone-sub {

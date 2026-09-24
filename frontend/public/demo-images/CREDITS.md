@@ -20,3 +20,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `chunky-knit-throw.jpg` | Bearaby ([@mybearaby](https://unsplash.com/@mybearaby)) | https://unsplash.com/photos/VSRjzIj0148 |
 | `ivory-lace-dress.jpg` | Sandra Seitamaa ([@seitamaaphotography](https://unsplash.com/@seitamaaphotography)) | https://unsplash.com/photos/TaJQaxEkpq0 |
 | `oversized-denim-jacket.jpg` | Brad O'Reilly ([@brad_oreilly](https://unsplash.com/@brad_oreilly)) | https://unsplash.com/photos/j1JP09ekcx8 |
+| `grey-knit-cardigan.jpg` | lilartsy ([@lilartsy](https://unsplash.com/@lilartsy)) | https://unsplash.com/photos/8zGWdO7q3Ak |

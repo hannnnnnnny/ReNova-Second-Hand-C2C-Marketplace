@@ -40,10 +40,11 @@ const visible = ref(false)
 label { color: var(--text); font-size: 14px; font-weight: 600; }
 .password-control { position: relative; }
 input {
-  width: 100%; min-width: 0; height: 46px; padding: 0 48px 0 13px;
-  border: 1px solid var(--border-strong); border-radius: 11px; background: var(--bg-elevated); color: var(--text); font: inherit;
+  width: 100%; min-width: 0; height: 50px; padding: 0 52px 0 16px;
+  border: 1px solid transparent; border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 17px;
+  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
 }
-input:focus { outline: 3px solid var(--primary-soft); border-color: var(--primary); }
+input:focus { outline: none; border-color: var(--primary); background: var(--bg-elevated); box-shadow: var(--focus-ring); }
 button {
   position: absolute; top: 50%; right: 5px; width: 38px; height: 38px; transform: translateY(-50%);
   display: grid; place-items: center; border: 0; border-radius: 9px; color: var(--text-soft); background: transparent; cursor: pointer;

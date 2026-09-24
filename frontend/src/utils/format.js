@@ -41,7 +41,8 @@ export function initials(name) {
 }
 
 export function avatarBackground(name) {
-  const hues = ['#ff7e5f', '#6c5ce7', '#10b981', '#ef4444', '#f59e0b', '#0ea5e9', '#8b5cf6']
+  // Neutral grays keep the palette restrained; all give white initials >= 4.5:1 contrast.
+  const hues = ['#6e6e73', '#636366', '#48484a', '#3a3a3c', '#1d1d1f']
   if (!name) return hues[0]
   let hash = 0
   for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0

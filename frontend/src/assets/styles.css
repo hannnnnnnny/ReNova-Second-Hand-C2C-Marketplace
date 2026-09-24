@@ -83,7 +83,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 
 .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
 .page { padding: 56px 0 112px; min-height: calc(100vh - var(--topbar-h)); }
-.section + .section { margin-top: 56px; }
+.section + .section { margin-top: 88px; }
 
 /* Shared actions: quiet secondary buttons and clear primary emphasis. */
 .btn {

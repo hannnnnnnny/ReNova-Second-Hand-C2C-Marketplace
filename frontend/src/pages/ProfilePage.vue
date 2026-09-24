@@ -299,7 +299,8 @@ onMounted(load)
 }
 .review-author { display: flex; align-items: center; gap: 10px; }
 .review-author .soft { font-size: 12px; }
-.review-author a { color: var(--primary-strong); font-weight: 700; }
+.review-author a { color: var(--primary-strong); font-weight: 400; }
+.review-author a:hover { text-decoration: underline; }
 
 /* ============================================
    Mobile profile layout

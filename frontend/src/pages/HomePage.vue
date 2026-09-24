@@ -88,7 +88,7 @@ onMounted(load)
 
 <style scoped>
 .home-page { padding-top: 24px; padding-bottom: 56px; min-height: auto; }
-.home-intro { display: grid; grid-template-columns: 1.4fr 1fr; overflow: hidden; border-radius: 22px; background: #ecefe4; min-height: 328px; }
+.home-intro { display: grid; grid-template-columns: 1.4fr 1fr; overflow: hidden; border-radius: 24px; background: var(--bg-elevated); min-height: 328px; }
 .intro-copy { align-self: center; padding: 32px 44px; }
 .eyebrow { display: flex; align-items: center; gap: 8px; color: var(--primary-strong); font-size: 12px; font-weight: 600; letter-spacing: .055em; margin: 0 0 14px; }
 .intro-copy h1 { max-width: 490px; font-size: clamp(32px, 3.5vw, 48px); line-height: 1.08; letter-spacing: -.035em; text-wrap: balance; }

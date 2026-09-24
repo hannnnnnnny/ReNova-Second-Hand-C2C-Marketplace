@@ -114,7 +114,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .btn-outline:hover { background: var(--bg-elevated); border-color: var(--border-strong); }
 
 .btn-ghost { background: transparent; border-color: transparent; box-shadow: none; }
-.btn-ghost:hover { background: var(--bg-muted); border-color: transparent; box-shadow: none; transform: none; }
+.btn-ghost:hover { background: rgba(0, 0, 0, 0.05); border-color: transparent; }
 
 .btn-danger { background: var(--danger); color: #fff; border-color: #962a20; box-shadow: 0 3px 0 #962a20; }
 .btn-danger:hover { background: #b85248; color: #fff; }

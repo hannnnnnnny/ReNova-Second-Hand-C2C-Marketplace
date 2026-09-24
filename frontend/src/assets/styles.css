@@ -48,9 +48,9 @@
   --max-w: 1024px;
   --topbar-h: 68px;
 
-  /* Expressive headings and readable bilingual body text. */
-  --font-display: 'Trebuchet MS', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
-  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  /* SF Pro on Apple devices, with native CJK fallbacks. */
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
 * { box-sizing: border-box; }

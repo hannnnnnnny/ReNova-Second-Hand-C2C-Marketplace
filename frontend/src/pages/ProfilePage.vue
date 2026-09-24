@@ -112,7 +112,6 @@ onMounted(load)
             v-for="r in reviews" :key="r.id"
             class="review-pullquote"
           >
-            <div class="review-mark" aria-hidden="true">“</div>
             <p class="review-text">{{ r.comment || t('profile.noComment') }}</p>
             <footer class="review-meta">
               <Stars :rating="r.rating" :size="14" />
@@ -286,20 +285,6 @@ onMounted(load)
   box-shadow: var(--shadow-sm);
   display: flex; flex-direction: column; gap: 12px;
 }
-.review-mark {
-  position: absolute; top: -18px; left: 18px;
-  width: 44px; height: 44px;
-  background: var(--primary);
-  color: #fff;
-  border: 2px solid var(--primary-strong);
-  border-radius: 50%;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 32px;
-  display: flex; align-items: center; justify-content: center;
-  line-height: 1; padding-bottom: 6px;
-  box-shadow: 0 3px 0 var(--primary-strong);
-}
 .review-text {
   font-family: var(--font-display);
   font-size: 1.05rem;
@@ -344,6 +329,5 @@ onMounted(load)
 
   .reviews-grid { grid-template-columns: 1fr; gap: 18px; }
   .review-pullquote { padding: 24px 20px; }
-  .review-mark { width: 40px; height: 40px; font-size: 28px; left: 14px; top: -16px; }
 }
 </style>

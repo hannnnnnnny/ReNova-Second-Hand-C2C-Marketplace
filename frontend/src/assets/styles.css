@@ -593,7 +593,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .search-wrap button { min-height: 34px; }
 .locale-switch { border: 1px solid var(--border); border-radius: 8px; }
 .locale-switch button { min-height: 32px; padding: 5px 9px; }
-.nav-actions .router-link-exact-active { color: var(--primary-strong); background: var(--primary-soft); }
+.nav-actions .btn-ghost.router-link-exact-active { color: var(--text); font-weight: 600; }
 .skip-link { position: fixed; top: -80px; left: 16px; z-index: 110; background: var(--primary); color: white; padding: 10px 20px; border-radius: 10px; }
 .skip-link:focus { top: 10px; color: white; }
 @media (min-width: 761px) and (max-width: 1060px) {

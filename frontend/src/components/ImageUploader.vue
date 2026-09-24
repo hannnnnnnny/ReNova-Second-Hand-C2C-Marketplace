@@ -210,10 +210,10 @@ function moveTo(index, dir) {
 .thumb-tile {
   margin: 0;
   background: var(--bg-elevated);
-  border: 2px solid var(--border-strong);
+  border: 0;
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 3px 0 var(--border-strong);
+  box-shadow: var(--shadow);
   display: flex; flex-direction: column;
 }
 .thumb-img {

@@ -120,9 +120,9 @@ onMounted(load)
 .home-how { display: grid; grid-template-columns: 1fr 1.25fr; gap: 64px; margin-top: 96px; padding: 64px; border-radius: 24px; background: var(--bg-elevated); }
 .how-heading h2 { font-size: clamp(28px, 4vw, 40px); max-width: 380px; letter-spacing: -.025em; text-wrap: balance; }
 .how-heading p { color: var(--text-muted); font-size: 17px; margin: 12px 0 0; }
-.how-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; }
-.how-steps li { display: flex; gap: 22px; }
-.how-number { font-size: 12px; font-variant-numeric: tabular-nums; color: var(--primary); padding-top: 3px; }
+.how-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px; }
+.how-steps li { display: flex; gap: 24px; }
+.how-number { font-size: 28px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; color: var(--border-strong); min-width: 40px; }
 .how-steps h3 { font-family: var(--font-body); font-size: 15px; margin-bottom: 6px; }
 .how-steps p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin: 0; }
 @keyframes breathe { to { opacity: .45; } }

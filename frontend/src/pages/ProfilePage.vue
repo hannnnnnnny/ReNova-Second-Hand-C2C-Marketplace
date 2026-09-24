@@ -156,15 +156,6 @@ onMounted(load)
   box-shadow: var(--shadow);
   overflow: hidden;
 }
-.profile-hero::before {
-  /* A big faint number-tile glyph in the background, magazine-style */
-  content: "★";
-  position: absolute; top: -36px; right: 20px;
-  font-family: var(--font-display);
-  font-size: 220px; font-weight: 800;
-  color: rgba(74, 58, 34, 0.05);
-  line-height: 1; pointer-events: none;
-}
 
 .profile-hero-meta { min-width: 0; }
 .profile-hero-label {
@@ -373,7 +364,6 @@ onMounted(load)
     gap: 20px;
     align-items: start;
   }
-  .profile-hero::before { font-size: 140px; top: -10px; right: 4px; }
   .profile-hero-avatar {
     order: -1;
     transform: rotate(-3deg);

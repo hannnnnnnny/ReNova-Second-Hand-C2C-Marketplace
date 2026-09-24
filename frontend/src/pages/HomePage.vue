@@ -100,7 +100,8 @@ onMounted(load)
 .home-categories { padding: 40px 0 56px; }
 .category-strip, .category-skeletons { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 10px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .category-chip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; border: 0; background: var(--bg-elevated); padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 400; transition: background-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
-.category-chip:hover { background: var(--primary-soft); border-color: #b4c8b5; }
+.category-chip:hover { background: var(--bg-muted); color: var(--text); }
+.category-chip:active { transform: scale(0.96); }
 .category-chip-all { background: var(--primary-soft); border-color: transparent; color: var(--primary-strong); }
 .category-error { display: flex; gap: 14px; flex-wrap: wrap; color: var(--text-muted); font-size: 13px; }
 .section-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 23px; }

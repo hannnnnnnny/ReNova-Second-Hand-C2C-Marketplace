@@ -92,6 +92,7 @@ onMounted(load)
 .eyebrow { color: var(--text-muted); font-size: 17px; font-weight: 600; letter-spacing: -.01em; margin: 0 0 12px; }
 .intro-copy h1 { max-width: 760px; font-size: clamp(44px, 7vw, 80px); line-height: 1.05; letter-spacing: -.03em; text-wrap: balance; }
 .intro-body { margin: 20px auto 32px; max-width: 560px; color: var(--text-muted); font-size: 21px; line-height: 1.45; }
+.intro-actions .text-link { font-size: 17px; }
 .intro-actions { display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }
 .intro-visual { margin: 0; position: relative; background: transparent; min-width: 0; width: 100%; max-width: 520px; }
 .intro-visual img { width: 100%; height: auto; max-height: 420px; object-fit: contain; mix-blend-mode: multiply; padding: 0 32px 64px; }

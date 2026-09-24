@@ -1,11 +1,11 @@
-/* ReNova: warm paper, leaf green and quiet surfaces. */
+/* ReNova: Apple-style gray canvas, white surfaces and a single blue accent. */
 
 :root {
-  /* Warm neutral surfaces with a green action color. */
-  --bg: #faf8f1;            /* parchment cream */
-  --bg-elevated: #fffdf8;   /* slightly lighter card paper */
-  --bg-muted: #efede4;      /* warm tan rest */
-  --bg-deep: #263d31;       /* burnt-leaf brown for footer */
+  /* Neutral surfaces: gray canvas, white cards, quiet fills. */
+  --bg: #f5f5f7;
+  --bg-elevated: #ffffff;
+  --bg-muted: #e8e8ed;
+  --bg-deep: #1d1d1f;
   --border: #e4e1d6;        /* dry-leaf border */
   --border-strong: #b9b9a8; /* darker pen-outline brown */
   --text: #29372e;          /* dark walnut */

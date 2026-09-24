@@ -139,8 +139,7 @@ onMounted(load)
   .section-heading p { font-size: 15px; }
   .section-heading > .text-link { margin-top: 5px; font-size: 14px; }
   .home-feed-state { padding: 28px 20px; }
-  .home-how { grid-template-columns: 1fr; gap: 28px; margin-top: 40px; padding-top: 30px; }
-  .how-heading h2 { font-size: 27px; }
+  .home-how { grid-template-columns: 1fr; gap: 32px; margin-top: 64px; padding: 40px 24px; border-radius: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
 </style>

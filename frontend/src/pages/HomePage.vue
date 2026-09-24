@@ -102,7 +102,7 @@ onMounted(load)
 .category-chip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; border: 0; background: var(--bg-elevated); padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 400; transition: background-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
 .category-chip:hover { background: var(--bg-muted); color: var(--text); }
 .category-chip:active { transform: scale(0.96); }
-.category-chip-all { background: var(--primary-soft); border-color: transparent; color: var(--primary-strong); }
+.category-chip-all, .category-chip-all:hover { background: var(--text); color: #fff; }
 .category-error { display: flex; gap: 14px; flex-wrap: wrap; color: var(--text-muted); font-size: 13px; }
 .section-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 23px; }
 .section-heading h2 { font-size: 27px; letter-spacing: -.025em; }

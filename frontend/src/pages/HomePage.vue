@@ -86,7 +86,7 @@ onMounted(load)
 </template>
 
 <style scoped>
-.home-page { padding-top: 24px; padding-bottom: 56px; min-height: auto; }
+.home-page { padding-top: 24px; padding-bottom: 112px; min-height: auto; }
 .home-intro { display: grid; grid-template-columns: 1fr; justify-items: center; text-align: center; overflow: hidden; border-radius: 24px; background: var(--bg-elevated); min-height: 328px; }
 .intro-copy { align-self: center; padding: 80px 32px 24px; display: flex; flex-direction: column; align-items: center; }
 .eyebrow { color: var(--text-muted); font-size: 17px; font-weight: 600; letter-spacing: -.01em; margin: 0 0 12px; }

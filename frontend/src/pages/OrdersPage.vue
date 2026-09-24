@@ -65,7 +65,7 @@ onMounted(load)
             </div>
           </div>
           <div class="text-right">
-            <div class="amount" style="font-family: var(--font-display); font-weight: 700; font-size: 22px">{{ formatPrice(o.totalAmount) }}</div>
+            <div class="amount price-display">{{ formatPrice(o.totalAmount) }}</div>
             <div class="soft">{{ t('common.total') }}</div>
           </div>
         </RouterLink>

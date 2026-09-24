@@ -82,7 +82,7 @@ onMounted(fetchUnread)
             <span v-if="unread > 0" class="badge badge-danger" style="margin-left:4px">{{ unread }}</span>
           </RouterLink>
           <div class="nav-account">
-            <button class="btn btn-ghost btn-sm nav-account-trigger" @click="accountMenuOpen = !accountMenuOpen" type="button">
+            <button class="btn btn-ghost btn-sm nav-account-trigger" @click="accountMenuOpen = !accountMenuOpen" type="button" aria-haspopup="true" :aria-expanded="accountMenuOpen">
               <Avatar :user="auth.user" />
               <span>{{ auth.user?.displayName }}</span>
             </button>

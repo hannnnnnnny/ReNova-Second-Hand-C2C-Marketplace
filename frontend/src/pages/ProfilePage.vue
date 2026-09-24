@@ -42,10 +42,10 @@ const stats = computed(() => {
     ? profile.value.averageRating.toFixed(1)
     : '—'
   return [
-    { num: activeCount, label: t('profile.statListings'), tone: 'green', tilt: -2 },
-    { num: ratingLabel, label: t('profile.statRating'), tone: 'gold', tilt: 1.5, stars: true },
-    { num: soldCount, label: t('profile.statSold'), tone: 'coral', tilt: -1 },
-    { num: profile.value.ratingCount, label: t('profile.statReviews'), tone: 'cream', tilt: 2 }
+    { num: activeCount, label: t('profile.statListings') },
+    { num: ratingLabel, label: t('profile.statRating'), stars: true },
+    { num: soldCount, label: t('profile.statSold') },
+    { num: profile.value.ratingCount, label: t('profile.statReviews') }
   ]
 })
 
@@ -79,8 +79,6 @@ onMounted(load)
         <div
           v-for="(s, i) in stats" :key="i"
           class="stat-tile"
-          :class="`stat-tone-${s.tone}`"
-          :style="{ '--tilt': `${s.tilt}deg` }"
         >
           <div class="stat-num">{{ s.num }}</div>
           <div class="stat-label">{{ s.label }}</div>
@@ -252,13 +250,6 @@ onMounted(load)
   color: var(--text-muted);
   margin-top: 10px;
 }
-.stat-tone-green { background: var(--primary-soft); border-color: var(--primary-strong); box-shadow: 0 4px 0 var(--primary-strong); }
-.stat-tone-green .stat-num { color: var(--primary-strong); }
-.stat-tone-coral { background: var(--accent-soft); border-color: #b85731; box-shadow: 0 4px 0 #b85731; }
-.stat-tone-coral .stat-num { color: #a14322; }
-.stat-tone-gold { background: #fbe9c0; border-color: #b58217; box-shadow: 0 4px 0 #b58217; }
-.stat-tone-gold .stat-num { color: #8a6315; }
-.stat-tone-cream { background: var(--bg-elevated); }
 
 /* ---- Section rules (replaces tabs) ---- */
 .profile-section { margin-bottom: 48px; }

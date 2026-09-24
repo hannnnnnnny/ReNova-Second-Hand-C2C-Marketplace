@@ -44,7 +44,7 @@ defineProps({
 }
 .auth-eyebrow { margin: 48px 0 12px; color: var(--text-muted); font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
 h1 { margin: 0; font-size: clamp(34px, 5vw, 48px); line-height: 1.05; letter-spacing: -.03em; }
-.auth-subtitle { margin: 16px 0 0; color: var(--text-soft); font-size: 17px; line-height: 1.55; }
+.auth-subtitle { margin: 16px 0 0; color: var(--text-muted); font-size: 19px; line-height: 1.45; }
 .auth-note { margin: 28px 0 0; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-soft); font-size: 13px; line-height: 1.6; }
 .auth-form-card { min-width: 0; padding: clamp(30px, 5vw, 52px); }
 @media (max-width: 700px) {

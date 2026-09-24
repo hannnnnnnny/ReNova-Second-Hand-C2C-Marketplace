@@ -183,13 +183,12 @@ onMounted(load)
 }
 .chip {
   display: inline-flex; align-items: center; gap: 4px;
-  background: var(--bg-elevated);
-  border: 2px solid var(--border-strong);
+  background: var(--bg-muted);
+  border: 0;
   border-radius: 999px;
-  padding: 5px 12px;
-  font-size: 12.5px; font-weight: 700;
+  padding: 6px 14px;
+  font-size: 14px; font-weight: 400;
   color: var(--text);
-  box-shadow: 0 2px 0 var(--border-strong);
 }
 
 .profile-hero-quote {

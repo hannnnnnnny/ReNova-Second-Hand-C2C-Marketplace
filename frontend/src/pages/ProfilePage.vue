@@ -243,10 +243,8 @@ onMounted(load)
   color: var(--text);
 }
 .stat-label {
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 400;
   color: var(--text-muted);
   margin-top: 10px;
 }

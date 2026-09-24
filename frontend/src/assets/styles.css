@@ -181,7 +181,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .stack-lg > * + * { margin-top: 24px; }
 .muted { color: var(--text-muted); }
 .soft  { color: var(--text-soft); font-size: 13px; }
-.bold  { font-weight: 700; }
+.bold  { font-weight: 600; }
 .text-right { text-align: right; }
 .text-center { text-align: center; }
 .divider { border-top: 1px solid var(--border); margin: 24px 0; }

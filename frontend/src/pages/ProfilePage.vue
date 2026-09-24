@@ -148,8 +148,8 @@ onMounted(load)
   grid-template-columns: 1fr auto;
   gap: 28px;
   align-items: end;
-  padding: 36px 36px 28px;
-  margin-bottom: 28px;
+  padding: 48px;
+  margin-bottom: 32px;
   background: var(--bg-elevated);
   border: 0;
   border-radius: 24px;

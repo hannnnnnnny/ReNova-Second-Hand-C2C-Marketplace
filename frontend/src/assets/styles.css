@@ -426,10 +426,10 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 /* Step cards */
 .step-card {
   background: var(--bg-elevated);
-  padding: 24px;
+  padding: 32px;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow-sm);
+  border: 0;
+  box-shadow: var(--shadow);
 }
 .step-number {
   display: inline-flex; align-items: center; justify-content: center;

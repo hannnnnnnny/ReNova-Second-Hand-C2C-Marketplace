@@ -76,7 +76,7 @@ onMounted(fetchUnread)
         <LocaleSwitcher />
         <RouterLink :to="{ name: 'browse' }" class="btn btn-ghost btn-sm">{{ t('common.browse') }}</RouterLink>
         <template v-if="auth.isAuthenticated">
-          <RouterLink :to="{ name: 'post-listing' }" class="btn btn-accent btn-sm">{{ t('common.sell') }}</RouterLink>
+          <RouterLink :to="{ name: 'post-listing' }" class="btn btn-primary btn-sm">{{ t('common.sell') }}</RouterLink>
           <RouterLink :to="{ name: 'messages' }" class="btn btn-ghost btn-sm" style="position: relative">
             {{ t('common.messages') }}
             <span v-if="unread > 0" class="badge badge-danger" style="margin-left:4px">{{ unread }}</span>

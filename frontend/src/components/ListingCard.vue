@@ -215,8 +215,8 @@ function toggleFavorite() {
 }
 
 @media (max-width: 480px) {
-  .rn-product-body { gap: 6px; padding: 10px 10px 12px; }
-  .rn-product-title { min-height: 35px; font-size: 13px; }
+  .rn-product-body { gap: 5px; padding: 12px 12px 14px; }
+  .rn-product-title { min-height: 36px; font-size: 14px; }
   .rn-product-price { font-size: 17px; }
 }
 

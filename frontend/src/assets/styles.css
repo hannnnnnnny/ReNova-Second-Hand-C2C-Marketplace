@@ -482,9 +482,11 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   padding: 0;
 }
 .topbar-menu-toggle span {
-  display: block; width: 18px; height: 2px;
+  display: block; width: 18px; height: 1.5px;
   background: var(--text); border-radius: 999px;
+  transition: transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
 }
+.topbar-menu-toggle:active { transform: scale(0.96); }
 
 /* ============================================
    Mobile pass — tablet & phone

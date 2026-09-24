@@ -389,6 +389,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .toast.error::before   { background: var(--danger); }
 .toast.info::before    { background: var(--primary); }
 .toast.error { color: var(--danger); }
+.toast-enter-active, .toast-leave-active { transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
+.toast-enter-from, .toast-leave-to { opacity: 0; transform: translateY(8px) scale(0.98); }
 
 /* Timeline */
 .timeline { display: flex; flex-direction: column; gap: 20px; }

@@ -177,9 +177,8 @@ function moveTo(index, dir) {
 .dropzone:focus-visible { border-color: var(--primary); box-shadow: var(--focus-ring); }
 .dropzone.is-dragging {
   background: var(--primary-soft);
-  border-color: var(--primary-strong);
-  border-style: solid;
-  transform: scale(1.005);
+  border-color: var(--primary);
+  transform: scale(1.01);
 }
 .dropzone.is-disabled {
   cursor: not-allowed;

@@ -591,8 +591,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .search-wrap input:focus-visible { outline: none; }
 .search-wrap input { font-size: 14px; }
 .search-wrap button { min-height: 34px; }
-.locale-switch { border: 1px solid var(--border); border-radius: 8px; }
-.locale-switch button { min-height: 32px; padding: 5px 9px; }
+.locale-switch button { min-height: 30px; padding: 4px 10px; }
 .nav-actions .btn-ghost.router-link-exact-active { color: var(--text); font-weight: 600; }
 .skip-link { position: fixed; top: -80px; left: 16px; z-index: 110; background: var(--primary); color: white; padding: 10px 20px; border-radius: 10px; }
 .skip-link:focus { top: 10px; color: white; }

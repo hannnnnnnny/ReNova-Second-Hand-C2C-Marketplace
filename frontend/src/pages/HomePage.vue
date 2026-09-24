@@ -123,8 +123,8 @@ onMounted(load)
 .how-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px; }
 .how-steps li { display: flex; gap: 24px; }
 .how-number { font-size: 28px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; color: var(--border-strong); min-width: 40px; }
-.how-steps h3 { font-family: var(--font-body); font-size: 15px; margin-bottom: 6px; }
-.how-steps p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin: 0; }
+.how-steps h3 { font-family: var(--font-body); font-size: 19px; margin-bottom: 6px; }
+.how-steps p { font-size: 15px; color: var(--text-muted); line-height: 1.6; margin: 0; }
 @keyframes breathe { to { opacity: .45; } }
 @media (max-width: 760px) {
   .home-page { padding-top: 16px; }

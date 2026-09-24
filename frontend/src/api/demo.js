@@ -235,7 +235,7 @@ const rawConversations = [
   {
     id: 2, listingId: 1, buyerId: 3, sellerId: 1,
     messages: [
-      { senderId: 3, body: 'Is the silk wrap dress true to a size 10?', days: 1, mins: 0 },
+      { senderId: 3, body: 'Is the satin wrap dress true to a size 10?', days: 1, mins: 0 },
       { senderId: 1, body: 'Runs slightly small — a comfy 8 to 10.', days: 1, mins: 25 },
       { senderId: 3, body: 'Perfect, putting an offer in now!', days: 0, mins: 90, unreadFor: 'seller' }
     ]

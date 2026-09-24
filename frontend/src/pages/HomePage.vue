@@ -88,8 +88,8 @@ onMounted(load)
 
 <style scoped>
 .home-page { padding-top: 24px; padding-bottom: 56px; min-height: auto; }
-.home-intro { display: grid; grid-template-columns: 1.4fr 1fr; overflow: hidden; border-radius: 24px; background: var(--bg-elevated); min-height: 328px; }
-.intro-copy { align-self: center; padding: 32px 44px; }
+.home-intro { display: grid; grid-template-columns: 1fr; justify-items: center; text-align: center; overflow: hidden; border-radius: 24px; background: var(--bg-elevated); min-height: 328px; }
+.intro-copy { align-self: center; padding: 80px 32px 24px; display: flex; flex-direction: column; align-items: center; }
 .eyebrow { display: flex; align-items: center; gap: 8px; color: var(--primary-strong); font-size: 12px; font-weight: 600; letter-spacing: .055em; margin: 0 0 14px; }
 .intro-copy h1 { max-width: 490px; font-size: clamp(32px, 3.5vw, 48px); line-height: 1.08; letter-spacing: -.035em; text-wrap: balance; }
 .intro-body { margin: 14px 0 24px; max-width: 380px; color: var(--text-muted); font-size: 16px; line-height: 1.65; }

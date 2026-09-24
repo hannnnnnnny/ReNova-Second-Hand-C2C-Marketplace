@@ -308,7 +308,7 @@ onMounted(load)
 @media (max-width: 760px) {
   .profile-hero {
     grid-template-columns: 1fr;
-    padding: 24px 22px 22px;
+    padding: 32px 24px;
     gap: 20px;
     align-items: start;
   }

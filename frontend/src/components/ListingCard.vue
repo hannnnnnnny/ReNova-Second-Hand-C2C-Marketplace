@@ -81,11 +81,11 @@ function toggleFavorite() {
   position: relative;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--border) 78%, transparent);
-  border-radius: 18px;
+  border: 0;
+  border-radius: var(--radius-lg);
   background: var(--bg-elevated);
-  box-shadow: 0 3px 12px rgba(74, 58, 34, 0.07);
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur) var(--ease);
 }
 
 .rn-product-card:hover {

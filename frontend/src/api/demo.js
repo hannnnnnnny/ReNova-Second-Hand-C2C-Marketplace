@@ -150,7 +150,9 @@ const rawListings = [
   { id: 22, sellerId: 3, categoryId: 3, title: 'Lacoste White Leather Sneakers', img: 'white-leather-sneakers.jpg', price: 55, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 77, favs: 12, age: 17,
     desc: 'Lacoste white leather court sneakers with green embroidered branding, women\'s US 8. Worn a few times; soles still clean. Original box not included.' },
   { id: 23, sellerId: 3, categoryId: 3, title: 'Converse Chuck Taylor High-Tops', img: 'converse-high-tops.jpg', price: 45, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 83, favs: 11, age: 21,
-    desc: 'Black canvas Converse Chuck Taylor All Star high-tops, men\'s US 7 / women\'s US 9. Canvas and laces are clean; light scuffs on the rubber toe caps.' }
+    desc: 'Black canvas Converse Chuck Taylor All Star high-tops, men\'s US 7 / women\'s US 9. Canvas and laces are clean; light scuffs on the rubber toe caps.' },
+  { id: 24, sellerId: 4, categoryId: 3, title: 'Brown Leather Penny Loafers', img: 'brown-penny-loafers.jpg', price: 70, originalPrice: 210, condition: 'GOOD', status: 'RESERVED', loc: 'Hamilton', views: 68, favs: 9, age: 12,
+    desc: 'Chestnut brown leather penny loafers with a stacked heel, men\'s UK 8. Worn to a few events, then conditioned and polished. Small scuff on the left heel counter.' }
 ]
 
 const favorites = new Set([2, 5])

@@ -129,10 +129,10 @@ function toggleFavorite() {
   left: 10px;
   padding: 4px 9px;
   border-radius: 999px;
-  background: rgba(74, 58, 34, 0.9);
+  background: rgba(29, 29, 31, 0.85);
   color: white;
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 600;
   line-height: 1.2;
 }
 

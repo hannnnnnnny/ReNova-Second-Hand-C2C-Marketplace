@@ -34,10 +34,11 @@
   --radius: 12px;
   --radius-lg: 16px;
 
-  /* Soft drop shadows, no harsh edges */
-  --shadow-sm: 0 2px 6px rgba(45, 55, 38, 0.04);
-  --shadow: 0 8px 28px rgba(45, 55, 38, 0.06);
-  --shadow-lg: 0 18px 40px rgba(74, 58, 34, 0.18);
+  /* Subtle shadows only; depth comes from surface contrast. */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --focus-ring: 0 0 0 4px rgba(0, 113, 227, 0.3);
 
   --max-w: 1240px;
   --topbar-h: 68px;

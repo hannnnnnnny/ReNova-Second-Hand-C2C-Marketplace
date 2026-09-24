@@ -104,9 +104,9 @@ onMounted(load)
 .category-chip:active { transform: scale(0.96); }
 .category-chip-all, .category-chip-all:hover { background: var(--text); color: #fff; }
 .category-error { display: flex; gap: 14px; flex-wrap: wrap; color: var(--text-muted); font-size: 13px; }
-.section-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 23px; }
-.section-heading h2 { font-size: 27px; letter-spacing: -.025em; }
-.section-heading p { font-size: 14px; color: var(--text-muted); margin: 6px 0 0; }
+.section-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 32px; }
+.section-heading h2 { font-size: clamp(28px, 4vw, 40px); letter-spacing: -.025em; }
+.section-heading p { font-size: 17px; color: var(--text-muted); margin: 8px 0 0; }
 .section-heading > .text-link { flex-shrink: 0; }
 .home-feed-state { min-height: 240px; padding: 30px 24px; display: flex; align-items: center; flex-direction: column; text-align: center; border-radius: 16px; border: 1px solid var(--border); background: var(--bg-elevated); }
 .home-feed-state > svg { color: var(--primary); margin-bottom: 14px; }

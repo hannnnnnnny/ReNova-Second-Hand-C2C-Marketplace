@@ -150,9 +150,9 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 }
 .panel {
   background: var(--bg-elevated);
-  border: 1px solid var(--border);
+  border: 0;
   border-radius: var(--radius-lg);
-  padding: 26px;
+  padding: 32px;
   box-shadow: var(--shadow);
 }
 

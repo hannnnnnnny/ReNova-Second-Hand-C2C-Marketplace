@@ -130,7 +130,9 @@ const rawListings = [
   { id: 12, sellerId: 3, categoryId: 1, title: 'Oversized Denim Jacket', img: 'oversized-denim-jacket.jpg', price: 45, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 88, favs: 13, age: 5,
     desc: 'Mid-wash oversized denim trucker jacket with chest flap pockets. Soft, broken-in denim with natural fading at the seams; all buttons intact. Women\'s 12, fits roomy.' },
   { id: 13, sellerId: 5, categoryId: 1, title: 'Grey Ribbed Knit Cardigan', img: 'grey-knit-cardigan.jpg', price: 32, originalPrice: 85, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 46, favs: 6, age: 8,
-    desc: 'Grey marl cardigan in a chunky rib knit with dark horn buttons. Wool blend, only ever hand-washed. Slight pilling under the arms. Size S-M.' }
+    desc: 'Grey marl cardigan in a chunky rib knit with dark horn buttons. Wool blend, only ever hand-washed. Slight pilling under the arms. Size S-M.' },
+  { id: 14, sellerId: 5, categoryId: 1, title: 'Blush Tie-Front Blouse', img: 'blush-tie-front-blouse.jpg', price: 26, originalPrice: 69, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 33, favs: 4, age: 11,
+    desc: 'Sheer blush chiffon blouse with pintuck detail, a front tie and relaxed long sleeves. Worn a handful of times with no marks. Size 10.' }
 ]
 
 const favorites = new Set([2, 5])

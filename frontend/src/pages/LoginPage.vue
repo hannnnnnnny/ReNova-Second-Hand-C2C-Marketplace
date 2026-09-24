@@ -76,7 +76,8 @@ const signupLink = computed(() => ({
 .demo-block h2 { margin: 0 0 5px; font-size: 14px; }
 .demo-block p { color: var(--text-soft); font-size: 12px; line-height: 1.5; }
 .demo-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.demo-actions button { padding: 8px 11px; border: 1px solid var(--border); border-radius: 9px; background: var(--bg); color: var(--text); cursor: pointer; font: inherit; font-size: 12px; }
-.demo-actions button:hover { border-color: var(--primary); color: var(--primary-strong); }
-@media (prefers-reduced-motion: no-preference) { .demo-actions button { transition: background .16s ease, border-color .16s ease, color .16s ease; } }
+.demo-actions button { min-height: 36px; padding: 6px 16px; border: 0; border-radius: 999px; background: var(--bg-muted); color: var(--text); cursor: pointer; font: inherit; font-size: 14px; }
+.demo-actions button:hover { background: #dcdce1; }
+.demo-actions button:active { transform: scale(0.96); }
+.demo-actions button { transition: background-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
 </style>

@@ -212,7 +212,6 @@ onMounted(load)
 
 .profile-hero-avatar {
   flex-shrink: 0;
-  transform: rotate(-4deg);
   position: relative;
 }
 .profile-hero-avatar :deep(.avatar-lg) {
@@ -361,7 +360,6 @@ onMounted(load)
   }
   .profile-hero-avatar {
     order: -1;
-    transform: rotate(-3deg);
     align-self: flex-start;
   }
   .profile-hero-avatar :deep(.avatar-lg) { width: 96px; height: 96px; font-size: 34px; }

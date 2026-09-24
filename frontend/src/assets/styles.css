@@ -89,12 +89,12 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   gap: 8px;
-  border-radius: 10px;
-  min-height: 44px; padding: 10px 20px;
-  font-weight: 600; font-size: 14px;
-  border: 1px solid var(--border-strong);
-  background: var(--bg-elevated); color: var(--text);
-  box-shadow: var(--shadow-sm);
+  border-radius: 999px;
+  min-height: 44px; padding: 10px 22px;
+  font-weight: 500; font-size: 15px;
+  border: 1px solid transparent;
+  background: var(--bg-muted); color: var(--text);
+  box-shadow: none;
   transition: transform .12s ease, box-shadow .12s ease,
               background .15s ease, border-color .15s ease, color .15s ease;
   white-space: nowrap;

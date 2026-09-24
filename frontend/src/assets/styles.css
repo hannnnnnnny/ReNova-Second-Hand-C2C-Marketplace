@@ -441,12 +441,12 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 
 /* Offer card */
 .offer-card {
-  display: flex; gap: 16px; padding: 18px;
+  display: flex; gap: 20px; padding: 20px;
   background: var(--bg-elevated);
-  border: 1px solid var(--border-strong);
+  border: 0;
   border-radius: var(--radius-lg);
   align-items: center;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow);
 }
 .offer-card .thumb { width: 76px; height: 76px; border-radius: 14px; background: var(--bg-muted) center/cover no-repeat; flex-shrink: 0; border: 1px solid var(--border); }
 .offer-card .amount { font-family: var(--font-display); font-weight: 800; font-size: 24px; color: var(--primary-strong); }

@@ -286,9 +286,8 @@ onMounted(load)
   display: flex; flex-direction: column; gap: 12px;
 }
 .review-text {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 1.05rem;
-  font-style: italic;
   line-height: 1.5;
   color: var(--text);
   margin: 6px 0 0;

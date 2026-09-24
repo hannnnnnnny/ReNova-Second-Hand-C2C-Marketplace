@@ -224,14 +224,11 @@ function moveTo(index, dir) {
 }
 .cover-badge {
   position: absolute; top: 8px; left: 8px;
-  background: var(--primary);
+  background: rgba(29, 29, 31, 0.85);
   color: #fff;
-  font-size: 11px; font-weight: 800;
-  letter-spacing: 0.06em;
+  font-size: 11px; font-weight: 600;
   padding: 3px 9px;
   border-radius: 999px;
-  border: 1.5px solid var(--primary-strong);
-  text-transform: uppercase;
 }
 .thumb-actions {
   display: flex; gap: 4px;

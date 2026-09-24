@@ -180,7 +180,9 @@ const rawListings = [
   { id: 37, sellerId: 3, categoryId: 6, title: 'Blue Tennis Racket', img: 'blue-tennis-racket.jpg', price: 45, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 47, favs: 6, age: 17,
     desc: 'Blue and white graphite tennis racket, grip size 2. Restrung this season with a fresh replacement grip. The bumper guard shows light court scuffs.' },
   { id: 38, sellerId: 3, categoryId: 6, title: 'Graffiti Street Skateboard', img: 'graffiti-skateboard.jpg', price: 55, originalPrice: 140, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 72, favs: 11, age: 20,
-    desc: 'Complete street skateboard with a colourful graffiti deck, trucks and wheels. Grip tape is still sharp and the wheels have even wear. A good first board.' }
+    desc: 'Complete street skateboard with a colourful graffiti deck, trucks and wheels. Grip tape is still sharp and the wheels have even wear. A good first board.' },
+  { id: 39, sellerId: 2, categoryId: 6, title: 'Basketball, Size 7', img: 'basketball-size-7.jpg', price: 20, originalPrice: 55, condition: 'GOOD', status: 'SOLD', loc: 'Wellington', views: 50, favs: 3, age: 23,
+    desc: 'Size 7 composite basketball with deep channels and good grip. Holds air well; some surface wear from outdoor courts. Sold - kept for demo browsing.' }
 ]
 
 const favorites = new Set([2, 5])

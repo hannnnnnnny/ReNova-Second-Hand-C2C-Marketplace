@@ -250,7 +250,7 @@ onMounted(load)
 }
 
 /* ---- Section rules (replaces tabs) ---- */
-.profile-section { margin-bottom: 48px; }
+.profile-section { margin-bottom: 72px; }
 .section-rule {
   display: flex; align-items: baseline; gap: 14px;
   margin: 0 0 28px;

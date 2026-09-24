@@ -219,7 +219,7 @@ onMounted(load)
   font-size: 44px;
 }
 
-/* ---- Sticker stat strip ---- */
+/* ---- Stat strip ---- */
 .stat-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -227,18 +227,15 @@ onMounted(load)
   margin-bottom: 40px;
 }
 .stat-tile {
-  border-radius: var(--radius);
-  border: 2px solid var(--border-strong);
-  padding: 18px 16px 16px;
+  border-radius: var(--radius-lg);
+  border: 0;
+  padding: 24px;
   background: var(--bg-elevated);
-  box-shadow: 0 4px 0 var(--border-strong);
-  transform: rotate(var(--tilt, 0deg));
-  transition: transform 160ms ease;
+  box-shadow: var(--shadow-sm);
   text-align: left;
   min-height: 110px;
   display: flex; flex-direction: column; justify-content: space-between;
 }
-.stat-tile:hover { transform: rotate(0deg) translateY(-2px); }
 .stat-num {
   font-family: var(--font-display);
   font-weight: 800;
@@ -357,10 +354,7 @@ onMounted(load)
     grid-template-columns: repeat(2, 1fr);
     margin-bottom: 32px;
   }
-  .stat-tile {
-    min-height: 96px;
-    transform: rotate(calc(var(--tilt, 0deg) * 0.5));
-  }
+  .stat-tile { min-height: 96px; padding: 20px; }
   .stat-num { font-size: 1.9rem; }
 
   .reviews-grid { grid-template-columns: 1fr; gap: 18px; }

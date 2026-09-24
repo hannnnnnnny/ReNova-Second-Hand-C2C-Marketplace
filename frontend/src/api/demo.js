@@ -126,7 +126,9 @@ const rawListings = [
   { id: 10, sellerId: 2, categoryId: 5, title: 'Chunky Knit Throw', img: 'chunky-knit-throw.jpg', price: 30, originalPrice: 80, condition: 'GOOD', status: 'SOLD', loc: 'Wellington', views: 71, favs: 8, age: 24,
     desc: 'Hand-knitted chunky throw in oatmeal, around 120 x 150 cm. Hand-washed cold and dried flat; still plump with no loose loops. Sold - kept for demo browsing.' },
   { id: 11, sellerId: 5, categoryId: 1, title: 'Ivory Lace Sleeveless Dress', img: 'ivory-lace-dress.jpg', price: 38, originalPrice: 95, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 57, favs: 9, age: 2,
-    desc: 'Ivory sleeveless dress with a floral lace overlay, beaded waistband and full gathered skirt. Worn once for photos. Zip back, fully lined. Size 8.' }
+    desc: 'Ivory sleeveless dress with a floral lace overlay, beaded waistband and full gathered skirt. Worn once for photos. Zip back, fully lined. Size 8.' },
+  { id: 12, sellerId: 3, categoryId: 1, title: 'Oversized Denim Jacket', img: 'oversized-denim-jacket.jpg', price: 45, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 88, favs: 13, age: 5,
+    desc: 'Mid-wash oversized denim trucker jacket with chest flap pockets. Soft, broken-in denim with natural fading at the seams; all buttons intact. Women\'s 12, fits roomy.' }
 ]
 
 const favorites = new Set([2, 5])

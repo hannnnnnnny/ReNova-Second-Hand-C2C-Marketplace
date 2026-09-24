@@ -19,3 +19,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `white-stacking-mugs.jpg` | Samantha Ram ([@samantharam](https://unsplash.com/@samantharam)) | https://unsplash.com/photos/CqDJiEcvQ1w |
 | `chunky-knit-throw.jpg` | Bearaby ([@mybearaby](https://unsplash.com/@mybearaby)) | https://unsplash.com/photos/VSRjzIj0148 |
 | `ivory-lace-dress.jpg` | Sandra Seitamaa ([@seitamaaphotography](https://unsplash.com/@seitamaaphotography)) | https://unsplash.com/photos/TaJQaxEkpq0 |
+| `oversized-denim-jacket.jpg` | Brad O'Reilly ([@brad_oreilly](https://unsplash.com/@brad_oreilly)) | https://unsplash.com/photos/j1JP09ekcx8 |

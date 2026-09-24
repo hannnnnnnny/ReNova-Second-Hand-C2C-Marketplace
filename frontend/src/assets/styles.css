@@ -110,8 +110,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .btn-accent { background: var(--accent); color: #fff; }
 .btn-accent:hover { background: #333336; color: #fff; }
 
-.btn-outline { background: var(--bg-elevated); border-color: var(--border-strong); color: var(--text); }
-.btn-outline:hover { background: var(--bg-muted); }
+.btn-outline { background: transparent; border-color: var(--border); color: var(--text); }
+.btn-outline:hover { background: var(--bg-elevated); border-color: var(--border-strong); }
 
 .btn-ghost { background: transparent; border-color: transparent; box-shadow: none; }
 .btn-ghost:hover { background: var(--bg-muted); border-color: transparent; box-shadow: none; transform: none; }

@@ -172,8 +172,9 @@ function moveTo(index, dir) {
   transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
   outline: none;
 }
-.dropzone:hover { background: var(--primary-soft); border-color: var(--primary-strong); }
-.dropzone:focus-visible { box-shadow: 0 0 0 4px rgba(76, 175, 108, 0.25); }
+.dropzone:hover { background: var(--bg-muted); }
+.dropzone:active { transform: scale(0.99); }
+.dropzone:focus-visible { border-color: var(--primary); box-shadow: var(--focus-ring); }
 .dropzone.is-dragging {
   background: var(--primary-soft);
   border-color: var(--primary-strong);

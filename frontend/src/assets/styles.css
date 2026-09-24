@@ -448,8 +448,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   align-items: center;
   box-shadow: var(--shadow);
 }
-.offer-card .thumb { width: 76px; height: 76px; border-radius: 14px; background: var(--bg-muted) center/cover no-repeat; flex-shrink: 0; border: 1px solid var(--border); }
-.offer-card .amount { font-family: var(--font-display); font-weight: 800; font-size: 24px; color: var(--primary-strong); }
+.offer-card .thumb { width: 76px; height: 76px; border-radius: var(--radius); background: var(--bg-muted) center/cover no-repeat; flex-shrink: 0; border: 0; }
+.offer-card .amount { font-family: var(--font-display); font-weight: 600; font-size: 24px; letter-spacing: -0.02em; color: var(--text); }
 
 /* Modal — popping speech bubble */
 .modal-overlay {

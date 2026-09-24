@@ -287,7 +287,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .stars { display: inline-flex; gap: 2px; color: var(--text); }
 .star-input { display: inline-flex; gap: 4px; }
 .star-input button { background: transparent; border: 0; padding: 2px; color: var(--border-strong); font-size: 24px; line-height: 1; }
-.star-input button.is-on { color: var(--warning); }
+.star-input button.is-on { color: var(--text); }
 
 /* Filter sidebar */
 .filters { display: flex; flex-direction: column; gap: 18px; position: sticky; top: calc(var(--topbar-h) + 24px); }

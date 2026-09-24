@@ -37,10 +37,10 @@ defineProps({
   background: var(--bg-elevated); box-shadow: var(--shadow);
 }
 .auth-intro { padding: clamp(32px, 5vw, 56px); background: var(--bg-elevated); border-right: 1px solid var(--border); }
-.auth-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font-weight: 800; }
+.auth-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font-weight: 600; font-size: 19px; letter-spacing: -.02em; }
 .auth-brand span {
-  width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%;
-  color: white; background: var(--primary); font-family: var(--font-display);
+  width: 30px; height: 30px; display: grid; place-items: center; border-radius: 8px;
+  color: white; background: var(--text); font-family: var(--font-display); font-size: 15px;
 }
 .auth-eyebrow { margin: 44px 0 12px; color: var(--primary-strong); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 h1 { margin: 0; font-size: clamp(32px, 5vw, 48px); line-height: 1.05; }

@@ -53,5 +53,5 @@ button {
 button:hover { color: var(--text); background: rgba(0, 0, 0, 0.05); }
 button:active { transform: translateY(-50%) scale(0.94); }
 button:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
-.password-help { color: var(--text-soft); font-size: 12px; }
+.password-help { color: var(--text-soft); font-size: 13px; }
 </style>

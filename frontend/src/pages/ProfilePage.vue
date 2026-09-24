@@ -294,8 +294,8 @@ onMounted(load)
 }
 .review-meta {
   display: flex; flex-direction: column; gap: 8px;
-  padding-top: 10px;
-  border-top: 2px dashed var(--border);
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
 }
 .review-author { display: flex; align-items: center; gap: 10px; }
 .review-author .soft { font-size: 12px; }

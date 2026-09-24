@@ -259,14 +259,14 @@ onMounted(load)
 }
 .section-label {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  letter-spacing: -0.02em;
   color: var(--text);
 }
 .section-count {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 400;
   font-size: 1.1rem;
   color: var(--text-soft);
   margin-left: auto;

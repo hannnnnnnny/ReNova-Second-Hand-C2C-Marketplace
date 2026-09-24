@@ -168,7 +168,9 @@ const rawListings = [
   { id: 31, sellerId: 5, categoryId: 5, title: 'Ceramic Pineapple Table Lamp', img: 'pineapple-table-lamp.jpg', price: 35, originalPrice: 89, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 48, favs: 7, age: 15,
     desc: 'Cream ceramic pineapple-base table lamp with a fabric shade, about 45 cm tall. E27 fitting, bulb included. Tested and working; tiny glaze nick at the back.' },
   { id: 32, sellerId: 3, categoryId: 5, title: 'Matte Black Gooseneck Kettle', img: 'gooseneck-kettle.jpg', price: 40, originalPrice: 120, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 59, favs: 9, age: 8,
-    desc: 'Matte black gooseneck kettle for pour-over coffee, about 1 litre, with a precise spout. Used for a few months, descaled, no dents.' }
+    desc: 'Matte black gooseneck kettle for pour-over coffee, about 1 litre, with a precise spout. Used for a few months, descaled, no dents.' },
+  { id: 33, sellerId: 2, categoryId: 5, title: 'Cast Iron Skillet (26 cm)', img: 'cast-iron-skillet.jpg', price: 30, originalPrice: 79, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 45, favs: 6, age: 11,
+    desc: 'Pre-seasoned 26 cm cast iron skillet. Well seasoned from regular use, with no rust or cracks. Great for flatbreads, steak and oven bakes.' }
 ]
 
 const favorites = new Set([2, 5])

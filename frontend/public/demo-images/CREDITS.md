@@ -40,3 +40,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `houseplant-with-stand.jpg` | Crystal Jo ([@crystalsjo](https://unsplash.com/@crystalsjo)) | https://unsplash.com/photos/07bxzN9Eq8E |
 | `pineapple-table-lamp.jpg` | Prakhar Kont ([@prakhar_kont](https://unsplash.com/@prakhar_kont)) | https://unsplash.com/photos/AgU9-qsNc1Y |
 | `gooseneck-kettle.jpg` | Paul Esch-Laurent ([@pinjasaur](https://unsplash.com/@pinjasaur)) | https://unsplash.com/photos/tVeVHHWCfHM |
+| `cast-iron-skillet.jpg` | Anshu A ([@anshu18](https://unsplash.com/@anshu18)) | https://unsplash.com/photos/KusGQYgRgSE |

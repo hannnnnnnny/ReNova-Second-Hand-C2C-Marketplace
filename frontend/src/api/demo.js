@@ -121,8 +121,8 @@ const rawListings = [
     desc: 'Sage green 6 mm yoga mat with two cork yoga blocks. The mat has no tears and still grips well; the blocks have minor edge marks. Wiped down with mat cleaner.' },
   { id: 8, sellerId: 2, categoryId: 6, title: 'Brown Weekender Duffel', img: 'brown-weekender-duffel.jpg', price: 35, originalPrice: 90, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Wellington', views: 58, favs: 6, age: 10,
     desc: 'Brown weekender, roughly 50 x 28 x 25 cm, with twin carry handles and a detachable shoulder strap. Used on one short trip with no marks inside or out. Fits as cabin baggage.' },
-  { id: 9, sellerId: 2, categoryId: 5, title: 'Ceramic Mug Set (4)', img: 'home-cups.jpg', price: 24, originalPrice: 60, condition: 'NEW', status: 'ACTIVE', loc: 'Wellington', views: 39, favs: 4,
-    desc: 'Set of four handmade ceramic mugs, unused gift. Dishwasher safe.' },
+  { id: 9, sellerId: 2, categoryId: 5, title: 'White Stacking Mugs (set of 3)', img: 'white-stacking-mugs.jpg', price: 24, originalPrice: 60, condition: 'NEW', status: 'ACTIVE', loc: 'Wellington', views: 39, favs: 4, age: 20,
+    desc: 'Three plain white porcelain mugs that stack neatly, about 350 ml each. Unused gift with no chips or crazing. Dishwasher and microwave safe.' },
   { id: 10, sellerId: 2, categoryId: 5, title: 'Woven Throw Blanket', img: 'home-throw.jpg', price: 30, originalPrice: 80, condition: 'GOOD', status: 'SOLD', loc: 'Wellington', views: 71, favs: 8,
     desc: 'Chunky knit throw, washed and cosy. Sold — kept for demo browsing.' }
 ]

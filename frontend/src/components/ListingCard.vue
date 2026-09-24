@@ -107,8 +107,9 @@ function toggleFavorite() {
   background: var(--bg);
 }
 
-.rn-product-image { width: 100%; height: 100%; padding: 0; object-fit: cover; transition: transform var(--dur) var(--ease); }
-.rn-product-card:hover .rn-product-image { transform: scale(1.05); }
+/* A 3% base zoom hides the ~1% white frame many product photos ship with. */
+.rn-product-image { width: 100%; height: 100%; padding: 0; object-fit: cover; transform: scale(1.03); transition: transform var(--dur) var(--ease); }
+.rn-product-card:hover .rn-product-image { transform: scale(1.08); }
 .rn-product-placeholder {
   display: flex;
   width: 100%;
@@ -222,6 +223,6 @@ function toggleFavorite() {
 
 @media (prefers-reduced-motion: reduce) {
   .rn-product-card, .rn-product-image { transition: none; }
-  .rn-product-card:hover .rn-product-image { transform: none; }
+  .rn-product-card:hover .rn-product-image { transform: scale(1.03); }
 }
 </style>

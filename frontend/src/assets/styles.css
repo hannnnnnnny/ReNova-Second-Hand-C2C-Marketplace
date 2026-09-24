@@ -32,7 +32,7 @@
   /* Nested surfaces use progressively tighter radii. */
   --radius-sm: 8px;
   --radius: 12px;
-  --radius-lg: 20px;
+  --radius-lg: 16px;
 
   /* Soft drop shadows, no harsh edges */
   --shadow-sm: 0 2px 6px rgba(45, 55, 38, 0.04);

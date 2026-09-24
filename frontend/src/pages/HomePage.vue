@@ -108,7 +108,7 @@ onMounted(load)
 .section-heading h2 { font-size: clamp(28px, 4vw, 40px); letter-spacing: -.025em; }
 .section-heading p { font-size: 17px; color: var(--text-muted); margin: 8px 0 0; }
 .section-heading > .text-link { flex-shrink: 0; }
-.home-feed-state { min-height: 240px; padding: 30px 24px; display: flex; align-items: center; flex-direction: column; text-align: center; border-radius: 16px; border: 1px solid var(--border); background: var(--bg-elevated); }
+.home-feed-state { min-height: 280px; padding: 56px 24px; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; border-radius: var(--radius-lg); border: 0; background: var(--bg-elevated); }
 .home-feed-state > svg { color: var(--primary); margin-bottom: 14px; }
 .home-feed-state h3 { font-size: 21px; margin-bottom: 8px; }
 .home-feed-state p { max-width: 440px; color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }

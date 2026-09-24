@@ -361,9 +361,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .bubble.from-me {
   align-self: flex-end;
   background: var(--primary); color: #fff;
-  border-color: var(--primary-strong);
   border-bottom-right-radius: 6px;
-  box-shadow: var(--shadow-sm);
 }
 .bubble.from-them {
   align-self: flex-start;

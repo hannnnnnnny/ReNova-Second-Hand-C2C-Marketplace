@@ -164,8 +164,8 @@ function moveTo(index, dir) {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 6px;
   padding: 36px 24px;
-  background: var(--bg-elevated);
-  border: 3px dashed var(--border-strong);
+  background: var(--bg);
+  border: 1px solid transparent;
   border-radius: var(--radius-lg);
   text-align: center;
   cursor: pointer;

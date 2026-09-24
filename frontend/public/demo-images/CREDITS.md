@@ -37,3 +37,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `brown-leather-wallet.jpg` | Kisetsu Co ([@kisetsuco](https://unsplash.com/@kisetsuco)) | https://unsplash.com/photos/Xbjf9nnEQ4s |
 | `black-sunglasses.jpg` | Lucas George Wendt ([@lucasgwendt](https://unsplash.com/@lucasgwendt)) | https://unsplash.com/photos/3xtCeUhqZWE |
 | `minimalist-black-watch.jpg` | Marios Gkortsilas ([@mr_mgk](https://unsplash.com/@mr_mgk)) | https://unsplash.com/photos/4eViEoxOzX0 |
+| `houseplant-with-stand.jpg` | Crystal Jo ([@crystalsjo](https://unsplash.com/@crystalsjo)) | https://unsplash.com/photos/07bxzN9Eq8E |

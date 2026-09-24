@@ -162,7 +162,9 @@ const rawListings = [
   { id: 28, sellerId: 4, categoryId: 4, title: 'Black Square Sunglasses', img: 'black-sunglasses.jpg', price: 30, originalPrice: 90, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 42, favs: 6, age: 25,
     desc: 'Black square-frame sunglasses with dark grey tinted lenses. No scratches on the lenses and the hinges are tight. Comes with a soft pouch.' },
   { id: 29, sellerId: 4, categoryId: 4, title: 'Minimalist Watch, Black Strap', img: 'minimalist-black-watch.jpg', price: 65, originalPrice: 190, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Hamilton', views: 89, favs: 14, age: 4,
-    desc: 'Minimalist quartz watch with a silver case, white dial and black leather strap. New battery fitted this month; glass unscratched.' }
+    desc: 'Minimalist quartz watch with a silver case, white dial and black leather strap. New battery fitted this month; glass unscratched.' },
+  { id: 30, sellerId: 5, categoryId: 5, title: 'Leafy Houseplant with Stand', img: 'houseplant-with-stand.jpg', price: 35, originalPrice: 75, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 64, favs: 12, age: 5,
+    desc: 'Healthy leafy houseplant in a terracotta pot, about 70 cm tall, with the wooden plant stand included. Easy care: bright indirect light, water weekly. Pickup only.' }
 ]
 
 const favorites = new Set([2, 5])

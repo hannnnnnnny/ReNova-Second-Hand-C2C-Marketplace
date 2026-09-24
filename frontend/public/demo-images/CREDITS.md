@@ -28,3 +28,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `dark-straight-jeans.jpg` | Matthew Moloney ([@mattmoloney](https://unsplash.com/@mattmoloney)) | https://unsplash.com/photos/5NPId7L1_p4 |
 | `plaid-cotton-shirt.jpg` | the blowup ([@theblowup](https://unsplash.com/@theblowup)) | https://unsplash.com/photos/AE-9l0oedcg |
 | `chunky-knit-jumper.jpg` | Toa Heftiba ([@heftiba](https://unsplash.com/@heftiba)) | https://unsplash.com/photos/mavrg7cLwbA |
+| `black-chelsea-boots.jpg` | Lachlan Rennie ([@rennielachlan](https://unsplash.com/@rennielachlan)) | https://unsplash.com/photos/abv1EdKdRnU |

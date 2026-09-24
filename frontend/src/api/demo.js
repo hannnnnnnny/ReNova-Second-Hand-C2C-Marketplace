@@ -144,7 +144,9 @@ const rawListings = [
   { id: 19, sellerId: 3, categoryId: 2, title: 'Plaid Cotton Shirt', img: 'plaid-cotton-shirt.jpg', price: 22, originalPrice: 70, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 29, favs: 3, age: 19,
     desc: 'Soft cotton shirt in a blue, tan and cream plaid. Men\'s M. Washed many times, so it is lovely and soft; no holes or stains.' },
   { id: 20, sellerId: 5, categoryId: 2, title: 'Chunky Knit Jumper', img: 'chunky-knit-jumper.jpg', price: 40, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 61, favs: 10, age: 14,
-    desc: 'Oatmeal chunky knit crew-neck jumper with dropped shoulders. Wool blend, hand-washed and dried flat. Unisex: fits a men\'s S or women\'s M.' }
+    desc: 'Oatmeal chunky knit crew-neck jumper with dropped shoulders. Wool blend, hand-washed and dried flat. Unisex: fits a men\'s S or women\'s M.' },
+  { id: 21, sellerId: 4, categoryId: 3, title: 'Black Leather Chelsea Boots', img: 'black-chelsea-boots.jpg', price: 90, originalPrice: 260, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 96, favs: 15, age: 3,
+    desc: 'Black leather Chelsea boots with elastic side panels, men\'s UK 9. Resoled once; uppers polished, with light creasing across the toe.' }
 ]
 
 const favorites = new Set([2, 5])

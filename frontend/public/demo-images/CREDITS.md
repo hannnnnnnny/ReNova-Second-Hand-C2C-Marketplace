@@ -17,3 +17,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `yoga-mat-cork-blocks.jpg` | Samantha Sheppard ([@samsheppardphoto](https://unsplash.com/@samsheppardphoto)) | https://unsplash.com/photos/b8Q5fHBsyik |
 | `brown-weekender-duffel.jpg` | Erol Ahmed ([@erol](https://unsplash.com/@erol)) | https://unsplash.com/photos/9XiN0r2NWSM |
 | `white-stacking-mugs.jpg` | Samantha Ram ([@samantharam](https://unsplash.com/@samantharam)) | https://unsplash.com/photos/CqDJiEcvQ1w |
+| `chunky-knit-throw.jpg` | Bearaby ([@mybearaby](https://unsplash.com/@mybearaby)) | https://unsplash.com/photos/VSRjzIj0148 |

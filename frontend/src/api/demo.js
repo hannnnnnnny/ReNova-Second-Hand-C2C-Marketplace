@@ -123,8 +123,8 @@ const rawListings = [
     desc: 'Brown weekender, roughly 50 x 28 x 25 cm, with twin carry handles and a detachable shoulder strap. Used on one short trip with no marks inside or out. Fits as cabin baggage.' },
   { id: 9, sellerId: 2, categoryId: 5, title: 'White Stacking Mugs (set of 3)', img: 'white-stacking-mugs.jpg', price: 24, originalPrice: 60, condition: 'NEW', status: 'ACTIVE', loc: 'Wellington', views: 39, favs: 4, age: 20,
     desc: 'Three plain white porcelain mugs that stack neatly, about 350 ml each. Unused gift with no chips or crazing. Dishwasher and microwave safe.' },
-  { id: 10, sellerId: 2, categoryId: 5, title: 'Woven Throw Blanket', img: 'home-throw.jpg', price: 30, originalPrice: 80, condition: 'GOOD', status: 'SOLD', loc: 'Wellington', views: 71, favs: 8,
-    desc: 'Chunky knit throw, washed and cosy. Sold — kept for demo browsing.' }
+  { id: 10, sellerId: 2, categoryId: 5, title: 'Chunky Knit Throw', img: 'chunky-knit-throw.jpg', price: 30, originalPrice: 80, condition: 'GOOD', status: 'SOLD', loc: 'Wellington', views: 71, favs: 8, age: 24,
+    desc: 'Hand-knitted chunky throw in oatmeal, around 120 x 150 cm. Hand-washed cold and dried flat; still plump with no loose loops. Sold - kept for demo browsing.' }
 ]
 
 const favorites = new Set([2, 5])

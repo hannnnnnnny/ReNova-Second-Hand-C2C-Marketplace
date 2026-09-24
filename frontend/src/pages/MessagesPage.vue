@@ -349,12 +349,12 @@ onMounted(async () => {
   flex: 0 0 130px;
   display: flex; flex-direction: column; gap: 4px;
   background: var(--bg-elevated);
-  border: 1.5px solid var(--border-strong);
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   padding: 8px;
   cursor: pointer;
   text-align: left;
-  transition: border-color 120ms, transform 120ms;
+  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
 }
 .compose-other-card:hover { border-color: var(--primary); transform: translateY(-1px); }
 .compose-other-card.is-active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(76, 175, 108, 0.20); }

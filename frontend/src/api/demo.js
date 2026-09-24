@@ -178,7 +178,9 @@ const rawListings = [
   { id: 36, sellerId: 2, categoryId: 6, title: 'Mint Bike Helmet', img: 'mint-bike-helmet.jpg', price: 30, originalPrice: 99, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Wellington', views: 38, favs: 4, age: 13,
     desc: 'Mint green commuter bike helmet with a rear dial adjuster, size M (54-58 cm). No crashes or knocks; pads recently washed.' },
   { id: 37, sellerId: 3, categoryId: 6, title: 'Blue Tennis Racket', img: 'blue-tennis-racket.jpg', price: 45, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 47, favs: 6, age: 17,
-    desc: 'Blue and white graphite tennis racket, grip size 2. Restrung this season with a fresh replacement grip. The bumper guard shows light court scuffs.' }
+    desc: 'Blue and white graphite tennis racket, grip size 2. Restrung this season with a fresh replacement grip. The bumper guard shows light court scuffs.' },
+  { id: 38, sellerId: 3, categoryId: 6, title: 'Graffiti Street Skateboard', img: 'graffiti-skateboard.jpg', price: 55, originalPrice: 140, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 72, favs: 11, age: 20,
+    desc: 'Complete street skateboard with a colourful graffiti deck, trucks and wheels. Grip tape is still sharp and the wheels have even wear. A good first board.' }
 ]
 
 const favorites = new Set([2, 5])

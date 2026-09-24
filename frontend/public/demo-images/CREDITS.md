@@ -45,3 +45,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `hex-dumbbells-5kg.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/H-qxKCedhcc |
 | `mint-bike-helmet.jpg` | Waldemar Brandt ([@waldemarbrandt67w](https://unsplash.com/@waldemarbrandt67w)) | https://unsplash.com/photos/lUP7f9ApvlY |
 | `blue-tennis-racket.jpg` | Hoi Pham ([@hprobotic](https://unsplash.com/@hprobotic)) | https://unsplash.com/photos/eLZwsPO8cCQ |
+| `graffiti-skateboard.jpg` | Niket Nigde ([@nikofwest](https://unsplash.com/@nikofwest)) | https://unsplash.com/photos/9N3rS-xLfkI |

@@ -1,5 +1,7 @@
 # ReNova on Vercel (demo mode)
 
+Live site: https://renova-marketplace.vercel.app (project `renova-marketplace`, deployed 25 September 2026 from `feat/apple-style-ui`).
+
 Vercel's free tier hosts the Vue frontend only; the Spring Boot + MySQL backend is not deployed there. The Vercel build runs in demo mode (`VITE_RENOVA_DEMO=true`), where an in-browser adapter serves seeded listings, accounts, messages and orders. Nothing is persisted on a server, and payments and shipping remain simulated.
 
 ## Project settings

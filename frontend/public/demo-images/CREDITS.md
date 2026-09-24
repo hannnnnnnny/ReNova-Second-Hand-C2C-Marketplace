@@ -25,3 +25,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `denim-jacket-cord-collar.jpg` | Caio Coelho ([@smokthebikini](https://unsplash.com/@smokthebikini)) | https://unsplash.com/photos/QRN47la37gw |
 | `button-down-shirts-bundle.jpg` | Nimble Made ([@nimblemade](https://unsplash.com/@nimblemade)) | https://unsplash.com/photos/BKYeLLB1OxI |
 | `brown-leather-jacket.jpg` | Derick McKinney ([@derickray](https://unsplash.com/@derickray)) | https://unsplash.com/photos/3OFBcQQTN64 |
+| `dark-straight-jeans.jpg` | Matthew Moloney ([@mattmoloney](https://unsplash.com/@mattmoloney)) | https://unsplash.com/photos/5NPId7L1_p4 |

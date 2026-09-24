@@ -138,7 +138,9 @@ const rawListings = [
   { id: 16, sellerId: 4, categoryId: 2, title: 'Button-down Shirts (bundle of 3)', img: 'button-down-shirts-bundle.jpg', price: 40, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 41, favs: 5, age: 13,
     desc: 'Three cotton button-down shirts: white, pale blue and navy micro-print. Regular fit, men\'s M (39 cm collar). Freshly laundered and pressed; no stains or missing buttons.' },
   { id: 17, sellerId: 4, categoryId: 2, title: 'Brown Leather Jacket', img: 'brown-leather-jacket.jpg', price: 120, originalPrice: 350, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 131, favs: 21, age: 6,
-    desc: 'Tan-brown leather jacket with a shirt collar and zip front. Supple leather with some creasing at the elbows that suits the style. Men\'s L. Conditioned last month.' }
+    desc: 'Tan-brown leather jacket with a shirt collar and zip front. Supple leather with some creasing at the elbows that suits the style. Men\'s L. Conditioned last month.' },
+  { id: 18, sellerId: 4, categoryId: 2, title: 'Dark Wash Straight Jeans', img: 'dark-straight-jeans.jpg', price: 35, originalPrice: 110, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 52, favs: 4, age: 16,
+    desc: 'Dark wash straight-leg jeans in rigid cotton denim, men\'s 32 x 32. Light fading on the thighs; original hems with no fraying.' }
 ]
 
 const favorites = new Set([2, 5])

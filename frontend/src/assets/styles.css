@@ -228,9 +228,9 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   font-family: var(--font-display); font-weight: 600; font-size: 15px;
 }
 .search-wrap {
-  display: flex; background: var(--bg-elevated);
-  border: 1px solid var(--border-strong); border-radius: 999px;
-  padding: 4px 4px 4px 18px;
+  display: flex; background: var(--bg);
+  border: 1px solid transparent; border-radius: 999px;
+  padding: 3px 3px 3px 18px;
   align-items: center; gap: 10px;
   max-width: 560px; width: 100%; margin: 0 auto;
   box-shadow: var(--shadow-sm);

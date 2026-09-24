@@ -119,9 +119,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .btn-danger { background: var(--danger); color: #fff; }
 .btn-danger:hover { background: #bf0013; color: #fff; }
 
-.btn-sm { min-height: 38px; padding: 7px 14px; font-size: 13px; box-shadow: var(--shadow-sm); }
-.btn-sm.btn-primary { box-shadow: var(--shadow-sm); }
-.btn-lg { min-height: 48px; padding: 12px 24px; font-size: 15px; }
+.btn-sm { min-height: 36px; padding: 6px 16px; font-size: 14px; }
+.btn-lg { min-height: 50px; padding: 12px 28px; font-size: 17px; }
 .btn-block { width: 100%; }
 
 /* Form fields */

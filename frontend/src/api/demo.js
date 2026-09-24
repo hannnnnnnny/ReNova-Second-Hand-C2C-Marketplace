@@ -164,7 +164,9 @@ const rawListings = [
   { id: 29, sellerId: 4, categoryId: 4, title: 'Minimalist Watch, Black Strap', img: 'minimalist-black-watch.jpg', price: 65, originalPrice: 190, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Hamilton', views: 89, favs: 14, age: 4,
     desc: 'Minimalist quartz watch with a silver case, white dial and black leather strap. New battery fitted this month; glass unscratched.' },
   { id: 30, sellerId: 5, categoryId: 5, title: 'Leafy Houseplant with Stand', img: 'houseplant-with-stand.jpg', price: 35, originalPrice: 75, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 64, favs: 12, age: 5,
-    desc: 'Healthy leafy houseplant in a terracotta pot, about 70 cm tall, with the wooden plant stand included. Easy care: bright indirect light, water weekly. Pickup only.' }
+    desc: 'Healthy leafy houseplant in a terracotta pot, about 70 cm tall, with the wooden plant stand included. Easy care: bright indirect light, water weekly. Pickup only.' },
+  { id: 31, sellerId: 5, categoryId: 5, title: 'Ceramic Pineapple Table Lamp', img: 'pineapple-table-lamp.jpg', price: 35, originalPrice: 89, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 48, favs: 7, age: 15,
+    desc: 'Cream ceramic pineapple-base table lamp with a fabric shade, about 45 cm tall. E27 fitting, bulb included. Tested and working; tiny glaze nick at the back.' }
 ]
 
 const favorites = new Set([2, 5])

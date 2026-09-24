@@ -38,3 +38,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `black-sunglasses.jpg` | Lucas George Wendt ([@lucasgwendt](https://unsplash.com/@lucasgwendt)) | https://unsplash.com/photos/3xtCeUhqZWE |
 | `minimalist-black-watch.jpg` | Marios Gkortsilas ([@mr_mgk](https://unsplash.com/@mr_mgk)) | https://unsplash.com/photos/4eViEoxOzX0 |
 | `houseplant-with-stand.jpg` | Crystal Jo ([@crystalsjo](https://unsplash.com/@crystalsjo)) | https://unsplash.com/photos/07bxzN9Eq8E |
+| `pineapple-table-lamp.jpg` | Prakhar Kont ([@prakhar_kont](https://unsplash.com/@prakhar_kont)) | https://unsplash.com/photos/AgU9-qsNc1Y |

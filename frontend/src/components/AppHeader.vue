@@ -47,6 +47,7 @@ onMounted(fetchUnread)
 </script>
 
 <template>
+  <a href="#main-content" class="skip-link">{{ t('marketplaceUi.skip') }}</a>
   <header class="topbar">
     <div class="container topbar-inner">
       <RouterLink :to="{ name: 'home' }" class="brand">
@@ -54,8 +55,8 @@ onMounted(fetchUnread)
         <span>ReNova</span>
       </RouterLink>
 
-      <form class="search-wrap" @submit.prevent="submitSearch">
-        <input :placeholder="t('common.searchPlaceholder')" v-model="query" />
+      <form class="search-wrap" role="search" @submit.prevent="submitSearch">
+        <input type="search" name="keyword" :aria-label="t('common.search')" :placeholder="t('common.searchPlaceholder')" v-model="query" />
         <button type="submit" class="btn btn-primary btn-sm">{{ t('common.search') }}</button>
       </form>
 
@@ -64,13 +65,14 @@ onMounted(fetchUnread)
         class="topbar-menu-toggle"
         type="button"
         :aria-expanded="mobileNavOpen"
-        aria-label="Menu"
+        :aria-label="t('marketplaceUi.menu')"
+        aria-controls="primary-navigation"
         @click="mobileNavOpen = !mobileNavOpen"
       >
         <span></span><span></span><span></span>
       </button>
 
-      <div class="nav-actions" :class="{ 'is-open': mobileNavOpen }">
+      <nav id="primary-navigation" class="nav-actions" :aria-label="t('marketplaceUi.navigation')" :class="{ 'is-open': mobileNavOpen }" @keydown.esc="mobileNavOpen = false; accountMenuOpen = false">
         <LocaleSwitcher />
         <RouterLink :to="{ name: 'browse' }" class="btn btn-ghost btn-sm">{{ t('common.browse') }}</RouterLink>
         <template v-if="auth.isAuthenticated">
@@ -98,7 +100,7 @@ onMounted(fetchUnread)
           <RouterLink :to="{ name: 'login' }" class="btn btn-outline btn-sm">{{ t('common.login') }}</RouterLink>
           <RouterLink :to="{ name: 'signup' }" class="btn btn-primary btn-sm">{{ t('common.signup') }}</RouterLink>
         </template>
-      </div>
+      </nav>
     </div>
   </header>
 </template>

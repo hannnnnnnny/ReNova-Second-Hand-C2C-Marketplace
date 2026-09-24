@@ -5,31 +5,32 @@ const year = new Date().getFullYear()
 </script>
 
 <template>
-  <footer class="footer">
+  <footer class="site-footer">
     <div class="container">
-      <div class="grid grid-3" style="gap: 32px;">
-        <div>
-          <div class="brand" style="color: #fff; margin-bottom: 8px">
-            <span class="brand-mark">R</span>
-            <span>ReNova</span>
-          </div>
-          <p style="opacity:.7; font-size: 14px">{{ t('brand.tagline') }}</p>
-        </div>
-        <div>
-          <h4 style="color:#fff; font-size:14px; margin-bottom: 12px;">ReNova</h4>
-          <div class="stack-sm" style="font-size:14px">
-            <div><RouterLink :to="{ name: 'browse' }">{{ t('common.browse') }}</RouterLink></div>
-            <div><RouterLink :to="{ name: 'post-listing' }">{{ t('common.sell') }}</RouterLink></div>
-            <div><RouterLink :to="{ name: 'orders' }">{{ t('common.orders') }}</RouterLink></div>
-          </div>
-        </div>
-        <div>
-          <h4 style="color:#fff; font-size:14px; margin-bottom: 12px;">Demo</h4>
-          <p style="font-size:13px; opacity:.7">ReNova is a portfolio demo. Payments and shipping are simulated. Create an account to try it.</p>
-        </div>
+      <div class="footer-top">
+        <div><RouterLink :to="{ name: 'home' }" class="brand"><span class="brand-mark">R</span><span>ReNova</span></RouterLink><p class="footer-tagline">{{ t('brand.tagline') }}</p></div>
+        <nav class="footer-links" aria-label="ReNova">
+          <RouterLink :to="{ name: 'browse' }">{{ t('common.browse') }}</RouterLink>
+          <RouterLink :to="{ name: 'post-listing' }">{{ t('common.sell') }}</RouterLink>
+          <RouterLink :to="{ name: 'orders' }">{{ t('common.orders') }}</RouterLink>
+        </nav>
       </div>
-      <div class="divider" style="border-color:#3a3633"></div>
-      <p style="font-size: 13px; opacity: .6; margin: 0">© {{ year }} ReNova — Built for portfolio demonstration.</p>
+      <div class="footer-bottom"><span>© {{ year }} ReNova · {{ t('marketplaceUi.footerCopyright') }}</span><span>{{ t('marketplaceUi.footerNote') }}</span></div>
     </div>
   </footer>
 </template>
+
+<style scoped>
+.site-footer { padding: 32px 0 24px; background: #efeee5; border-top: 1px solid var(--border); }
+.footer-top { display: flex; justify-content: space-between; gap: 24px; align-items: center; padding-bottom: 25px; }
+.footer-tagline { color: var(--text-muted); font-size: 13px; margin: 10px 0 0; }
+.footer-links { display: flex; gap: 26px; font-size: 13px; font-weight: 500; }
+.footer-links a { padding: 8px 0; }
+.footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 18px; display: flex; justify-content: space-between; gap: 20px; color: var(--text-muted); font-size: 11px; }
+@media (max-width: 760px) {
+  .footer-top { align-items: flex-start; flex-direction: column; gap: 16px; }
+  .footer-links { gap: 24px; }
+  .footer-bottom { flex-direction: column; gap: 7px; }
+}
+</style>

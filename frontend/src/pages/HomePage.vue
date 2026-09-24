@@ -134,11 +134,10 @@ onMounted(load)
   .intro-body { font-size: 17px; margin-bottom: 24px; }
   .intro-visual img { max-height: 260px; padding: 0 24px 56px; }
   .intro-actions { gap: 18px; }
-  .home-categories { padding: 14px 0 22px; }
-  .section-heading { align-items: flex-start; margin-bottom: 18px; }
-  .section-heading h2 { font-size: 24px; }
-  .section-heading p { font-size: 12px; }
-  .section-heading > .text-link { margin-top: 5px; font-size: 12px; }
+  .home-categories { padding: 28px 0 40px; }
+  .section-heading { align-items: flex-start; margin-bottom: 20px; }
+  .section-heading p { font-size: 15px; }
+  .section-heading > .text-link { margin-top: 5px; font-size: 14px; }
   .home-feed-state { padding: 28px 20px; }
   .home-how { grid-template-columns: 1fr; gap: 28px; margin-top: 40px; padding-top: 30px; }
   .how-heading h2 { font-size: 27px; }

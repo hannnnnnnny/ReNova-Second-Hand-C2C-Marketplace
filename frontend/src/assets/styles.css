@@ -104,9 +104,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .btn:active { transform: scale(0.98); }
 .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 
-.btn-primary { background: var(--primary); color: #fff; border-color: var(--primary-strong); box-shadow: var(--shadow-sm); }
-.btn-primary:hover { background: var(--primary-strong); color: #fff; border-color: #246e3a; box-shadow: 0 4px 0 #246e3a; }
-.btn-primary:active { box-shadow: var(--shadow-sm); }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); color: #fff; }
 
 .btn-accent { background: var(--accent); color: #fff; border-color: #b85731; box-shadow: 0 3px 0 #b85731; }
 .btn-accent:hover { background: #d76952; color: #fff; }

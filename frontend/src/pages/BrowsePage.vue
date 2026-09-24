@@ -7,8 +7,9 @@ import { useToastStore } from '../stores/toast'
 import { apiError } from '../api/client'
 import ListingCard from '../components/ListingCard.vue'
 import DataState from '../components/DataState.vue'
+import { categoryLabel } from '../i18n/marketplace-ui'
 
-const { t } = useI18n()
+const { t, te } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const toast = useToastStore()
@@ -160,8 +161,8 @@ onMounted(async () => {
             <div class="field">
               <label class="label">{{ t('common.categories') }}</label>
               <select class="select" v-model="filters.categoryId">
-                <option value="">{{ t('common.anywhere') }}</option>
-                <option v-for="c in categories" :key="c.id" :value="c.id">{{ c.icon }} {{ c.name }}</option>
+                <option value="">{{ t('marketplaceUi.allCategories') }}</option>
+                <option v-for="c in categories" :key="c.id" :value="c.id">{{ categoryLabel(c, t, te) }}</option>
               </select>
             </div>
             <div class="field">

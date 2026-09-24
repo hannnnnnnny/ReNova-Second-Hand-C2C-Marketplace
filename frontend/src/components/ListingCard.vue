@@ -104,7 +104,7 @@ function toggleFavorite() {
   width: 100%;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: #f1eadb;
+  background: var(--bg);
 }
 
 .rn-product-image { width: 100%; height: 100%; padding: 8px; object-fit: contain; transition: transform var(--dur) var(--ease); }

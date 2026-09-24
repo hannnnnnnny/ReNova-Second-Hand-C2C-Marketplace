@@ -121,7 +121,7 @@ function checkout() {
             <div class="row-wrap">
               <span class="badge">{{ listing.category?.icon }} {{ listing.category?.name }}</span>
               <span class="badge badge-info">{{ t(`condition.${listing.condition}`) }}</span>
-              <span v-if="listing.negotiable" class="badge badge-accent">{{ t('common.negotiable') }}</span>
+              <span v-if="listing.negotiable" class="badge badge-info">{{ t('common.negotiable') }}</span>
               <span v-if="listing.location" class="badge badge-muted">📍 {{ listing.location }}</span>
             </div>
           </div>

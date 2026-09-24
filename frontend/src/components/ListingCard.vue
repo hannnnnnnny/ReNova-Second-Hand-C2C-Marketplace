@@ -94,8 +94,8 @@ function toggleFavorite() {
 .rn-product-link { display: block; color: inherit; }
 .rn-product-link:hover { color: inherit; }
 .rn-product-link:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--primary) 62%, white);
-  outline-offset: -3px;
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
   border-radius: inherit;
 }
 

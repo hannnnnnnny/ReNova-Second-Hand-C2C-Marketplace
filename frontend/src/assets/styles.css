@@ -462,11 +462,13 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 }
 .modal {
   background: var(--bg-elevated);
-  border: 3px solid var(--border-strong);
-  border-radius: var(--radius-lg);
-  width: 100%; max-width: 480px; padding: 30px;
-  box-shadow: var(--shadow-sm);
+  border: 0;
+  border-radius: 20px;
+  width: 100%; max-width: 480px; padding: 32px;
+  box-shadow: var(--shadow-lg);
+  animation: modal-in var(--dur) var(--ease);
 }
+@keyframes modal-in { from { opacity: 0; transform: scale(0.96); } }
 
 /* Hamburger button — desktop hides it, mobile shows it. */
 .topbar-menu-toggle {

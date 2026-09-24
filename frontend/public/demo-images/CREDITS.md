@@ -30,3 +30,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `chunky-knit-jumper.jpg` | Toa Heftiba ([@heftiba](https://unsplash.com/@heftiba)) | https://unsplash.com/photos/mavrg7cLwbA |
 | `black-chelsea-boots.jpg` | Lachlan Rennie ([@rennielachlan](https://unsplash.com/@rennielachlan)) | https://unsplash.com/photos/abv1EdKdRnU |
 | `white-leather-sneakers.jpg` | SJ ([@uxsj_ph](https://unsplash.com/@uxsj_ph)) | https://unsplash.com/photos/0Xu_fMEc_iw |
+| `converse-high-tops.jpg` | Maria Fernanda Pissioli ([@mxpissioli](https://unsplash.com/@mxpissioli)) | https://unsplash.com/photos/sd-VmUUrdrw |

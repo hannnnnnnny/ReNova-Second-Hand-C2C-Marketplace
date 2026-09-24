@@ -148,7 +148,9 @@ const rawListings = [
   { id: 21, sellerId: 4, categoryId: 3, title: 'Black Leather Chelsea Boots', img: 'black-chelsea-boots.jpg', price: 90, originalPrice: 260, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 96, favs: 15, age: 3,
     desc: 'Black leather Chelsea boots with elastic side panels, men\'s UK 9. Resoled once; uppers polished, with light creasing across the toe.' },
   { id: 22, sellerId: 3, categoryId: 3, title: 'Lacoste White Leather Sneakers', img: 'white-leather-sneakers.jpg', price: 55, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 77, favs: 12, age: 17,
-    desc: 'Lacoste white leather court sneakers with green embroidered branding, women\'s US 8. Worn a few times; soles still clean. Original box not included.' }
+    desc: 'Lacoste white leather court sneakers with green embroidered branding, women\'s US 8. Worn a few times; soles still clean. Original box not included.' },
+  { id: 23, sellerId: 3, categoryId: 3, title: 'Converse Chuck Taylor High-Tops', img: 'converse-high-tops.jpg', price: 45, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 83, favs: 11, age: 21,
+    desc: 'Black canvas Converse Chuck Taylor All Star high-tops, men\'s US 7 / women\'s US 9. Canvas and laces are clean; light scuffs on the rubber toe caps.' }
 ]
 
 const favorites = new Set([2, 5])

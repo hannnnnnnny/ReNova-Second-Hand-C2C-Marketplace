@@ -1,8 +1,12 @@
 # ReNova on Azure
 
-Live site: https://renova.ambitiousground-6d474fa7.newzealandnorth.azurecontainerapps.io/
+Site URL (stopped at user request on 15 September 2026): https://renova.ambitiousground-6d474fa7.newzealandnorth.azurecontainerapps.io/
 
 Deployed on 9 September 2026 to the Azure for Students subscription. The frontend is Vue served by Nginx, proxying `/api` and `/uploads` to the Java container in the same Container App. Payments and shipping remain simulated; authentication and stored data are real. Production does not seed demo accounts. Users should register their own accounts.
+
+## Shutdown — 15 September 2026
+
+At the user’s request, the active Container App revision `renova--0000002` was deactivated and MySQL stop was requested. Verified MySQL `state=Stopped` and no active Container App revisions. Data and storage are retained; no resources were deleted. Azure automatically restarts a stopped MySQL Flexible Server after 30 days. Storage can still accrue charges. UI refinements are saved locally and were not deployed.
 
 ## Resources
 

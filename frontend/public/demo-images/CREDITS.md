@@ -15,3 +15,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `gold-jhumka-earrings.jpg` | v.govindaraj raj ([@aakashstudio](https://unsplash.com/@aakashstudio)) | https://unsplash.com/photos/mMY40tE1QG4 |
 | `grey-knit-running-shoes.jpg` | Martin Katler ([@martinkatler](https://unsplash.com/@martinkatler)) | https://unsplash.com/photos/Y4fKN-RlMV4 |
 | `yoga-mat-cork-blocks.jpg` | Samantha Sheppard ([@samsheppardphoto](https://unsplash.com/@samsheppardphoto)) | https://unsplash.com/photos/b8Q5fHBsyik |
+| `brown-weekender-duffel.jpg` | Erol Ahmed ([@erol](https://unsplash.com/@erol)) | https://unsplash.com/photos/9XiN0r2NWSM |

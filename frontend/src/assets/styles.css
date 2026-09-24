@@ -621,8 +621,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 }
 /* Account forms (login/signup), shared so both pages stay identical. */
 .account-form { display: grid; }
-.account-field { display: grid; gap: 7px; margin-bottom: 17px; }
-.account-field label { color: var(--text); font-size: 13px; font-weight: 750; }
+.account-field { display: grid; gap: 8px; margin-bottom: 20px; }
+.account-field label { color: var(--text); font-size: 14px; font-weight: 600; }
 .account-field input { width: 100%; min-width: 0; height: 46px; padding: 0 13px; border: 1px solid var(--border-strong); border-radius: 11px; background: var(--bg-elevated); color: var(--text); font: inherit; }
 .account-field input:focus { outline: 3px solid var(--primary-soft); border-color: var(--primary); }
 .account-error { margin: 0 0 16px; padding: 11px 13px; border: 1px solid #c96755; border-radius: 10px; background: #fff1ed; color: #8e3022; font-size: 13px; line-height: 1.45; }

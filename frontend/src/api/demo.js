@@ -105,8 +105,8 @@ const categories = [
 const categoryById = (id) => categories.find((c) => c.id === id) || categories[0]
 
 const rawListings = [
-  { id: 1, sellerId: 1, categoryId: 1, title: 'Silk Wrap Dress', img: 'fashion-dress.jpg', price: 68, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Auckland', views: 142, favs: 18,
-    desc: 'Elegant silk wrap dress, worn twice for events. No marks, freshly dry-cleaned. Size 10.' },
+  { id: 1, sellerId: 1, categoryId: 1, title: 'Satin Wrap Dress', img: 'satin-wrap-dress.jpg', price: 68, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Auckland', views: 142, favs: 18, age: 3,
+    desc: 'Chocolate-brown satin wrap dress with long sleeves and a tie waist. Worn twice to weddings and dry-cleaned since. Size 10, runs slightly small.' },
   { id: 2, sellerId: 1, categoryId: 4, title: 'Leather Tote Bag', img: 'fashion-bag.jpg', price: 95, originalPrice: 240, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 98, favs: 12,
     desc: 'Full-grain leather tote with a roomy interior. Light patina, all zips work perfectly.' },
   { id: 3, sellerId: 1, categoryId: 1, title: 'Tailored Wool Blazer', img: 'fashion-blazer.jpg', price: 54, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 76, favs: 7,

@@ -44,3 +44,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `birch-dining-chair.jpg` | Hongly Oung ([@hongly_9](https://unsplash.com/@hongly_9)) | https://unsplash.com/photos/iBxQvOLuKb4 |
 | `hex-dumbbells-5kg.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/H-qxKCedhcc |
 | `mint-bike-helmet.jpg` | Waldemar Brandt ([@waldemarbrandt67w](https://unsplash.com/@waldemarbrandt67w)) | https://unsplash.com/photos/lUP7f9ApvlY |
+| `blue-tennis-racket.jpg` | Hoi Pham ([@hprobotic](https://unsplash.com/@hprobotic)) | https://unsplash.com/photos/eLZwsPO8cCQ |

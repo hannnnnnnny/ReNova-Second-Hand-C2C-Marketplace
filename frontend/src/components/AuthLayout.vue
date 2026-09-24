@@ -36,7 +36,7 @@ defineProps({
   overflow: hidden; border: 0; border-radius: 24px;
   background: var(--bg-elevated); box-shadow: var(--shadow);
 }
-.auth-intro { padding: clamp(30px, 5vw, 56px); background: var(--primary-soft); }
+.auth-intro { padding: clamp(32px, 5vw, 56px); background: var(--bg-elevated); border-right: 1px solid var(--border); }
 .auth-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font-weight: 800; }
 .auth-brand span {
   width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%;

@@ -221,6 +221,7 @@ function toggleFavorite() {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rn-product-card { transition: none; }
+  .rn-product-card, .rn-product-image { transition: none; }
+  .rn-product-card:hover .rn-product-image { transform: none; }
 }
 </style>

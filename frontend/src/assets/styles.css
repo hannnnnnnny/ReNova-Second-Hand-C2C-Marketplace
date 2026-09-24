@@ -139,7 +139,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   box-shadow: var(--focus-ring);
 }
 .textarea { min-height: 130px; resize: vertical; }
-.checkbox { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
+.checkbox { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; }
+.checkbox input, input[type="checkbox"], input[type="radio"] { accent-color: var(--primary); }
 
 /* Cards and surfaces */
 .card {

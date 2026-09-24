@@ -271,16 +271,16 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
 .tab {
   background: transparent; border: 0;
-  padding: 10px 16px; font-weight: 700; font-size: 14px;
+  padding: 12px 16px; font-weight: 500; font-size: 15px;
   color: var(--text-soft);
-  border-bottom: 3px solid transparent;
-  margin-bottom: -3px;
-  border-radius: 12px 12px 0 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
+.tab:hover { color: var(--text); }
 .tab.is-active {
-  color: var(--primary-strong);
-  border-bottom-color: var(--primary);
-  background: var(--primary-soft);
+  color: var(--text);
+  border-bottom-color: var(--text);
 }
 
 /* Star rating — sparkles */

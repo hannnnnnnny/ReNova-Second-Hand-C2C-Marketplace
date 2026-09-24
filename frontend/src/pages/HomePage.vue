@@ -19,7 +19,7 @@ onMounted(load)
     <div class="container">
       <section class="home-intro" aria-labelledby="home-title">
         <div class="intro-copy">
-          <p class="eyebrow"><Leaf :size="15" aria-hidden="true" />{{ t('marketplaceUi.eyebrow') }}</p>
+          <p class="eyebrow">{{ t('marketplaceUi.eyebrow') }}</p>
           <h1 id="home-title">{{ t('marketplaceUi.heroTitle') }}</h1>
           <p class="intro-body">{{ t('marketplaceUi.heroBody') }}</p>
           <div class="intro-actions">
@@ -90,7 +90,7 @@ onMounted(load)
 .home-page { padding-top: 24px; padding-bottom: 56px; min-height: auto; }
 .home-intro { display: grid; grid-template-columns: 1fr; justify-items: center; text-align: center; overflow: hidden; border-radius: 24px; background: var(--bg-elevated); min-height: 328px; }
 .intro-copy { align-self: center; padding: 80px 32px 24px; display: flex; flex-direction: column; align-items: center; }
-.eyebrow { display: flex; align-items: center; gap: 8px; color: var(--primary-strong); font-size: 12px; font-weight: 600; letter-spacing: .055em; margin: 0 0 14px; }
+.eyebrow { color: var(--text-muted); font-size: 17px; font-weight: 600; letter-spacing: -.01em; margin: 0 0 12px; }
 .intro-copy h1 { max-width: 760px; font-size: clamp(44px, 7vw, 80px); line-height: 1.05; letter-spacing: -.03em; text-wrap: balance; }
 .intro-body { margin: 20px auto 32px; max-width: 560px; color: var(--text-muted); font-size: 21px; line-height: 1.45; }
 .intro-actions { display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }

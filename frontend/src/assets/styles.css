@@ -625,7 +625,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .account-field label { color: var(--text); font-size: 14px; font-weight: 600; }
 .account-field input { width: 100%; min-width: 0; height: 50px; padding: 0 16px; border: 1px solid transparent; border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 17px; transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease); }
 .account-field input:focus { outline: none; border-color: var(--primary); background: var(--bg-elevated); box-shadow: var(--focus-ring); }
-.account-error { margin: 0 0 16px; padding: 11px 13px; border: 1px solid #c96755; border-radius: 10px; background: #fff1ed; color: #8e3022; font-size: 13px; line-height: 1.45; }
+.account-error { margin: 0 0 20px; padding: 12px 16px; border: 0; border-radius: var(--radius); background: var(--danger-soft); color: var(--danger); font-size: 14px; line-height: 1.45; }
 .account-submit { min-height: 46px; border: 1px solid var(--primary-strong); border-radius: 11px; background: var(--primary); color: white; font: inherit; font-weight: 800; cursor: pointer; }
 .account-submit:hover:not(:disabled) { background: var(--primary-strong); }
 .account-submit:focus-visible { outline: 3px solid var(--primary-soft); outline-offset: 2px; }

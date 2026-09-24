@@ -184,7 +184,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .bold  { font-weight: 700; }
 .text-right { text-align: right; }
 .text-center { text-align: center; }
-.divider { border-top: 2px dashed var(--border); margin: 18px 0; }
+.divider { border-top: 1px solid var(--border); margin: 24px 0; }
 .grow { flex: 1; }
 
 /* Grid utilities */

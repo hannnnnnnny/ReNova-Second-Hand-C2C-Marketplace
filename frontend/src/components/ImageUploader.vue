@@ -253,7 +253,7 @@ function moveTo(index, dir) {
 .thumb-btn:active:not(:disabled) { transform: scale(0.96); }
 .thumb-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .thumb-btn-danger {
-  background: var(--accent-soft); border-color: #b85731; box-shadow: 0 2px 0 #b85731; color: #8b3a26;
+  background: var(--danger-soft); color: var(--danger);
 }
 
 @media (max-width: 760px) {

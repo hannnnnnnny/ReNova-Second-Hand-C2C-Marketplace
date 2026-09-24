@@ -244,11 +244,10 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .nav-actions .btn { font-weight: 400; }
 
 .locale-switch {
-  display: inline-flex;
+  display: inline-flex; gap: 2px; padding: 2px;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
   overflow: hidden;
-  background: var(--bg-elevated);
+  background: var(--bg-muted);
 }
 .locale-switch button {
   background: transparent; border: 0;

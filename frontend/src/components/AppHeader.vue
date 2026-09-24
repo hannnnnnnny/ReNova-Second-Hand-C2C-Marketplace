@@ -97,7 +97,7 @@ onMounted(fetchUnread)
           </div>
         </template>
         <template v-else>
-          <RouterLink :to="{ name: 'login' }" class="btn btn-outline btn-sm">{{ t('common.login') }}</RouterLink>
+          <RouterLink :to="{ name: 'login' }" class="btn btn-ghost btn-sm">{{ t('common.login') }}</RouterLink>
           <RouterLink :to="{ name: 'signup' }" class="btn btn-primary btn-sm">{{ t('common.signup') }}</RouterLink>
         </template>
       </nav>

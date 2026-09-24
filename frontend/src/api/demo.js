@@ -156,7 +156,9 @@ const rawListings = [
   { id: 25, sellerId: 2, categoryId: 3, title: 'Leather Hiking Boots', img: 'leather-hiking-boots.jpg', price: 80, originalPrice: 260, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 74, favs: 10, age: 9,
     desc: 'Brown leather and suede hiking boots with lugged soles, men\'s US 10. About two seasons of weekend tramping; waterproofing reapplied and laces replaced.' },
   { id: 26, sellerId: 3, categoryId: 4, title: 'Mustard Canvas Rucksack', img: 'mustard-canvas-rucksack.jpg', price: 45, originalPrice: 130, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 55, favs: 8, age: 18,
-    desc: 'Mustard canvas rucksack with leather trims, a drawstring top and two front pockets, about 25 litres. Some honest outdoor wear on the base; straps and buckles are solid.' }
+    desc: 'Mustard canvas rucksack with leather trims, a drawstring top and two front pockets, about 25 litres. Some honest outdoor wear on the base; straps and buckles are solid.' },
+  { id: 27, sellerId: 3, categoryId: 4, title: 'Brown Leather Bifold Wallet', img: 'brown-leather-wallet.jpg', price: 25, originalPrice: 80, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 37, favs: 5, age: 22,
+    desc: 'Slim bifold wallet in brown pull-up leather with six card slots and a note pocket. Used for a month before I switched to a phone-case wallet.' }
 ]
 
 const favorites = new Set([2, 5])

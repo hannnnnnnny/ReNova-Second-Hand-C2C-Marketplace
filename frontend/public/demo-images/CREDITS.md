@@ -34,3 +34,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `brown-penny-loafers.jpg` | Husien Bisky ([@husien_bisky1](https://unsplash.com/@husien_bisky1)) | https://unsplash.com/photos/xPpfEQe0ZiY |
 | `leather-hiking-boots.jpg` | Clay Banks ([@claybanks](https://unsplash.com/@claybanks)) | https://unsplash.com/photos/BSL837tTPAw |
 | `mustard-canvas-rucksack.jpg` | Adam Hornyak ([@adamhornyak](https://unsplash.com/@adamhornyak)) | https://unsplash.com/photos/7e-VK6U-3Fs |
+| `brown-leather-wallet.jpg` | Kisetsu Co ([@kisetsuco](https://unsplash.com/@kisetsuco)) | https://unsplash.com/photos/Xbjf9nnEQ4s |

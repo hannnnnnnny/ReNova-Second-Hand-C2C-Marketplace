@@ -329,8 +329,9 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 }
 .chat-list-item {
   padding: 14px 14px;
-  border-bottom: 2px dashed var(--border);
+  border-bottom: 1px solid var(--border);
   display: flex; gap: 12px; cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease);
   text-decoration: none; color: inherit;
 }
 .chat-list-item:last-child { border-bottom: 0; }

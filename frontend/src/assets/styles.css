@@ -487,6 +487,9 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   transition: transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
 }
 .topbar-menu-toggle:active { transform: scale(0.96); }
+.topbar-menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.topbar-menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.topbar-menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
 
 /* ============================================
    Mobile pass — tablet & phone

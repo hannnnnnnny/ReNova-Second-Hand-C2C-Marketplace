@@ -160,12 +160,11 @@ onMounted(load)
 .profile-hero-meta { min-width: 0; }
 .profile-hero-label {
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--primary-strong);
-  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
 }
 .profile-hero-name {
   font-family: var(--font-display);

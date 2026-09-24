@@ -144,9 +144,9 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 
 /* Cards and surfaces */
 .card {
-  background: var(--bg-elevated); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 22px;
-  box-shadow: var(--shadow-sm);
+  background: var(--bg-elevated); border: 0;
+  border-radius: var(--radius-lg); padding: 28px;
+  box-shadow: var(--shadow);
 }
 .panel {
   background: var(--bg-elevated);

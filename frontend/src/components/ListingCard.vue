@@ -88,11 +88,8 @@ function toggleFavorite() {
   transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur) var(--ease);
 }
 
-.rn-product-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--border);
-  box-shadow: 0 8px 22px rgba(74, 58, 34, 0.1);
-}
+.rn-product-card:hover { box-shadow: var(--shadow-lg); }
+.rn-product-card:active { transform: scale(0.98); }
 
 .rn-product-link { display: block; color: inherit; }
 .rn-product-link:hover { color: inherit; }

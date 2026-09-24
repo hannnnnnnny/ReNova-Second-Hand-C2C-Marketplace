@@ -151,10 +151,11 @@ function toggleFavorite() {
 
 .rn-product-price-row { display: flex; min-width: 0; align-items: baseline; gap: 7px; }
 .rn-product-price {
-  color: var(--primary-strong);
+  color: var(--text);
   font-family: var(--font-display);
   font-size: 19px;
-  font-weight: 800;
+  font-weight: 600;
+  letter-spacing: -.01em;
   line-height: 1.1;
 }
 

@@ -47,9 +47,11 @@ input {
 input:focus { outline: none; border-color: var(--primary); background: var(--bg-elevated); box-shadow: var(--focus-ring); }
 button {
   position: absolute; top: 50%; right: 5px; width: 38px; height: 38px; transform: translateY(-50%);
-  display: grid; place-items: center; border: 0; border-radius: 9px; color: var(--text-soft); background: transparent; cursor: pointer;
+  display: grid; place-items: center; border: 0; border-radius: 50%; color: var(--text-soft); background: transparent; cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
-button:hover { color: var(--primary-strong); background: var(--primary-soft); }
+button:hover { color: var(--text); background: rgba(0, 0, 0, 0.05); }
+button:active { transform: translateY(-50%) scale(0.94); }
 button:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
 .password-help { color: var(--text-soft); font-size: 12px; }
 </style>

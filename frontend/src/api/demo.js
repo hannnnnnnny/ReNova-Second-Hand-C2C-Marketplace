@@ -141,7 +141,7 @@ const toSummary = (l) => ({
   status: l.status,
   viewCount: l.views,
   favoriteCount: l.favs,
-  createdAt: daysAgo(l.id * 3),
+  createdAt: daysAgo(l.age ?? l.id * 3),
   category: categoryById(l.categoryId),
   seller: publicUser(users[l.sellerId])
 })

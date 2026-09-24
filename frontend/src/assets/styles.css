@@ -542,7 +542,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
     visibility: visible;
     transition: transform var(--dur) var(--ease), visibility 0s linear 0s;
   }
-  .nav-actions .btn { width: 100%; justify-content: flex-start; }
+  .nav-actions .btn { width: 100%; justify-content: flex-start; min-height: 48px; font-size: 17px; }
   .nav-actions .locale-switch { align-self: center; }
 
   /* Account dropdown floats in-place inside the drawer instead of overlaying */

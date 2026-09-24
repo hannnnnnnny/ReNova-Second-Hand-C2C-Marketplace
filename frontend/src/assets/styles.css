@@ -383,9 +383,12 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
   box-shadow: var(--shadow-lg);
   min-width: 260px; max-width: min(380px, calc(100vw - 32px));
 }
-.toast.success { background: var(--primary-soft); color: var(--primary-strong); border-color: var(--primary-strong); box-shadow: var(--shadow-sm); }
-.toast.error   { background: var(--accent-soft); color: #8b3a26; border-color: #b85731; box-shadow: 0 4px 0 #b85731, var(--shadow-lg); }
-.toast.info    { background: #d9eef5; color: #2c6480; border-color: #5a96b3; box-shadow: 0 4px 0 #5a96b3, var(--shadow-lg); }
+.toast { display: flex; align-items: center; gap: 10px; }
+.toast::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--text-soft); flex-shrink: 0; }
+.toast.success::before { background: var(--success); }
+.toast.error::before   { background: var(--danger); }
+.toast.info::before    { background: var(--primary); }
+.toast.error { color: var(--danger); }
 
 /* Timeline */
 .timeline { display: flex; flex-direction: column; gap: 20px; }

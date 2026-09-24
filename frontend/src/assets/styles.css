@@ -13,11 +13,13 @@
   --text-muted: #6e6e73;
   --text-soft: #6e6e73;
 
-  --primary: #28754c;          /* leafy grass green */
-  --primary-strong: #205e3d;   /* shaded green */
-  --primary-soft: #e5eddf;     /* mint pillow */
-  --accent: #e07a5f;           /* peach / coral fruit */
-  --accent-soft: #fde2d4;
+  --primary: #0071e3;
+  --primary-hover: #0077ed;
+  --primary-strong: #0066cc;   /* link text: stronger contrast than #0071e3 */
+  --primary-soft: #e8f2fc;
+  /* Accent collapses onto black so the palette stays black/white/gray + blue. */
+  --accent: #1d1d1f;
+  --accent-soft: #e8e8ed;
   --danger: #d05f5a;
   --warning: #e2a13a;
   --success: #28754c;

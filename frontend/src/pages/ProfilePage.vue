@@ -109,9 +109,8 @@ onMounted(load)
         <div v-else-if="reviews.length === 0" class="empty-state">{{ t('common.noReviews') }}</div>
         <div v-else class="reviews-grid">
           <article
-            v-for="(r, i) in reviews" :key="r.id"
+            v-for="r in reviews" :key="r.id"
             class="review-pullquote"
-            :style="{ '--tilt': `${(i % 2 === 0 ? -0.6 : 0.8)}deg` }"
           >
             <div class="review-mark" aria-hidden="true">“</div>
             <p class="review-text">{{ r.comment || t('profile.noComment') }}</p>
@@ -281,15 +280,12 @@ onMounted(load)
 .review-pullquote {
   position: relative;
   background: var(--bg-elevated);
-  border: 2px solid var(--border-strong);
+  border: 0;
   border-radius: var(--radius-lg);
-  padding: 24px 22px 20px;
-  box-shadow: 0 4px 0 var(--border-strong);
-  transform: rotate(var(--tilt, 0deg));
-  transition: transform 160ms ease;
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
   display: flex; flex-direction: column; gap: 12px;
 }
-.review-pullquote:hover { transform: rotate(0deg) translateY(-2px); }
 .review-mark {
   position: absolute; top: -18px; left: 18px;
   width: 44px; height: 44px;
@@ -347,7 +343,7 @@ onMounted(load)
   .stat-num { font-size: 1.9rem; }
 
   .reviews-grid { grid-template-columns: 1fr; gap: 18px; }
-  .review-pullquote { transform: rotate(0deg); padding: 22px 20px 18px; }
+  .review-pullquote { padding: 24px 20px; }
   .review-mark { width: 40px; height: 40px; font-size: 28px; left: 14px; top: -16px; }
 }
 </style>

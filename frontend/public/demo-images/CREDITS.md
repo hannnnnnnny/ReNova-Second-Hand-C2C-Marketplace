@@ -12,3 +12,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `tan-leather-tote.jpg` | Ugluk Potroshitel ([@uglug](https://unsplash.com/@uglug)) | https://unsplash.com/photos/XwjrPFW7xw0 |
 | `check-wool-blazer.jpg` | Logan Weaver ([@lgnwvr](https://unsplash.com/@lgnwvr)) | https://unsplash.com/photos/JqRQtSr2MCI |
 | `silver-quilted-clutch.jpg` | Merve Sehirli Nasir ([@32steps](https://unsplash.com/@32steps)) | https://unsplash.com/photos/gpipTmDphMQ |
+| `gold-jhumka-earrings.jpg` | v.govindaraj raj ([@aakashstudio](https://unsplash.com/@aakashstudio)) | https://unsplash.com/photos/mMY40tE1QG4 |

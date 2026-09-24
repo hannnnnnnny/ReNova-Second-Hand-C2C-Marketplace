@@ -188,8 +188,8 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .grow { flex: 1; }
 
 /* Grid utilities */
-.grid { display: grid; gap: 22px; }
-.grid-listings { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.grid { display: grid; gap: 24px; }
+.grid-listings { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: start; }
 .grid-listings > * { min-width: 0; }
 @media (max-width: 1100px) { .grid-listings { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .grid-categories { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }

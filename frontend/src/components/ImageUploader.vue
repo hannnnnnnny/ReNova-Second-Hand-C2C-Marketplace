@@ -169,7 +169,7 @@ function moveTo(index, dir) {
   border-radius: var(--radius-lg);
   text-align: center;
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease, transform 120ms ease;
+  transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
   outline: none;
 }
 .dropzone:hover { background: var(--primary-soft); border-color: var(--primary-strong); }

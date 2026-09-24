@@ -433,12 +433,10 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 }
 .step-number {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--primary-soft); color: var(--primary-strong);
-  font-family: var(--font-display); font-weight: 800; font-size: 19px;
-  margin-bottom: 12px;
-  border: 1px solid var(--primary-strong);
-  box-shadow: var(--shadow-sm);
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--bg-muted); color: var(--text);
+  font-family: var(--font-display); font-weight: 600; font-size: 17px;
+  margin-bottom: 16px;
 }
 
 /* Offer card */

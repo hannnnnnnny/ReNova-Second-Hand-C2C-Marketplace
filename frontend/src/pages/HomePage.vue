@@ -111,7 +111,7 @@ onMounted(load)
 .home-feed-state { min-height: 280px; padding: 56px 24px; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; border-radius: var(--radius-lg); border: 0; background: var(--bg-elevated); }
 .home-feed-state > svg { color: var(--text-soft); margin-bottom: 16px; }
 .home-feed-state h3 { font-size: 21px; margin-bottom: 8px; }
-.home-feed-state p { max-width: 440px; color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+.home-feed-state p { max-width: 440px; color: var(--text-muted); font-size: 17px; margin-bottom: 24px; }
 .skeleton { background: var(--bg-muted); animation: breathe 1.5s ease-in-out infinite alternate; border-radius: 8px; }
 .skeleton-photo { aspect-ratio: 4/5; border-radius: 15px; }
 .skeleton-title { width: 80%; height: 13px; margin-top: 16px; }

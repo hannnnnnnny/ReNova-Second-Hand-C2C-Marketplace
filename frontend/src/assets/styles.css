@@ -191,7 +191,7 @@ p { margin: 0 0 .8rem; max-width: 70ch; }
 .grid { display: grid; gap: 24px; }
 .grid-listings { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: start; }
 .grid-listings > * { min-width: 0; }
-@media (max-width: 1100px) { .grid-listings { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 980px) { .grid-listings { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .grid-categories { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 .grid-2 { grid-template-columns: 1fr 1fr; }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }

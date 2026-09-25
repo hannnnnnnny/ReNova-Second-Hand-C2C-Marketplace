@@ -53,3 +53,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `navy-satin-dress-3.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/N38dj9YO_OA |
 | `navy-satin-dress-4.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/P2tOQRlqgTc |
 | `navy-satin-dress-5.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/GFEjX48i5vc |
+| `emerald-belted-dress-1.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/m4_8BUuFZNo |
+| `emerald-belted-dress-2.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/hEaljdMX3as |
+| `emerald-belted-dress-3.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/IEoi6afyJyI |
+| `emerald-belted-dress-4.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/euqyDvjNNqA |

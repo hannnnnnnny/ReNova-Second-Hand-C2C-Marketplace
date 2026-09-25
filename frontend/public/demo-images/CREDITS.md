@@ -44,3 +44,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `manual-coffee-grinder-2.jpg` | Ashkan Forouzani ([@ashkfor121](https://unsplash.com/@ashkfor121)) | https://unsplash.com/photos/UstAaR0YnnI |
 | `manual-coffee-grinder-3.jpg` | Ashkan Forouzani ([@ashkfor121](https://unsplash.com/@ashkfor121)) | https://unsplash.com/photos/8vDVlL1gmTE |
 | `manual-coffee-grinder-4.jpg` | Ashkan Forouzani ([@ashkfor121](https://unsplash.com/@ashkfor121)) | https://unsplash.com/photos/F6_0L2ChvqM |
+| `white-cotton-cushions-1.jpg` | Mediamodifier ([@mediamodifier](https://unsplash.com/@mediamodifier)) | https://unsplash.com/photos/rf3u4jac6go |
+| `white-cotton-cushions-2.jpg` | Mediamodifier ([@mediamodifier](https://unsplash.com/@mediamodifier)) | https://unsplash.com/photos/zTY9OwAfOrg |
+| `white-cotton-cushions-3.jpg` | Mediamodifier ([@mediamodifier](https://unsplash.com/@mediamodifier)) | https://unsplash.com/photos/3pvour1eAbU |
+| `white-cotton-cushions-4.jpg` | Mediamodifier ([@mediamodifier](https://unsplash.com/@mediamodifier)) | https://unsplash.com/photos/pTUFEJC2EGI |

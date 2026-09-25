@@ -150,7 +150,7 @@ onMounted(load)
             <div class="between"><span class="muted">{{ t('common.price') }}</span><span>{{ formatPrice(order.agreedPrice) }}</span></div>
             <div class="between"><span class="muted">{{ t('common.shipping') }}</span><span>{{ Number(order.shippingFee) > 0 ? formatPrice(order.shippingFee) : t('common.free') }}</span></div>
             <div class="divider"></div>
-            <div class="between"><span class="bold">{{ t('common.total') }}</span><span class="bold" style="font-family:var(--font-display); font-size:22px">{{ formatPrice(order.totalAmount) }}</span></div>
+            <div class="between"><span class="bold">{{ t('common.total') }}</span><span class="price-display">{{ formatPrice(order.totalAmount) }}</span></div>
             <div class="soft" style="margin-top: 12px; font-size: 12px">{{ t('orders.escrowHint') }}</div>
 
             <div class="divider"></div>

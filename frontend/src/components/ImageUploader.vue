@@ -164,21 +164,21 @@ function moveTo(index, dir) {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 6px;
   padding: 36px 24px;
-  background: var(--bg-elevated);
-  border: 3px dashed var(--border-strong);
+  background: var(--bg);
+  border: 1px solid transparent;
   border-radius: var(--radius-lg);
   text-align: center;
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease, transform 120ms ease;
+  transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
   outline: none;
 }
-.dropzone:hover { background: var(--primary-soft); border-color: var(--primary-strong); }
-.dropzone:focus-visible { box-shadow: 0 0 0 4px rgba(76, 175, 108, 0.25); }
+.dropzone:hover { background: var(--bg-muted); }
+.dropzone:active { transform: scale(0.99); }
+.dropzone:focus-visible { border-color: var(--primary); box-shadow: var(--focus-ring); }
 .dropzone.is-dragging {
   background: var(--primary-soft);
-  border-color: var(--primary-strong);
-  border-style: solid;
-  transform: scale(1.005);
+  border-color: var(--primary);
+  transform: scale(1.01);
 }
 .dropzone.is-disabled {
   cursor: not-allowed;
@@ -191,8 +191,9 @@ function moveTo(index, dir) {
 .dropzone-art { font-size: 38px; line-height: 1; margin-bottom: 4px; }
 .dropzone-headline {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: 1.1rem;
+  letter-spacing: -0.01em;
   color: var(--text);
 }
 .dropzone-sub {
@@ -209,10 +210,10 @@ function moveTo(index, dir) {
 .thumb-tile {
   margin: 0;
   background: var(--bg-elevated);
-  border: 2px solid var(--border-strong);
+  border: 0;
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 3px 0 var(--border-strong);
+  box-shadow: var(--shadow);
   display: flex; flex-direction: column;
 }
 .thumb-img {
@@ -223,38 +224,36 @@ function moveTo(index, dir) {
 }
 .cover-badge {
   position: absolute; top: 8px; left: 8px;
-  background: var(--primary);
+  background: rgba(29, 29, 31, 0.85);
   color: #fff;
-  font-size: 11px; font-weight: 800;
-  letter-spacing: 0.06em;
+  font-size: 11px; font-weight: 600;
   padding: 3px 9px;
   border-radius: 999px;
-  border: 1.5px solid var(--primary-strong);
-  text-transform: uppercase;
 }
 .thumb-actions {
   display: flex; gap: 4px;
   padding: 6px;
-  border-top: 2px dashed var(--border);
+  border-top: 1px solid var(--border);
   background: var(--bg-elevated);
 }
 .thumb-btn {
   flex: 1;
-  background: var(--bg-elevated);
-  border: 2px solid var(--border-strong);
-  border-radius: 10px;
+  background: var(--bg-muted);
+  border: 0;
+  border-radius: 8px;
+  min-height: 32px;
   padding: 4px 0;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
   font-size: 13px;
-  box-shadow: 0 2px 0 var(--border-strong);
-  transition: transform 100ms ease;
+  color: var(--text);
+  transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
 }
-.thumb-btn:hover:not(:disabled) { transform: translateY(-1px); }
-.thumb-btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 1px 0 var(--border-strong); }
+.thumb-btn:hover:not(:disabled) { background: #dcdce1; }
+.thumb-btn:active:not(:disabled) { transform: scale(0.96); }
 .thumb-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .thumb-btn-danger {
-  background: var(--accent-soft); border-color: #b85731; box-shadow: 0 2px 0 #b85731; color: #8b3a26;
+  background: var(--danger-soft); color: var(--danger);
 }
 
 @media (max-width: 760px) {

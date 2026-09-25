@@ -42,10 +42,10 @@ const stats = computed(() => {
     ? profile.value.averageRating.toFixed(1)
     : '—'
   return [
-    { num: activeCount, label: t('profile.statListings'), tone: 'green', tilt: -2 },
-    { num: ratingLabel, label: t('profile.statRating'), tone: 'gold', tilt: 1.5, stars: true },
-    { num: soldCount, label: t('profile.statSold'), tone: 'coral', tilt: -1 },
-    { num: profile.value.ratingCount, label: t('profile.statReviews'), tone: 'cream', tilt: 2 }
+    { num: activeCount, label: t('profile.statListings') },
+    { num: ratingLabel, label: t('profile.statRating'), stars: true },
+    { num: soldCount, label: t('profile.statSold') },
+    { num: profile.value.ratingCount, label: t('profile.statReviews') }
   ]
 })
 
@@ -79,8 +79,6 @@ onMounted(load)
         <div
           v-for="(s, i) in stats" :key="i"
           class="stat-tile"
-          :class="`stat-tone-${s.tone}`"
-          :style="{ '--tilt': `${s.tilt}deg` }"
         >
           <div class="stat-num">{{ s.num }}</div>
           <div class="stat-label">{{ s.label }}</div>
@@ -111,11 +109,9 @@ onMounted(load)
         <div v-else-if="reviews.length === 0" class="empty-state">{{ t('common.noReviews') }}</div>
         <div v-else class="reviews-grid">
           <article
-            v-for="(r, i) in reviews" :key="r.id"
+            v-for="r in reviews" :key="r.id"
             class="review-pullquote"
-            :style="{ '--tilt': `${(i % 2 === 0 ? -0.6 : 0.8)}deg` }"
           >
-            <div class="review-mark" aria-hidden="true">“</div>
             <p class="review-text">{{ r.comment || t('profile.noComment') }}</p>
             <footer class="review-meta">
               <Stars :rating="r.rating" :size="14" />
@@ -139,12 +135,8 @@ onMounted(load)
 </template>
 
 <style scoped>
-/* ====================================================================
-   Editorial profile — Anton-Skvortsov-flavored composition layered on
-   the existing Animal-Crossing palette. Big display type, asymmetric
-   hero, sticker-style stat tiles with subtle tilt, pull-quote reviews.
-   Stays usable on a 375px viewport.
-   ==================================================================== */
+/* Profile: large display name, flat stat tiles and quiet review cards.
+   Stays usable on a 375px viewport. */
 
 .profile-hero {
   position: relative;
@@ -152,42 +144,30 @@ onMounted(load)
   grid-template-columns: 1fr auto;
   gap: 28px;
   align-items: end;
-  padding: 36px 36px 28px;
-  margin-bottom: 28px;
-  background:
-    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.5) 0%, transparent 45%),
-    linear-gradient(135deg, var(--bg-elevated) 0%, var(--primary-soft) 100%);
-  border: 2px solid var(--border-strong);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 6px 0 var(--border-strong), var(--shadow);
+  padding: 48px;
+  margin-bottom: 32px;
+  background: var(--bg-elevated);
+  border: 0;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
   overflow: hidden;
-}
-.profile-hero::before {
-  /* A big faint number-tile glyph in the background, magazine-style */
-  content: "★";
-  position: absolute; top: -36px; right: 20px;
-  font-family: var(--font-display);
-  font-size: 220px; font-weight: 800;
-  color: rgba(74, 58, 34, 0.05);
-  line-height: 1; pointer-events: none;
 }
 
 .profile-hero-meta { min-width: 0; }
 .profile-hero-label {
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--primary-strong);
-  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
 }
 .profile-hero-name {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(2.4rem, 7vw, 4.4rem);
-  line-height: 0.95;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  font-size: clamp(2.4rem, 7vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
   margin: 0 0 18px;
   color: var(--text);
   word-break: break-word;
@@ -199,61 +179,43 @@ onMounted(load)
 }
 .chip {
   display: inline-flex; align-items: center; gap: 4px;
-  background: var(--bg-elevated);
-  border: 2px solid var(--border-strong);
+  background: var(--bg-muted);
+  border: 0;
   border-radius: 999px;
-  padding: 5px 12px;
-  font-size: 12.5px; font-weight: 700;
+  padding: 6px 14px;
+  font-size: 14px; font-weight: 400;
   color: var(--text);
-  box-shadow: 0 2px 0 var(--border-strong);
 }
 
 .profile-hero-quote {
   position: relative;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
   line-height: 1.45;
   max-width: 620px;
-  color: var(--text);
-  padding-left: 14px;
-  border-left: 4px solid var(--primary);
+  color: var(--text-muted);
   margin: 0;
 }
 .profile-hero-quote .quote-mark {
   font-family: var(--font-display);
-  font-size: 1.6em;
-  font-weight: 800;
-  margin-right: 4px;
-  color: var(--primary-strong);
+  font-size: 1.4em;
+  font-weight: 600;
+  margin-right: 2px;
+  color: var(--border-strong);
   vertical-align: -0.2em;
 }
 
 .profile-hero-avatar {
   flex-shrink: 0;
-  transform: rotate(-4deg);
   position: relative;
 }
 .profile-hero-avatar :deep(.avatar-lg) {
   width: 128px; height: 128px;
   font-size: 44px;
-  border-width: 4px;
-  box-shadow: 0 6px 0 var(--border-strong);
-}
-/* a little pinned-paper "tape" accent under the avatar */
-.profile-hero-avatar::after {
-  content: "";
-  position: absolute;
-  inset: auto 50% -10px 50%;
-  transform: translateX(-50%) rotate(2deg);
-  width: 56px; height: 14px;
-  background: rgba(224, 122, 95, 0.55);
-  border-radius: 4px;
-  box-shadow: var(--shadow-sm);
 }
 
-/* ---- Sticker stat strip ---- */
+/* ---- Stat strip ---- */
 .stat-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -261,60 +223,48 @@ onMounted(load)
   margin-bottom: 40px;
 }
 .stat-tile {
-  border-radius: var(--radius);
-  border: 2px solid var(--border-strong);
-  padding: 18px 16px 16px;
+  border-radius: var(--radius-lg);
+  border: 0;
+  padding: 24px;
   background: var(--bg-elevated);
-  box-shadow: 0 4px 0 var(--border-strong);
-  transform: rotate(var(--tilt, 0deg));
-  transition: transform 160ms ease;
+  box-shadow: var(--shadow-sm);
   text-align: left;
   min-height: 110px;
   display: flex; flex-direction: column; justify-content: space-between;
 }
-.stat-tile:hover { transform: rotate(0deg) translateY(-2px); }
 .stat-num {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(2rem, 4vw, 2.6rem);
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--text);
 }
 .stat-label {
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 400;
   color: var(--text-muted);
   margin-top: 10px;
 }
-.stat-tone-green { background: var(--primary-soft); border-color: var(--primary-strong); box-shadow: 0 4px 0 var(--primary-strong); }
-.stat-tone-green .stat-num { color: var(--primary-strong); }
-.stat-tone-coral { background: var(--accent-soft); border-color: #b85731; box-shadow: 0 4px 0 #b85731; }
-.stat-tone-coral .stat-num { color: #a14322; }
-.stat-tone-gold { background: #fbe9c0; border-color: #b58217; box-shadow: 0 4px 0 #b58217; }
-.stat-tone-gold .stat-num { color: #8a6315; }
-.stat-tone-cream { background: var(--bg-elevated); }
 
 /* ---- Section rules (replaces tabs) ---- */
-.profile-section { margin-bottom: 48px; }
+.profile-section { margin-bottom: 72px; }
 .section-rule {
   display: flex; align-items: baseline; gap: 14px;
-  margin: 0 0 22px;
-  padding-bottom: 12px;
-  border-bottom: 3px dashed var(--border-strong);
+  margin: 0 0 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
 }
 .section-label {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  letter-spacing: -0.02em;
   color: var(--text);
 }
 .section-count {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 400;
   font-size: 1.1rem;
   color: var(--text-soft);
   margin-left: auto;
@@ -329,45 +279,28 @@ onMounted(load)
 .review-pullquote {
   position: relative;
   background: var(--bg-elevated);
-  border: 2px solid var(--border-strong);
+  border: 0;
   border-radius: var(--radius-lg);
-  padding: 24px 22px 20px;
-  box-shadow: 0 4px 0 var(--border-strong);
-  transform: rotate(var(--tilt, 0deg));
-  transition: transform 160ms ease;
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
   display: flex; flex-direction: column; gap: 12px;
 }
-.review-pullquote:hover { transform: rotate(0deg) translateY(-2px); }
-.review-mark {
-  position: absolute; top: -18px; left: 18px;
-  width: 44px; height: 44px;
-  background: var(--primary);
-  color: #fff;
-  border: 2px solid var(--primary-strong);
-  border-radius: 50%;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 32px;
-  display: flex; align-items: center; justify-content: center;
-  line-height: 1; padding-bottom: 6px;
-  box-shadow: 0 3px 0 var(--primary-strong);
-}
 .review-text {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 1.05rem;
-  font-style: italic;
   line-height: 1.5;
   color: var(--text);
   margin: 6px 0 0;
 }
 .review-meta {
   display: flex; flex-direction: column; gap: 8px;
-  padding-top: 10px;
-  border-top: 2px dashed var(--border);
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
 }
 .review-author { display: flex; align-items: center; gap: 10px; }
 .review-author .soft { font-size: 12px; }
-.review-author a { color: var(--primary-strong); font-weight: 700; }
+.review-author a { color: var(--primary-strong); font-weight: 400; }
+.review-author a:hover { text-decoration: underline; }
 
 /* ============================================
    Mobile profile layout
@@ -375,14 +308,12 @@ onMounted(load)
 @media (max-width: 760px) {
   .profile-hero {
     grid-template-columns: 1fr;
-    padding: 24px 22px 22px;
+    padding: 32px 24px;
     gap: 20px;
     align-items: start;
   }
-  .profile-hero::before { font-size: 140px; top: -10px; right: 4px; }
   .profile-hero-avatar {
     order: -1;
-    transform: rotate(-3deg);
     align-self: flex-start;
   }
   .profile-hero-avatar :deep(.avatar-lg) { width: 96px; height: 96px; font-size: 34px; }
@@ -393,14 +324,10 @@ onMounted(load)
     grid-template-columns: repeat(2, 1fr);
     margin-bottom: 32px;
   }
-  .stat-tile {
-    min-height: 96px;
-    transform: rotate(calc(var(--tilt, 0deg) * 0.5));
-  }
+  .stat-tile { min-height: 96px; padding: 20px; }
   .stat-num { font-size: 1.9rem; }
 
   .reviews-grid { grid-template-columns: 1fr; gap: 18px; }
-  .review-pullquote { transform: rotate(0deg); padding: 22px 20px 18px; }
-  .review-mark { width: 40px; height: 40px; font-size: 28px; left: 14px; top: -16px; }
+  .review-pullquote { padding: 24px 20px; }
 }
 </style>

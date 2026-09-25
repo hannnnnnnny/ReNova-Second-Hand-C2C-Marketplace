@@ -1,5 +1,10 @@
+import { marketplaceUi } from './marketplace-ui'
+import { authUi } from './auth-ui'
+import { cardUi } from './card-ui'
+
 export const messages = {
   en: {
+    marketplaceUi: marketplaceUi.en, authUi: authUi.en, cardUi: cardUi.en,
     brand: {
       name: 'ReNova',
       tagline: 'Give well-loved things a second life.'
@@ -282,6 +287,7 @@ export const messages = {
     }
   },
   zh: {
+    marketplaceUi: marketplaceUi.zh, authUi: authUi.zh, cardUi: cardUi.zh,
     brand: {
       name: 'ReNova',
       tagline: '让心爱的物品有第二段生命。'

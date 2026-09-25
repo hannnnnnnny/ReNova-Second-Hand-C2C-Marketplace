@@ -78,7 +78,7 @@ java -jar backend/target/backend-0.0.1-SNAPSHOT.jar
 
 ## Frontend Hosting
 
-Vercel, Netlify, Cloudflare Pages, and static hosting platforms can serve the Vite build.
+Vercel, Netlify, Cloudflare Pages, and static hosting platforms can serve the Vite build. For the free, backend-less Vercel demo see [vercel-deployment.md](vercel-deployment.md).
 
 Required frontend variable for a backend-connected deployment:
 

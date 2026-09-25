@@ -1,62 +1,83 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
+import AuthLayout from '../components/AuthLayout.vue'
+import PasswordField from '../components/PasswordField.vue'
 import { useAuthStore } from '../stores/auth'
 import { useToastStore } from '../stores/toast'
-import { apiError } from '../api/client'
+import { DEMO_MODE } from '../api/demo'
+import { authErrorKey, safeAuthRedirect } from '../utils/auth'
 
 const { t } = useI18n()
 const auth = useAuthStore()
 const router = useRouter()
 const route = useRoute()
 const toast = useToastStore()
-
 const email = ref('')
 const password = ref('')
 const submitting = ref(false)
+const errorMessage = ref('')
 
 async function submit() {
+  if (submitting.value) return
   submitting.value = true
+  errorMessage.value = ''
   try {
     await auth.login({ email: email.value.trim(), password: password.value })
     toast.success(t('auth.signIn'))
-    const redirect = route.query.redirect ? String(route.query.redirect) : '/'
-    router.push(redirect)
-  } catch (err) { toast.error(apiError(err)) } finally { submitting.value = false }
+    await router.push(safeAuthRedirect(route.query.redirect))
+  } catch (error) {
+    errorMessage.value = t(`authUi.${authErrorKey(error)}`)
+  } finally {
+    submitting.value = false
+  }
 }
 
 function tryDemo(account) {
   email.value = account
   password.value = 'DemoPassword1!'
+  errorMessage.value = ''
 }
+
+const signupLink = computed(() => ({
+  name: 'signup',
+  query: route.query.redirect ? { redirect: safeAuthRedirect(route.query.redirect) } : {}
+}))
 </script>
 
 <template>
-  <main class="auth-shell">
-    <div class="auth-card">
-      <h1 style="margin-bottom: 8px">{{ t('auth.signIn') }}</h1>
-      <p class="muted" style="margin-bottom: 24px">{{ t('auth.signInSubtitle') }}</p>
-      <form @submit.prevent="submit">
-        <div class="field">
-          <label class="label">{{ t('auth.email') }}</label>
-          <input class="input" type="email" v-model="email" required />
-        </div>
-        <div class="field">
-          <label class="label">{{ t('auth.password') }}</label>
-          <input class="input" type="password" v-model="password" required />
-        </div>
-        <button class="btn btn-primary btn-lg btn-block" :disabled="submitting" type="submit">{{ submitting ? t('common.loading') : t('common.login') }}</button>
-      </form>
-
-      <div class="divider"></div>
-      <p class="muted text-center" style="font-size: 13px; margin-bottom: 8px">Demo accounts (password <code>DemoPassword1!</code>)</p>
-      <div class="row-wrap" style="justify-content: center; gap: 6px">
-        <button class="btn btn-ghost btn-sm" type="button" @click="tryDemo('ava@renova.local')">ava@renova.local</button>
-        <button class="btn btn-ghost btn-sm" type="button" @click="tryDemo('liam@renova.local')">liam@renova.local</button>
+  <AuthLayout :title="t('auth.signIn')" :subtitle="t('auth.signInSubtitle')" :note="t('authUi.loginNote')">
+    <form class="account-form" :aria-describedby="errorMessage ? 'auth-error' : undefined" @submit.prevent="submit">
+      <div class="account-field">
+        <label for="login-email">{{ t('auth.email') }}</label>
+        <input id="login-email" v-model="email" name="email" type="email" autocomplete="email" required />
       </div>
-
-      <p class="text-center muted" style="margin-top: 20px; font-size: 13px">{{ t('auth.noAccount') }} <RouterLink :to="{ name: 'signup' }" class="bold" style="color: var(--primary-strong)">{{ t('auth.createAccount') }}</RouterLink></p>
-    </div>
-  </main>
+      <PasswordField id="login-password" v-model="password" :label="t('auth.password')" autocomplete="current-password" />
+      <p v-if="errorMessage" id="auth-error" class="account-error" role="alert">{{ errorMessage }}</p>
+      <button class="account-submit" :disabled="submitting" type="submit">
+        {{ submitting ? t('authUi.signingIn') : t('common.login') }}
+      </button>
+    </form>
+    <section v-if="DEMO_MODE" class="demo-block" aria-labelledby="demo-title">
+      <h2 id="demo-title">{{ t('authUi.demoTitle') }}</h2>
+      <p>{{ t('authUi.demoHint') }}</p>
+      <div class="demo-actions">
+        <button type="button" @click="tryDemo('ava@renova.local')">{{ t('authUi.useDemoAccount', { name: 'Ava' }) }}</button>
+        <button type="button" @click="tryDemo('liam@renova.local')">{{ t('authUi.useDemoAccount', { name: 'Liam' }) }}</button>
+      </div>
+    </section>
+    <p class="account-switch">{{ t('auth.noAccount') }} <RouterLink :to="signupLink">{{ t('auth.createAccount') }}</RouterLink></p>
+  </AuthLayout>
 </template>
+
+<style scoped>
+.demo-block { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+.demo-block h2 { margin: 0 0 6px; font-size: 15px; letter-spacing: -.01em; }
+.demo-block p { color: var(--text-soft); font-size: 14px; line-height: 1.5; }
+.demo-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.demo-actions button { min-height: 36px; padding: 6px 16px; border: 0; border-radius: 999px; background: var(--bg-muted); color: var(--text); cursor: pointer; font: inherit; font-size: 14px; }
+.demo-actions button:hover { background: #dcdce1; }
+.demo-actions button:active { transform: scale(0.96); }
+.demo-actions button { transition: background-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
+</style>

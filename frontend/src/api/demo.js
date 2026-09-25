@@ -105,29 +105,90 @@ const categories = [
 const categoryById = (id) => categories.find((c) => c.id === id) || categories[0]
 
 const rawListings = [
-  { id: 1, sellerId: 1, categoryId: 1, title: 'Silk Wrap Dress', img: 'fashion-dress.jpg', price: 68, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Auckland', views: 142, favs: 18,
-    desc: 'Elegant silk wrap dress, worn twice for events. No marks, freshly dry-cleaned. Size 10.' },
-  { id: 2, sellerId: 1, categoryId: 4, title: 'Leather Tote Bag', img: 'fashion-bag.jpg', price: 95, originalPrice: 240, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 98, favs: 12,
-    desc: 'Full-grain leather tote with a roomy interior. Light patina, all zips work perfectly.' },
-  { id: 3, sellerId: 1, categoryId: 1, title: 'Tailored Wool Blazer', img: 'fashion-blazer.jpg', price: 54, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 76, favs: 7,
-    desc: 'Structured wool blazer, great for work. Minor wear on lining, exterior immaculate.' },
-  { id: 4, sellerId: 1, categoryId: 4, title: 'Beaded Clutch', img: 'fashion-clutch.jpg', price: 28, originalPrice: 70, condition: 'LIKE_NEW', status: 'RESERVED', loc: 'Auckland', views: 51, favs: 9,
-    desc: 'Hand-beaded evening clutch with chain strap. Stored in dust bag, like new.' },
-  { id: 5, sellerId: 1, categoryId: 4, title: 'Gold Drop Earrings', img: 'fashion-earrings.jpg', price: 22, originalPrice: 55, condition: 'NEW', status: 'ACTIVE', loc: 'Auckland', views: 63, favs: 11,
-    desc: 'Brand new gold-plated drop earrings, never worn. Hypoallergenic posts.' },
-  { id: 6, sellerId: 2, categoryId: 3, title: 'Running Sneakers', img: 'sports-sneaker.jpg', price: 60, originalPrice: 160, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 120, favs: 14,
-    desc: 'Cushioned running shoes, ~120km on them. Plenty of life left, cleaned and deodorised.' },
-  { id: 7, sellerId: 2, categoryId: 6, title: 'Yoga Mat + Strap', img: 'sports-mat.jpg', price: 18, originalPrice: 45, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 44, favs: 5,
-    desc: 'Non-slip 6mm yoga mat with carry strap. Wiped down, no tears.' },
-  { id: 8, sellerId: 2, categoryId: 6, title: 'Weekender Duffel', img: 'sports-duffel.jpg', price: 35, originalPrice: 90, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Wellington', views: 58, favs: 6,
-    desc: 'Water-resistant duffel, used on one trip. Shoe compartment and laptop sleeve.' },
-  { id: 9, sellerId: 2, categoryId: 5, title: 'Ceramic Mug Set (4)', img: 'home-cups.jpg', price: 24, originalPrice: 60, condition: 'NEW', status: 'ACTIVE', loc: 'Wellington', views: 39, favs: 4,
-    desc: 'Set of four handmade ceramic mugs, unused gift. Dishwasher safe.' },
-  { id: 10, sellerId: 2, categoryId: 5, title: 'Woven Throw Blanket', img: 'home-throw.jpg', price: 30, originalPrice: 80, condition: 'GOOD', status: 'SOLD', loc: 'Wellington', views: 71, favs: 8,
-    desc: 'Chunky knit throw, washed and cosy. Sold — kept for demo browsing.' }
+  { id: 1, sellerId: 1, categoryId: 1, title: 'Satin Wrap Dress', img: 'satin-wrap-dress.jpg', price: 68, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Auckland', views: 142, favs: 18, age: 3,
+    desc: 'Chocolate-brown satin wrap dress with long sleeves and a tie waist. Worn twice to weddings and dry-cleaned since. Size 10, runs slightly small.' },
+  { id: 2, sellerId: 1, categoryId: 4, title: 'Tan Leather Tote', img: 'tan-leather-tote.jpg', price: 95, originalPrice: 240, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 98, favs: 12, age: 6,
+    desc: 'Full-grain tan leather tote, about 38 x 34 cm, with long shoulder straps. The leather has softened into a natural patina; a couple of light scuffs on the base. Fits a 14-inch laptop.' },
+  { id: 3, sellerId: 1, categoryId: 2, title: 'Grey Check Wool Blazer', img: 'check-wool-blazer.jpg', price: 54, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 76, favs: 7, age: 9,
+    desc: 'Single-breasted two-button blazer in a grey and brown windowpane check, wool blend. Men\'s 40R: chest 104 cm, sleeve 63 cm. Light wear to the lining at the cuffs; no pulls on the outer fabric.' },
+  { id: 4, sellerId: 1, categoryId: 4, title: 'Silver Quilted Clutch', img: 'silver-quilted-clutch.jpg', price: 28, originalPrice: 70, condition: 'LIKE_NEW', status: 'RESERVED', loc: 'Auckland', views: 51, favs: 9, age: 12,
+    desc: 'Metallic silver quilted clutch with a zip top, 26 x 16 cm. Carried for one evening and kept in its dust bag. Clean interior with a small slip pocket.' },
+  { id: 5, sellerId: 1, categoryId: 4, title: 'Gold-tone Jhumka Earrings', img: 'gold-jhumka-earrings.jpg', price: 22, originalPrice: 55, condition: 'NEW', status: 'ACTIVE', loc: 'Auckland', views: 63, favs: 11, age: 15,
+    desc: 'Gold-tone bell jhumka earrings with red stone accents and a bead fringe, about 5 cm drop. Never worn - bought as a spare set for a wedding. Push-back posts.' },
+  { id: 6, sellerId: 2, categoryId: 3, title: 'Grey Knit Running Shoes', img: 'grey-knit-running-shoes.jpg', price: 60, originalPrice: 160, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 120, favs: 14, age: 4,
+    desc: 'Lightweight grey knit running shoes with a lime midsole flash, men\'s US 10. Around 120 km on them, mostly on a treadmill. Plenty of tread left; washed and deodorised.' },
+  { id: 7, sellerId: 2, categoryId: 6, title: 'Yoga Mat + Cork Blocks', img: 'yoga-mat-cork-blocks.jpg', price: 18, originalPrice: 45, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 44, favs: 5, age: 7,
+    desc: 'Sage green 6 mm yoga mat with two cork yoga blocks. The mat has no tears and still grips well; the blocks have minor edge marks. Wiped down with mat cleaner.' },
+  { id: 8, sellerId: 2, categoryId: 6, title: 'Brown Weekender Duffel', img: 'brown-weekender-duffel.jpg', price: 35, originalPrice: 90, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Wellington', views: 58, favs: 6, age: 10,
+    desc: 'Brown weekender, roughly 50 x 28 x 25 cm, with twin carry handles and a detachable shoulder strap. Used on one short trip with no marks inside or out. Fits as cabin baggage.' },
+  { id: 9, sellerId: 2, categoryId: 5, title: 'White Stacking Mugs (set of 3)', img: 'white-stacking-mugs.jpg', price: 24, originalPrice: 60, condition: 'NEW', status: 'ACTIVE', loc: 'Wellington', views: 39, favs: 4, age: 20,
+    desc: 'Three plain white porcelain mugs that stack neatly, about 350 ml each. Unused gift with no chips or crazing. Dishwasher and microwave safe.' },
+  { id: 10, sellerId: 2, categoryId: 5, title: 'Chunky Knit Throw', img: 'chunky-knit-throw.jpg', price: 30, originalPrice: 80, condition: 'GOOD', status: 'SOLD', loc: 'Wellington', views: 71, favs: 8, age: 24,
+    desc: 'Hand-knitted chunky throw in oatmeal, around 120 x 150 cm. Hand-washed cold and dried flat; still plump with no loose loops. Sold - kept for demo browsing.' },
+  { id: 11, sellerId: 5, categoryId: 1, title: 'Ivory Lace Sleeveless Dress', img: 'ivory-lace-dress.jpg', price: 38, originalPrice: 95, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 57, favs: 9, age: 2,
+    desc: 'Ivory sleeveless dress with a floral lace overlay, beaded waistband and full gathered skirt. Worn once for photos. Zip back, fully lined. Size 8.' },
+  { id: 12, sellerId: 3, categoryId: 1, title: 'Oversized Denim Jacket', img: 'oversized-denim-jacket.jpg', price: 45, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 88, favs: 13, age: 5,
+    desc: 'Mid-wash oversized denim trucker jacket with chest flap pockets. Soft, broken-in denim with natural fading at the seams; all buttons intact. Women\'s 12, fits roomy.' },
+  { id: 13, sellerId: 5, categoryId: 1, title: 'Grey Ribbed Knit Cardigan', img: 'grey-knit-cardigan.jpg', price: 32, originalPrice: 85, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 46, favs: 6, age: 8,
+    desc: 'Grey marl cardigan in a chunky rib knit with dark horn buttons. Wool blend, only ever hand-washed. Slight pilling under the arms. Size S-M.' },
+  { id: 14, sellerId: 5, categoryId: 1, title: 'Blush Tie-Front Blouse', img: 'blush-tie-front-blouse.jpg', price: 26, originalPrice: 69, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 33, favs: 4, age: 11,
+    desc: 'Sheer blush chiffon blouse with pintuck detail, a front tie and relaxed long sleeves. Worn a handful of times with no marks. Size 10.' },
+  { id: 15, sellerId: 4, categoryId: 2, title: 'Denim Jacket with Cord Collar', img: 'denim-jacket-cord-collar.jpg', price: 85, originalPrice: 220, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Hamilton', views: 104, favs: 16, age: 1,
+    desc: 'Dark indigo denim jacket with a brown corduroy collar. Worn a few times, so the denim is still crisp and dark. Men\'s M, chest 112 cm.' },
+  { id: 16, sellerId: 4, categoryId: 2, title: 'Button-down Shirts (bundle of 3)', img: 'button-down-shirts-bundle.jpg', price: 40, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 41, favs: 5, age: 13,
+    desc: 'Three cotton button-down shirts: white, pale blue and navy micro-print. Regular fit, men\'s M (39 cm collar). Freshly laundered and pressed; no stains or missing buttons.' },
+  { id: 17, sellerId: 4, categoryId: 2, title: 'Brown Leather Jacket', img: 'brown-leather-jacket.jpg', price: 120, originalPrice: 350, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 131, favs: 21, age: 6,
+    desc: 'Tan-brown leather jacket with a shirt collar and zip front. Supple leather with some creasing at the elbows that suits the style. Men\'s L. Conditioned last month.' },
+  { id: 18, sellerId: 4, categoryId: 2, title: 'Dark Wash Straight Jeans', img: 'dark-straight-jeans.jpg', price: 35, originalPrice: 110, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 52, favs: 4, age: 16,
+    desc: 'Dark wash straight-leg jeans in rigid cotton denim, men\'s 32 x 32. Light fading on the thighs; original hems with no fraying.' },
+  { id: 19, sellerId: 3, categoryId: 2, title: 'Plaid Cotton Shirt', img: 'plaid-cotton-shirt.jpg', price: 22, originalPrice: 70, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 29, favs: 3, age: 19,
+    desc: 'Soft cotton shirt in a blue, tan and cream plaid. Men\'s M. Washed many times, so it is lovely and soft; no holes or stains.' },
+  { id: 20, sellerId: 5, categoryId: 2, title: 'Chunky Knit Jumper', img: 'chunky-knit-jumper.jpg', price: 40, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 61, favs: 10, age: 14,
+    desc: 'Oatmeal chunky knit crew-neck jumper with dropped shoulders. Wool blend, hand-washed and dried flat. Unisex: fits a men\'s S or women\'s M.' },
+  { id: 21, sellerId: 4, categoryId: 3, title: 'Black Leather Chelsea Boots', img: 'black-chelsea-boots.jpg', price: 90, originalPrice: 260, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 96, favs: 15, age: 3,
+    desc: 'Black leather Chelsea boots with elastic side panels, men\'s UK 9. Resoled once; uppers polished, with light creasing across the toe.' },
+  { id: 22, sellerId: 3, categoryId: 3, title: 'Lacoste White Leather Sneakers', img: 'white-leather-sneakers.jpg', price: 55, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 77, favs: 12, age: 17,
+    desc: 'Lacoste white leather court sneakers with green embroidered branding, women\'s US 8. Worn a few times; soles still clean. Original box not included.' },
+  { id: 23, sellerId: 3, categoryId: 3, title: 'Converse Chuck Taylor High-Tops', img: 'converse-high-tops.jpg', price: 45, originalPrice: 120, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 83, favs: 11, age: 21,
+    desc: 'Black canvas Converse Chuck Taylor All Star high-tops, men\'s US 7 / women\'s US 9. Canvas and laces are clean; light scuffs on the rubber toe caps.' },
+  { id: 24, sellerId: 4, categoryId: 3, title: 'Brown Leather Penny Loafers', img: 'brown-penny-loafers.jpg', price: 70, originalPrice: 210, condition: 'GOOD', status: 'RESERVED', loc: 'Hamilton', views: 68, favs: 9, age: 12,
+    desc: 'Chestnut brown leather penny loafers with a stacked heel, men\'s UK 8. Worn to a few events, then conditioned and polished. Small scuff on the left heel counter.' },
+  { id: 25, sellerId: 2, categoryId: 3, title: 'Leather Hiking Boots', img: 'leather-hiking-boots.jpg', price: 80, originalPrice: 260, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 74, favs: 10, age: 9,
+    desc: 'Brown leather and suede hiking boots with lugged soles, men\'s US 10. About two seasons of weekend tramping; waterproofing reapplied and laces replaced.' },
+  { id: 26, sellerId: 3, categoryId: 4, title: 'Mustard Canvas Rucksack', img: 'mustard-canvas-rucksack.jpg', price: 45, originalPrice: 130, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 55, favs: 8, age: 18,
+    desc: 'Mustard canvas rucksack with leather trims, a drawstring top and two front pockets, about 25 litres. Some honest outdoor wear on the base; straps and buckles are solid.' },
+  { id: 27, sellerId: 3, categoryId: 4, title: 'Brown Leather Bifold Wallet', img: 'brown-leather-wallet.jpg', price: 25, originalPrice: 80, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 37, favs: 5, age: 22,
+    desc: 'Slim bifold wallet in brown pull-up leather with six card slots and a note pocket. Used for a month before I switched to a phone-case wallet.' },
+  { id: 28, sellerId: 4, categoryId: 4, title: 'Black Square Sunglasses', img: 'black-sunglasses.jpg', price: 30, originalPrice: 90, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 42, favs: 6, age: 25,
+    desc: 'Black square-frame sunglasses with dark grey tinted lenses. No scratches on the lenses and the hinges are tight. Comes with a soft pouch.' },
+  { id: 29, sellerId: 4, categoryId: 4, title: 'Minimalist Watch, Black Strap', img: 'minimalist-black-watch.jpg', price: 65, originalPrice: 190, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Hamilton', views: 89, favs: 14, age: 4,
+    desc: 'Minimalist quartz watch with a silver case, white dial and black leather strap. New battery fitted this month; glass unscratched.' },
+  { id: 30, sellerId: 5, categoryId: 5, title: 'Leafy Houseplant with Stand', img: 'houseplant-with-stand.jpg', price: 35, originalPrice: 75, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 64, favs: 12, age: 5,
+    desc: 'Healthy leafy houseplant in a terracotta pot, about 70 cm tall, with the wooden plant stand included. Easy care: bright indirect light, water weekly. Pickup only.' },
+  { id: 31, sellerId: 5, categoryId: 5, title: 'Ceramic Pineapple Table Lamp', img: 'pineapple-table-lamp.jpg', price: 35, originalPrice: 89, condition: 'GOOD', status: 'ACTIVE', loc: 'Dunedin', views: 48, favs: 7, age: 15,
+    desc: 'Cream ceramic pineapple-base table lamp with a fabric shade, about 45 cm tall. E27 fitting, bulb included. Tested and working; tiny glaze nick at the back.' },
+  { id: 32, sellerId: 3, categoryId: 5, title: 'Matte Black Gooseneck Kettle', img: 'gooseneck-kettle.jpg', price: 40, originalPrice: 120, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 59, favs: 9, age: 8,
+    desc: 'Matte black gooseneck kettle for pour-over coffee, about 1 litre, with a precise spout. Used for a few months, descaled, no dents.' },
+  { id: 33, sellerId: 2, categoryId: 5, title: 'Cast Iron Skillet (26 cm)', img: 'cast-iron-skillet.jpg', price: 30, originalPrice: 79, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 45, favs: 6, age: 11,
+    desc: 'Pre-seasoned 26 cm cast iron skillet. Well seasoned from regular use, with no rust or cracks. Great for flatbreads, steak and oven bakes.' },
+  { id: 34, sellerId: 5, categoryId: 5, title: 'Birch Dining Chair', img: 'birch-dining-chair.jpg', price: 60, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 53, favs: 8, age: 6,
+    desc: 'Scandinavian-style dining chair with a solid birch frame and curved plywood seat and back. Sturdy with no wobble; one faint mark on the seat. Pickup preferred.' },
+  { id: 35, sellerId: 2, categoryId: 6, title: 'Hex Dumbbells 5 kg (pair)', img: 'hex-dumbbells-5kg.jpg', price: 40, originalPrice: 80, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 66, favs: 9, age: 2,
+    desc: 'Pair of 5 kg rubber-coated hex dumbbells with knurled chrome handles. Home use only; the hex ends stop them rolling. Pickup or courier at cost.' },
+  { id: 36, sellerId: 2, categoryId: 6, title: 'Mint Bike Helmet', img: 'mint-bike-helmet.jpg', price: 30, originalPrice: 99, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Wellington', views: 38, favs: 4, age: 13,
+    desc: 'Mint green commuter bike helmet with a rear dial adjuster, size M (54-58 cm). No crashes or knocks; pads recently washed.' },
+  { id: 37, sellerId: 3, categoryId: 6, title: 'Blue Tennis Racket', img: 'blue-tennis-racket.jpg', price: 45, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 47, favs: 6, age: 17,
+    desc: 'Blue and white graphite tennis racket, grip size 2. Restrung this season with a fresh replacement grip. The bumper guard shows light court scuffs.' },
+  { id: 38, sellerId: 3, categoryId: 6, title: 'Graffiti Street Skateboard', img: 'graffiti-skateboard.jpg', price: 55, originalPrice: 140, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 72, favs: 11, age: 20,
+    desc: 'Complete street skateboard with a colourful graffiti deck, trucks and wheels. Grip tape is still sharp and the wheels have even wear. A good first board.' },
+  { id: 39, sellerId: 2, categoryId: 6, title: 'Basketball, Size 7', img: 'basketball-size-7.jpg', price: 20, originalPrice: 55, condition: 'GOOD', status: 'SOLD', loc: 'Wellington', views: 50, favs: 3, age: 23,
+    desc: 'Size 7 composite basketball with deep channels and good grip. Holds air well; some surface wear from outdoor courts. Sold - kept for demo browsing.' }
 ]
 
 const favorites = new Set([2, 5])
+
+// Days since the listing was posted; drives createdAt and the default "newest" sort.
+const listingAge = (l) => l.age ?? l.id * 3
 
 const toSummary = (l) => ({
   id: l.id,
@@ -141,7 +202,7 @@ const toSummary = (l) => ({
   status: l.status,
   viewCount: l.views,
   favoriteCount: l.favs,
-  createdAt: daysAgo(l.id * 3),
+  createdAt: daysAgo(listingAge(l)),
   category: categoryById(l.categoryId),
   seller: publicUser(users[l.sellerId])
 })
@@ -177,7 +238,7 @@ const rawConversations = [
   {
     id: 2, listingId: 1, buyerId: 3, sellerId: 1,
     messages: [
-      { senderId: 3, body: 'Is the silk wrap dress true to a size 10?', days: 1, mins: 0 },
+      { senderId: 3, body: 'Is the satin wrap dress true to a size 10?', days: 1, mins: 0 },
       { senderId: 1, body: 'Runs slightly small — a comfy 8 to 10.', days: 1, mins: 25 },
       { senderId: 3, body: 'Perfect, putting an offer in now!', days: 0, mins: 90, unreadFor: 'seller' }
     ]
@@ -354,7 +415,7 @@ function searchListings(params = {}) {
   if (params.sort === 'price_asc') items = [...items].sort((a, b) => a.price - b.price)
   else if (params.sort === 'price_desc') items = [...items].sort((a, b) => b.price - a.price)
   else if (params.sort === 'popular') items = [...items].sort((a, b) => b.favs - a.favs)
-  else items = [...items].sort((a, b) => b.id - a.id)
+  else items = [...items].sort((a, b) => listingAge(a) - listingAge(b) || b.id - a.id)
   return paginate(items.map(toSummary), params)
 }
 

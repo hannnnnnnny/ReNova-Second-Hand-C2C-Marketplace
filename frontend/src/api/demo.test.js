@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { demoAdapter } from './demo'
 
@@ -34,6 +36,20 @@ describe('demo adapter', () => {
     expect(res.content[0]).toMatchObject({ id: expect.any(Number), title: expect.any(String) })
     expect(res.content[0].seller).toHaveProperty('displayName')
     expect(res).toHaveProperty('totalElements')
+  })
+
+  it('sorts listings newest first by default', async () => {
+    const res = await call({ method: 'get', url: '/public/listings', params: { page: 0, size: 50 } })
+    const times = res.content.map((l) => Date.parse(l.createdAt))
+    expect(times).toEqual([...times].sort((a, b) => b - a))
+  })
+
+  it('ships an image file for every demo listing', async () => {
+    const res = await call({ method: 'get', url: '/public/listings', params: { page: 0, size: 100 } })
+    const publicDir = fileURLToPath(new URL('../../public/', import.meta.url))
+    for (const listing of res.content) {
+      expect(existsSync(publicDir + listing.coverImageUrl.replace(/^\//, ''))).toBe(true)
+    }
   })
 
   it('filters listings by category', async () => {

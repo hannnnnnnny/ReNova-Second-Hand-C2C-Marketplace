@@ -38,4 +38,12 @@ describe('avatarBackground', () => {
   it('always returns a hex color', () => {
     expect(avatarBackground('anything')).toMatch(/^#[0-9a-f]{6}$/i)
   })
+
+  it('only returns neutral grays', () => {
+    for (const name of ['Ava Chen', 'Liam', '', 'Zoë', '王小明']) {
+      const hex = avatarBackground(name).slice(1)
+      const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16))
+      expect(Math.max(r, g, b) - Math.min(r, g, b)).toBeLessThanOrEqual(8)
+    }
+  })
 })

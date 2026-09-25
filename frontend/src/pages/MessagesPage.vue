@@ -330,15 +330,15 @@ onMounted(async () => {
 .compose-section { display: flex; flex-direction: column; }
 .compose-anchor {
   display: flex; align-items: center; gap: 14px;
-  border: 1px solid var(--border-strong);
-  background: var(--bg-elevated);
-  border-radius: 14px;
+  border: 0;
+  background: var(--bg);
+  border-radius: var(--radius);
   padding: 12px 14px;
 }
 .compose-anchor .thumb {
   width: 64px; height: 64px; border-radius: 10px;
   background-size: cover; background-position: center;
-  background-color: #efeae0;
+  background-color: var(--bg-muted);
   flex-shrink: 0;
 }
 .compose-other-row {
@@ -349,20 +349,21 @@ onMounted(async () => {
   flex: 0 0 130px;
   display: flex; flex-direction: column; gap: 4px;
   background: var(--bg-elevated);
-  border: 1.5px solid var(--border-strong);
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   padding: 8px;
   cursor: pointer;
   text-align: left;
-  transition: border-color 120ms, transform 120ms;
+  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
 }
-.compose-other-card:hover { border-color: var(--primary); transform: translateY(-1px); }
-.compose-other-card.is-active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(76, 175, 108, 0.20); }
-.compose-other-card.is-pinned { border-style: dashed; }
+.compose-other-card:hover { border-color: var(--border-strong); }
+.compose-other-card:active { transform: scale(0.98); }
+.compose-other-card.is-active { border-color: var(--primary); box-shadow: var(--focus-ring); }
+.compose-other-card.is-pinned { background: var(--bg); }
 .compose-other-card .thumb {
   width: 100%; aspect-ratio: 1; border-radius: 8px;
   background-size: cover; background-position: center;
-  background-color: #efeae0;
+  background-color: var(--bg-muted);
 }
 .compose-other-card .title {
   font-size: 12px; line-height: 1.35;

@@ -217,8 +217,9 @@ const rawListings = [
   { id: 37, sellerId: 4, categoryId: 6, title: 'Adidas Football Boots + Match Ball', price: 70, originalPrice: 260, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 62, favs: 8, age: 12,
     imgs: ['adidas-football-boots-ball-1.jpg', 'adidas-football-boots-ball-2.jpg', 'adidas-football-boots-ball-3.jpg'],
     desc: 'Black Adidas Predator firm-ground football boots with the red collar, plus the Telstar match ball shown in the photos. One season of Saturday league.\n\n• Size: Men\'s US 9\n• Included: Boots and size 5 ball\n• Material: Synthetic upper, FG studs\n• Condition: Studs have plenty of life; ball holds air well\n• Pickup / shipping: Tracked courier from Hamilton' },
-  { id: 38, sellerId: 3, categoryId: 6, title: 'Graffiti Street Skateboard', img: 'graffiti-skateboard.jpg', price: 55, originalPrice: 140, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 72, favs: 11, age: 20,
-    desc: 'Complete street skateboard with a colourful graffiti deck, trucks and wheels. Grip tape is still sharp and the wheels have even wear. A good first board.' },
+  { id: 38, sellerId: 2, categoryId: 6, title: 'Adidas Star Match Ball (size 5)', price: 35, originalPrice: 90, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Wellington', views: 33, favs: 4, age: 16,
+    imgs: ['adidas-star-match-ball-1.jpg', 'adidas-star-match-ball-2.jpg', 'adidas-star-match-ball-3.jpg'],
+    desc: 'Adidas star-panel match ball in white and blue, thermally bonded for a true flight. Used for a few training sessions only.\n\n• Size: Size 5\n• Material: Thermally bonded PU panels\n• Condition: Holds air perfectly; no scuffs on the panels\n• Pickup / shipping: Tracked courier (deflated for posting)' },
   { id: 39, sellerId: 2, categoryId: 6, title: 'Basketball, Size 7', img: 'basketball-size-7.jpg', price: 20, originalPrice: 55, condition: 'GOOD', status: 'SOLD', loc: 'Wellington', views: 50, favs: 3, age: 23,
     desc: 'Size 7 composite basketball with deep channels and good grip. Holds air well; some surface wear from outdoor courts. Sold - kept for demo browsing.' }
 ]

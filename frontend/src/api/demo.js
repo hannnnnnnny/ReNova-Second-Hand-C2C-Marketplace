@@ -288,9 +288,9 @@ const rawConversations = [
   {
     id: 1, listingId: 6, buyerId: 1, sellerId: 2,
     messages: [
-      { senderId: 1, body: 'Hi! Are the running sneakers still available?', days: 2, mins: 0 },
-      { senderId: 2, body: 'Yep, barely 120km on them. Cleaned and ready to post.', days: 2, mins: 35 },
-      { senderId: 1, body: 'Great — I just sent an offer at $50.', days: 1, mins: 0 },
+      { senderId: 1, body: 'Hi! Are the Run Star Hikes still available?', days: 2, mins: 0 },
+      { senderId: 2, body: 'Yep, only worn a handful of times. Cleaned and ready to post.', days: 2, mins: 35 },
+      { senderId: 1, body: 'Great — I just sent an offer at $65.', days: 1, mins: 0 },
       { senderId: 2, body: 'Accepted! I\'ll ship tomorrow and send tracking.', days: 1, mins: 20, unreadFor: 'buyer' }
     ]
   },
@@ -355,7 +355,7 @@ function conversationDetail(c, uid) {
 const rawOffers = [
   { id: 1, listingId: 1, buyerId: 3, amount: 55, message: 'Love this dress! Would $55 work?', status: 'PENDING', fromSeller: false, days: 1 },
   { id: 2, listingId: 2, buyerId: 4, amount: 80, message: '$80 shipped to Hamilton?', status: 'PENDING', fromSeller: false, days: 2 },
-  { id: 3, listingId: 6, buyerId: 1, amount: 50, message: 'Would you take $50?', status: 'ACCEPTED', fromSeller: false, days: 1, respondedDays: 1 },
+  { id: 3, listingId: 6, buyerId: 1, amount: 65, message: 'Would you take $65?', status: 'ACCEPTED', fromSeller: false, days: 1, respondedDays: 1 },
   { id: 4, listingId: 7, buyerId: 1, amount: 14, message: '$14 for the yoga mat?', status: 'PENDING', fromSeller: false, days: 0 }
 ]
 function offerResponse(o) {
@@ -379,7 +379,7 @@ function offerResponse(o) {
 
 // Orders: a buyer's purchase from a seller, in various lifecycle states.
 const rawOrders = [
-  { id: 1, num: 'RN10231007', listingId: 6, buyerId: 1, sellerId: 2, agreed: 50, ship: 0, status: 'SHIPPED', days: 2, carrier: 'NZ Post', tracking: 'NZ1234567', name: 'Ava Thompson', phone: '+64 21 555 0142', addr: '14 Ponsonby Rd, Auckland 1011' },
+  { id: 1, num: 'RN10231007', listingId: 6, buyerId: 1, sellerId: 2, agreed: 65, ship: 0, status: 'SHIPPED', days: 2, carrier: 'NZ Post', tracking: 'NZ1234567', name: 'Ava Thompson', phone: '+64 21 555 0142', addr: '14 Ponsonby Rd, Auckland 1011' },
   { id: 2, num: 'RN10240412', listingId: 9, buyerId: 1, sellerId: 2, agreed: 24, ship: 0, status: 'COMPLETED', days: 14, carrier: 'CourierPost', tracking: 'NZ9988776', name: 'Ava Thompson', phone: '+64 21 555 0142', addr: '14 Ponsonby Rd, Auckland 1011' },
   { id: 3, num: 'RN10255533', listingId: 3, buyerId: 3, sellerId: 1, agreed: 54, ship: 0, status: 'PAID', days: 2, name: 'Maya Flores', phone: '+64 21 555 0188', addr: '5 Colombo St, Christchurch 8011' },
   { id: 4, num: 'RN10260088', listingId: 4, buyerId: 5, sellerId: 1, agreed: 28, ship: 0, status: 'COMPLETED', days: 10, carrier: 'NZ Post', tracking: 'NZ5544332', name: 'Ivy Bennett', phone: '+64 21 555 0170', addr: '88 George St, Dunedin 9016' }

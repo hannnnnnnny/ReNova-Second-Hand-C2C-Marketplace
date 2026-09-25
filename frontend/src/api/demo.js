@@ -222,7 +222,10 @@ const rawListings = [
     desc: 'Adidas star-panel match ball in white and blue, thermally bonded for a true flight. Used for a few training sessions only.\n\n• Size: Size 5\n• Material: Thermally bonded PU panels\n• Condition: Holds air perfectly; no scuffs on the panels\n• Pickup / shipping: Tracked courier (deflated for posting)' },
   { id: 39, sellerId: 3, categoryId: 6, title: 'Scarpa Climbing Shoes', price: 65, originalPrice: 229, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 47, favs: 7, age: 20,
     imgs: ['scarpa-climbing-shoes-1.jpg', 'scarpa-climbing-shoes-2.jpg', 'scarpa-climbing-shoes-3.jpg'],
-    desc: 'Scarpa lace-up climbing shoes in tan suede with a flat, comfortable last - great for long gym sessions and all-day crag trips.\n\n• Size: EU 41\n• Material: Suede upper, Vibram rubber\n• Condition: Rubber has plenty left and no holes at the toe; washed and dried\n• Pickup / shipping: Tracked courier or pickup in Christchurch' }
+    desc: 'Scarpa lace-up climbing shoes in tan suede with a flat, comfortable last - great for long gym sessions and all-day crag trips.\n\n• Size: EU 41\n• Material: Suede upper, Vibram rubber\n• Condition: Rubber has plenty left and no holes at the toe; washed and dried\n• Pickup / shipping: Tracked courier or pickup in Christchurch' },
+  { id: 40, sellerId: 2, categoryId: 6, title: 'Black Single-Speed City Bike + Helmet', price: 320, originalPrice: 780, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 141, favs: 24, age: 3,
+    imgs: ['single-speed-city-bike-1.jpg', 'single-speed-city-bike-2.jpg', 'single-speed-city-bike-3.jpg', 'single-speed-city-bike-4.jpg'],
+    desc: 'Matte black single-speed city bike with a flip-flop hub (fixed or freewheel), riser bars and a sleek steel frame. Comes with the matching black road helmet.\n\n• Size: 54 cm frame (suits 170-182 cm riders)\n• Material: Hi-ten steel frame, 700c wheels\n• Condition: Serviced last month: new chain and brake pads; a few small scratches on the top tube\n• Included: Bike and helmet (M)\n• Pickup / shipping: Pickup in Wellington only' }
 ]
 
 const favorites = new Set([2, 5])

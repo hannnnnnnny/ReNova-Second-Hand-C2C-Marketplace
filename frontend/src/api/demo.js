@@ -225,7 +225,10 @@ const rawListings = [
     desc: 'Scarpa lace-up climbing shoes in tan suede with a flat, comfortable last - great for long gym sessions and all-day crag trips.\n\n• Size: EU 41\n• Material: Suede upper, Vibram rubber\n• Condition: Rubber has plenty left and no holes at the toe; washed and dried\n• Pickup / shipping: Tracked courier or pickup in Christchurch' },
   { id: 40, sellerId: 2, categoryId: 6, title: 'Black Single-Speed City Bike + Helmet', price: 320, originalPrice: 780, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 141, favs: 24, age: 3,
     imgs: ['single-speed-city-bike-1.jpg', 'single-speed-city-bike-2.jpg', 'single-speed-city-bike-3.jpg', 'single-speed-city-bike-4.jpg'],
-    desc: 'Matte black single-speed city bike with a flip-flop hub (fixed or freewheel), riser bars and a sleek steel frame. Comes with the matching black road helmet.\n\n• Size: 54 cm frame (suits 170-182 cm riders)\n• Material: Hi-ten steel frame, 700c wheels\n• Condition: Serviced last month: new chain and brake pads; a few small scratches on the top tube\n• Included: Bike and helmet (M)\n• Pickup / shipping: Pickup in Wellington only' }
+    desc: 'Matte black single-speed city bike with a flip-flop hub (fixed or freewheel), riser bars and a sleek steel frame. Comes with the matching black road helmet.\n\n• Size: 54 cm frame (suits 170-182 cm riders)\n• Material: Hi-ten steel frame, 700c wheels\n• Condition: Serviced last month: new chain and brake pads; a few small scratches on the top tube\n• Included: Bike and helmet (M)\n• Pickup / shipping: Pickup in Wellington only' },
+  { id: 41, sellerId: 2, categoryId: 3, title: 'Nike Downshifter Running Shoes', price: 50, originalPrice: 130, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 74, favs: 9, age: 7,
+    imgs: ['nike-running-shoes-1.jpg', 'nike-running-shoes-2.jpg', 'nike-running-shoes-3.jpg', 'nike-running-shoes-4.jpg', 'nike-running-shoes-5.jpg'],
+    desc: 'Nike running shoes in black mesh with the orange swoosh and "Running" heel print. Light, breathable and cushioned for everyday runs.\n\n• Size: Men\'s US 10\n• Material: Mesh upper, foam midsole, rubber outsole\n• Condition: Around 120 km on them; plenty of tread; washed and deodorised\n• Pickup / shipping: Tracked courier from Wellington' }
 ]
 
 const favorites = new Set([2, 5])

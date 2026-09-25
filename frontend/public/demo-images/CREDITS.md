@@ -126,3 +126,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `boucle-armchair-ottoman-2.jpg` | Olena Bohovyk ([@olenkasergienko](https://unsplash.com/@olenkasergienko)) | https://unsplash.com/photos/KjklaW8xOmE |
 | `boucle-armchair-ottoman-3.jpg` | Olena Bohovyk ([@olenkasergienko](https://unsplash.com/@olenkasergienko)) | https://unsplash.com/photos/_nw31uYz5-A |
 | `boucle-armchair-ottoman-4.jpg` | Olena Bohovyk ([@olenkasergienko](https://unsplash.com/@olenkasergienko)) | https://unsplash.com/photos/1balv6pYzn8 |
+| `clay-vases-set-1.jpg` | Yana Hurska ([@yana_hurska](https://unsplash.com/@yana_hurska)) | https://unsplash.com/photos/zeGT9j4ltRA |
+| `clay-vases-set-2.jpg` | Yana Hurska ([@yana_hurska](https://unsplash.com/@yana_hurska)) | https://unsplash.com/photos/N5mE5dJotiA |
+| `clay-vases-set-3.jpg` | Yana Hurska ([@yana_hurska](https://unsplash.com/@yana_hurska)) | https://unsplash.com/photos/rAVSjxz6mNo |
+| `clay-vases-set-4.jpg` | Yana Hurska ([@yana_hurska](https://unsplash.com/@yana_hurska)) | https://unsplash.com/photos/O4sAutEMPNM |

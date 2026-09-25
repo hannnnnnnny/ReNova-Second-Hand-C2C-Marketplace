@@ -173,3 +173,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `green-roll-top-hiking-pack-2.jpg` | Ali Kazal ([@lureofadventure](https://unsplash.com/@lureofadventure)) | https://unsplash.com/photos/9aZ3T1q83CM |
 | `green-roll-top-hiking-pack-3.jpg` | Ali Kazal ([@lureofadventure](https://unsplash.com/@lureofadventure)) | https://unsplash.com/photos/BiNib6AQTgs |
 | `green-roll-top-hiking-pack-4.jpg` | Ali Kazal ([@lureofadventure](https://unsplash.com/@lureofadventure)) | https://unsplash.com/photos/7PavDZwXW-U |
+| `matte-black-road-bike-1.jpg` | Josh Nuttall ([@jjnuttall](https://unsplash.com/@jjnuttall)) | https://unsplash.com/photos/zkVi57UYHIQ |
+| `matte-black-road-bike-2.jpg` | Josh Nuttall ([@jjnuttall](https://unsplash.com/@jjnuttall)) | https://unsplash.com/photos/eTrHMJwI5ro |
+| `matte-black-road-bike-3.jpg` | Josh Nuttall ([@jjnuttall](https://unsplash.com/@jjnuttall)) | https://unsplash.com/photos/pIwu5XNvXpk |
+| `matte-black-road-bike-4.jpg` | Josh Nuttall ([@jjnuttall](https://unsplash.com/@jjnuttall)) | https://unsplash.com/photos/XVTWFHcNIko |

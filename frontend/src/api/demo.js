@@ -234,7 +234,10 @@ const rawListings = [
     desc: 'Lightweight red-framed badminton racket with a tight white string bed, plus a tube of feather shuttlecocks.\n\n• Included: Racket, cover and 6 feather shuttles\n• Material: Carbon-composite frame\n• Condition: Strings intact and tensioned; frame unmarked\n• Pickup / shipping: Tracked courier from Dunedin' },
   { id: 43, sellerId: 3, categoryId: 6, title: 'Green Roll-Top Hiking Pack', price: 95, originalPrice: 260, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 69, favs: 12, age: 9,
     imgs: ['green-roll-top-hiking-pack-1.jpg', 'green-roll-top-hiking-pack-2.jpg', 'green-roll-top-hiking-pack-3.jpg', 'green-roll-top-hiking-pack-4.jpg'],
-    desc: 'Forest-green roll-top hiking pack with mustard compression straps, padded back panel and hip belt. Perfect for overnight tramps.\n\n• Measurements: About 40 litres\n• Material: Water-resistant ripstop nylon\n• Condition: Used on two trips; no tears, buckles all intact\n• Pickup / shipping: Tracked courier from Christchurch' }
+    desc: 'Forest-green roll-top hiking pack with mustard compression straps, padded back panel and hip belt. Perfect for overnight tramps.\n\n• Measurements: About 40 litres\n• Material: Water-resistant ripstop nylon\n• Condition: Used on two trips; no tears, buckles all intact\n• Pickup / shipping: Tracked courier from Christchurch' },
+  { id: 44, sellerId: 4, categoryId: 6, title: 'Matte Black Road Bike', price: 650, originalPrice: 1600, condition: 'GOOD', status: 'ACTIVE', loc: 'Hamilton', views: 152, favs: 27, age: 2,
+    imgs: ['matte-black-road-bike-1.jpg', 'matte-black-road-bike-2.jpg', 'matte-black-road-bike-3.jpg', 'matte-black-road-bike-4.jpg'],
+    desc: 'Stealthy matte black road bike with drop bars and black bar tape, a slim saddle and deep-section wheels. Quick, light and great for weekend loops.\n\n• Size: 56 cm frame (suits 175-185 cm riders)\n• Material: Alloy frame, carbon fork\n• Condition: Serviced this month; new tyres; minor scuffs on the chainstay\n• Pickup / shipping: Pickup in Hamilton, or bike-box courier at cost' }
 ]
 
 const favorites = new Set([2, 5])

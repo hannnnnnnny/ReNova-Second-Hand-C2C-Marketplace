@@ -57,3 +57,6 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `emerald-belted-dress-2.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/hEaljdMX3as |
 | `emerald-belted-dress-3.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/IEoi6afyJyI |
 | `emerald-belted-dress-4.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/euqyDvjNNqA |
+| `beige-trench-coat-1.jpg` | Masha Kotliarenko ([@kotliarenko](https://unsplash.com/@kotliarenko)) | https://unsplash.com/photos/UrSVfRJU-BE |
+| `beige-trench-coat-2.jpg` | Masha Kotliarenko ([@kotliarenko](https://unsplash.com/@kotliarenko)) | https://unsplash.com/photos/TDiCmpy6qAo |
+| `beige-trench-coat-3.jpg` | Masha Kotliarenko ([@kotliarenko](https://unsplash.com/@kotliarenko)) | https://unsplash.com/photos/MsgQwWOhqmw |

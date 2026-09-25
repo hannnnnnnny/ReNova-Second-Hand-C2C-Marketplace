@@ -60,3 +60,6 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `beige-trench-coat-1.jpg` | Masha Kotliarenko ([@kotliarenko](https://unsplash.com/@kotliarenko)) | https://unsplash.com/photos/UrSVfRJU-BE |
 | `beige-trench-coat-2.jpg` | Masha Kotliarenko ([@kotliarenko](https://unsplash.com/@kotliarenko)) | https://unsplash.com/photos/TDiCmpy6qAo |
 | `beige-trench-coat-3.jpg` | Masha Kotliarenko ([@kotliarenko](https://unsplash.com/@kotliarenko)) | https://unsplash.com/photos/MsgQwWOhqmw |
+| `halo-pendant-necklace-1.jpg` | Sabrianna ([@sabrinnaringquist](https://unsplash.com/@sabrinnaringquist)) | https://unsplash.com/photos/u1Hv_erOQH0 |
+| `halo-pendant-necklace-2.jpg` | Sabrianna ([@sabrinnaringquist](https://unsplash.com/@sabrinnaringquist)) | https://unsplash.com/photos/AhIQL2CKq7g |
+| `halo-pendant-necklace-3.jpg` | Sabrianna ([@sabrinnaringquist](https://unsplash.com/@sabrinnaringquist)) | https://unsplash.com/photos/ATTTZmMCrk0 |

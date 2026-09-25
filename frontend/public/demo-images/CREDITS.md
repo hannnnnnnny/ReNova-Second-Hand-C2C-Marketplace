@@ -22,3 +22,6 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `black-biker-jacket-3.jpg` | Anna Evans ([@anevans](https://unsplash.com/@anevans)) | https://unsplash.com/photos/J3X_7FhSbIg |
 | `black-biker-jacket-4.jpg` | Anna Evans ([@anevans](https://unsplash.com/@anevans)) | https://unsplash.com/photos/xrbqcSJ7Jl8 |
 | `black-biker-jacket-5.jpg` | Anna Evans ([@anevans](https://unsplash.com/@anevans)) | https://unsplash.com/photos/CTlfEN5n33A |
+| `crystal-leaf-earrings-1.jpg` | parisa safaei ([@parisafaei](https://unsplash.com/@parisafaei)) | https://unsplash.com/photos/-_12be3InkQ |
+| `crystal-leaf-earrings-2.jpg` | parisa safaei ([@parisafaei](https://unsplash.com/@parisafaei)) | https://unsplash.com/photos/RIqNLZ_h2X8 |
+| `crystal-leaf-earrings-3.jpg` | parisa safaei ([@parisafaei](https://unsplash.com/@parisafaei)) | https://unsplash.com/photos/KNefun9KV20 |

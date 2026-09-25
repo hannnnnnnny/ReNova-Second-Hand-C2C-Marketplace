@@ -81,3 +81,6 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `two-tone-polo-pair-1.jpg` | TuanAnh Blue ([@blueeyeaa](https://unsplash.com/@blueeyeaa)) | https://unsplash.com/photos/U199aciOyEU |
 | `two-tone-polo-pair-2.jpg` | TuanAnh Blue ([@blueeyeaa](https://unsplash.com/@blueeyeaa)) | https://unsplash.com/photos/V_B3-Vd3akk |
 | `two-tone-polo-pair-3.jpg` | TuanAnh Blue ([@blueeyeaa](https://unsplash.com/@blueeyeaa)) | https://unsplash.com/photos/2QY8S_VT2ZM |
+| `brown-chelsea-boots-1.jpg` | Lachlan Rennie ([@rennielachlan](https://unsplash.com/@rennielachlan)) | https://unsplash.com/photos/hu72RNWNP1I |
+| `brown-chelsea-boots-2.jpg` | Lachlan Rennie ([@rennielachlan](https://unsplash.com/@rennielachlan)) | https://unsplash.com/photos/sFTvVE8P9IQ |
+| `brown-chelsea-boots-3.jpg` | Lachlan Rennie ([@rennielachlan](https://unsplash.com/@rennielachlan)) | https://unsplash.com/photos/zCTdV0m7qCA |

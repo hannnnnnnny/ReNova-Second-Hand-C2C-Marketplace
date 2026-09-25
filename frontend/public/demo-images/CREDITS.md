@@ -48,3 +48,8 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `white-cotton-cushions-2.jpg` | Mediamodifier ([@mediamodifier](https://unsplash.com/@mediamodifier)) | https://unsplash.com/photos/zTY9OwAfOrg |
 | `white-cotton-cushions-3.jpg` | Mediamodifier ([@mediamodifier](https://unsplash.com/@mediamodifier)) | https://unsplash.com/photos/3pvour1eAbU |
 | `white-cotton-cushions-4.jpg` | Mediamodifier ([@mediamodifier](https://unsplash.com/@mediamodifier)) | https://unsplash.com/photos/pTUFEJC2EGI |
+| `navy-satin-dress-1.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/U0LRHpnrwg4 |
+| `navy-satin-dress-2.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/U_daD0yAVXY |
+| `navy-satin-dress-3.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/N38dj9YO_OA |
+| `navy-satin-dress-4.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/P2tOQRlqgTc |
+| `navy-satin-dress-5.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/GFEjX48i5vc |

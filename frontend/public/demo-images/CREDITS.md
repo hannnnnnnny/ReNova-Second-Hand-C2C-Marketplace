@@ -122,3 +122,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `mustard-wingback-armchair-2.jpg` | Laura Chouette ([@laurachouette](https://unsplash.com/@laurachouette)) | https://unsplash.com/photos/yeiQb4whCh4 |
 | `mustard-wingback-armchair-3.jpg` | Laura Chouette ([@laurachouette](https://unsplash.com/@laurachouette)) | https://unsplash.com/photos/MHVgoCZ0D-M |
 | `mustard-wingback-armchair-4.jpg` | Laura Chouette ([@laurachouette](https://unsplash.com/@laurachouette)) | https://unsplash.com/photos/1y_koUDWIt4 |
+| `boucle-armchair-ottoman-1.jpg` | Olena Bohovyk ([@olenkasergienko](https://unsplash.com/@olenkasergienko)) | https://unsplash.com/photos/0gRdImnQ7LQ |
+| `boucle-armchair-ottoman-2.jpg` | Olena Bohovyk ([@olenkasergienko](https://unsplash.com/@olenkasergienko)) | https://unsplash.com/photos/KjklaW8xOmE |
+| `boucle-armchair-ottoman-3.jpg` | Olena Bohovyk ([@olenkasergienko](https://unsplash.com/@olenkasergienko)) | https://unsplash.com/photos/_nw31uYz5-A |
+| `boucle-armchair-ottoman-4.jpg` | Olena Bohovyk ([@olenkasergienko](https://unsplash.com/@olenkasergienko)) | https://unsplash.com/photos/1balv6pYzn8 |

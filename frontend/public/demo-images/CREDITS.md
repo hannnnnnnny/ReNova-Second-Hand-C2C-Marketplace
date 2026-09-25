@@ -100,3 +100,6 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `leather-two-strap-sandals-2.jpg` | KIKI ([@foursident](https://unsplash.com/@foursident)) | https://unsplash.com/photos/5fL4SPSzqaY |
 | `leather-two-strap-sandals-3.jpg` | KIKI ([@foursident](https://unsplash.com/@foursident)) | https://unsplash.com/photos/5NotlQMb07c |
 | `leather-two-strap-sandals-4.jpg` | KIKI ([@foursident](https://unsplash.com/@foursident)) | https://unsplash.com/photos/jcOLx4UZu2E |
+| `tan-leather-sling-1.jpg` | Fauzan Fathullah ([@fzfte](https://unsplash.com/@fzfte)) | https://unsplash.com/photos/SvtdEkcTxQ4 |
+| `tan-leather-sling-2.jpg` | Fauzan Fathullah ([@fzfte](https://unsplash.com/@fzfte)) | https://unsplash.com/photos/TT9zyZXjNQU |
+| `tan-leather-sling-3.jpg` | Fauzan Fathullah ([@fzfte](https://unsplash.com/@fzfte)) | https://unsplash.com/photos/kIKd4A6UrIw |

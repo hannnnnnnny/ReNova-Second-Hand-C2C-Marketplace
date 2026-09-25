@@ -96,3 +96,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `tan-pebble-brogues-2.jpg` | rupixen ([@rupixen](https://unsplash.com/@rupixen)) | https://unsplash.com/photos/IzZhqciHjz4 |
 | `tan-pebble-brogues-3.jpg` | rupixen ([@rupixen](https://unsplash.com/@rupixen)) | https://unsplash.com/photos/bT8S-it3lag |
 | `tan-pebble-brogues-4.jpg` | rupixen ([@rupixen](https://unsplash.com/@rupixen)) | https://unsplash.com/photos/XWb9XxtMucY |
+| `leather-two-strap-sandals-1.jpg` | KIKI ([@foursident](https://unsplash.com/@foursident)) | https://unsplash.com/photos/IZgx6GnODc0 |
+| `leather-two-strap-sandals-2.jpg` | KIKI ([@foursident](https://unsplash.com/@foursident)) | https://unsplash.com/photos/5fL4SPSzqaY |
+| `leather-two-strap-sandals-3.jpg` | KIKI ([@foursident](https://unsplash.com/@foursident)) | https://unsplash.com/photos/5NotlQMb07c |
+| `leather-two-strap-sandals-4.jpg` | KIKI ([@foursident](https://unsplash.com/@foursident)) | https://unsplash.com/photos/jcOLx4UZu2E |

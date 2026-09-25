@@ -143,3 +143,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `praktica-mtl3-camera-3.jpg` | Aoumeur Abderrahmen ([@ghostlens](https://unsplash.com/@ghostlens)) | https://unsplash.com/photos/SdH3rllTWwU |
 | `praktica-mtl3-camera-4.jpg` | Aoumeur Abderrahmen ([@ghostlens](https://unsplash.com/@ghostlens)) | https://unsplash.com/photos/9kH3dXGyQzc |
 | `praktica-mtl3-camera-5.jpg` | Aoumeur Abderrahmen ([@ghostlens](https://unsplash.com/@ghostlens)) | https://unsplash.com/photos/3rjB_tEkvTE |
+| `sunburst-semi-hollow-guitar-1.jpg` | Apolo Photographer ([@apolophotographer](https://unsplash.com/@apolophotographer)) | https://unsplash.com/photos/xmksM4em7a0 |
+| `sunburst-semi-hollow-guitar-2.jpg` | Apolo Photographer ([@apolophotographer](https://unsplash.com/@apolophotographer)) | https://unsplash.com/photos/7Ai9ELgue2w |
+| `sunburst-semi-hollow-guitar-3.jpg` | Apolo Photographer ([@apolophotographer](https://unsplash.com/@apolophotographer)) | https://unsplash.com/photos/DNAPFksOyl8 |
+| `sunburst-semi-hollow-guitar-4.jpg` | Apolo Photographer ([@apolophotographer](https://unsplash.com/@apolophotographer)) | https://unsplash.com/photos/BHQlAPqdEn8 |

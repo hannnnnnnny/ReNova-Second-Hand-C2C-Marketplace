@@ -4,13 +4,16 @@ import { readStorageItem, writeStorageItem } from '../utils/browserStorage'
 
 const LOCALE_KEY = 'renova.locale'
 
+// English is the default for every visitor, regardless of browser language;
+// only an explicit choice from the language switcher is remembered.
+export function pickInitialLocale(stored) {
+  if (stored && AVAILABLE_LOCALES.some((l) => l.code === stored)) return stored
+  return DEFAULT_LOCALE
+}
+
 function detectInitialLocale() {
   if (typeof window === 'undefined') return DEFAULT_LOCALE
-  const stored = readStorageItem(LOCALE_KEY)
-  if (stored && AVAILABLE_LOCALES.some((l) => l.code === stored)) return stored
-  const browser = (navigator.language || '').toLowerCase()
-  if (browser.startsWith('zh')) return 'zh'
-  return DEFAULT_LOCALE
+  return pickInitialLocale(readStorageItem(LOCALE_KEY))
 }
 
 export const i18n = createI18n({

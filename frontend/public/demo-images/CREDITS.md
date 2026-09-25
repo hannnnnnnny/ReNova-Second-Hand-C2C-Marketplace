@@ -118,3 +118,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `green-square-sunglasses-2.jpg` | Na sen ([@nasen](https://unsplash.com/@nasen)) | https://unsplash.com/photos/OzD6oIpyAiY |
 | `green-square-sunglasses-3.jpg` | Na sen ([@nasen](https://unsplash.com/@nasen)) | https://unsplash.com/photos/sUzcTuM_Jy0 |
 | `green-square-sunglasses-4.jpg` | Na sen ([@nasen](https://unsplash.com/@nasen)) | https://unsplash.com/photos/gbu0_0mENH8 |
+| `mustard-wingback-armchair-1.jpg` | Laura Chouette ([@laurachouette](https://unsplash.com/@laurachouette)) | https://unsplash.com/photos/HUnrPHgMHsA |
+| `mustard-wingback-armchair-2.jpg` | Laura Chouette ([@laurachouette](https://unsplash.com/@laurachouette)) | https://unsplash.com/photos/yeiQb4whCh4 |
+| `mustard-wingback-armchair-3.jpg` | Laura Chouette ([@laurachouette](https://unsplash.com/@laurachouette)) | https://unsplash.com/photos/MHVgoCZ0D-M |
+| `mustard-wingback-armchair-4.jpg` | Laura Chouette ([@laurachouette](https://unsplash.com/@laurachouette)) | https://unsplash.com/photos/1y_koUDWIt4 |

@@ -74,3 +74,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `acne-dark-jeans-2.jpg` | Matthew Moloney ([@mattmoloney](https://unsplash.com/@mattmoloney)) | https://unsplash.com/photos/YeGao3uk8kI |
 | `acne-dark-jeans-3.jpg` | Matthew Moloney ([@mattmoloney](https://unsplash.com/@mattmoloney)) | https://unsplash.com/photos/ytQeX4iQ7Uk |
 | `acne-dark-jeans-4.jpg` | Matthew Moloney ([@mattmoloney](https://unsplash.com/@mattmoloney)) | https://unsplash.com/photos/ximLoGQoPcc |
+| `light-wash-jeans-bundle-1.jpg` | TuanAnh Blue ([@blueeyeaa](https://unsplash.com/@blueeyeaa)) | https://unsplash.com/photos/XdXk39Bj3B0 |
+| `light-wash-jeans-bundle-2.jpg` | TuanAnh Blue ([@blueeyeaa](https://unsplash.com/@blueeyeaa)) | https://unsplash.com/photos/rJQCoHb8XxA |
+| `light-wash-jeans-bundle-3.jpg` | TuanAnh Blue ([@blueeyeaa](https://unsplash.com/@blueeyeaa)) | https://unsplash.com/photos/KSVtSQrm9eo |
+| `light-wash-jeans-bundle-4.jpg` | TuanAnh Blue ([@blueeyeaa](https://unsplash.com/@blueeyeaa)) | https://unsplash.com/photos/u-TajA5X5rg |

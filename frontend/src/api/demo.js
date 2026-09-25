@@ -305,7 +305,7 @@ const rawConversations = [
   {
     id: 3, listingId: 2, buyerId: 4, sellerId: 1,
     messages: [
-      { senderId: 4, body: 'Would you ship the leather tote to Hamilton?', days: 3, mins: 0 },
+      { senderId: 4, body: 'Would you ship the leather messenger bag to Hamilton?', days: 3, mins: 0 },
       { senderId: 1, body: 'Absolutely — free shipping on this one.', days: 3, mins: 40 }
     ]
   }

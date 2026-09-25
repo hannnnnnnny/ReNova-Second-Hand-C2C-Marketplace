@@ -37,3 +37,6 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `hex-dumbbells-5kg-3.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/OqW7oP5-Ky4 |
 | `hex-dumbbells-5kg-4.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/v9QOeuh6qog |
 | `hex-dumbbells-5kg-5.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/4KtEJUvT3Es |
+| `burgundy-leather-backpack-1.jpg` | Wiser by the Mile ([@wiserbythemile](https://unsplash.com/@wiserbythemile)) | https://unsplash.com/photos/RHXSJ09YD9o |
+| `burgundy-leather-backpack-2.jpg` | Wiser by the Mile ([@wiserbythemile](https://unsplash.com/@wiserbythemile)) | https://unsplash.com/photos/j5ed3VKPAYQ |
+| `burgundy-leather-backpack-3.jpg` | Wiser by the Mile ([@wiserbythemile](https://unsplash.com/@wiserbythemile)) | https://unsplash.com/photos/SwWCo1k92M4 |

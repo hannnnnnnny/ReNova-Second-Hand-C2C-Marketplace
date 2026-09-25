@@ -106,8 +106,9 @@ const categories = [
 const categoryById = (id) => categories.find((c) => c.id === id) || categories[0]
 
 const rawListings = [
-  { id: 1, sellerId: 1, categoryId: 1, title: 'Satin Wrap Dress', img: 'satin-wrap-dress.jpg', price: 68, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Auckland', views: 142, favs: 18, age: 3,
-    desc: 'Chocolate-brown satin wrap dress with long sleeves and a tie waist. Worn twice to weddings and dry-cleaned since. Size 10, runs slightly small.' },
+  { id: 1, sellerId: 1, categoryId: 1, title: 'Chocolate Satin Wrap Dress', price: 68, originalPrice: 180, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Auckland', views: 142, favs: 18, age: 3,
+    imgs: ['satin-wrap-dress-1.jpg', 'satin-wrap-dress-2.jpg', 'satin-wrap-dress-3.jpg', 'satin-wrap-dress-4.jpg', 'satin-wrap-dress-5.jpg'],
+    desc: 'Chocolate-brown satin shirt dress with a deep V neckline, ruched wrap front and long sleeves with buttoned cuffs. Worn twice to weddings and dry-cleaned since - it drapes beautifully and has a subtle sheen in person.\n\n• Size: NZ 10, runs slightly small (best for 8-10)\n• Material: Polyester satin, unlined\n• Measurements: Bust 88 cm, waist 74 cm, length 98 cm (shoulder to hem)\n• Condition: No pulls, marks or loose threads; all cuff buttons present\n• Care: Cool hand wash or dry clean\n• Pickup / shipping: Tracked courier within 2 working days, or pickup in Ponsonby, Auckland' },
   { id: 2, sellerId: 1, categoryId: 4, title: 'Tan Leather Tote', img: 'tan-leather-tote.jpg', price: 95, originalPrice: 240, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 98, favs: 12, age: 6,
     desc: 'Full-grain tan leather tote, about 38 x 34 cm, with long shoulder straps. The leather has softened into a natural patina; a couple of light scuffs on the base. Fits a 14-inch laptop.' },
   { id: 3, sellerId: 1, categoryId: 2, title: 'Grey Check Wool Blazer', img: 'check-wool-blazer.jpg', price: 54, originalPrice: 150, condition: 'GOOD', status: 'ACTIVE', loc: 'Auckland', views: 76, favs: 7, age: 9,

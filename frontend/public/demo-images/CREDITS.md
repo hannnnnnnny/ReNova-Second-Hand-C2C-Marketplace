@@ -9,3 +9,8 @@ The listings, prices and descriptions are fictional demo data written to match e
 | File | Photographer | Source |
 | --- | --- | --- |
 | `hero-vase.jpg` | Sixteen Miles Out ([@sixteenmilesout](https://unsplash.com/@sixteenmilesout)) | https://unsplash.com/photos/aFvxASlms2A |
+| `satin-wrap-dress-1.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/J35muhi0am4 |
+| `satin-wrap-dress-2.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/3MOCBtMkOOs |
+| `satin-wrap-dress-3.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/UsaDSjcDzWw |
+| `satin-wrap-dress-4.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/nriHLNh0gOo |
+| `satin-wrap-dress-5.jpg` | GLOBALDSIO IT SOLUTION ([@globaldsioitsolution](https://unsplash.com/@globaldsioitsolution)) | https://unsplash.com/photos/nsLV_a23UVM |

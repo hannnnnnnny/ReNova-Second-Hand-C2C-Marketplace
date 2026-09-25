@@ -153,3 +153,6 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `adidas-star-match-ball-1.jpg` | Janosch Jost ([@janoschphotos](https://unsplash.com/@janoschphotos)) | https://unsplash.com/photos/vKk7thmr9Mc |
 | `adidas-star-match-ball-2.jpg` | Janosch Jost ([@janoschphotos](https://unsplash.com/@janoschphotos)) | https://unsplash.com/photos/Ept2Na00VGY |
 | `adidas-star-match-ball-3.jpg` | Janosch Jost ([@janoschphotos](https://unsplash.com/@janoschphotos)) | https://unsplash.com/photos/ZBZStqTOXFU |
+| `scarpa-climbing-shoes-1.jpg` | Chaewool Kim ([@koreandirtbag](https://unsplash.com/@koreandirtbag)) | https://unsplash.com/photos/hKnvdTiooEU |
+| `scarpa-climbing-shoes-2.jpg` | Chaewool Kim ([@koreandirtbag](https://unsplash.com/@koreandirtbag)) | https://unsplash.com/photos/j37DiMZP1a0 |
+| `scarpa-climbing-shoes-3.jpg` | Chaewool Kim ([@koreandirtbag](https://unsplash.com/@koreandirtbag)) | https://unsplash.com/photos/bey7WC93xvE |

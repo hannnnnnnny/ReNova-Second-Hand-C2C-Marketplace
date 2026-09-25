@@ -220,8 +220,9 @@ const rawListings = [
   { id: 38, sellerId: 2, categoryId: 6, title: 'Adidas Star Match Ball (size 5)', price: 35, originalPrice: 90, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Wellington', views: 33, favs: 4, age: 16,
     imgs: ['adidas-star-match-ball-1.jpg', 'adidas-star-match-ball-2.jpg', 'adidas-star-match-ball-3.jpg'],
     desc: 'Adidas star-panel match ball in white and blue, thermally bonded for a true flight. Used for a few training sessions only.\n\n• Size: Size 5\n• Material: Thermally bonded PU panels\n• Condition: Holds air perfectly; no scuffs on the panels\n• Pickup / shipping: Tracked courier (deflated for posting)' },
-  { id: 39, sellerId: 2, categoryId: 6, title: 'Basketball, Size 7', img: 'basketball-size-7.jpg', price: 20, originalPrice: 55, condition: 'GOOD', status: 'SOLD', loc: 'Wellington', views: 50, favs: 3, age: 23,
-    desc: 'Size 7 composite basketball with deep channels and good grip. Holds air well; some surface wear from outdoor courts. Sold - kept for demo browsing.' }
+  { id: 39, sellerId: 3, categoryId: 6, title: 'Scarpa Climbing Shoes', price: 65, originalPrice: 229, condition: 'GOOD', status: 'ACTIVE', loc: 'Christchurch', views: 47, favs: 7, age: 20,
+    imgs: ['scarpa-climbing-shoes-1.jpg', 'scarpa-climbing-shoes-2.jpg', 'scarpa-climbing-shoes-3.jpg'],
+    desc: 'Scarpa lace-up climbing shoes in tan suede with a flat, comfortable last - great for long gym sessions and all-day crag trips.\n\n• Size: EU 41\n• Material: Suede upper, Vibram rubber\n• Condition: Rubber has plenty left and no holes at the toe; washed and dried\n• Pickup / shipping: Tracked courier or pickup in Christchurch' }
 ]
 
 const favorites = new Set([2, 5])

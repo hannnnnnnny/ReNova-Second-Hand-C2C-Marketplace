@@ -32,3 +32,8 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `converse-run-star-hike-1.jpg` | Maria Fernanda Pissioli ([@mxpissioli](https://unsplash.com/@mxpissioli)) | https://unsplash.com/photos/25s_LHlnGh4 |
 | `converse-run-star-hike-2.jpg` | Maria Fernanda Pissioli ([@mxpissioli](https://unsplash.com/@mxpissioli)) | https://unsplash.com/photos/E8Z3en8OoQQ |
 | `converse-run-star-hike-3.jpg` | Maria Fernanda Pissioli ([@mxpissioli](https://unsplash.com/@mxpissioli)) | https://unsplash.com/photos/gFrvwodhSco |
+| `hex-dumbbells-5kg-1.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/H-qxKCedhcc |
+| `hex-dumbbells-5kg-2.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/iOO4HtfjpvE |
+| `hex-dumbbells-5kg-3.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/OqW7oP5-Ky4 |
+| `hex-dumbbells-5kg-4.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/v9QOeuh6qog |
+| `hex-dumbbells-5kg-5.jpg` | VD Photography ([@vdphotography](https://unsplash.com/@vdphotography)) | https://unsplash.com/photos/4KtEJUvT3Es |

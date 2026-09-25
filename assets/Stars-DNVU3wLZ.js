@@ -1,0 +1,1 @@
+import{h as t,a as s,F as r,f as n,b as l,t as o,C as c}from"./index-CIedQoIB.js";const m={__name:"Stars",props:{rating:{type:Number,default:0},size:{type:Number,default:16}},setup(e){return(i,p)=>(t(),s("span",{class:"stars",style:c({fontSize:e.size+"px"})},[(t(),s(r,null,n(5,a=>l("span",{key:a},o(a<=Math.round(e.rating)?"★":"☆"),1)),64))],4))}};export{m as _};

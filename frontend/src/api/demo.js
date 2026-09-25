@@ -380,7 +380,7 @@ function offerResponse(o) {
 // Orders: a buyer's purchase from a seller, in various lifecycle states.
 const rawOrders = [
   { id: 1, num: 'RN10231007', listingId: 6, buyerId: 1, sellerId: 2, agreed: 65, ship: 0, status: 'SHIPPED', days: 2, carrier: 'NZ Post', tracking: 'NZ1234567', name: 'Ava Thompson', phone: '+64 21 555 0142', addr: '14 Ponsonby Rd, Auckland 1011' },
-  { id: 2, num: 'RN10240412', listingId: 9, buyerId: 1, sellerId: 2, agreed: 24, ship: 0, status: 'COMPLETED', days: 14, carrier: 'CourierPost', tracking: 'NZ9988776', name: 'Ava Thompson', phone: '+64 21 555 0142', addr: '14 Ponsonby Rd, Auckland 1011' },
+  { id: 2, num: 'RN10240412', listingId: 9, buyerId: 1, sellerId: 2, agreed: 30, ship: 0, status: 'COMPLETED', days: 14, carrier: 'CourierPost', tracking: 'NZ9988776', name: 'Ava Thompson', phone: '+64 21 555 0142', addr: '14 Ponsonby Rd, Auckland 1011' },
   { id: 3, num: 'RN10255533', listingId: 3, buyerId: 3, sellerId: 1, agreed: 54, ship: 0, status: 'PAID', days: 2, name: 'Maya Flores', phone: '+64 21 555 0188', addr: '5 Colombo St, Christchurch 8011' },
   { id: 4, num: 'RN10260088', listingId: 4, buyerId: 5, sellerId: 1, agreed: 28, ship: 0, status: 'COMPLETED', days: 10, carrier: 'NZ Post', tracking: 'NZ5544332', name: 'Ivy Bennett', phone: '+64 21 555 0170', addr: '88 George St, Dunedin 9016' }
 ]
@@ -420,7 +420,7 @@ function orderResponse(o) {
 // Reviews left on completed orders (reviewee gets the rating).
 const rawReviews = [
   { id: 1, orderId: 4, listingId: 4, reviewerId: 5, revieweeId: 1, rating: 5, comment: 'Beautiful clutch, even nicer in person. Fast shipping!', role: 'BUYER_REVIEWS_SELLER', days: 9 },
-  { id: 2, orderId: 2, listingId: 9, reviewerId: 1, revieweeId: 2, rating: 5, comment: 'Mugs arrived perfectly packed. Thanks Liam!', role: 'BUYER_REVIEWS_SELLER', days: 12 },
+  { id: 2, orderId: 2, listingId: 9, reviewerId: 1, revieweeId: 2, rating: 5, comment: 'Grinder arrived perfectly packed and works a treat. Thanks Liam!', role: 'BUYER_REVIEWS_SELLER', days: 12 },
   { id: 3, orderId: 4, listingId: 4, reviewerId: 1, revieweeId: 5, rating: 5, comment: 'Smooth, friendly buyer. Recommended.', role: 'SELLER_REVIEWS_BUYER', days: 9 }
 ]
 function reviewResponse(r) {

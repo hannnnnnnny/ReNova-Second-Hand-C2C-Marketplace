@@ -100,7 +100,8 @@ const categories = [
   { id: 3, name: 'Shoes', slug: 'shoes', icon: '👟', sortOrder: 3 },
   { id: 4, name: 'Bags & Accessories', slug: 'bags', icon: '👜', sortOrder: 4 },
   { id: 5, name: 'Home', slug: 'home', icon: '🏠', sortOrder: 5 },
-  { id: 6, name: 'Sports', slug: 'sports', icon: '🏀', sortOrder: 6 }
+  { id: 6, name: 'Sports', slug: 'sports', icon: '🏀', sortOrder: 6 },
+  { id: 7, name: 'Collectibles', slug: 'collectibles', icon: '📷', sortOrder: 7 }
 ]
 const categoryById = (id) => categories.find((c) => c.id === id) || categories[0]
 

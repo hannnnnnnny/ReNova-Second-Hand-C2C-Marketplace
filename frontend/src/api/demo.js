@@ -356,7 +356,7 @@ const rawOffers = [
   { id: 1, listingId: 1, buyerId: 3, amount: 55, message: 'Love this dress! Would $55 work?', status: 'PENDING', fromSeller: false, days: 1 },
   { id: 2, listingId: 2, buyerId: 4, amount: 80, message: '$80 shipped to Hamilton?', status: 'PENDING', fromSeller: false, days: 2 },
   { id: 3, listingId: 6, buyerId: 1, amount: 65, message: 'Would you take $65?', status: 'ACCEPTED', fromSeller: false, days: 1, respondedDays: 1 },
-  { id: 4, listingId: 7, buyerId: 1, amount: 14, message: '$14 for the yoga mat?', status: 'PENDING', fromSeller: false, days: 0 }
+  { id: 4, listingId: 7, buyerId: 1, amount: 32, message: '$32 for the dumbbells if I pick up?', status: 'PENDING', fromSeller: false, days: 0 }
 ]
 function offerResponse(o) {
   const l = listingById(o.listingId)

@@ -419,7 +419,7 @@ function orderResponse(o) {
 
 // Reviews left on completed orders (reviewee gets the rating).
 const rawReviews = [
-  { id: 1, orderId: 4, listingId: 4, reviewerId: 5, revieweeId: 1, rating: 5, comment: 'Beautiful clutch, even nicer in person. Fast shipping!', role: 'BUYER_REVIEWS_SELLER', days: 9 },
+  { id: 1, orderId: 4, listingId: 4, reviewerId: 5, revieweeId: 1, rating: 5, comment: 'Beautiful earrings - they sparkle even more in person. Fast shipping!', role: 'BUYER_REVIEWS_SELLER', days: 9 },
   { id: 2, orderId: 2, listingId: 9, reviewerId: 1, revieweeId: 2, rating: 5, comment: 'Grinder arrived perfectly packed and works a treat. Thanks Liam!', role: 'BUYER_REVIEWS_SELLER', days: 12 },
   { id: 3, orderId: 4, listingId: 4, reviewerId: 1, revieweeId: 5, rating: 5, comment: 'Smooth, friendly buyer. Recommended.', role: 'SELLER_REVIEWS_BUYER', days: 9 }
 ]

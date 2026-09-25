@@ -25,3 +25,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `crystal-leaf-earrings-1.jpg` | parisa safaei ([@parisafaei](https://unsplash.com/@parisafaei)) | https://unsplash.com/photos/-_12be3InkQ |
 | `crystal-leaf-earrings-2.jpg` | parisa safaei ([@parisafaei](https://unsplash.com/@parisafaei)) | https://unsplash.com/photos/RIqNLZ_h2X8 |
 | `crystal-leaf-earrings-3.jpg` | parisa safaei ([@parisafaei](https://unsplash.com/@parisafaei)) | https://unsplash.com/photos/KNefun9KV20 |
+| `jhumka-earrings-bundle-1.jpg` | v.govindaraj raj ([@aakashstudio](https://unsplash.com/@aakashstudio)) | https://unsplash.com/photos/mMY40tE1QG4 |
+| `jhumka-earrings-bundle-2.jpg` | v.govindaraj raj ([@aakashstudio](https://unsplash.com/@aakashstudio)) | https://unsplash.com/photos/Fa7OXSYlg5E |
+| `jhumka-earrings-bundle-3.jpg` | v.govindaraj raj ([@aakashstudio](https://unsplash.com/@aakashstudio)) | https://unsplash.com/photos/d1xjd0kRNu4 |
+| `jhumka-earrings-bundle-4.jpg` | v.govindaraj raj ([@aakashstudio](https://unsplash.com/@aakashstudio)) | https://unsplash.com/photos/8tUDeCjdd2s |

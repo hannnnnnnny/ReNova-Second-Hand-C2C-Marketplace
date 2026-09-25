@@ -44,13 +44,16 @@ describe('demo adapter', () => {
     expect(times).toEqual([...times].sort((a, b) => b - a))
   })
 
-  it('ships an image file for every demo listing', async () => {
+  it('ships every cover and gallery image file', async () => {
     const res = await call({ method: 'get', url: '/public/listings', params: { page: 0, size: 100 } })
     const publicDir = fileURLToPath(new URL('../../public/', import.meta.url))
-    for (const listing of res.content) {
-      expect(existsSync(publicDir + listing.coverImageUrl.replace(/^\//, ''))).toBe(true)
+    for (const summary of res.content) {
+      const detail = await call({ method: 'get', url: `/public/listings/${summary.id}` })
+      for (const url of [summary.coverImageUrl, ...detail.imageUrls]) {
+        expect(existsSync(publicDir + url.replace(/^\//, ''))).toBe(true)
+      }
     }
-  })
+  }, 30000)
 
   it('filters listings by category', async () => {
     const res = await call({ method: 'get', url: '/public/listings', params: { categoryId: 6 } })

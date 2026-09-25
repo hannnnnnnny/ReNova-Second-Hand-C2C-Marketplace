@@ -187,6 +187,10 @@ const rawListings = [
 
 const favorites = new Set([2, 5])
 
+// A listing has either a single `img` or an ordered `imgs` gallery; the first is the cover.
+const listingImages = (l) => l.imgs || [l.img]
+const coverUrl = (l) => asset(listingImages(l)[0])
+
 // Days since the listing was posted; drives createdAt and the default "newest" sort.
 const listingAge = (l) => l.age ?? l.id * 3
 
@@ -198,7 +202,7 @@ const toSummary = (l) => ({
   condition: l.condition,
   location: l.loc,
   negotiable: true,
-  coverImageUrl: asset(l.img),
+  coverImageUrl: coverUrl(l),
   status: l.status,
   viewCount: l.views,
   favoriteCount: l.favs,
@@ -210,7 +214,7 @@ const toDetail = (l) => ({
   ...toSummary(l),
   description: l.desc,
   shippingFee: l.price > 60 ? 0 : 6.5,
-  imageUrls: [asset(l.img)],
+  imageUrls: listingImages(l).map(asset),
   updatedAt: daysAgo(l.id),
   favorited: favorites.has(l.id)
 })
@@ -268,7 +272,7 @@ function conversationSummary(c, uid) {
     id: c.id,
     listingId: c.listingId,
     listingTitle: l ? l.title : 'Listing',
-    listingCoverImageUrl: l ? asset(l.img) : null,
+    listingCoverImageUrl: l ? coverUrl(l) : null,
     listingStatus: l ? l.status : 'ACTIVE',
     counterparty: publicUser(users[counterpartyId]),
     role: uid === c.buyerId ? 'BUYER' : 'SELLER',
@@ -305,7 +309,7 @@ function offerResponse(o) {
     id: o.id,
     listingId: o.listingId,
     listingTitle: l ? l.title : 'Listing',
-    listingCoverImageUrl: l ? asset(l.img) : null,
+    listingCoverImageUrl: l ? coverUrl(l) : null,
     buyer: publicUser(users[o.buyerId]),
     seller: publicUser(users[l ? l.sellerId : 1]),
     amount: o.amount,
@@ -335,7 +339,7 @@ function orderResponse(o) {
     orderNumber: o.num,
     listingId: o.listingId,
     listingTitle: l ? l.title : 'Listing',
-    listingCoverImageUrl: l ? asset(l.img) : null,
+    listingCoverImageUrl: l ? coverUrl(l) : null,
     buyer: publicUser(users[o.buyerId]),
     seller: publicUser(users[o.sellerId]),
     agreedPrice: o.agreed,

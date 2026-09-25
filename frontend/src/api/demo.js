@@ -228,7 +228,10 @@ const rawListings = [
     desc: 'Matte black single-speed city bike with a flip-flop hub (fixed or freewheel), riser bars and a sleek steel frame. Comes with the matching black road helmet.\n\n• Size: 54 cm frame (suits 170-182 cm riders)\n• Material: Hi-ten steel frame, 700c wheels\n• Condition: Serviced last month: new chain and brake pads; a few small scratches on the top tube\n• Included: Bike and helmet (M)\n• Pickup / shipping: Pickup in Wellington only' },
   { id: 41, sellerId: 2, categoryId: 3, title: 'Nike Downshifter Running Shoes', price: 50, originalPrice: 130, condition: 'GOOD', status: 'ACTIVE', loc: 'Wellington', views: 74, favs: 9, age: 7,
     imgs: ['nike-running-shoes-1.jpg', 'nike-running-shoes-2.jpg', 'nike-running-shoes-3.jpg', 'nike-running-shoes-4.jpg', 'nike-running-shoes-5.jpg'],
-    desc: 'Nike running shoes in black mesh with the orange swoosh and "Running" heel print. Light, breathable and cushioned for everyday runs.\n\n• Size: Men\'s US 10\n• Material: Mesh upper, foam midsole, rubber outsole\n• Condition: Around 120 km on them; plenty of tread; washed and deodorised\n• Pickup / shipping: Tracked courier from Wellington' }
+    desc: 'Nike running shoes in black mesh with the orange swoosh and "Running" heel print. Light, breathable and cushioned for everyday runs.\n\n• Size: Men\'s US 10\n• Material: Mesh upper, foam midsole, rubber outsole\n• Condition: Around 120 km on them; plenty of tread; washed and deodorised\n• Pickup / shipping: Tracked courier from Wellington' },
+  { id: 42, sellerId: 5, categoryId: 6, title: 'Badminton Racket + Shuttlecocks', price: 30, originalPrice: 89, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 28, favs: 3, age: 23,
+    imgs: ['badminton-racket-shuttles-1.jpg', 'badminton-racket-shuttles-2.jpg', 'badminton-racket-shuttles-3.jpg', 'badminton-racket-shuttles-4.jpg'],
+    desc: 'Lightweight red-framed badminton racket with a tight white string bed, plus a tube of feather shuttlecocks.\n\n• Included: Racket, cover and 6 feather shuttles\n• Material: Carbon-composite frame\n• Condition: Strings intact and tensioned; frame unmarked\n• Pickup / shipping: Tracked courier from Dunedin' }
 ]
 
 const favorites = new Set([2, 5])

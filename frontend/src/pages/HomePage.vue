@@ -9,7 +9,7 @@ import { categoryLabel } from '../i18n/marketplace-ui'
 const { t, te } = useI18n()
 const { listings, listingsLoading, listingsError, categories, categoriesLoading, categoriesError,
   loadListings, loadCategories, load } = useHomeFeed()
-const heroImage = `${import.meta.env.BASE_URL}demo-images/products/boutique-vase.jpg`
+const heroImage = `${import.meta.env.BASE_URL}demo-images/products/hero-vase.jpg`
 const steps = ['discover', 'connect', 'exchange']
 onMounted(load)
 </script>

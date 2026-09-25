@@ -4,7 +4,7 @@ Product photos are from [Unsplash](https://unsplash.com) and used under the [Uns
 
 The listings, prices and descriptions are fictional demo data written to match each photo; they are not items actually for sale.
 
-`boutique-vase.jpg` (homepage hero) is an AI-generated image from an earlier iteration.
+`hero-vase.jpg` is the homepage hero photo.
 
 | File | Photographer | Source |
 | --- | --- | --- |
@@ -47,3 +47,4 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `blue-tennis-racket.jpg` | Hoi Pham ([@hprobotic](https://unsplash.com/@hprobotic)) | https://unsplash.com/photos/eLZwsPO8cCQ |
 | `graffiti-skateboard.jpg` | Niket Nigde ([@nikofwest](https://unsplash.com/@nikofwest)) | https://unsplash.com/photos/9N3rS-xLfkI |
 | `basketball-size-7.jpg` | Kylie Osullivan ([@kaost](https://unsplash.com/@kaost)) | https://unsplash.com/photos/BfaBLVCBTI8 |
+| `hero-vase.jpg` | Sixteen Miles Out ([@sixteenmilesout](https://unsplash.com/@sixteenmilesout)) | https://unsplash.com/photos/aFvxASlms2A |

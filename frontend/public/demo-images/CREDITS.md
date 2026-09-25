@@ -70,3 +70,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `dress-shirts-bundle-1.jpg` | Nimble Made ([@nimblemade](https://unsplash.com/@nimblemade)) | https://unsplash.com/photos/BKYeLLB1OxI |
 | `dress-shirts-bundle-2.jpg` | Nimble Made ([@nimblemade](https://unsplash.com/@nimblemade)) | https://unsplash.com/photos/Jf7JqVazm-4 |
 | `dress-shirts-bundle-3.jpg` | Nimble Made ([@nimblemade](https://unsplash.com/@nimblemade)) | https://unsplash.com/photos/NS2BZsGxOLE |
+| `acne-dark-jeans-1.jpg` | Matthew Moloney ([@mattmoloney](https://unsplash.com/@mattmoloney)) | https://unsplash.com/photos/5NPId7L1_p4 |
+| `acne-dark-jeans-2.jpg` | Matthew Moloney ([@mattmoloney](https://unsplash.com/@mattmoloney)) | https://unsplash.com/photos/YeGao3uk8kI |
+| `acne-dark-jeans-3.jpg` | Matthew Moloney ([@mattmoloney](https://unsplash.com/@mattmoloney)) | https://unsplash.com/photos/ytQeX4iQ7Uk |
+| `acne-dark-jeans-4.jpg` | Matthew Moloney ([@mattmoloney](https://unsplash.com/@mattmoloney)) | https://unsplash.com/photos/ximLoGQoPcc |

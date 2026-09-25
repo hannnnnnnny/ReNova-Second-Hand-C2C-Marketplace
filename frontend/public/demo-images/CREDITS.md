@@ -169,3 +169,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `badminton-racket-shuttles-2.jpg` | Glen Carrie ([@glencarrie](https://unsplash.com/@glencarrie)) | https://unsplash.com/photos/H3DPSERMnpk |
 | `badminton-racket-shuttles-3.jpg` | Glen Carrie ([@glencarrie](https://unsplash.com/@glencarrie)) | https://unsplash.com/photos/0CarVF_F4eM |
 | `badminton-racket-shuttles-4.jpg` | Glen Carrie ([@glencarrie](https://unsplash.com/@glencarrie)) | https://unsplash.com/photos/uS1_Vs8h9PY |
+| `green-roll-top-hiking-pack-1.jpg` | Ali Kazal ([@lureofadventure](https://unsplash.com/@lureofadventure)) | https://unsplash.com/photos/MzTTVl_trFw |
+| `green-roll-top-hiking-pack-2.jpg` | Ali Kazal ([@lureofadventure](https://unsplash.com/@lureofadventure)) | https://unsplash.com/photos/9aZ3T1q83CM |
+| `green-roll-top-hiking-pack-3.jpg` | Ali Kazal ([@lureofadventure](https://unsplash.com/@lureofadventure)) | https://unsplash.com/photos/BiNib6AQTgs |
+| `green-roll-top-hiking-pack-4.jpg` | Ali Kazal ([@lureofadventure](https://unsplash.com/@lureofadventure)) | https://unsplash.com/photos/7PavDZwXW-U |

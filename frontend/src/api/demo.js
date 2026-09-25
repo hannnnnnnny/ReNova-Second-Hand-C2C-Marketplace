@@ -231,7 +231,10 @@ const rawListings = [
     desc: 'Nike running shoes in black mesh with the orange swoosh and "Running" heel print. Light, breathable and cushioned for everyday runs.\n\n• Size: Men\'s US 10\n• Material: Mesh upper, foam midsole, rubber outsole\n• Condition: Around 120 km on them; plenty of tread; washed and deodorised\n• Pickup / shipping: Tracked courier from Wellington' },
   { id: 42, sellerId: 5, categoryId: 6, title: 'Badminton Racket + Shuttlecocks', price: 30, originalPrice: 89, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Dunedin', views: 28, favs: 3, age: 23,
     imgs: ['badminton-racket-shuttles-1.jpg', 'badminton-racket-shuttles-2.jpg', 'badminton-racket-shuttles-3.jpg', 'badminton-racket-shuttles-4.jpg'],
-    desc: 'Lightweight red-framed badminton racket with a tight white string bed, plus a tube of feather shuttlecocks.\n\n• Included: Racket, cover and 6 feather shuttles\n• Material: Carbon-composite frame\n• Condition: Strings intact and tensioned; frame unmarked\n• Pickup / shipping: Tracked courier from Dunedin' }
+    desc: 'Lightweight red-framed badminton racket with a tight white string bed, plus a tube of feather shuttlecocks.\n\n• Included: Racket, cover and 6 feather shuttles\n• Material: Carbon-composite frame\n• Condition: Strings intact and tensioned; frame unmarked\n• Pickup / shipping: Tracked courier from Dunedin' },
+  { id: 43, sellerId: 3, categoryId: 6, title: 'Green Roll-Top Hiking Pack', price: 95, originalPrice: 260, condition: 'LIKE_NEW', status: 'ACTIVE', loc: 'Christchurch', views: 69, favs: 12, age: 9,
+    imgs: ['green-roll-top-hiking-pack-1.jpg', 'green-roll-top-hiking-pack-2.jpg', 'green-roll-top-hiking-pack-3.jpg', 'green-roll-top-hiking-pack-4.jpg'],
+    desc: 'Forest-green roll-top hiking pack with mustard compression straps, padded back panel and hip belt. Perfect for overnight tramps.\n\n• Measurements: About 40 litres\n• Material: Water-resistant ripstop nylon\n• Condition: Used on two trips; no tears, buckles all intact\n• Pickup / shipping: Tracked courier from Christchurch' }
 ]
 
 const favorites = new Set([2, 5])

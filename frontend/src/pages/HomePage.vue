@@ -95,7 +95,7 @@ onMounted(load)
 .intro-actions .text-link { font-size: 17px; }
 .intro-actions { display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }
 .intro-visual { margin: 0; position: relative; background: transparent; min-width: 0; width: 100%; max-width: 520px; }
-.intro-visual img { width: 100%; height: auto; max-height: 420px; object-fit: contain; mix-blend-mode: multiply; padding: 0 32px 64px; }
+.intro-visual img { width: calc(100% - 64px); max-width: 400px; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 20px; margin: 0 auto 64px; }
 .intro-visual figcaption { position: absolute; left: 0; right: 0; bottom: 28px; font-size: 12px; color: var(--text-muted); }
 .home-categories { padding: 40px 0 56px; }
 .category-strip, .category-skeletons { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 10px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
@@ -132,7 +132,7 @@ onMounted(load)
   .intro-copy { padding: 48px 20px 16px; }
   .intro-copy h1 { max-width: 330px; font-size: 40px; }
   .intro-body { font-size: 17px; margin-bottom: 24px; }
-  .intro-visual img { max-height: 260px; padding: 0 24px 56px; }
+  .intro-visual img { width: calc(100% - 48px); max-width: 260px; margin-bottom: 56px; }
   .intro-actions { gap: 18px; }
   .home-categories { padding: 28px 0 40px; }
   .section-heading { align-items: flex-start; margin-bottom: 20px; }

@@ -134,3 +134,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `frying-pan-saucepan-set-2.jpg` | Cooker King ([@cookerking](https://unsplash.com/@cookerking)) | https://unsplash.com/photos/uzUbyxTwTNA |
 | `frying-pan-saucepan-set-3.jpg` | Cooker King ([@cookerking](https://unsplash.com/@cookerking)) | https://unsplash.com/photos/Mv3JygH8eXQ |
 | `frying-pan-saucepan-set-4.jpg` | Cooker King ([@cookerking](https://unsplash.com/@cookerking)) | https://unsplash.com/photos/s_nxI54mNFc |
+| `olympia-typewriter-1.jpg` | Markus Winkler ([@markuswinkler](https://unsplash.com/@markuswinkler)) | https://unsplash.com/photos/_nvKjg0aliA |
+| `olympia-typewriter-2.jpg` | Markus Winkler ([@markuswinkler](https://unsplash.com/@markuswinkler)) | https://unsplash.com/photos/Zd_vzpPLqOA |
+| `olympia-typewriter-3.jpg` | Markus Winkler ([@markuswinkler](https://unsplash.com/@markuswinkler)) | https://unsplash.com/photos/LNzuOK1GxRU |
+| `olympia-typewriter-4.jpg` | Markus Winkler ([@markuswinkler](https://unsplash.com/@markuswinkler)) | https://unsplash.com/photos/HpWwEURimK8 |

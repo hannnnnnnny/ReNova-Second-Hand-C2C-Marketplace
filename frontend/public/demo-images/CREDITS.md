@@ -138,3 +138,8 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `olympia-typewriter-2.jpg` | Markus Winkler ([@markuswinkler](https://unsplash.com/@markuswinkler)) | https://unsplash.com/photos/Zd_vzpPLqOA |
 | `olympia-typewriter-3.jpg` | Markus Winkler ([@markuswinkler](https://unsplash.com/@markuswinkler)) | https://unsplash.com/photos/LNzuOK1GxRU |
 | `olympia-typewriter-4.jpg` | Markus Winkler ([@markuswinkler](https://unsplash.com/@markuswinkler)) | https://unsplash.com/photos/HpWwEURimK8 |
+| `praktica-mtl3-camera-1.jpg` | Aoumeur Abderrahmen ([@ghostlens](https://unsplash.com/@ghostlens)) | https://unsplash.com/photos/PVQImbeXhHc |
+| `praktica-mtl3-camera-2.jpg` | Aoumeur Abderrahmen ([@ghostlens](https://unsplash.com/@ghostlens)) | https://unsplash.com/photos/ci8m6rnI0Fc |
+| `praktica-mtl3-camera-3.jpg` | Aoumeur Abderrahmen ([@ghostlens](https://unsplash.com/@ghostlens)) | https://unsplash.com/photos/SdH3rllTWwU |
+| `praktica-mtl3-camera-4.jpg` | Aoumeur Abderrahmen ([@ghostlens](https://unsplash.com/@ghostlens)) | https://unsplash.com/photos/9kH3dXGyQzc |
+| `praktica-mtl3-camera-5.jpg` | Aoumeur Abderrahmen ([@ghostlens](https://unsplash.com/@ghostlens)) | https://unsplash.com/photos/3rjB_tEkvTE |

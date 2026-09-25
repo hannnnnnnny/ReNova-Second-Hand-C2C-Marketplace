@@ -29,3 +29,6 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `jhumka-earrings-bundle-2.jpg` | v.govindaraj raj ([@aakashstudio](https://unsplash.com/@aakashstudio)) | https://unsplash.com/photos/Fa7OXSYlg5E |
 | `jhumka-earrings-bundle-3.jpg` | v.govindaraj raj ([@aakashstudio](https://unsplash.com/@aakashstudio)) | https://unsplash.com/photos/d1xjd0kRNu4 |
 | `jhumka-earrings-bundle-4.jpg` | v.govindaraj raj ([@aakashstudio](https://unsplash.com/@aakashstudio)) | https://unsplash.com/photos/8tUDeCjdd2s |
+| `converse-run-star-hike-1.jpg` | Maria Fernanda Pissioli ([@mxpissioli](https://unsplash.com/@mxpissioli)) | https://unsplash.com/photos/25s_LHlnGh4 |
+| `converse-run-star-hike-2.jpg` | Maria Fernanda Pissioli ([@mxpissioli](https://unsplash.com/@mxpissioli)) | https://unsplash.com/photos/E8Z3en8OoQQ |
+| `converse-run-star-hike-3.jpg` | Maria Fernanda Pissioli ([@mxpissioli](https://unsplash.com/@mxpissioli)) | https://unsplash.com/photos/gFrvwodhSco |

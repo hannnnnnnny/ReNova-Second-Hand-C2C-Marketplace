@@ -103,3 +103,6 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `tan-leather-sling-1.jpg` | Fauzan Fathullah ([@fzfte](https://unsplash.com/@fzfte)) | https://unsplash.com/photos/SvtdEkcTxQ4 |
 | `tan-leather-sling-2.jpg` | Fauzan Fathullah ([@fzfte](https://unsplash.com/@fzfte)) | https://unsplash.com/photos/TT9zyZXjNQU |
 | `tan-leather-sling-3.jpg` | Fauzan Fathullah ([@fzfte](https://unsplash.com/@fzfte)) | https://unsplash.com/photos/kIKd4A6UrIw |
+| `brown-leather-backpack-1.jpg` | Wiser by the Mile ([@wiserbythemile](https://unsplash.com/@wiserbythemile)) | https://unsplash.com/photos/3o-X8WJOP5E |
+| `brown-leather-backpack-2.jpg` | Wiser by the Mile ([@wiserbythemile](https://unsplash.com/@wiserbythemile)) | https://unsplash.com/photos/OFHkPCkhYEY |
+| `brown-leather-backpack-3.jpg` | Wiser by the Mile ([@wiserbythemile](https://unsplash.com/@wiserbythemile)) | https://unsplash.com/photos/IjDLL4EEDFg |

@@ -17,3 +17,8 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `tan-leather-messenger-1.jpg` | Fauzan Fathullah ([@fzfte](https://unsplash.com/@fzfte)) | https://unsplash.com/photos/hLwkfi3oPp0 |
 | `tan-leather-messenger-2.jpg` | Fauzan Fathullah ([@fzfte](https://unsplash.com/@fzfte)) | https://unsplash.com/photos/VrxYEkGeQ78 |
 | `tan-leather-messenger-3.jpg` | Fauzan Fathullah ([@fzfte](https://unsplash.com/@fzfte)) | https://unsplash.com/photos/kTozgN5CQHc |
+| `black-biker-jacket-1.jpg` | Anna Evans ([@anevans](https://unsplash.com/@anevans)) | https://unsplash.com/photos/YehJ089r0uY |
+| `black-biker-jacket-2.jpg` | Anna Evans ([@anevans](https://unsplash.com/@anevans)) | https://unsplash.com/photos/eELIrBJXBPk |
+| `black-biker-jacket-3.jpg` | Anna Evans ([@anevans](https://unsplash.com/@anevans)) | https://unsplash.com/photos/J3X_7FhSbIg |
+| `black-biker-jacket-4.jpg` | Anna Evans ([@anevans](https://unsplash.com/@anevans)) | https://unsplash.com/photos/xrbqcSJ7Jl8 |
+| `black-biker-jacket-5.jpg` | Anna Evans ([@anevans](https://unsplash.com/@anevans)) | https://unsplash.com/photos/CTlfEN5n33A |

@@ -40,3 +40,7 @@ The listings, prices and descriptions are fictional demo data written to match e
 | `burgundy-leather-backpack-1.jpg` | Wiser by the Mile ([@wiserbythemile](https://unsplash.com/@wiserbythemile)) | https://unsplash.com/photos/RHXSJ09YD9o |
 | `burgundy-leather-backpack-2.jpg` | Wiser by the Mile ([@wiserbythemile](https://unsplash.com/@wiserbythemile)) | https://unsplash.com/photos/j5ed3VKPAYQ |
 | `burgundy-leather-backpack-3.jpg` | Wiser by the Mile ([@wiserbythemile](https://unsplash.com/@wiserbythemile)) | https://unsplash.com/photos/SwWCo1k92M4 |
+| `manual-coffee-grinder-1.jpg` | Ashkan Forouzani ([@ashkfor121](https://unsplash.com/@ashkfor121)) | https://unsplash.com/photos/2AWQLHn7VLI |
+| `manual-coffee-grinder-2.jpg` | Ashkan Forouzani ([@ashkfor121](https://unsplash.com/@ashkfor121)) | https://unsplash.com/photos/UstAaR0YnnI |
+| `manual-coffee-grinder-3.jpg` | Ashkan Forouzani ([@ashkfor121](https://unsplash.com/@ashkfor121)) | https://unsplash.com/photos/8vDVlL1gmTE |
+| `manual-coffee-grinder-4.jpg` | Ashkan Forouzani ([@ashkfor121](https://unsplash.com/@ashkfor121)) | https://unsplash.com/photos/F6_0L2ChvqM |
